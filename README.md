@@ -16,7 +16,7 @@ All code will be OSX + Windows. Contributios are welcome.
   - getOffsetPointer(cdata, offset)
   - toHexString(num)
   - waitKeyPressed() 
-  - sleep(nanosec)
+  - sleep(millisec)
   - nanosleep(nanosec)
   - yield()
   - comma_value(amount, comma)

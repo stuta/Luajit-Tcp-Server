@@ -7,7 +7,7 @@ Currently this just collection of test code.
 
 All code will be OSX + Windows. Contributios are welcome.
 
-##### Utility.lua
+##### UtilTest.lua
   - cstr(str)
   - cerr()
   - getPointer(cdata)

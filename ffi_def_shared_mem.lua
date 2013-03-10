@@ -3,7 +3,7 @@ dofile "ffi_def_util.lua"
 local ffi = require("ffi")
 local bit = require("bit")
 local C = ffi.C
-
+local isWin = isWin
 --[[
 windows:
 http://mollyrocket.com/forums/viewtopic.php?p=2529

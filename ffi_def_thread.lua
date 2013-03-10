@@ -3,21 +3,6 @@ dofile "ffi_def_util.lua"
 local ffi = require("ffi")
 local C = ffi.C
 
--- Lua state - creating a new Lua state to a new thread
-ffi.cdef([[
-	typedef struct lua_State lua_State;
-	lua_State *luaL_newstate(void);
-	void luaL_openlibs(lua_State *L);
-	void lua_close(lua_State *L);
-	int luaL_loadstring(lua_State *L, const char *s);
-	int lua_pcall(lua_State *L, int nargs, int nresults, int errfunc);
-	
-	static const int LUA_GLOBALSINDEX = -10002;
-	void lua_getfield(lua_State *L, int index, const char *k);
-	ptrdiff_t lua_tointeger(lua_State *L, int index);
-	void lua_settop(lua_State *L, int index);
-]])
-
 -- kqueue, kevent
 --[[
 https://bitbucket.org/armatys/perun/src/f106ac49f19ae6aa7a0615914420d2a7e7f370e6/lua/perun/init.lua

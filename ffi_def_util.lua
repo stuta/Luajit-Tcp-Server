@@ -14,6 +14,26 @@ else
 	dofile "ffi_def_mac.lua"
 end
 
+-- common Win + OSX: C-functions
+ffi.cdef([[
+	char * strerror ( int errnum );
+]])
+
+-- Lua state - creating a new Lua state to a new thread
+ffi.cdef([[
+	typedef struct lua_State lua_State;
+	lua_State *luaL_newstate(void);
+	void luaL_openlibs(lua_State *L);
+	void lua_close(lua_State *L);
+	int luaL_loadstring(lua_State *L, const char *s);
+	int lua_pcall(lua_State *L, int nargs, int nresults, int errfunc);
+	
+	static const int LUA_GLOBALSINDEX = -10002;
+	void lua_getfield(lua_State *L, int index, const char *k);
+	ptrdiff_t lua_tointeger(lua_State *L, int index);
+	void lua_settop(lua_State *L, int index);
+]])
+
 function cstr(str)
 	local len = str:len()+1
   local typeStr = "uint8_t[" .. len .. "]"
@@ -46,8 +66,6 @@ end
 function getOffsetPointer(cdata, offset)
 	return ffi.cast("int8_t *", getPointer(cdata) + offset)
 end
-
-
 
 function toHexString(num)
 	if type(num) ~= "number" then

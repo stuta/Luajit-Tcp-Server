@@ -34,6 +34,4 @@ Creates 2 os threads and runs new Lua state in those threads. Parameters can be 
 
 ##### SignalTest.lua
 
-Start 2 terminals. In terminal 1 run 'luajit SignalTest.lua'. Program will print it's pid. In terminal 2 run 'luajit SignalTest.lua xxx 10000' where xxx is the pid of first program and number is how many times to signal it.
-
-Only Mac. Signals are slow and will not be used.
+Start 2 terminals. In terminal 1 run 'luajit SignalTest.lua'. Program will print it's pid. In terminal 2 run 'luajit SignalTest.lua xxx 10000' where xxx is the pid of first program and number is how many times to signal it. Only Mac. Signals are slow and will not be used.

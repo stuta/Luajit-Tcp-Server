@@ -1,13 +1,12 @@
---  SignalTest2.lua
+--  SignalTest.lua
 print()
-print("-- SignalTest2.lua start -- ")
+print("-- SignalTest.lua start -- ")
 print()
 
 local arg = {...}
+dofile "ffi_def_signal.lua"
 local ffi = require("ffi")
 local C = ffi.C
-dofile "ffi_def_util.lua"
-dofile "ffi_def_signal.lua"
 
 local prsToSignal = tonumber(arg[1]) or 0
 local signalSendCount = tonumber(arg[2]) or 1000
@@ -86,10 +85,10 @@ print(" ..for loop: " .. format_num( signalSendCount/timeUsed, 0 ) .. " loop / s
 print(" ..latency : " .. format_num( (timeUsed*1000*1000*1000) / signalSendCount, 0 ) .. " ns / msg")
 
 if useProfilier then
-	ProFi:writeReport("SignalTest2Report.txt")
-	os.execute("edit SignalTest2Report.txt") -- edit needs win version
+	ProFi:writeReport("SignalTestReport.txt")
+	os.execute("edit SignalTestReport.txt") -- edit needs win version
 end
 
 print()
-print("-- SignalTest2.lua end -- ")
+print("-- SignalTest.lua end -- ")
 print()

@@ -3,229 +3,26 @@ local ffi = require "ffi"
 local C = ffi.C
 require "bit"
 
---[[
-https://github.com/Wiladams/BanateCoreWin32
-]]
-ffi.cdef([[
-	// OSX basic data types
-	typedef int64_t	__darwin_off_t;	
-	typedef __darwin_off_t		off_t;
-	
-	typedef uint16_t	__darwin_mode_t;	
-	typedef	__darwin_mode_t		mode_t;
-]])
-
-ffi.cdef([[
-	// Windows
-	// win basic types
-		// https://github.com/Wiladams/BanateCoreWin32/blob/master/WTypes.lua
-	typedef unsigned char	BYTE;
-	typedef long			BOOL;
-	typedef BYTE			BOOLEAN;
-	typedef char			CHAR;
-	typedef wchar_t			WCHAR;
-	typedef uint16_t		WORD;
-	typedef unsigned long	DWORD;
-	typedef uint32_t		DWORD32;
-	typedef int				INT;
-	typedef int32_t			INT32;
-	typedef int64_t			INT64;
-	typedef float 			FLOAT;
-	typedef long			LONG;
-	typedef signed int		LONG32;
-	typedef int64_t			LONGLONG;
-	typedef size_t			SIZE_T;
-
-	typedef uint8_t			BCHAR;
-	typedef unsigned char	UCHAR;
-	typedef unsigned int	UINT;
-	typedef unsigned int	UINT32;
-	typedef unsigned long	ULONG;
-	typedef unsigned int	ULONG32;
-	typedef unsigned short	USHORT;
-	typedef uint64_t		ULONGLONG;
-
-
-	// Some pointer types
-	typedef unsigned char	*PUCHAR;
-	typedef unsigned int	*PUINT;
-	typedef unsigned int	*PUINT32;
-	typedef unsigned long	*PULONG;
-	typedef unsigned int	*PULONG32;
-	typedef unsigned short	*PUSHORT;
-	typedef LONGLONG 		*PLONGLONG;
-	typedef ULONGLONG 		*PULONGLONG;
-
-
-	typedef void *			PVOID;
-	typedef DWORD *			DWORD_PTR;
-	typedef intptr_t		LONG_PTR;
-	typedef uintptr_t		UINT_PTR;
-	typedef uintptr_t		ULONG_PTR;
-	typedef ULONG_PTR *		PULONG_PTR;
-
-
-	typedef DWORD *			LPCOLORREF;
-
-	typedef BOOL *			LPBOOL;
-	typedef char *			LPSTR;
-	typedef short *			LPWSTR;
-	typedef const short *	LPCWSTR;
-	typedef LPSTR			LPTSTR;
-
-	typedef DWORD *			LPDWORD;
-	typedef void *			LPVOID;
-	typedef WORD *			LPWORD;
-
-	typedef const char *	LPCSTR;
-	typedef LPCSTR			LPCTSTR;
-	typedef const void *	LPCVOID;
-
-
-	typedef LONG_PTR		LRESULT;
-
-	typedef LONG_PTR		LPARAM;
-	typedef UINT_PTR		WPARAM;
-
-
-	typedef unsigned char	TBYTE;
-	typedef char			TCHAR;
-
-	typedef USHORT			COLOR16;
-	typedef DWORD			COLORREF;
-
-	// Special types
-	typedef WORD			ATOM;
-	typedef DWORD			LCID;
-	typedef USHORT			LANGID;
-
-	// Various Handles
-	typedef void *			HANDLE;
-	typedef HANDLE			*PHANDLE;
-	typedef HANDLE			LPHANDLE;
-	typedef void *			HBITMAP;
-	typedef void *			HBRUSH;
-	typedef void *			HICON;
-	typedef HICON			HCURSOR;
-	typedef HANDLE			HDC;
-	typedef void *			HDESK;
-	typedef HANDLE			HDROP;
-	typedef HANDLE			HDWP;
-	typedef HANDLE			HENHMETAFILE;
-	typedef INT				HFILE;
-	typedef HANDLE			HFONT;
-	typedef void *			HGDIOBJ;
-	typedef HANDLE			HGLOBAL;
-	typedef HANDLE 			HGLRC;
-	typedef HANDLE			HHOOK;
-	typedef void *			HINSTANCE;
-	typedef void *			HKEY;
-	typedef void *			HKL;
-	typedef HANDLE			HLOCAL;
-	typedef void *			HMEMF;
-	typedef HANDLE			HMENU;
-	typedef HANDLE			HMETAFILE;
-	typedef void			HMF;
-	typedef HINSTANCE		HMODULE;
-	typedef HANDLE			HMONITOR;
-	typedef HANDLE			HPALETTE;
-	typedef void *			HPEN;
-	typedef LONG			HRESULT;
-	typedef HANDLE			HRGN;
-	typedef void *			HRSRC;
-	typedef void *			HSTR;
-	typedef HANDLE			HSZ;
-	typedef void *			HTASK;
-	typedef void *			HWINSTA;
-	typedef HANDLE			HWND;
-
-	// Ole Automation
-	typedef WCHAR			OLECHAR;
-	typedef OLECHAR 		*LPOLESTR;
-	typedef const OLECHAR	*LPCOLESTR;
-
-	//typedef char      OLECHAR;
-	//typedef LPSTR     LPOLESTR;
-	//typedef LPCSTR    LPCOLESTR;
-
-	typedef OLECHAR *BSTR;
-	typedef BSTR *LPBSTR;
-
-	typedef DWORD ACCESS_MASK;
-	typedef ACCESS_MASK* PACCESS_MASK;
-
-	typedef LONG FXPT16DOT16, *LPFXPT16DOT16;
-	typedef LONG FXPT2DOT30, *LPFXPT2DOT30;
-]])
-
-ffi.cdef([[
-	// Windows
-	// win basic structures
-	typedef struct _SECURITY_ATTRIBUTES {
-		DWORD nLength;
-		LPVOID lpSecurityDescriptor;
-		BOOL bInheritHandle;
-	} SECURITY_ATTRIBUTES,  *PSECURITY_ATTRIBUTES,  *LPSECURITY_ATTRIBUTES;
-]])
-
-ffi.cdef([[
-	void 	Sleep(int ms); // win sleep
-	int 	poll(struct pollfd *fds, unsigned long nfds, int timeout); // mac sleep
-	
-	// mac gettimeofday
-		// http://www.opensource.apple.com/source/xnu/xnu-1456.1.26/bsd/i386/_types.h
-	typedef long time_t; // = typedef long __darwin_time_t;
-	typedef int32_t	suseconds_t; // __darwin_suseconds_t;	/* [???] microseconds */
-	struct timeval {
-             time_t       tv_sec;   /* seconds since Jan. 1, 1970 */
-             suseconds_t  tv_usec;  /* and microseconds */
-     				};
-	int 	gettimeofday(struct timeval *restrict tp, void *restrict tzp);
-	
-	 // mac nanosleep
-	struct timespec { int tv_sec; long tv_nsec; };
-	int 	nanosleep(const struct timespec *req, struct timespec *rem);
-	
-	int 	sched_yield(void); // mac yield
-	bool  SwitchToThread(void); // win yield
-     
-	 
-	// win QueryPerformanceCounter
-	typedef union _LARGE_INTEGER { 
-		struct {
-			DWORD LowPart;
-			LONG  HighPart;
-		} ;
-		struct {
-			DWORD LowPart;
-			LONG  HighPart;
-		} u;
-		LONGLONG QuadPart;
-	} LARGE_INTEGER, *PLARGE_INTEGER;
-	
-	BOOL QueryPerformanceFrequency( // BOOL WINAPI QueryPerformanceFrequency
-  	LARGE_INTEGER *lpFrequency // _Out_  LARGE_INTEGER *lpFrequency
-	);
-	BOOL QueryPerformanceCounter( // BOOL WINAPI QueryPerformanceCounter
-  	LARGE_INTEGER *lpPerformanceCount // _Out_  LARGE_INTEGER *lpPerformanceCount
-	);
-	int MultiByteToWideChar(UINT CodePage,
-			DWORD    dwFlags,
-			LPCSTR   lpMultiByteStr, int cbMultiByte,
-			LPWSTR  lpWideCharStr, int cchWideChar);
-	int WideCharToMultiByte(UINT CodePage,
-			DWORD    dwFlags,
-			LPCWSTR  lpWideCharStr, int cchWideChar,
-			LPSTR   lpMultiByteStr, int cbMultiByte,
-			LPCSTR   lpDefaultChar,
-			LPBOOL  lpUsedDefaultChar);
-]])
-
 -- global utility
 isWin = (ffi.os == "Windows")
 isMac = (ffi.os == "OSX")
 is64bit = ffi.abi("64bit")
 is32bit = ffi.abi("32bit")
+if isWin then
+	dofile "ffi_def_win.lua"
+else
+	dofile "ffi_def_mac.lua"
+end
+
+function cstr(str)
+	local len = str:len()+1
+  local typeStr = "uint8_t[" .. len .. "]"
+  return ffi.new( typeStr, str )
+end
+
+function cerr()
+	error( ffi.string(ffi.C.strerror(ffi.errno())) )
+end
 
 function getPointer(cdata)
 	if is64bit then
@@ -267,17 +64,28 @@ end
 if isWin then
 
 	function waitKeyPressed() 
-	--[[
-			DWORD mode, count;
-			HANDLE h = GetStdHandle( STD_INPUT_HANDLE );
-			if (h == NULL) return 0;  // not a console
-			GetConsoleMode( h, &mode );
-			SetConsoleMode( h, mode & ~(ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT) );
-			TCHAR c = 0;
-			ReadConsole( h, &c, 1, &count, NULL );
-			SetConsoleMode( h, mode );
-			]]
-			return string.char(tonumber(c))
+		--[[
+		DWORD mode, count;
+		HANDLE h = GetStdHandle( STD_INPUT_HANDLE );
+		if (h == NULL) return 0;  // not a console
+		GetConsoleMode( h, &mode );
+		SetConsoleMode( h, mode & ~(ENABLE_LINE_INPUT | ENABLE_ECHO_INPUT) );
+		TCHAR c = 0;
+		ReadConsole( h, &c, 1, &count, NULL );
+		SetConsoleMode( h, mode );
+		]]
+		print( C.STD_INPUT_HANDLE )
+		local h = C.GetStdHandle( C.STD_INPUT_HANDLE )
+		if not h then return 0 end-- not a console
+		local mode = ffi.new("DWORD[1]")
+		C.GetConsoleMode( h, mode )
+		local modeSet = bit.band(mode[0], bit.bnot(bit.bor(C.ENABLE_LINE_INPUT, C.ENABLE_ECHO_INPUT)))
+		C.SetConsoleMode( h, modeSet )
+		local ch = ffi.new("DWORD[1]")
+		local count = ffi.new("DWORD[1]")
+		C.ReadConsoleA( h, ch, 1, count, nil )
+		C.SetConsoleMode( h, mode[0] )
+		return string.char(tonumber(ch[0]))
 	end
 
   function yield()
@@ -311,9 +119,9 @@ else -- OSX, Posix, Linux?
   end
   
   function sleep(millisec)
-    C.poll(nil, 0, millisec)
-  	--local microseconds = s*1000
-  	--usleep (microseconds)
+    --C.poll(nil, 0, millisec)
+  	local microseconds = millisec * 1000
+  	C.usleep (microseconds)
   end
   
 	function nanosleep(nanosec)
@@ -351,56 +159,14 @@ function get_seconds( multiplier, prevMs )
 		end
 	end
 
-	
 	--[[
-	print() -- 0x004fffffffffffba
-	local value64_c
-	value64_c = ffi.new("int64_t", 0x003fffffffffffba)
-	print("value64_c", value64_c, ffi.cast("void *", value64_c))
-	value64_c = ffi.new("int64_t", 0x004fffffffffffba)
-	print("value64_c", value64_c, ffi.cast("void *", value64_c))
-	
-	local val2 = ffi.cast("int64_t", returnValue64_c)
-	print("val2", val2, ffi.cast("void *", val2))
-	
-	
-	local value32 = tonumber(ffi.cast("int32_t", returnValue64_c))
-	print("value32        ", type(value32), value32, string.format("%x", value32))
-
-	local addr_var = ffi.new("intptr_t[1]") -- createAddressVariable
-	addr_var[0] = ffi.cast("int64_t", returnValue64_c) 
-	-- if we don't convert int64_t to array type ffi.copy will "segfault 11"
-	print("addr_var        ", type(addr_var), addr_var, toHexString(addr_var[0]))
-	
-	local buffer = createBufferVariable(8 ) -- 8 bytes = 64 bits
-	local addr_ptr = getOffsetPointer(addr_var, 0)
-	local buffer_ptr = getOffsetPointer(buffer, 0)
-	ffi.copy(buffer_ptr, addr_var, 64)
-	print("buffer_ptr      ", type(buffer_ptr), buffer_ptr, toHexString(buffer_ptr[0]))
-	
-	local ret = createBufferVariable(4) -- 4 bytes = 32 bits
-	local ret_ptr = getOffsetPointer(ret, 0)
-	ffi.copy(ret_ptr, buffer_ptr, 4)
-	print("ret lsb         ", type(ret), ret[0]) --, toHexString(ret[0]))
-	
-	local buffer_ptr = getOffsetPointer(buffer, 4)
-	ffi.copy(ret_ptr, buffer_ptr, 4)
-	print("ret msb         ", type(ret), ret[0]) --, toHexString(ret[0]))
-	--print("ret_ptr      ", type(ret_ptr), ret_ptr, toHexString(ret_ptr[0]))
+	 in Lua 0x001fffffffffffff is the (about) biggest value that does not change when 
+	 converting to Lua double with 'tonumber(returnValue64_c)'
+   returnValue64_c = bit.band(returnValue64_c, 0x00ffffff) -- get rid of highest bits
+	 bit.band() does not work before Luajit 2.1 with 64 bit integers
 	]]
-	
---[[
-	
-	buffer =  ffi.new("uint32_t *[?]", 128) --createBufferVariable
-	print("buffer          ", type(buffer), buffer, buffer[0]) --, toHexString(buffer[0]))
-	ffi.copy(buffer, addr_var[0], 32)
-	print("buffer          ", buffer[0], buffer[1]) --, toHexString(buffer[0]))
-	print("buffer          ", buffer[2], buffer[3]) --, toHexString(buffer[0]))
-	]]
-	
-	-- in Lua 0x001fffffffffffff is the biggest value that does not change when converting to Lua double with 'tonumber(returnValue64_c)'
-  --returnValue64_c = bit.band(returnValue64_c, 0x00ffffff) -- get rid of highest bits
-  returnValue = tonumber(returnValue64_c)  -- this can do overflow
+	-- best way to get rid of highest bits, better to have unsigned int in timer:
+	returnValue = tonumber(ffi.cast("uint32_t", returnValue64_c)) 
 	
 	if isWin then
 		if multiplier == 1 then
@@ -429,16 +195,16 @@ function get_seconds( multiplier, prevMs )
   return returnValue
 end
 
-function microSeconds( prevMs )
-  return get_seconds(3, prevMs)
+function seconds( prevMs )
+  return get_seconds(1, prevMs)
 end
 
 function milliSeconds(prevMs)
   return get_seconds(2, prevMs)
 end
 
-function seconds( prevMs )
-  return get_seconds(1, prevMs)
+function microSeconds( prevMs )
+  return get_seconds(3, prevMs)
 end
 
 
@@ -499,17 +265,6 @@ function format_num(amount, decimal, comma, prefix, neg_prefix)
     end
   end
   return formatted
-end
-
-
-function cstr(str)
-	local len = str:len()+1
-  local typeStr = "uint8_t[" .. len .. "]"
-  return ffi.new( typeStr, str )
-end
-
-function cerr()
-	error( ffi.string(ffi.C.strerror(ffi.errno())) )
 end
 
 

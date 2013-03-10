@@ -1,4 +1,4 @@
---  SignalTest.lua
+--  SignalTest_bad.lua
 
 --[[
 	NOTE!
@@ -7,7 +7,7 @@
 ]]
 
 print()
-print(" -- SignalTest.lua start -- ")
+print(" -- SignalTest_bad.lua start -- ")
 print()
 
 local arg = {...}
@@ -62,6 +62,6 @@ else
 end
 
 print()
-print(" -- SignalTest.lua end -- ")
+print(" -- SignalTest_bad.lua end -- ")
 print()
 

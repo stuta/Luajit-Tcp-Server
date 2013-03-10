@@ -4,10 +4,9 @@ print(" -- ThreadTest.lua start -- ")
 print()
 
 local arg = {...}
+dofile "ffi_def_thread.lua"
 local ffi = require("ffi")
 local C = ffi.C
-dofile "ffi_def_util.lua"
-dofile "ffi_def_thread.lua"
 --dofile "ffi_def_signal.lua"
 
 -- JUST FOR TEST
@@ -15,7 +14,7 @@ local timer = seconds()
 io.write("start: "..timer)
 nanosleep(20)
 timer = seconds(timer)
-print(", time used: "..timer))
+print(", time used: "..timer)
 print()
 
 --[[
@@ -46,9 +45,8 @@ print("Main thread_id: "..thread_id..", os: "..ffi.os)
 
 -- define thread runner code, it MUST contain "thread_entry_address" -global variable
 luaCode = [[
-	local ffi = require("ffi")
-	dofile "ffi_def_util.lua"
 	dofile "ffi_def_thread.lua"
+	local ffi = require("ffi")
 	
 	local function thread_entry(arg_ptr)
 		-- local arg = tonumber(ffi.cast('intptr_t', ffi.cast('void *', arg_ptr))) -- if arg is number

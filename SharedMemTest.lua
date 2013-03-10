@@ -9,13 +9,15 @@ local C = ffi.C
 dofile "ffi_def_shared_mem.lua"
 
 -- JUST FOR TEST
-local timer = seconds()
---os.exit()
-io.write("start: "..timer)
-nanosleep(20)
-timer = seconds(timer)
-print(", time used: "..timer)
-print()
+	local timer = seconds()
+	io.write("press any key to start: ")
+	local key = waitKeyPressed()
+	print()
+	io.write("start: "..timer)
+	sleep(1) --nanosleep(20)
+	timer = seconds(timer)
+	print(", time used: "..timer..", key pressed: "..key )
+	print()
 
 local filename
 if isWin then

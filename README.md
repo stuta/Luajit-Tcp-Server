@@ -19,7 +19,10 @@ All code will be OSX + Windows. Contributios are welcome.
   - sleep(nanosec)
   - nanosleep(nanosec)
   - yield()
-  - + some borrowed utility functions
+  - comma_value(amount, comma)
+  - round(val, decimal)
+  - format_num(amount, decimal, comma, prefix, neg_prefix)
+  - table.show(t, name, indent)
 
 ##### SharedMemTest.lua
 

@@ -39,7 +39,9 @@ Run: 'luajit KqueueTest.lua somePath'. Monitors changes to file or folder.
 By definition OSX and FreeBSD only (where kqueue exists). In Linux should be epoll and in Windows ... I don't know yet (comments welcome).
 
 Kqueue allows an application to retrieve events from a variety of sources including ﬁle/socket descriptors, signals, AIO completions, ﬁle system changes, and changes in process state.
+
 http://www.linuxsymposium.org/archives/OLS/Reprints-2004/LinuxSymposium2004_All.pdf#page=217
+
 http://www.eecs.berkeley.edu/~sangjin/2012/12/21/epoll-vs-kqueue.html
 
 ##### SignalTest.lua

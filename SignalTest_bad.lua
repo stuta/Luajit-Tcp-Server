@@ -13,7 +13,7 @@ print()
 local arg = {...}
 local ffi = require("ffi")
 local C = ffi.C
-dofile "ffi_def_signal.lua"
+dofile "signal.lua"
 
 local signalCatchCount = 0
 local prsToSignal = tonumber(arg[1]) or 0

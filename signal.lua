@@ -1,5 +1,5 @@
 --  ffi_def_signal.lua
-dofile "ffi_def_util.lua"
+dofile "util.lua"
 local ffi = require("ffi")
 local C = ffi.C
 

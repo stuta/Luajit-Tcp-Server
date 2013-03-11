@@ -4,7 +4,7 @@ print(" -- ThreadTest.lua start -- ")
 print()
 
 local arg = {...}
-dofile "ffi_def_thread.lua"
+dofile "thread.lua"
 local ffi = require("ffi")
 local C = ffi.C
 --dofile "ffi_def_signal.lua"
@@ -45,7 +45,7 @@ print("Main thread_id: "..thread_id..", os: "..ffi.os)
 
 -- define thread runner code, it MUST contain "thread_entry_address" -global variable
 luaCode = [[
-	dofile "ffi_def_thread.lua"
+	dofile "thread.lua"
 	local ffi = require("ffi")
 	
 	local function thread_entry(arg_ptr)

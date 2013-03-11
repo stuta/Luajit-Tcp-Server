@@ -4,7 +4,7 @@ print("-- SignalTest.lua start -- ")
 print()
 
 local arg = {...}
-dofile "ffi_def_signal.lua"
+dofile "signal.lua"
 local ffi = require("ffi")
 local C = ffi.C
 

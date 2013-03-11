@@ -1,5 +1,5 @@
 --  ffi_def_shared_mem.lua
-dofile "ffi_def_util.lua"
+dofile "util.lua"
 local ffi = require("ffi")
 local bit = require("bit")
 local C = ffi.C

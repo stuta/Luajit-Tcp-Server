@@ -3,7 +3,7 @@ print("-- UtilTest.lua start -- ")
 print()
 
 local arg = {...}
-dofile "ffi_def_util.lua"
+dofile "util.lua"
 local ffi = require("ffi")
 
 --[[
@@ -28,7 +28,19 @@ local str_c = cstr("Processor core count: ")
 local count = processorCoreCount()
 print( ffi.string(str_c)..count )
 
+local timer = seconds()
+io.write("press any key to start: ")
+local key = waitKeyPressed()
+print()
+io.write("start: "..timer)
+sleep(1)
+nanosleep(20)
+timer = seconds(timer)
+print(", time used: "..timer..", key pressed: "..key )
+print()
+	
 print("Calling cerr(), will break here, is OK.")
+print()
 cerr() -- will break here
 
 print("-- UtilTest.lua end -- ")

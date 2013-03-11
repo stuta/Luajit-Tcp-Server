@@ -6,18 +6,7 @@ print()
 local arg = {...}
 local ffi = require("ffi")
 local C = ffi.C
-dofile "ffi_def_shared_mem.lua"
-
--- JUST FOR TEST
-	local timer = seconds()
-	io.write("press any key to start: ")
-	local key = waitKeyPressed()
-	print()
-	io.write("start: "..timer)
-	sleep(1) --nanosleep(20)
-	timer = seconds(timer)
-	print(", time used: "..timer..", key pressed: "..key )
-	print()
+dofile "shared_mem.lua"
 
 local filename
 if isWin then

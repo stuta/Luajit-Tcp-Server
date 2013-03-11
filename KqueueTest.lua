@@ -12,6 +12,7 @@ local band = bit.band
 local bor = bit.bor
 
 local filename = arg[1] or "/Users/pasi/svnroot/cpp/MA_Lua/github_repos/Luajit-Tcp-Server/KqueueTest.lua"
+print("Kqueue test was copied from: http://julipedia.meroh.net/2004/10/example-of-kqueue.html")
 print("...watching changes for file: ")
 print("   "..filename)
 

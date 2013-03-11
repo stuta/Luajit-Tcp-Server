@@ -3,12 +3,6 @@ dofile "ffi_def_util.lua"
 local ffi = require("ffi")
 local C = ffi.C
 
--- kqueue, kevent
---[[
-https://bitbucket.org/armatys/perun/src/f106ac49f19ae6aa7a0615914420d2a7e7f370e6/lua/perun/init.lua
-http://julipedia.meroh.net/2004/10/example-of-kqueue.html
-]]
-
 -- thread
 --[[
 https://github.com/hnakamur/luajit-examples/blob/master/pthread/thread1.lua
@@ -83,38 +77,7 @@ if isWin then
 	
 else
 	-- Mac + others
-	-- Constants
-	local eventcount = 512
-	local intptr_t = ffi.typeof('intptr_t')
-	local kevent_array1 = ffi.typeof('struct kevent[1]')
-
-	local context = {}
-	function context:init()
-		self.handlers = {} -- dictionary of handlers for given event family
-		self.isrunning = false -- tells whether the loop should keep running
-		self.kevents = ffi.new('struct kevent[?]', eventcount) -- Stores events fetched when polling the kqfd
-		self.kqfd = C.kqueue() -- a file descriptor for the kqueue
-		self.listeners = { ['read'] = {}, ['write'] = {}, ['timeout'] = {} } -- list of callbacks for particular events
-		self.timerid = 1 -- a counter for timeout fd (for the use of kqueue)
-		self.defers = {}
-	end
-	context:init()
-	--print(table.show(context, "context"))
-
-	local function setkevent(kqfd, fd, filter, flags, fflags, data, udata)
-		local kev = kevent_array_1()
-		kev[0].ident = fd
-		kev[0].filter = filter
-		kev[0].flags = flags
-		kev[0].fflags = fflags
-		kev[0].data = data
-		kev[0].udata = udata
-		if C.kevent(kqfd, kev, 1, nil, 0, nil) == -1 then
-			return nil
-		end
-		return fd
-	end
-
+	-- posix threads
 	function threadSelf()
 		local id = C.pthread_self()
 		--if ffi.os == "OSX" then 

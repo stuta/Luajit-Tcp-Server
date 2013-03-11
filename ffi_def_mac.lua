@@ -88,13 +88,74 @@ ffi.cdef([[
 		int pthread_mutex_destroy (pthread_mutex_t *mutex);
 		int pthread_mutex_lock (pthread_mutex_t *mutex);
 		int pthread_mutex_unlock (pthread_mutex_t *mutex);
+		
+		void mutex_lock();
+		bool mutex_try_lock();
+		void mutex_unlock();
 	*/
 	
 ]])
 
-
+-- file (kqueue)
 ffi.cdef([[
-  // kqueue
+	/* open-only flags */
+	static const int O_RDONLY		= 0x0000;		/* open for reading only */
+	static const int O_WRONLY		= 0x0001;		/* open for writing only */
+	static const int O_RDWR			= 0x0002;		/* open for reading and writing */
+	static const int O_ACCMODE	= 0x0003;		/* mask for above modes */
+
+  int	open(const char *, int); 	// int	open(const char *, int, ...);
+]])
+
+-- kqueue
+ffi.cdef([[
+
+	static const int EVFILT_READ		= (-1);
+	static const int EVFILT_WRITE		= (-2);
+	static const int EVFILT_AIO			= (-3);	/* attached to aio requests */
+	static const int EVFILT_VNODE		= (-4);	/* attached to vnodes */
+	static const int EVFILT_PROC		= (-5);	/* attached to struct proc */
+	static const int EVFILT_SIGNAL	= (-6);	/* attached to struct proc */
+	static const int EVFILT_TIMER		= (-7);	/* timers */
+	static const int EVFILT_MACHPORT = (-8);	/* Mach portsets */
+	static const int EVFILT_FS			= (-9);	/* Filesystem events */
+	static const int EVFILT_USER  	= (-10);   /* User events */
+					/* (-11) unused */
+	static const int EVFILT_VM			= (-12);	/* Virtual memory events */
+
+/* actions */
+	static const int EV_ADD 		= 0x0001;		/* add event to kq (implies enable) */
+	static const int EV_DELETE	= 0x0002;		/* delete event from kq */
+	static const int EV_ENABLE	= 0x0004;		/* enable event */
+	static const int EV_DISABLE	= 0x0008;		/* disable event (not reported) */
+	static const int EV_RECEIPT	= 0x0040;		/* force EV_ERROR on success, data == 0 */
+
+/* flags */
+	static const int EV_ONESHOT	 	= 0x0010;		/* only report one occurrence */
+	static const int EV_CLEAR	 		= 0x0020;		/* clear event state after reporting */
+	static const int EV_DISPATCH 	= 0x0080;          /* disable event after reporting */
+
+	static const int EV_SYSFLAGS	= 0xF000;		/* reserved by system */
+	static const int EV_FLAG0	 		= 0x1000;		/* filter-specific flag */
+	static const int EV_FLAG1	 		= 0x2000;		/* filter-specific flag */
+
+/* returned values */
+	static const int EV_EOF			= 0x8000;		/* EOF detected */
+	static const int EV_ERROR	 	= 0x4000;		/* error, data contains errno */
+
+/*
+ * data/hint fflags for EVFILT_VNODE, shared with userspace
+ */
+	static const int NOTE_DELETE	= 0x00000001;		/* vnode was removed */
+	static const int NOTE_WRITE		= 0x00000002;		/* data contents changed */
+	static const int NOTE_EXTEND	= 0x00000004;		/* size increased */
+	static const int NOTE_ATTRIB	= 0x00000008;		/* attributes changed */
+	static const int NOTE_LINK		= 0x00000010;		/* link count changed */
+	static const int NOTE_RENAME	= 0x00000020;		/* vnode was renamed */
+	static const int NOTE_REVOKE	= 0x00000040;		/* vnode access was revoked */
+	static const int NOTE_NONE		= 0x00000080;		/* No specific vnode event: to test for EVFILT_READ activation*/
+
+
 	#pragma pack(4)
   struct kevent {
     uintptr_t ident;    // identifier for this event
@@ -108,7 +169,6 @@ ffi.cdef([[
 	int kqueue(void);
   int kevent(int kq, const struct kevent* changelist, int nchanges, struct kevent* eventlist, int nevents, void* timeout);
   
-  
   /* -- not needed
   int kevent64(int kq, const struct kevent64_s *changelist, 
   	int nchanges, struct kevent64_s *eventlist, int nevents, 
@@ -116,9 +176,6 @@ ffi.cdef([[
 	EV_SET(&kev, ident, filter, flags, fflags, data, udata);
 	EV_SET64(&kev, ident, filter, flags, fflags, data, udata, ext[_], ext[1]);
 	
-	void mutex_lock();
-	bool mutex_try_lock();
-	void mutex_unlock();
 	*/
 ]])
 

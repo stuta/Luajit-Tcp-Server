@@ -17,13 +17,6 @@ function threadFuncToAddress(thread_entry)
   return tonumber(ffi.cast('intptr_t', ffi.cast('void *(*)(void *)', thread_entry)))
 end
 
-function threadToId(thread) 
-	-- return tonumber(ffi.cast('intptr_t', ffi.cast('void *', thread[0])))
-	-- return ffi.string(ffi.cast('intptr_t', ffi.cast('void *', thread[0])))
-	-- return tostring(ffi.cast('void *', thread))
-	return tostring(ffi.cast('intptr_t', ffi.cast('void *', thread[0]))) -- is this ok?
-end
-
 -- create a separate Lua state first
 -- define a callback function in *that* created state
 function luaStateCreate(lua_code)
@@ -77,7 +70,15 @@ if isWin then
 	
 else
 	-- Mac + others
-	-- posix threads
+	-- Posix threads
+	function threadToId(thread) 
+		-- return tonumber(ffi.cast('intptr_t', ffi.cast('void *', thread[0])))
+		-- return ffi.string(ffi.cast('intptr_t', ffi.cast('void *', thread[0])))
+		-- return tostring(ffi.cast('void *', thread))
+		--return tonumber(ffi.cast('intptr_t', ffi.cast('void *', thread[0])))
+		return tonumber(ffi.cast('intptr_t', ffi.cast('void *', thread[0]))) -- is this ok?
+	end
+
 	function threadSelf()
 		local id = C.pthread_self()
 		--if ffi.os == "OSX" then 

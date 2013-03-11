@@ -11,18 +11,20 @@ ffi.cdef([[
 ]])
 
 ffi.cdef([[
+	static const int _SC_NPROCESSORS_ONLN = 58; // for sysconf()
+	
 		// http://www.opensource.apple.com/source/xnu/xnu-1456.1.26/bsd/i386/_types.h
 	struct 	timeval {
              time_t       tv_sec;   /* seconds since Jan. 1, 1970 */
              suseconds_t  tv_usec;  /* and microseconds */
      				};
 	struct 	timespec { int tv_sec; long tv_nsec; };
-	
 	int 		gettimeofday(struct timeval *restrict tp, void *restrict tzp);
 	int 		nanosleep(const struct timespec *req, struct timespec *rem);
 	int			usleep(useconds_t useconds); // mac sleep
 	int 		poll(struct pollfd *fds, unsigned long nfds, int timeout); // mac sleep
 	int 		sched_yield(void); // mac yield
+	long		sysconf(int name);
 ]])
 
 -- ffi_def_shared_mem.lua

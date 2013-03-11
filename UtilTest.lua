@@ -4,6 +4,7 @@ print()
 
 local arg = {...}
 dofile "ffi_def_util.lua"
+local ffi = require("ffi")
 
 --[[
 function cstr(str)
@@ -22,7 +23,10 @@ function round(val, decimal)
 function format_num(amount, decimal, comma, prefix, neg_prefix)
 function table.show(t, name, indent)
 ]]
-local str = cstr("test c str")
+
+local str_c = cstr("Processor core count: ")
+local count = processorCoreCount()
+print( ffi.string(str_c)..count )
 
 print("Calling cerr(), will break here, is OK.")
 cerr() -- will break here

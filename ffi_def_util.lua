@@ -81,6 +81,12 @@ end
 
 if isWin then
 
+	function processorCoreCount() 
+		local sysinfo = ffi.new("SYSTEM_INFO[1]")
+		C.GetSystemInfo(sysinfo)
+		print(sysinfo[0].dwNumberOfProcessors)
+	end
+ 
 	function waitKeyPressed() 
 		--[[
 		DWORD mode, count;
@@ -124,6 +130,12 @@ if isWin then
 	
 else -- OSX, Posix, Linux?
 
+	function processorCoreCount()
+		-- http://www.gnu.org/software/libc/manual/html_node/Processor-Resources.html 
+		local count = C.sysconf(C._SC_NPROCESSORS_ONLN) -- returns int64_t
+		return tonumber(count)
+	end
+	
 	function waitKeyPressed() 
     --http://lua.2524044.n2.nabble.com/How-to-get-one-keystroke-without-hitting-Enter-td5858614.html
     os.execute("stty cbreak </dev/tty >/dev/tty 2>&1") 

@@ -121,7 +121,7 @@ ffi.cdef[[
 		struct sockaddr *ai_addr; /* socket-address for socket */
 		char *ai_canonname;     /* canonical name for service location */
 		struct addrinfo *ai_next; /* pointer to next in list */
-	 } *PADDRINFOA;
+	 } ADDRINFOA, *PADDRINFOA;
 
 	//int getaddrinfo(const char *hostname, const char *servname, const struct addrinfo *hints, struct addrinfo **res);
 	//void freeaddrinfo(struct addrinfo *ai);
@@ -186,47 +186,63 @@ print("addrinfo: ", addrinfo.ai_addr) --tostring(addrinfo))
 
 local ai = ffi.new ( "struct addrinfo*[1]" )
 
---local hints = ffi.new("struct addrinfo")
+local hints = ffi.new("struct addrinfo")
 --hints.ai_flags = AI_CANONNAME;	-- return canonical name
---hints.ai_flags = AI_NUMERICHOST
---hints.ai_family = C.AF_UNSPEC
---hints.ai_socktype = C.SOCK_STREAM
+hints.ai_flags = AI_NUMERICHOST
+hints.ai_family = C.AF_UNSPEC
+hints.ai_socktype = C.SOCK_STREAM
 
 local host = "127.0.0.1" --cstr("127.0.0.1")
 local serv = "http" --cstr("http")
-local err = sock.getaddrinfo(host, serv, hints, ai)
-print("getaddrinfo             : getaddrinfo('127.0.0.1', 'http', hints, ai_array)")
-print("ai_array getaddrinfo err: "..err)
-print()
-print("ai getaddrinfo          : ", ai, ai[0], ai[0].ai_addrlen, ai[0].ai_addr, ai[0].ai_canonname)
---print("ai_array ai_canonname   : '", ffi.string(ai[0].ai_canonname).."'")
+local err = sock.getaddrinfo(host, serv, hints, ai) -- (host, serv, hints, ai)
+
+print("getaddrinfo             : getaddrinfo('127.0.0.1', 'http', hints, ai)")
+print("ai getaddrinfo err : "..err)
 print()
 
-local sa = ai[0].ai_addr
+ai = ai[0]
+local loop = 1
+while loop > 0 do
+	print("loop               : "..loop)
+	print("ai getaddrinfo     : ", ai, ai.ai_addrlen, ai.ai_canonname)
+	print("ai ai_canonname    : '", ffi.string(ai.ai_canonname).."'")
+	print("ai ai_addr,ai_next : ", ai.ai_addr, ai.ai_next)
+	print()
+	if ai.ai_next ~= nil then
+		ai = ai.ai_next
+		loop = loop + 1
+	else
+		loop = 0
+	end
+end
+
+local sa = ai.ai_addr
 print("sa: ", sa)
 
-local hostname = createBuffer(C.NI_MAXHOST)
-local servinfo = createBuffer(C.NI_MAXSERV)
+if sa ~= nil then
+	local hostname = createBuffer(C.NI_MAXHOST)
+	local servinfo = createBuffer(C.NI_MAXSERV)
 
-local flags = bit.bor(C.NI_NUMERICHOST, C.NI_NUMERICSERV)
-local ret = 0
-ret = sock.getnameinfo(sa, ffi.sizeof(sa), hostname, C.NI_MAXHOST, servinfo, C.NI_MAXSERV, flags)
+	local flags = bit.bor(C.NI_NUMERICHOST, C.NI_NUMERICSERV)
+	local ret = 0
+	ret = sock.getnameinfo(sa, ffi.sizeof(sa), hostname, C.NI_MAXHOST, servinfo, C.NI_MAXSERV, flags)
 
-print()
-print("getnameinfo err         : "..ret)
-print("getnameinfo hostname var: ", hostname)
-print("getnameinfo hostname txt: ", ffi.string(hostname))
-print("getnameinfo servinfo var: ", servinfo)
-print("getnameinfo servinfo txt: ", ffi.string(servinfo))
-print()
+	print()
+	print("getnameinfo err         : "..ret)
+	print("getnameinfo hostname var: ", hostname)
+	print("getnameinfo hostname txt: ", ffi.string(hostname))
+	print("getnameinfo servinfo var: ", servinfo)
+	print("getnameinfo servinfo txt: ", ffi.string(servinfo))
+	print()
 
-flags = bit.bor(C.NI_NAMEREQD)
-ret = sock.getnameinfo(sa, ffi.sizeof(sa), hostname, C.NI_MAXHOST, servinfo, C.NI_MAXSERV, flags)
-print("getnameinfo err         : "..ret)
-print("getnameinfo hostname var: ", hostname)
-print("getnameinfo hostname txt: ", ffi.string(hostname))
-print("getnameinfo servinfo var: ", servinfo)
-print("getnameinfo servinfo txt: ", ffi.string(servinfo))
+	flags = bit.bor(C.NI_NAMEREQD)
+	ret = sock.getnameinfo(sa, ffi.sizeof(sa), hostname, C.NI_MAXHOST, servinfo, C.NI_MAXSERV, flags)
+	print("getnameinfo err         : "..ret)
+	print("getnameinfo hostname var: ", hostname)
+	print("getnameinfo hostname txt: ", ffi.string(hostname))
+	print("getnameinfo servinfo var: ", servinfo)
+	print("getnameinfo servinfo txt: ", ffi.string(servinfo))
+end
 
 if ffi.os == "Windows" then
 	sock.WSACleanup()

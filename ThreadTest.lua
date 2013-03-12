@@ -9,13 +9,6 @@ local ffi = require("ffi")
 local C = ffi.C
 --dofile "ffi_def_signal.lua"
 
--- JUST FOR TEST
-local timer = seconds()
-io.write("start: "..timer)
-nanosleep(20)
-timer = seconds(timer)
-print(", time used: "..timer)
-print()
 
 --[[
 NOTES

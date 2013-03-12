@@ -1,4 +1,4 @@
---  ffi_def_thread.lua
+--  thread.lua
 dofile "util.lua"
 local ffi = require("ffi")
 local C = ffi.C

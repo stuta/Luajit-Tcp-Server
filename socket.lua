@@ -8,15 +8,13 @@ if isWin then
 	local s = ffi.load("ws2_32")
 
 	function socket_initialize()
-		local wsadata_typename
+		local wsadata
 		if is64bit then
-			wsadata_typename = "WSADATA64"
+			wsadata = ffi.new( "WSADATA64[1]")
 		else
-			wsadata_typename = "WSADATA"
+			wsadata = ffi.new( "WSADATA[1]")
 		end
 		local wVersionRequested = MAKEWORD(2, 2)
-		local dataarrayname = string.format("%s[1]", wsadata_typename)
-		local wsadata = ffi.new(dataarrayname)
     local err = s.WSAStartup(wVersionRequested, wsadata)
 		wsadata = wsadata[0]
 		return err,wsadata
@@ -70,11 +68,17 @@ if isWin then
 	function socket_send(socket, buffer, length, flags)
 		return s.send(socket, buffer, length, flags)
 	end
+	function socket_getsockopt(socket, level, option_name, option_value, option_len)
+		return s.getsockopt(socket, level, option_name, option_value, option_len)
+	end
 	function socket_setsockopt(socket, level, option_name, option_value, option_len)
 		return s.setsockopt(socket, level, option_name, option_value, option_len)
 	end
-	function socket_getsockopt(socket, level, option_name, option_value, option_len)
-		return s.getsockopt(socket, level, option_name, option_value, option_len)
+	function socket_getaddrinfo(hostname, servname, hints, res)
+		return s.getaddrinfo(hostname, servname, hints, res)
+	end
+	function socket_getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
+		return s.getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
 	end
 
 else
@@ -120,11 +124,17 @@ else
 	function socket_send(socket, buffer, length, flags)
 		return C.send(socket, buffer, length, flags)
 	end
+	function socket_getsockopt(socket, level, option_name, option_value, option_len)
+		return C.getsockopt(socket, level, option_name, option_value, option_len)
+	end
 	function socket_setsockopt(socket, level, option_name, option_value, option_len)
 		return C.setsockopt(socket, level, option_name, option_value, option_len)
 	end
-	function socket_getsockopt(socket, level, option_name, option_value, option_len)
-		return C.getsockopt(socket, level, option_name, option_value, option_len)
+	function socket_getaddrinfo(hostname, servname, hints, res)
+		return C.getaddrinfo(hostname, servname, hints, res)
+	end
+	function socket_getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
+		return C.getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
 	end
 
 end

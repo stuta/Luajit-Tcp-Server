@@ -216,8 +216,8 @@ ffi.cdef[[
 
 	static const int SOCK_STREAM = 1;
 
-	// typedef uint32_t socklen_t;
-	// typedef uint16_t in_port_t;
+	typedef uint32_t socklen_t;
+	typedef uint16_t in_port_t;
 	typedef unsigned short int sa_family_t;
 	typedef uint32_t in_addr_t;
 
@@ -231,6 +231,20 @@ ffi.cdef[[
 	static const int SOL_SOCKET = 1;
 	static const int SO_REUSEADDR = 2;
 	static const int INADDR_ANY = (in_addr_t)0x00000000;
+
+	// Socket address conversions
+	static const int NI_MAXHOST = 1025;
+	static const int NI_MAXSERV = 32;
+
+	int getnameinfo(
+		const struct sockaddr  *sa, // _In_ FAR
+		socklen_t salen, // _In_
+		char  *host, // _Out_ FAR
+		DWORD hostlen, // _In_
+		char  *serv, // _Out_ FAR
+		DWORD servlen, // _In_
+		int flags // _In_
+	);
 
 	/*
 	struct sockaddr {

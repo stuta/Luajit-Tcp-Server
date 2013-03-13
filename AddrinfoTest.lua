@@ -230,15 +230,17 @@ end
 	static const int AF_UNIX		= 1;		/* local to host (pipes) */
 	static const int AF_INET		= 2;		/* internetwork: UDP, TCP, etc. */
 ]]
+--local res = ffi.new("struct addrinfo")
+--local res0 = ffi.cast("struct addrinfo **",res)
 local res0 = ffi.new("struct addrinfo*[1]")
 local hints = ffi.new("struct addrinfo")
 
 hints.ai_family = C.AF_INET
 hints.ai_socktype = C.SOCK_STREAM
 hints.ai_protocol = C.IPPROTO_TCP
-hints.ai_flags = bit.bor(C.AI_CANONNAME)
+hints.ai_flags = bit.bor(0, C.AI_CANONNAME) -- , C.AI_NUMERICHOST
 
-local host = "www.apple.com" 	--cstr("www.apple.com") --"127.0.0.1" --"www.google.com"
+local host = "www.google.com" 	--cstr("www.apple.com") --"127.0.0.1" --"www.google.com"
 local serv = "http" --cstr("http")
 local err = sock.getaddrinfo(host, serv, hints, res0)
 print("ai getaddrinfo err : "..err)

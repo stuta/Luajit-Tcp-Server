@@ -12,6 +12,8 @@ local buflen = 1024
 local recvbuflen = buflen
 local recvbuf,recvbuf_ptr = createBuffer(buflen)
 local port = 5001
+print("..Lua tcp server waiting on: 127.0.0.1:"..port)
+print()
 
 local INVALID_SOCKET, SOCKET_ERROR
 if isWin then

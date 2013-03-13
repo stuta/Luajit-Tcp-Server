@@ -1,5 +1,5 @@
 --  ffi_def_util.lua
-local ffi = require "ffi" 
+local ffi = require "ffi"
 local C = ffi.C
 require "bit"
 
@@ -27,7 +27,7 @@ ffi.cdef([[
 	void lua_close(lua_State *L);
 	int luaL_loadstring(lua_State *L, const char *s);
 	int lua_pcall(lua_State *L, int nargs, int nresults, int errfunc);
-	
+
 	static const int LUA_GLOBALSINDEX = -10002;
 	void lua_getfield(lua_State *L, int index, const char *k);
 	ptrdiff_t lua_tointeger(lua_State *L, int index);
@@ -44,6 +44,20 @@ function cerr()
 	error( ffi.string(ffi.C.strerror(ffi.errno())) )
 end
 
+function createBuffer(datalen)
+	if datalen < 1 then
+		error("datalen < 1 [createBuffer(datalen)]")
+	end
+	local var = ffi.new("int8_t[?]", datalen)
+	local ptr = ffi.cast("int8_t *", var)
+	return var,ptr
+end
+
+function getOffsetPointer(var, offset)
+	return ffi.cast("int8_t *", var[offset])
+end
+
+--[[
 function getPointer(cdata)
 	if is64bit then
 		return ffi.cast("int64_t", cdata)
@@ -66,6 +80,7 @@ end
 function getOffsetPointer(cdata, offset)
 	return ffi.cast("int8_t *", getPointer(cdata) + offset)
 end
+]]
 
 function toHexString(num)
 	if type(num) ~= "number" then
@@ -81,13 +96,13 @@ end
 
 if isWin then
 
-	function processorCoreCount() 
+	function processorCoreCount()
 		local sysinfo = ffi.new("SYSTEM_INFO[1]")
 		C.GetSystemInfo(sysinfo)
 		print(sysinfo[0].dwNumberOfProcessors)
 	end
- 
-	function waitKeyPressed() 
+
+	function waitKeyPressed()
 		--[[
 		DWORD mode, count;
 		HANDLE h = GetStdHandle( STD_INPUT_HANDLE );
@@ -115,50 +130,50 @@ if isWin then
   function yield()
     C.SwitchToThread()
   end
-  
+
   function sleep(millisec)
     C.Sleep(millisec)
   end
-  
+
 	function nanosleep(nanosec)
-		local millisec = math.floor(nanosec/1000) 
+		local millisec = math.floor(nanosec/1000)
 		--if millisec < 1 then
 		--	millisec = 0 -- Sleep(0), best we can do
 		--end
 		C.Sleep(millisec) -- better solution for windows?
 	end
-	
+
 else -- OSX, Posix, Linux?
 
 	function processorCoreCount()
-		-- http://www.gnu.org/software/libc/manual/html_node/Processor-Resources.html 
+		-- http://www.gnu.org/software/libc/manual/html_node/Processor-Resources.html
 		local count = C.sysconf(C._SC_NPROCESSORS_ONLN) -- returns int64_t
 		return tonumber(count)
 	end
-	
-	function waitKeyPressed() 
+
+	function waitKeyPressed()
     --http://lua.2524044.n2.nabble.com/How-to-get-one-keystroke-without-hitting-Enter-td5858614.html
-    os.execute("stty cbreak </dev/tty >/dev/tty 2>&1") 
-    local key = io.read(1) 
-    os.execute("stty -cbreak </dev/tty >/dev/tty 2>&1"); 
-    return(key);    
+    os.execute("stty cbreak </dev/tty >/dev/tty 2>&1")
+    local key = io.read(1)
+    os.execute("stty -cbreak </dev/tty >/dev/tty 2>&1");
+    return(key);
   end
-  
+
   function yield()
-    C.sched_yield() 
+    C.sched_yield()
   end
-  
+
   function sleep(millisec)
     --C.poll(nil, 0, millisec)
   	local microseconds = millisec * 1000
   	C.usleep (microseconds)
   end
-  
+
 	function nanosleep(nanosec)
 		local t = ffi.new("struct timespec", {tv_sec = 0, tv_nsec = nanosec})
 		return C.nanosleep(t, nil) -- assert(C.nanosleep(t, nil) == 0)
 	end
-	
+
 end
 
 function get_seconds( multiplier, prevMs )
@@ -171,7 +186,7 @@ function get_seconds( multiplier, prevMs )
 		--  Get the high resolution counter's accuracy.
 		local ticksPerSecond = ffi.new("LARGE_INTEGER")
 		C.QueryPerformanceFrequency (ticksPerSecond)
-	
+
 		--  What time is it?
 		local tick = ffi.new("LARGE_INTEGER")
 		C.QueryPerformanceCounter (tick) -- tick[0] ??
@@ -190,14 +205,14 @@ function get_seconds( multiplier, prevMs )
 	end
 
 	--[[
-	 in Lua 0x001fffffffffffff is the (about) biggest value that does not change when 
+	 in Lua 0x001fffffffffffff is the (about) biggest value that does not change when
 	 converting to Lua double with 'tonumber(returnValue64_c)'
    returnValue64_c = bit.band(returnValue64_c, 0x00ffffff) -- get rid of highest bits
 	 bit.band() does not work before Luajit 2.1 with 64 bit integers
 	]]
 	-- best way to get rid of highest bits, better to have unsigned int in timer:
-	returnValue = tonumber(ffi.cast("uint32_t", returnValue64_c)) 
-	
+	returnValue = tonumber(ffi.cast("uint32_t", returnValue64_c))
+
 	if isWin then
 		if multiplier == 1 then
 			returnValue = returnValue / 100000000  -- seconds -> microseconds
@@ -214,7 +229,7 @@ function get_seconds( multiplier, prevMs )
 			returnValue = returnValue / 1000 -- microseconds -> milliseconds
 		end
 	end
-	
+
 	if prevMs then
 		if prevMs > returnValue then
 			returnValue = prevMs - returnValue
@@ -245,7 +260,7 @@ function comma_value(amount, comma)
   local formatted = amount
 
   local k
-  while true do  
+  while true do
     formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1' .. comma .. '%2')
     if (k==0) then
       break
@@ -284,14 +299,14 @@ function format_num(amount, decimal, comma, prefix, neg_prefix)
     formatted = formatted .. "." .. remain ..
                 string.rep("0", decimal - string.len(remain))
   end
-        -- attach prefix string e.g '$' 
-  formatted = (prefix or "") .. formatted 
+        -- attach prefix string e.g '$'
+  formatted = (prefix or "") .. formatted
         -- if value is negative then format accordingly
   if (amount<0) then
     if (neg_prefix=="()") then
       formatted = "("..formatted ..")"
     else
-      formatted = neg_prefix .. formatted 
+      formatted = neg_prefix .. formatted
     end
   end
   return formatted
@@ -305,7 +320,7 @@ end
    Author: Julio Manuel Fernandez-Diaz
    Date:   January 12, 2007
    (For Lua 5.1)
-   
+
    Modified slightly by RiciLake to avoid the unnecessary table traversal in tablecount()
 
    Formats tables with cycles recursively to any depth.
@@ -322,7 +337,7 @@ end
    proper indentations, apart from printing them:
 
       print(table.show(t, "t"))   -- a typical use
-   
+
    Heavily based on "Saving tables with cycles", PIL2, p. 113.
 
    Arguments:
@@ -351,7 +366,7 @@ function table.show(t, name, indent)
          -- info.name is nil because o is not a calling level
          if info.what == "C" then
             return string.format("%q", so .. ", C function")
-         else 
+         else
             -- the information is defined through lines
             return string.format("%q", so .. ", defined in (" ..
                 info.linedefined .. "-" .. info.lastlinedefined ..
@@ -375,7 +390,7 @@ function table.show(t, name, indent)
          cart = cart .. " = " .. basicSerialize(value) .. ";\n"
       else
          if saved[value] then
-            cart = cart .. " = {}; -- " .. saved[value] 
+            cart = cart .. " = {}; -- " .. saved[value]
                         .. " (self reference)\n"
             autoref = autoref ..  name .. " = " .. saved[value] .. ";\n"
          else

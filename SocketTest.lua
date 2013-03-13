@@ -35,12 +35,11 @@ if ListenSocket == INVALID_SOCKET then
 		return 1
 end
 
+-- Setup the TCP listening socket
 local on = ffi.new("int32_t[1]", 1)
 local on_c = ffi.cast("char *",on)
 print("on[0]", on[0])
 local rc = socket_setsockopt(ListenSocket, C.SOL_SOCKET, C.SO_REUSEADDR, on_c, ffi.sizeof(on))
-
--- Setup the TCP listening socket
 
 local addr = ffi.new("struct sockaddr_in[1]")
 addr[0].sin_family = C.AF_INET
@@ -96,8 +95,9 @@ local err = socket_getaddrinfo("127.0.0.1", nil, nil, ai_array) -- C.getaddrinfo
 print("getaddrinfo: ", err, ai_array, ai_array[0], ai_array[0].ai_addrlen, ai_array[0].ai_addr, ai_array[0].ai_canonname) -- ", ai_canonname: '"..ffi.string(ai_ptr.ai_canonname).."'")
 print("getaddrinfo: ", err, ai, ai[0], ai[0].ai_addrlen, ai[0].ai_addr, ai[0].ai_canonname)
 
-hostname = getOffsetPointer(createBufferVariable(C.NI_MAXHOST), 0)
-servInfo = getOffsetPointer(createBufferVariable(C.NI_MAXSERV), 0)
+
+local hostname = createBuffer(C.NI_MAXHOST) --getOffsetPointer(createBufferVariable(C.NI_MAXHOST), 0)
+local servInfo = createBuffer(C.NI_MAXSERV) --getOffsetPointer(createBufferVariable(C.NI_MAXSERV), 0)
 local dwRetval = socket_getnameinfo(client_addr_ptr, ffi.sizeof(client_addr), hostname, C.NI_MAXHOST, servInfo, C.NI_MAXSERV, 0)
 -- eorks: ffi.sizeof(client_addr) --client_addr_ptr.sa_len
 
@@ -106,22 +106,6 @@ print("client  address: ", dwRetval, hostname, ffi.string(hostname)) -- .. ffi.s
 print("client  address: ", dwRetval, servInfo, ffi.string(servInfo))
 -- ffi.string(C.gai_strerror(dwRetval))
 
-hostname2 = createBuffer(C.NI_MAXHOST)
-servInfo2 = createBuffer(C.NI_MAXSERV)
-local dwRetval = socket_getnameinfo(ai_ptr.ai_addr, ffi.sizeof(ai_ptr.ai_addr), hostname2, C.NI_MAXHOST, servInfo2, C.NI_MAXSERV, 0)
-print("getaddrinfo  address: ", dwRetval, hostname2, ffi.string(hostname2)) -- .. ffi.string(servInfo[0]))
-print("getaddrinfo  address: ", dwRetval, servInfo2, ffi.string(servInfo2))
--- ffi.string(C.gai_strerror(dwRetval))
---C.freeaddrinfo(ai_ptr)
--- ai[0].ai_addrlen
---[[ struct sockaddr_in
-		uint8_t	sin_len;
-		sa_family_t	sin_family;
-		in_port_t	sin_port;
-		struct	in_addr sin_addr;
-		char		sin_zero[8];
-		]]
--- No longer need server socket
 socket_close(ListenSocket)
 
 -- Receive until the peer shuts down the connection

@@ -344,6 +344,12 @@ ffi.cdef[[
 	static const int 	SOMAXCONN = 128;	// Maximum queue length specifiable by listen.
 	static const int	AI_PASSIVE = 0x00000001; /* get address to use bind() */
 
+	static const int SD_RECEIVE = 0; // Shutdown receive operations.
+	static const int SD_SEND 		= 1; // Shutdown send operations.
+	static const int SD_BOTH 		= 2; // Shutdown both send and receive operations.
+
+	static const int SOL_SOCKET = 0xffff;
+
 	typedef long				ssize_t;	/* byte count or error */
 	typedef uint32_t			socklen_t;
 	typedef	uint8_t			sa_family_t;
@@ -385,7 +391,7 @@ ffi.cdef[[
 		struct addrinfo *ai_next; /* pointer to next in list */
 	 };
 
-	int getaddrinfo(const char *hostname, const char *servname, const struct addrinfo *hints, PADDRINFOA *res);
+	int getaddrinfo(const char *hostname, const char *servname, const struct addrinfo *hints, struct addrinfo **res);
 	void freeaddrinfo(struct addrinfo *ai);
 
 	int getnameinfo(const struct sockaddr *sa, socklen_t salen, char *host, socklen_t hostlen, char *serv, socklen_t servlen, int flags);
@@ -420,11 +426,5 @@ ffi.cdef[[
 	int setsockopt(int socket, int level, int option_name, const void *option_value, socklen_t option_len);
 	int getsockopt(int socket, int level, int option_name, void *restrict option_value, socklen_t *restrict option_len);
 
-
-	static const int SD_RECEIVE = 0; // Shutdown receive operations.
-	static const int SD_SEND 		= 1; // Shutdown send operations.
-	static const int SD_BOTH 		= 2; // Shutdown both send and receive operations.
-
-	static const int SOL_SOCKET = 0xffff;
 
 ]]

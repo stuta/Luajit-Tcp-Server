@@ -3,6 +3,19 @@ dofile "util.lua"
 local ffi = require("ffi")
 local C = ffi.C
 
+function sock_errortext(err)
+	if ffi.os == "Windows" then
+		-- sock.WSAGetLastError() --err --ffi.string(ffi.C.gai_strerror(err))
+		local buffer = ffi.new("char[512]")
+		local kernel32 = ffi.load("kernel32");
+		local flags = bit.bor(sock.FORMAT_MESSAGE_IGNORE_INSERTS, sock.FORMAT_MESSAGE_FROM_SYSTEM)
+		kernel32.FormatMessageA(flags, nil, err, 0, buffer, ffi.sizeof(buffer), nil)
+    return string.sub(ffi.string(buffer), 1, -3) -- remove last crlf
+	else
+		return ffi.string(sock.gai_strerror(err))
+	end
+end
+
 if isWin then
 	--require "win_socket"
 	local s = ffi.load("ws2_32")
@@ -10,9 +23,9 @@ if isWin then
 	function socket_initialize()
 		local wsadata
 		if is64bit then
-			wsadata = ffi.new( "WSADATA64[1]")
+			wsadata = ffi.new("WSADATA64[1]")
 		else
-			wsadata = ffi.new( "WSADATA[1]")
+			wsadata = ffi.new("WSADATA[1]")
 		end
 		local wVersionRequested = MAKEWORD(2, 2)
     local err = s.WSAStartup(wVersionRequested, wsadata)
@@ -26,25 +39,18 @@ if isWin then
 		return s.closesocket(socket)
 	end
 	function socket_cleanup(socket, errnum, errtext)
-		local last_wsa_err_num = s.WSAGetLastError()
-		local last_wsa_err_txt = last_wsa_err_num
-		--http://msdn.microsoft.com/en-us/library/windows/desktop/ms679351(v=vs.85).aspx
-		--[[local last_wsa_err_txt = FormatMessage()
-			FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-            FORMAT_MESSAGE_FROM_SYSTEM,
-            NULL,
-            err,
-            0,
-            (LPTSTR)&s,
-            0,
-            NULL)
-      ]]
+		local wsa_err_num -- get WSAGetLastError() before close and WSACleanup
+		if errnum and errnum ~= 0 then
+			wsa_err_num = errnum
+		else
+			wsa_err_num = errnum or s.WSAGetLastError()
+		end
 		if socket then
 			socket_close(socket)
 		end
 		s.WSACleanup()
 		if errtext and #errtext > 0 then
-			error(errtext.."("..errnum..") "..last_wsa_err_txt)
+			error(errtext.."("..tonumber(errnum)..") "..sock_errortext(wsa_err_num))
 		end
 	end
 	function socket_htons(num)
@@ -94,13 +100,12 @@ else
 		return C.close(socket)
 	end
 	function socket_cleanup(socket, errnum, errtext)
-		local last_err_text = "" --s.WSAGetLastError()
 		if socket then
 			socket_close(socket)
 		end
 		--s.WSACleanup()
 		if errtext and #errtext > 0 then
-			error(errtext.."("..tonumber(errnum)..") "..last_err_text)
+			error(errtext.."("..tonumber(errnum)..") "..sock_errortext(errnum))
 		end
 	end
 	function socket_htons(num)

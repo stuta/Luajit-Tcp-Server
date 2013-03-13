@@ -8,10 +8,9 @@ dofile "socket.lua"
 local ffi = require("ffi")
 local C = ffi.C
 
-
--- windows
-local buflen = 512
+local buflen = 1024
 local recvbuflen = buflen
+local recvbuf,recvbuf_ptr = createBuffer(buflen)
 local port = 5001
 
 local INVALID_SOCKET, SOCKET_ERROR
@@ -27,7 +26,6 @@ if err ~= 0 then
 	socket_cleanup(nil, err, "ERROR in socket_initialize(): ")
 end
 
-local recvbuf = createBufferVariable(256)
 -- Create a SOCKET for connecting to server
 ListenSocket = socket_socket(C.AF_INET, C.SOCK_STREAM, C.IPPROTO_TCP)
 if ListenSocket == INVALID_SOCKET then
@@ -109,7 +107,6 @@ print("client  address: ", dwRetval, servInfo, ffi.string(servInfo))
 socket_close(ListenSocket)
 
 -- Receive until the peer shuts down the connection
-local recvbuf_ptr = ffi.new("uint8_t[?]", 4096) --getOffsetPointer(recvbuf, 0)
 repeat
 	result = socket_recv(ClientSocket, recvbuf_ptr, recvbuflen, 0)
 	if result > 0 then

@@ -41,18 +41,17 @@ local on_c = ffi.cast("char *",on)
 print("on[0]", on[0])
 local rc = socket_setsockopt(ListenSocket, C.SOL_SOCKET, C.SO_REUSEADDR, on_c, ffi.sizeof(on))
 
-local addr = ffi.new("struct sockaddr_in[1]")
-addr[0].sin_family = C.AF_INET
-addr[0].sin_addr.s_addr = C.INADDR_ANY -- does not work in win without changing in_addr.S_addr to in_addr.s_addr
-addr[0].sin_port = socket_htons(port)
--- C.inet_aton("127.0.0.1", addr[0].sin_addr) -- test this
+local addr = ffi.new("struct sockaddr_in")
+addr.sin_family = C.AF_INET
+addr.sin_addr.s_addr = C.INADDR_ANY -- does not work in win without changing in_addr.S_addr to in_addr.s_addr
+addr.sin_port = socket_htons(port)
+-- C.inet_aton("127.0.0.1", addr.sin_addr) -- test this
 
 local sockaddr = ffi.cast("struct sockaddr *", addr)
 print(addr, sockaddr) -- ffi.cast("struct sockaddr *", addr)
 result = socket_bind(ListenSocket, sockaddr, ffi.sizeof(addr))
 if result < 0 then
 	socket_cleanup(ListenSocket, result, "socket_bind failed with error: ")
-	return 1
 end
 
 result = socket_listen(ListenSocket, 64) --C.SOMAXCONN

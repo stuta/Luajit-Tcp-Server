@@ -7,13 +7,13 @@ local C = ffi.C
 --[[
 https://github.com/hnakamur/luajit-examples/blob/master/pthread/thread1.lua
 http://pubs.opengroup.org/onlinepubs/007908799/xsh/pthread.h.html
-/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/kern/thread.h 
-/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/sys/_types.h 
+/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/kern/thread.h
+/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/sys/_types.h
 /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/include/pthread.h
 ]]
 
 -- common win+mac
-function threadFuncToAddress(thread_entry) 
+function threadFuncToAddress(thread_entry)
   return tonumber(ffi.cast('intptr_t', ffi.cast('void *(*)(void *)', thread_entry)))
 end
 
@@ -23,13 +23,13 @@ function luaStateCreate(lua_code)
 	local L = C.luaL_newstate()
 	assert(L ~= nil)
 	C.luaL_openlibs(L)
-	
+
 	assert(C.luaL_loadstring(L, lua_code) == 0)
-	local res = C.lua_pcall(L, 0, 1, 0) -- runs code 
+	local res = C.lua_pcall(L, 0, 1, 0) -- runs code
 	-- defines functions and variables, we need thread_entry_address -variable
 	-- that is the thread_entry() -function memory pointer Lua-number
 	assert(res == 0)
-	
+
 	-- get function thread_entry() address from calling thread
 	-- http://pgl.yoyo.org/luai/i/lua_call
 	C.lua_getfield(L, C.LUA_GLOBALSINDEX, "thread_entry_address") -- function to be called
@@ -40,12 +40,12 @@ end
 
 -- Destroys all objects in the given Lua state
 -- if Lua state is still running you WILL get crash
-function luaStateDelete(luaState) 
+function luaStateDelete(luaState)
 	C.lua_close(luaState)
 end
 
 if isWin then
-	
+
 	function threadSelf()
 		local id = 0
 		return id --threadToId(id)
@@ -67,21 +67,17 @@ if isWin then
 		local return_ptr = ffi.cast('void *', return_val)
 		--ffi.C.pthread_exit(return_ptr)
 	end
-	
+
 else
 	-- Mac + others
 	-- Posix threads
-	function threadToId(thread) 
-		-- return tonumber(ffi.cast('intptr_t', ffi.cast('void *', thread[0])))
-		-- return ffi.string(ffi.cast('intptr_t', ffi.cast('void *', thread[0])))
-		-- return tostring(ffi.cast('void *', thread))
-		--return tonumber(ffi.cast('intptr_t', ffi.cast('void *', thread[0])))
+	function threadToId(thread)
 		return tonumber(ffi.cast('intptr_t', ffi.cast('void *', thread[0]))) -- is this ok?
 	end
 
 	function threadSelf()
 		local id = C.pthread_self()
-		--if ffi.os == "OSX" then 
+		--if ffi.os == "OSX" then
 		return threadToId(id)
 		--return tostring(ffi.cast("char *", pid)) --tonumber(ffi.cast("uint32_t", id)) 		--tonumber(pid)
 	end

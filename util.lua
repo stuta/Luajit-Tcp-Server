@@ -1,11 +1,11 @@
---  ffi_def_util.lua
+--  util.lua
 local ffi = require "ffi"
 local C = ffi.C
 require "bit"
 
 -- global utility
 isWin = (ffi.os == "Windows")
-isMac = (ffi.os == "OSX")
+-- isMac = (ffi.os == "OSX")
 is64bit = ffi.abi("64bit")
 is32bit = ffi.abi("32bit")
 if isWin then
@@ -49,16 +49,32 @@ function createBuffer(datalen)
 		error("datalen < 1 [createBuffer(datalen)]")
 	end
 	local var = ffi.new("int8_t[?]", datalen)
-	local ptr = ffi.cast("int8_t *", var)
+	local ptr = ffi.cast("void *", var)
 	return var,ptr
 end
 
-function getOffsetPointer(var, offset)
-	return ffi.cast("int8_t *", var[offset])
+
+function getOffsetPointer(cdata, offset)
+local address_as_number
+	if is64bit then
+		address_as_number = ffi.cast("int64_t", cdata)
+	else --if is32bit then
+		address_as_number = ffi.cast("int32_t", cdata)
+	end
+	return ffi.cast("int8_t *", address_as_number + offset)
+	--return ffi.cast("int8_t *", getAddressAsNumber(cdata) + offset)
 end
 
+
 --[[
-function getPointer(cdata)
+
+function createAddressVariable(cdata)
+	local addr_var = ffi.new("uintptr_t[1]")
+	addr_var[0] = getPointer(cdata)
+	return addr_var
+end
+
+function getAddressAsNumber(cdata)
 	if is64bit then
 		return ffi.cast("int64_t", cdata)
 	elseif is32bit then
@@ -66,6 +82,27 @@ function getPointer(cdata)
 	end
 	return nil
 end
+
+function getOffsetPointer(var, offset)
+	if offset < 0 then
+		error("*** ERROR: offset < 0 [getOffsetPointer(var, offset)]")
+	end
+	return ffi.cast("int8_t *", var[offset])
+end
+function getPointer(cdata)
+	local addr_var = ffi.new("uintptr_t[1]")
+	if is64bit then
+		addr_var[0] = ffi.cast("int64_t", cdata)
+	elseif is32bit then
+		addr_var[0] = ffi.cast("int32_t", cdata)
+	end
+	print(cdata, addr_var, addr_var[0])
+	return ffi.cast("int8_t *", addr_var)
+end
+
+	local tmpvar = ffi.new("int8_t[1]")
+	local varptr ffi.cast("int8_t *", var)
+	tmpvar[0] = varptr
 
 function createAddressVariable(cdata)
 	local addr_var = ffi.new("uintptr_t[1]")
@@ -77,9 +114,6 @@ function createBufferVariable(datalen)
 	return ffi.new("int8_t *[?]", datalen)
 end
 
-function getOffsetPointer(cdata, offset)
-	return ffi.cast("int8_t *", getPointer(cdata) + offset)
-end
 ]]
 
 function toHexString(num)

@@ -3,23 +3,27 @@ dofile "util.lua"
 local ffi = require("ffi")
 local C = ffi.C
 
-function sock_errortext(err)
-	if ffi.os == "Windows" then
-		-- sock.WSAGetLastError() --err --ffi.string(ffi.C.gai_strerror(err))
-		local buffer = ffi.new("char[512]")
-		local kernel32 = ffi.load("kernel32");
-		local flags = bit.bor(sock.FORMAT_MESSAGE_IGNORE_INSERTS, sock.FORMAT_MESSAGE_FROM_SYSTEM)
-		kernel32.FormatMessageA(flags, nil, err, 0, buffer, ffi.sizeof(buffer), nil)
-    return string.sub(ffi.string(buffer), 1, -3) -- remove last crlf
-	else
-		return ffi.string(sock.gai_strerror(err))
-	end
+local s
+if isWin then
+	--require "win_socket"
+	s = ffi.load("ws2_32")
+else
+	-- unix
+	s = C
 end
 
 if isWin then
 	--require "win_socket"
-	local s = ffi.load("ws2_32")
-
+	function sock_errortext(err)
+		-- sock.WSAGetLastError() --err --ffi.string(ffi.C.gai_strerror(err))
+		local buffer = ffi.new("char[512]")
+		if not kernel32 then
+			kernel32 = ffi.load("kernel32")
+		end
+		local flags = bit.bor(s.FORMAT_MESSAGE_IGNORE_INSERTS, s.FORMAT_MESSAGE_FROM_SYSTEM)
+		kernel32.FormatMessageA(flags, nil, err, 0, buffer, ffi.sizeof(buffer), nil)
+		return string.sub(ffi.string(buffer), 1, -3) -- remove last crlf
+	end
 	function socket_initialize()
 		local wsadata
 		if is64bit then
@@ -31,9 +35,6 @@ if isWin then
     local err = s.WSAStartup(wVersionRequested, wsadata)
 		wsadata = wsadata[0]
 		return err,wsadata
-	end
-	function socket_shutdown(socket, how)
-		return s.shutdown(socket, how)
 	end
 	function socket_close(socket)
 		return s.closesocket(socket)
@@ -53,51 +54,17 @@ if isWin then
 			error(errtext.."("..tonumber(errnum)..") "..sock_errortext(wsa_err_num))
 		end
 	end
-	function socket_htons(num)
-		return s.htons(num)
-	end
-	function socket_socket(domain, type_, protocol)
-		return s.socket(domain, type_, protocol)
-	end
-	function socket_bind(socket, sockaddr ,addrlen)
-		return s.bind(socket, sockaddr ,addrlen)
-	end
-	function socket_listen(socket, backlog)
-		return s.listen(socket, backlog)
-	end
-	function socket_accept(socket, sockaddr ,addrlen)
-		return s.accept(socket, sockaddr ,addrlen)
-	end
-	function socket_recv(socket, buffer, length, flags)
-		return s.recv(socket, buffer, length, flags)
-	end
-	function socket_send(socket, buffer, length, flags)
-		return s.send(socket, buffer, length, flags)
-	end
-	function socket_getsockopt(socket, level, option_name, option_value, option_len)
-		return s.getsockopt(socket, level, option_name, option_value, option_len)
-	end
-	function socket_setsockopt(socket, level, option_name, option_value, option_len)
-		return s.setsockopt(socket, level, option_name, option_value, option_len)
-	end
-	function socket_getaddrinfo(hostname, servname, hints, res)
-		return s.getaddrinfo(hostname, servname, hints, res)
-	end
-	function socket_getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
-		return s.getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
-	end
 
 else
 	-- unix
-
+	function sock_errortext(err)
+		return ffi.string(C.gai_strerror(err))
+	end
 	function socket_initialize()
 		return 0,nil -- for win compatibilty
 	end
-	function socket_shutdown(socket, how)
-		return C.shutdown(socket, how)
-	end
 	function socket_close(socket)
-		return C.close(socket)
+		return s.close(socket)
 	end
 	function socket_cleanup(socket, errnum, errtext)
 		if socket then
@@ -108,42 +75,47 @@ else
 			error(errtext.."("..tonumber(errnum)..") "..sock_errortext(errnum))
 		end
 	end
-	function socket_htons(num)
-		return C.htons(num)
-	end
-	function socket_socket(domain, type_, protocol)
-		return C.socket(domain, type_, protocol)
-	end
-	function socket_bind(domain, type_, protocol)
-		return C.bind(domain, type_, protocol)
-	end
-	function socket_listen(socket, backlog)
-		return C.listen(socket, backlog)
-	end
-	function socket_accept(socket, sockaddr ,addrlen)
-		return C.accept(socket, sockaddr ,addrlen)
-	end
-	function socket_recv(socket, buffer, length, flags)
-		return C.recv(socket, buffer, length, flags)
-	end
-	function socket_send(socket, buffer, length, flags)
-		return C.send(socket, buffer, length, flags)
-	end
-	function socket_getsockopt(socket, level, option_name, option_value, option_len)
-		return C.getsockopt(socket, level, option_name, option_value, option_len)
-	end
-	function socket_setsockopt(socket, level, option_name, option_value, option_len)
-		return C.setsockopt(socket, level, option_name, option_value, option_len)
-	end
-	function socket_getaddrinfo(hostname, servname, hints, res)
-		return C.getaddrinfo(hostname, servname, hints, res)
-	end
-	function socket_getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
-		return C.getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
-	end
-
 end
 
+function socket_shutdown(socket, how)
+	return s.shutdown(socket, how)
+end
+function socket_htons(num)
+	return s.htons(num)
+end
+function socket_socket(domain, type_, protocol)
+	return s.socket(domain, type_, protocol)
+end
+function socket_bind(socket, sockaddr ,addrlen)
+	return s.bind(socket, sockaddr ,addrlen)
+end
+function socket_listen(socket, backlog)
+	return s.listen(socket, backlog)
+end
+function socket_connect(socket, sockaddr ,address_len)
+	return s.connect(socket, sockaddr ,address_len)
+end
+function socket_accept(socket, sockaddr ,addrlen)
+	return s.accept(socket, sockaddr ,addrlen)
+end
+function socket_recv(socket, buffer, length, flags)
+	return s.recv(socket, buffer, length, flags)
+end
+function socket_send(socket, buffer, length, flags)
+	return s.send(socket, buffer, length, flags)
+end
+function socket_getsockopt(socket, level, option_name, option_value, option_len)
+	return s.getsockopt(socket, level, option_name, option_value, option_len)
+end
+function socket_setsockopt(socket, level, option_name, option_value, option_len)
+	return s.setsockopt(socket, level, option_name, option_value, option_len)
+end
+function socket_getaddrinfo(hostname, servname, hints, res)
+	return s.getaddrinfo(hostname, servname, hints, res)
+end
+function socket_getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
+	return s.getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
+end
 
 --[[
 int l_socket_set_nonblock(LSocketFD sock, bool val) {

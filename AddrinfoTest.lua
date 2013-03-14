@@ -106,6 +106,8 @@ ffi.cdef[[
 	uint16_t htons(uint16_t hostshort);
 	// Socket address conversions END
 
+	int	socket(int domain, int type, int protocol);
+	int	connect(int socket, const struct sockaddr *address, socklen_t address_len);
 ]]
 
 
@@ -120,8 +122,10 @@ if ffi.os == "Windows" then
 		typedef void*			          LPCVOID;
 		typedef char*			          LPTSTR;
 		typedef char*  							va_list;
-		static const int FORMAT_MESSAGE_FROM_SYSTEM = 0x00001000;
-		static const int FORMAT_MESSAGE_IGNORE_INSERTS = 0x00000200;
+		static const int 		FORMAT_MESSAGE_FROM_SYSTEM = 0x00001000;
+		static const int 		FORMAT_MESSAGE_IGNORE_INSERTS = 0x00000200;
+		typedef uintptr_t		SOCKET;
+
 		enum {
 			WSADESCRIPTION_LEN =     256,
 			WSASYS_STATUS_LEN  =     128,
@@ -155,6 +159,7 @@ if ffi.os == "Windows" then
 		);
 		int WSACleanup(void);
 		int WSAGetLastError(void);
+		int closesocket(SOCKET s);
 	]]
 
 	local wsadata
@@ -173,8 +178,12 @@ if ffi.os == "Windows" then
 
 	sock = ffi.load("ws2_32")
 	kernel32 = ffi.load("kernel32") -- used in sock_errortext()
+
 	local err = sock.WSAStartup(wVersionRequested, wsadata)
 else
+	ffi.cdef[[
+		int	close(int fildes);
+	]]
 	sock = C
 end
 
@@ -194,6 +203,13 @@ function createBuffer(datalen)
 	return var,ptr
 end
 -- ===================
+function sock_close(s)
+	if ffi.os == "Windows" then
+		sock.closesocket(s)
+	else
+		sock.close(s)
+	end
+end
 
 function sock_errortext(err)
 	if ffi.os == "Windows" then
@@ -206,6 +222,7 @@ function sock_errortext(err)
 		return ffi.string(sock.gai_strerror(err))
 	end
 end
+-- ===================
 
 --[[
 	// Constants for getaddrinfo()
@@ -230,18 +247,20 @@ end
 	static const int AF_UNIX		= 1;		/* local to host (pipes) */
 	static const int AF_INET		= 2;		/* internetwork: UDP, TCP, etc. */
 ]]
+
 --local res = ffi.new("struct addrinfo")
---local res0 = ffi.cast("struct addrinfo **",res)
+--local res0 = ffi.cast("struct addrinfo **", res)
 local res0 = ffi.new("struct addrinfo*[1]")
 local hints = ffi.new("struct addrinfo")
 
 hints.ai_family = C.AF_INET
 hints.ai_socktype = C.SOCK_STREAM
 hints.ai_protocol = C.IPPROTO_TCP
-hints.ai_flags = bit.bor(0, C.AI_CANONNAME) -- , C.AI_NUMERICHOST
+hints.ai_flags = bit.bor(C.AI_V4MAPPED_CFG, C.AI_CANONNAME) -- , C.AI_NUMERICHOST
 
-local host = "www.google.com" 	--cstr("www.apple.com") --"127.0.0.1" --"www.google.com"
+local host = "www.apple.com" 	--cstr("www.apple.com") --"127.0.0.1" --"www.google.com"
 local serv = "http" --cstr("http")
+print("getaddrinfo flags = "..hints.ai_flags)
 local err = sock.getaddrinfo(host, serv, hints, res0)
 print("ai getaddrinfo err : "..err)
 if err ~= 0 then
@@ -249,6 +268,10 @@ if err ~= 0 then
 	os.exit()
 end
 
+print("res0 :", res0, res0[0])
+
+local cause = ""
+local s = 0
 local ai = res0[0]
 local loop = 1
 while loop > 0 do
@@ -259,35 +282,52 @@ while loop > 0 do
 
 	print("ai: flags, family, sa_len, sa_data     : ", ai.ai_flags, ai.ai_family, ai.ai_socktype, ai.ai_protocol, ai.ai_addrlen)
 	print("ai: canonname, 'canonname'             : ", ai.ai_canonname, "'"..ffi.string(ai.ai_canonname).."'")
-	print("ai: ai_addr, sa_len, sa_family, sa_data: ", ai.ai_addr, ai.ai_addr.sa_len, ai.ai_addr.sa_family, ai.ai_addr.sa_data)
-	local sa = ai.ai_addr --ffi.cast("struct sockaddr *", ai.ai_addr)
-	--sa.sa_family = C.AF_INET  -- does not help to: ai_family not supported
+	local sa = ai.ai_addr
 	print("sa: sa,      sa_len, sa_family, sa_data: ", sa, sa.sa_len ,sa.sa_family, sa.sa_data)
 
 	if sa ~= nil then
-		local bufflen, bufflen2 = C.NI_MAXHOST, C.NI_MAXSERV --4096, 4096
-		local _,hostname = createBuffer(bufflen) --C.NI_MAXHOST)
-		local _,servinfo = createBuffer(bufflen2) --(C.NI_MAXSERV)
+		local bufflen, bufflen2 = C.NI_MAXHOST, C.NI_MAXSERV
+		local _,hostname = createBuffer(bufflen)
+		local _,servinfo = createBuffer(bufflen2)
 
 		print()
-		local flags = bit.bor(C.NI_NUMERICHOST, C.NI_NUMERICSERV, C.NI_NAMEREQD)
+		local flags = bit.bor(C.NI_NUMERICHOST, C.NI_NUMERICSERV)
+		print("getnameinfo flags = "..flags)
 		err = sock.getnameinfo(sa, ffi.sizeof(sa), hostname, bufflen, servinfo, bufflen2, flags)
 		print("getnameinfo err         : "..err.." ("..sock_errortext(err)..")")
-		print("getnameinfo hostname var: ", hostname)
-		print("getnameinfo hostname txt: ", ffi.string(hostname))
-		print("getnameinfo servinfo var: ", servinfo)
-		print("getnameinfo servinfo txt: ", ffi.string(servinfo))
-		print()
-
 		if err == 0 then
-			flags = bit.bor(C.NI_NAMEREQD)
-			err = sock.getnameinfo(sa, ffi.sizeof(sa), hostname, C.NI_MAXHOST, servinfo, C.NI_MAXSERV, flags)
-			print("getnameinfo err         : "..err.." ("..sock_errortext(err)..")")
 			print("getnameinfo hostname var: ", hostname)
 			print("getnameinfo hostname txt: ", ffi.string(hostname))
 			print("getnameinfo servinfo var: ", servinfo)
 			print("getnameinfo servinfo txt: ", ffi.string(servinfo))
+
+			flags = bit.bor(C.NI_NAMEREQD)
+			err = sock.getnameinfo(sa, ffi.sizeof(sa), hostname, C.NI_MAXHOST, servinfo, C.NI_MAXSERV, flags)
+			print()
+			print("getnameinfo err         : "..err.." ("..sock_errortext(err)..")")
+			print("getnameinfo hostname var: ", hostname[0])
+			print("getnameinfo hostname txt: ", ffi.string(hostname[0]))
+			print("getnameinfo servinfo var: ", servinfo[0])
+			print("getnameinfo servinfo txt: ", ffi.string(servinfo[0]))
 		end
+		print()
+
+		-- connect to server
+    s = sock.socket(ai.ai_family, ai.ai_socktype, ai.ai_protocol)
+    if s < 0 then
+      cause = "socket"
+      break
+    end
+
+    if sock.connect(s, ai.ai_addr, ai.ai_addrlen) < 0 then
+      cause = "connect";
+      sock_close(s)
+      s = -1;
+      break
+    else
+      sock_close(s)
+      print("*** connected succesfully to: host="..host..", serv="..serv);
+    end
 		print(" ------------------- ")
 	end
 
@@ -297,6 +337,10 @@ while loop > 0 do
 	else
 		loop = 0
 	end
+end
+
+if (s < 0) then
+	print("*** connect ERROR: "..s..". cause: "..cause)
 end
 
 sock.freeaddrinfo(res0[0])

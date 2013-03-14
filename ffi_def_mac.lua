@@ -344,29 +344,22 @@ ffi.cdef[[
 	static const int 	SOMAXCONN = 128;	// Maximum queue length specifiable by listen.
 	static const int	AI_PASSIVE = 0x00000001; /* get address to use bind() */
 
-	static const int SD_RECEIVE = 0; // Shutdown receive operations.
-	static const int SD_SEND 		= 1; // Shutdown send operations.
-	static const int SD_BOTH 		= 2; // Shutdown both send and receive operations.
-
-	static const int SOL_SOCKET = 0xffff;
-
 	typedef long				ssize_t;	/* byte count or error */
 	typedef uint32_t			socklen_t;
 	typedef	uint8_t			sa_family_t;
 	typedef	uint16_t		in_port_t;
 	typedef	uint32_t		in_addr_t;	/* base type for internet address */
+	struct in_addr {
+		in_addr_t s_addr;
+	};
 
 
 	// Socket address conversions
 	static const int NI_MAXHOST = 1025;
 	static const int NI_MAXSERV = 32;
 
-	struct in_addr {
-		in_addr_t s_addr;
-	};
-
 	struct sockaddr {
-		uint8_t	sa_len;		/* total length */
+		//uint8_t	sa_len;		/* total length */
 		sa_family_t	sa_family;	/* [XSI] address family */
 		char		sa_data[14];	/* [XSI] addr value (actually larger) */
 	};
@@ -379,6 +372,9 @@ ffi.cdef[[
 		struct	in_addr sin_addr;
 		char		sin_zero[8];
 	};
+	int getaddrinfo(const char *hostname, const char *servname, const struct addrinfo *hints, struct addrinfo **res);
+	void freeaddrinfo(struct addrinfo *ai);
+	int getnameinfo(const struct sockaddr *sa, socklen_t salen, char *host, socklen_t hostlen, char *serv, socklen_t servlen, int flags);
 
 	struct addrinfo {
 		int ai_flags;           /* input flags */
@@ -390,12 +386,6 @@ ffi.cdef[[
 		char *ai_canonname;     /* canonical name for service location */
 		struct addrinfo *ai_next; /* pointer to next in list */
 	 };
-
-	int getaddrinfo(const char *hostname, const char *servname, const struct addrinfo *hints, struct addrinfo **res);
-	void freeaddrinfo(struct addrinfo *ai);
-
-	int getnameinfo(const struct sockaddr *sa, socklen_t salen, char *host, socklen_t hostlen, char *serv, socklen_t servlen, int flags);
-
 	const char* gai_strerror(int ecode);
 	uint16_t htons(uint16_t hostshort);
 	// Socket address conversions END
@@ -425,6 +415,13 @@ ffi.cdef[[
 	void	pfctlinput(int, struct sockaddr *);
 	int setsockopt(int socket, int level, int option_name, const void *option_value, socklen_t option_len);
 	int getsockopt(int socket, int level, int option_name, void *restrict option_value, socklen_t *restrict option_len);
+
+
+	static const int SD_RECEIVE = 0; // Shutdown receive operations.
+	static const int SD_SEND 		= 1; // Shutdown send operations.
+	static const int SD_BOTH 		= 2; // Shutdown both send and receive operations.
+
+	static const int SOL_SOCKET = 0xffff;
 
 
 ]]

@@ -1,5 +1,6 @@
---  thread.lua
-dofile "util.lua"
+--  lib_socket.lua
+
+dofile "lib_util.lua"
 local ffi = require("ffi")
 local C = ffi.C
 

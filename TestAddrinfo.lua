@@ -1,6 +1,6 @@
---  AddrinfoTest.lua
+--  TestAddrinfo.lua
 print()
-print(" -- AddrinfoTest.lua start -- ")
+print(" -- TestAddrinfo.lua start -- ")
 print()
 
 local arg = {...}
@@ -256,7 +256,7 @@ local hints = ffi.new("struct addrinfo")
 hints.ai_family = C.AF_INET
 hints.ai_socktype = C.SOCK_STREAM
 hints.ai_protocol = C.IPPROTO_TCP
-hints.ai_flags = bit.bor(C.AI_V4MAPPED_CFG, C.AI_CANONNAME) -- , C.AI_NUMERICHOST
+hints.ai_flags = bit.bor(C.AI_CANONNAME)
 
 local host = "www.apple.com" 	--cstr("www.apple.com") --"127.0.0.1" --"www.google.com"
 local serv = "http" --cstr("http")
@@ -349,5 +349,5 @@ if ffi.os == "Windows" then
 end
 
 print()
-print(" -- AddrinfoTest.lua end -- ")
+print(" -- TestAddrinfo.lua end -- ")
 print()

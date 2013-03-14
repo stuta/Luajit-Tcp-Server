@@ -1,17 +1,17 @@
---  KqueueTest.lua
+--  TestKqueue.lua
 print()
-print(" -- KqueueTest.lua start -- ")
+print(" -- TestKqueue.lua start -- ")
 print()
 
+dofile "lib_kqueue.lua"
 local arg = {...}
-dofile "kqueue.lua"
 local ffi = require("ffi")
 local C = ffi.C
 local bit = require("bit")
 local band = bit.band
 local bor = bit.bor
 
-local filename = arg[1] or "/Users/pasi/svnroot/cpp/MA_Lua/github_repos/Luajit-Tcp-Server/KqueueTest.lua"
+local filename = arg[1] or "/Users/pasi/svnroot/cpp/MA_Lua/github_repos/Luajit-Tcp-Server/TestKqueue.lua"
 print("Kqueue test was copied from: http://julipedia.meroh.net/2004/10/example-of-kqueue.html")
 print("...watching changes for file: ")
 print("   "..filename)
@@ -24,7 +24,7 @@ if isWin then
 
 	local iocp = CreateIoCompletionPort(INVALID_HANDLE_VALUE, 0, 0, 0) -- equals epoll_create
 	iocp = CreateIoCompletionPort(mySocketHandle, iocp, 0, 0) -- equals epoll_ctl(EPOLL_CTL_ADD)
-	
+
 	local o --OVERLAPPED o;
 	while true do
 	local status = GetQueuedCompletionStatus(iocp, number_bytes, key, o, C.INFINITE) --(iocp, &number_bytes, &key, &o, INFINITE)
@@ -32,12 +32,12 @@ if isWin then
       print("do_something()")
     end
   end
-  
+
 else
 	-- OSX, others
 	-- Kqueue test was copied from: http://julipedia.meroh.net/2004/10/example-of-kqueue.html
 	-- https://bitbucket.org/armatys/perun/src/73691238301fe07d6727bda7933901f8bda83258/lua/perun/init.lua
-	
+
 	local kq = C.kqueue()
 	if kq == -1 then
 		error("kqueue")
@@ -57,24 +57,24 @@ else
 		if nev == -1 then
 			error("kevent")
 		elseif nev > 0 then
-		
+
 			flags = band(event[0].fflags, C.NOTE_DELETE)
 			if flags ~= 0 then
 				 print("File deleted")
 				 break
 			end
-		
+
 			flags = bor(band(event[0].fflags, C.NOTE_EXTEND), band(event[0].fflags, C.NOTE_WRITE))
 			if flags ~= 0 then
 				 print("File modified")
-			end 
+			end
 
 			flags = band(event[0].fflags, C.NOTE_ATTRIB)
 			if flags ~= 0 then
 				 print("File attributes modified")
-			end 
+			end
 		else
-			print("not hadled kevent: "..nev)	
+			print("not hadled kevent: "..nev)
 		end
 	end
 
@@ -83,6 +83,6 @@ else
 end
 
 print()
-print(" -- KqueueTest.lua end -- ")
+print(" -- TestKqueue.lua end -- ")
 print()
 

@@ -1,9 +1,9 @@
 print()
-print("-- UtilTest.lua start -- ")
+print("-- TestUtil.lua start -- ")
 print()
 
+dofile "lib_util.lua"
 local arg = {...}
-dofile "util.lua"
 local ffi = require("ffi")
 
 --[[
@@ -14,9 +14,11 @@ function createAddressVariable(cdata)
 function createBufferVariable(datalen)
 function getOffsetPointer(cdata, offset)
 function toHexString(num)
-function waitKeyPressed() 
+function waitKeyPressed()
 function yield())
 function nanosleep(nanosec)
+function processorCoreCount()
+function directory_files(dirpath)
 
 function comma_value(amount, comma)
 function round(val, decimal)
@@ -38,10 +40,10 @@ nanosleep(20)
 timer = seconds(timer)
 print(", time used: "..timer..", key pressed: "..key )
 print()
-	
+
 print("Calling cerr(), will break here, is OK.")
 print()
 cerr() -- will break here
 
-print("-- UtilTest.lua end -- ")
+print("-- TestUtil.lua end -- ")
 print()

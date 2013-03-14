@@ -1,5 +1,6 @@
---  thread.lua
-dofile "util.lua"
+--  lib_thread.lua
+
+dofile "lib_util.lua"
 local ffi = require("ffi")
 local C = ffi.C
 
@@ -44,6 +45,10 @@ function luaStateDelete(luaState)
 	C.lua_close(luaState)
 end
 
+function threadToId(thread)
+	return tonumber(ffi.cast('intptr_t', ffi.cast('void *', thread[0]))) -- is this ok?
+end
+
 if isWin then
 
 	function threadSelf()
@@ -71,9 +76,6 @@ if isWin then
 else
 	-- Mac + others
 	-- Posix threads
-	function threadToId(thread)
-		return tonumber(ffi.cast('intptr_t', ffi.cast('void *', thread[0]))) -- is this ok?
-	end
 
 	function threadSelf()
 		local id = C.pthread_self()

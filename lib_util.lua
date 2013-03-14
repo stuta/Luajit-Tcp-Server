@@ -1,20 +1,24 @@
---  util.lua
+--  lib_util.lua
+
 local ffi = require "ffi"
 local C = ffi.C
 require "bit"
 
 -- global utility
 isWin = (ffi.os == "Windows")
--- isMac = (ffi.os == "OSX")
+isMac = (ffi.os == "OSX")
 is64bit = ffi.abi("64bit")
 is32bit = ffi.abi("32bit")
 if isWin then
 	dofile "ffi_def_win.lua"
+elseif isMac then
+	dofile "ffi_def_mac.lua"
 else
+	-- Linux
 	dofile "ffi_def_mac.lua"
 end
 
--- common Win + OSX: C-functions
+-- common win + osx + linux: C-functions
 ffi.cdef([[
 	char * strerror ( int errnum );
 ]])
@@ -53,16 +57,15 @@ function createBuffer(datalen)
 	return var,ptr
 end
 
-
+local is64bit_l = is64bit  -- do we need a local var for performance ?
 function getOffsetPointer(cdata, offset)
-local address_as_number
-	if is64bit then
+	local address_as_number
+	if is64bit_l then
 		address_as_number = ffi.cast("int64_t", cdata)
 	else --if is32bit then
 		address_as_number = ffi.cast("int32_t", cdata)
-	end
+	end -- is there 16 bit luajit systems?
 	return ffi.cast("int8_t *", address_as_number + offset)
-	--return ffi.cast("int8_t *", getAddressAsNumber(cdata) + offset)
 end
 
 
@@ -131,9 +134,9 @@ end
 if isWin then
 
 	function processorCoreCount()
-		local sysinfo = ffi.new("SYSTEM_INFO[1]")
+		local sysinfo = ffi.new("SYSTEM_INFO")
 		C.GetSystemInfo(sysinfo)
-		print(sysinfo[0].dwNumberOfProcessors)
+		return sysinfo.dwNumberOfProcessors
 	end
 
 	function waitKeyPressed()
@@ -147,7 +150,6 @@ if isWin then
 		ReadConsole( h, &c, 1, &count, NULL );
 		SetConsoleMode( h, mode );
 		]]
-		print( C.STD_INPUT_HANDLE )
 		local h = C.GetStdHandle( C.STD_INPUT_HANDLE )
 		if not h then return 0 end-- not a console
 		local mode = ffi.new("DWORD[1]")
@@ -218,14 +220,16 @@ function get_seconds( multiplier, prevMs )
 
 	if isWin then
 		--  Get the high resolution counter's accuracy.
-		local ticksPerSecond = ffi.new("LARGE_INTEGER")
-		C.QueryPerformanceFrequency (ticksPerSecond)
+		local ticksPerSecond = ffi.new("int64_t[1]")
+		C.QueryPerformanceFrequency(ticksPerSecond)
 
 		--  What time is it?
-		local tick = ffi.new("LARGE_INTEGER")
-		C.QueryPerformanceCounter (tick) -- tick[0] ??
+		local tick = ffi.new("int64_t[1]")
+		C.QueryPerformanceCounter(tick)
 		--  Convert the tick number into the number of seconds since the system was started.
-		returnValue64_c = (tick.QuadPart * 100000) / (ticksPerSecond.QuadPart / 1000) -- time in microseconds
+		returnValue64_c = (tick[0] * 100000) / (ticksPerSecond[0] / 1000)
+		--(tick.QuadPart * 100000) / (ticksPerSecond.QuadPart / 1000)
+		-- time in microseconds
 	else
 		-- OSX, Posix, Linux?
 		-- Use POSIX gettimeofday function to get precise time.
@@ -274,18 +278,34 @@ function get_seconds( multiplier, prevMs )
   return returnValue
 end
 
-function seconds( prevMs )
-  return get_seconds(1, prevMs)
+function seconds(prev_sec)
+  return get_seconds(1, prev_sec)
 end
 
-function milliSeconds(prevMs)
-  return get_seconds(2, prevMs)
+function milliSeconds(prev_millisec)
+  return get_seconds(2, prev_millisec)
 end
 
-function microSeconds( prevMs )
-  return get_seconds(3, prevMs)
+function microSeconds(prev_microsec)
+  return get_seconds(3, prev_microsec)
 end
 
+function directory_files(dirpath)
+	local f
+	if ffi.os == "Windows" then
+		f = io.popen("dir /B "..dirpath)
+	else
+		f = io.popen("ls "..dirpath)
+	end
+	local txt = f:read("*a")
+	local dir = {}
+	for file in string.gmatch(txt, "[^\r\n]+") do
+		dir[#dir+1] = file
+	end
+	return dir
+end
+
+-- === external (borrowed) utilities === --
 
 -- add comma to separate thousands
 function comma_value(amount, comma)
@@ -346,8 +366,6 @@ function format_num(amount, decimal, comma, prefix, neg_prefix)
   return formatted
 end
 
-
--- === external utilities === --
 
 -- http://lua-users.org/wiki/TableSerialization
 --[[

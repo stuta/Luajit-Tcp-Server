@@ -29,16 +29,42 @@ ffi.cdef[[
 
 ]]
 
+-- system functions
+ffi.cdef[[
+	typedef struct _SYSTEM_INFO {
+		union {
+			DWORD  dwOemId;
+			struct {
+				WORD wProcessorArchitecture;
+				WORD wReserved;
+			};
+		};
+		DWORD     dwPageSize;
+		LPVOID    lpMinimumApplicationAddress;
+		LPVOID    lpMaximumApplicationAddress;
+		DWORD_PTR dwActiveProcessorMask;
+		DWORD     dwNumberOfProcessors;
+		DWORD     dwProcessorType;
+		DWORD     dwAllocationGranularity;
+		WORD      wProcessorLevel;
+		WORD      wProcessorRevision;
+	} SYSTEM_INFO, *LPSYSTEM_INFO;
+
+/*
+	typedef struct _SYSTEM_INFO {
+		DWORD dwPageSize;
+	} SYSTEM_INFO, *LPSYSTEM_INFO;
+*/
+	void GetSystemInfo( LPSYSTEM_INFO lpSystemInfo );
+]]
+
 ffi.cdef[[
 	// Windows
 	// win basic functions
 
-	BOOL QueryPerformanceFrequency( // BOOL WINAPI QueryPerformanceFrequency
-  	LARGE_INTEGER *lpFrequency // _Out_  LARGE_INTEGER *lpFrequency
-	);
-	BOOL QueryPerformanceCounter( // BOOL WINAPI QueryPerformanceCounter
-  	LARGE_INTEGER *lpPerformanceCount // _Out_  LARGE_INTEGER *lpPerformanceCount
-	);
+	BOOL QueryPerformanceFrequency(int64_t *lpFrequency);
+	BOOL QueryPerformanceCounter(int64_t *lpPerformanceCount);
+
 	int MultiByteToWideChar(UINT CodePage,
 			DWORD    dwFlags,
 			LPCSTR   lpMultiByteStr, int cbMultiByte,

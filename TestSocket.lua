@@ -1,10 +1,10 @@
---  SocketTest.lua
+--  TestSocket.lua
 print()
-print(" -- SocketTest.lua start -- ")
+print(" -- TestSocket.lua start -- ")
 print()
 
+dofile "lib_socket.lua"
 local arg = {...}
-dofile "socket.lua"
 local ffi = require("ffi")
 local C = ffi.C
 
@@ -210,5 +210,5 @@ socket_cleanup()
 --]]
 
 print()
-print(" -- SocketTest.lua end -- ")
+print(" -- TestSocket.lua end -- ")
 print()

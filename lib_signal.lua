@@ -1,5 +1,6 @@
---  ffi_def_signal.lua
-dofile "util.lua"
+--  lib_signal.lua
+
+dofile "lib_util.lua"
 local ffi = require("ffi")
 local C = ffi.C
 
@@ -110,7 +111,7 @@ function signalHandlerSet(signalToWait)
   sig = ffi.new("int[1]")
   set = ffi.new("sigset_t[1]")
   if C.sigemptyset(set) 				== -1 then cerr() end
-  if signalToWait == 0 then 
+  if signalToWait == 0 then
   	-- wait for all signals
   	for sig=1,31 do
   		if C.sigaddset(set, sig) == -1 then cerr() end
@@ -118,7 +119,7 @@ function signalHandlerSet(signalToWait)
   else
   	if C.sigaddset(set, signalToWait) == -1 then cerr() end
   end
-  
+
   local ret = C.pthread_sigmask(SIG_BLOCK, set, nul)
 	print("pthread_sigmask: "..ret)
 	return sig,set

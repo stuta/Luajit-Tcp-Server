@@ -1,10 +1,10 @@
---  SignalTest.lua
+--  TestSignal.lua
 print()
-print("-- SignalTest.lua start -- ")
+print("-- TestSignal.lua start -- ")
 print()
 
+dofile "lib_signal.lua"
 local arg = {...}
-dofile "signal.lua"
 local ffi = require("ffi")
 local C = ffi.C
 
@@ -21,7 +21,7 @@ end
 
 -- http://developer.apple.com/library/mac/#documentation/Darwin/Reference/ManPages/man2/kevent.2.html
 -- http://mikeash.com/pyblog/friday-qa-2011-04-01-signal-handling.html
--- /System/Library/Frameworks/Kernel.framework/Versions/A/Headers/sys/event.h 
+-- /System/Library/Frameworks/Kernel.framework/Versions/A/Headers/sys/event.h
 -- https://bitbucket.org/armatys/perun/src/8fbf90836865/lua/perun/init.lua
 --[[
 http://pubs.opengroup.org/onlinepubs/000095399/functions/sigwait.html
@@ -53,10 +53,10 @@ if prsToSignal == 0 then
 		i = i + 1
     signalWait(set, sig)
     if sig[0] == SIGUSR1 then
-    	if i < 10 or i % 5000 == 0 then 
+    	if i < 10 or i % 5000 == 0 then
 				io.write(format_num(i, 0)..". *** Got SIGUSR1 ***\n") -- io.write is jitted, print() isn't
 			end
-		else 
+		else
 			io.write(" *** Got unexpected signal: "..sig[0]..". "..signalName(sig[0]).." ***\n")
     	io.flush()
 			break
@@ -73,7 +73,7 @@ else
 		end
 		signalSend(prsToSignal, SIGUSR1)
 		yield() --yield() --nanosleep(200) --	sleep(0)
-	end 
+	end
 end
 
 local timeUsed = seconds(timer)
@@ -85,10 +85,10 @@ print(" ..for loop: " .. format_num( signalSendCount/timeUsed, 0 ) .. " loop / s
 print(" ..latency : " .. format_num( (timeUsed*1000*1000*1000) / signalSendCount, 0 ) .. " ns / msg")
 
 if useProfilier then
-	ProFi:writeReport("SignalTestReport.txt")
-	os.execute("edit SignalTestReport.txt") -- edit needs win version
+	ProFi:writeReport("TestSignalReport.txt")
+	os.execute("edit TestSignalReport.txt") -- edit needs win version
 end
 
 print()
-print("-- SignalTest.lua end -- ")
+print("-- TestSignal.lua end -- ")
 print()

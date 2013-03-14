@@ -1,19 +1,19 @@
---  SignalTest_bad.lua
+--  TestSignal_bad.lua
 
 --[[
 	NOTE!
 	- this code crashes after few thousand signals because of re-entrant problems in signalHandler()
-	- see: 
+	- http://mikeash.com/pyblog/friday-qa-2011-04-01-signal-handling.html
 ]]
 
 print()
-print(" -- SignalTest_bad.lua start -- ")
+print(" -- TestSignal_bad.lua start -- ")
 print()
 
+dofile "lib_signal.lua"
 local arg = {...}
 local ffi = require("ffi")
 local C = ffi.C
-dofile "signal.lua"
 
 local signalCatchCount = 0
 local prsToSignal = tonumber(arg[1]) or 0
@@ -57,11 +57,11 @@ else
 		print("signalSend(prsToSignal, SIGUSR1) start: "..i)
 		signalSend(prsToSignal, SIGUSR1)
 		yield() --nanosleep(1) --	sleep(0)
-	end 
+	end
 	--C.kill(prsToSignal, SIGINT)
 end
 
 print()
-print(" -- SignalTest_bad.lua end -- ")
+print(" -- TestSignal_bad.lua end -- ")
 print()
 

@@ -1,5 +1,6 @@
---  ffi_def_thread.lua
-dofile "util.lua"
+--  lib_kqueue.lua
+
+dofile "lib_util.lua"
 local ffi = require("ffi")
 local C = ffi.C
 local bit = require("bit")
@@ -94,5 +95,5 @@ close(kq);
 close(f);
 return EXIT_SUCCESS;
 ]]
- 
+
 --return 0 --EXIT_SUCCESS

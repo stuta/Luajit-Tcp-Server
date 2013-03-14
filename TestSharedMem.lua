@@ -1,18 +1,19 @@
---  SharedMemTest.lua
+--  TestSharedMem.lua
+
 print()
-print(" -- SharedMemTest.lua start -- ")
+print(" -- TestSharedMem.lua start -- ")
 print()
 
+dofile "lib_shared_mem.lua"
 local arg = {...}
 local ffi = require("ffi")
 local C = ffi.C
-dofile "shared_mem.lua"
 
 local filename
 if isWin then
-	filename = "C:\\\\sharedMemTest.txt"
+	filename = "C:\\\\TestSharedMem.txt"
 else
-	filename = "./sharedMemTest.txt"
+	filename = "./TestSharedMem.txt"
 	--/Users/pasi/svnroot/cpp/MA_Lua/github_repos/Luajit-Tcp-Server/shmfile.txt
 end
 local size = 4096
@@ -62,6 +63,6 @@ end
 sharedMemoryDelete(filename)
 
 print()
-print(" -- SharedMemTest.lua end -- ")
+print(" -- TestSharedMem.lua end -- ")
 print()
 

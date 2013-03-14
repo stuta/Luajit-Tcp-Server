@@ -1,10 +1,10 @@
---  ThreadTest.lua
+--  TestThread.lua
 print()
-print(" -- ThreadTest.lua start -- ")
+print(" -- TestThread.lua start -- ")
 print()
 
+dofile "lib_thread.lua"
 local arg = {...}
-dofile "thread.lua"
 local ffi = require("ffi")
 local C = ffi.C
 --dofile "ffi_def_signal.lua"
@@ -38,9 +38,9 @@ print("Main thread_id: "..thread_id..", os: "..ffi.os)
 
 -- define thread runner code, it MUST contain "thread_entry_address" -global variable
 luaCode = [[
-	dofile "thread.lua"
+	dofile "lib_thread.lua"
 	local ffi = require("ffi")
-	
+
 	local function thread_entry(arg_ptr)
 		-- local arg = tonumber(ffi.cast('intptr_t', ffi.cast('void *', arg_ptr))) -- if arg is number
 		local arg = ffi.string(arg_ptr) -- if arg is cstr
@@ -56,14 +56,14 @@ luaCode = [[
 			threadExit(12)
 		end
 	end
-	
-	thread_entry_address = threadFuncToAddress(thread_entry) 
+
+	thread_entry_address = threadFuncToAddress(thread_entry)
 	-- threadFuncToAddress() returns thread_entry-function address as Lua number
-	-- thread_entry func can be named as you please, but "thread_entry_address" global 
+	-- thread_entry func can be named as you please, but "thread_entry_address" global
 	-- variable must exist (or change also luaStateCreate() -function)
-	
+
 ]]
-	
+
 -- create a separate Lua state first
 -- define a callback function in *that* created state
 local luaStateA,func_ptr = luaStateCreate(luaCode)
@@ -78,11 +78,11 @@ local threadBId = threadToId(threadB)
 print("threadB: "..threadBId.." funcPtr: "..tostring(func_ptr))
 
 local function signalSend(prsToSignal, signal)
-	
+
 end
 
 local function signalWait(signal)
-	
+
 end
 
 if false then
@@ -104,13 +104,13 @@ else
 		print("signalSend(prsToSignal, SIGUSR1) start: "..i)
 		signalSend(prsToSignal, SIGUSR1)
 		yield() --nanosleep(1) --	sleep(0)
-	end 
+	end
 	--C.kill(prsToSignal, SIGINT)
 end
 end
 
 
--- we MUST call either threadJoin() or do something (sleep) before lua_close 
+-- we MUST call either threadJoin() or do something (sleep) before lua_close
 -- or we get Segmentation fault: 11
 -- sleep(1) is smallest enough in this case because thread_entry func is fast
 
@@ -127,6 +127,6 @@ luaStateDelete(luaStateB) -- if Lua state is running you WILL get crash
 print("luaStateDelete() - end")
 
 print()
-print(" -- ThreadTest.lua end -- ")
+print(" -- TestThread.lua end -- ")
 print()
 

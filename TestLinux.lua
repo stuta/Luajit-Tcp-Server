@@ -1,11 +1,9 @@
---  LinuxTest.lua
+--  TestLinux.lua
 print()
-print(" -- LinuxTest.lua start -- ")
+print(" -- TestLinux.lua start -- ")
 print()
 
 local arg = {...}
---dofile "shared_mem.lua"
---dofile "socket.lua"
 local ffi = require("ffi")
 local C = ffi.C
 
@@ -38,9 +36,9 @@ typedef struct {
 			  void *(*__pshared) (void *p1)
 			  , void *);
 			  */
-			  void *mmap(void *addr, size_t length, int prot, int flags,
-                  int fd, off_t offset);
-       int munmap(void *addr, size_t length);
+
+	void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset);
+	int munmap(void *addr, size_t length);
 ]]
 print("  -- C.gai_strerror(-5): "..ffi.string(C.gai_strerror(-5)))
 print("  -- C.pthread_self()  : "..tonumber(C.pthread_self()))
@@ -77,6 +75,6 @@ pthread.shm_unlink("asd")
 ]]
 
 print()
-print(" -- LinuxTest.lua end -- ")
+print(" -- TestLinux.lua end -- ")
 print()
 

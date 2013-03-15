@@ -47,7 +47,7 @@ luaCode = [[
 		local thread_id = threadSelf()
 		print("Hello from another Lua state, arg: "..arg..", thread_id: "..thread_id)
 		repeat
-			sleep(1) --yield() --nanosleep(20)
+			sleep(1) --yield() --nanosleep(0, 20)
 		until true
 		print("Quit Lua state, arg: "..arg..", thread_id: "..thread_id)
 		if arg == "Argument for threadA" then
@@ -103,7 +103,7 @@ else
 	for i=1,signalSendCount do
 		print("signalSend(prsToSignal, SIGUSR1) start: "..i)
 		signalSend(prsToSignal, SIGUSR1)
-		yield() --nanosleep(1) --	sleep(0)
+		yield() --nanosleep(0, 1) --	sleep(0)
 	end
 	--C.kill(prsToSignal, SIGINT)
 end

@@ -72,7 +72,7 @@ else
 			io.flush()
 		end
 		signalSend(prsToSignal, SIGUSR1)
-		yield() --yield() --nanosleep(200) --	sleep(0)
+		yield() --yield() --nanosleep(0, 200) --	sleep(0)
 	end
 end
 

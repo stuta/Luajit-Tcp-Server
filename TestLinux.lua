@@ -14,7 +14,7 @@ ffi.cdef[[
 	pthread_t pthread_self(void);
 
 	// extern int shm_open
-	extern int 		shm_unlink(const char *name);
+	int 		shm_unlink(const char *name);
 	const char* gai_strerror(int ecode);
   void *dlopen(const char *filename, int flag);
 	void      pthread_exit(void *);
@@ -47,8 +47,16 @@ print("  -- C.pthread_exit(11): ")
 local arg_c = ffi.cast("void *", 11)
 C.pthread_exit(arg_c)
 ]]
+
+--print("  -- C.mmap(nil, 4096, 0, 0, nil, 0)")
+--local sharedMemory = shm_open("shm_area.txt", O_CREAT | O_EXCL, S_IRUSR | S_IWUSR)
+
 print("  -- C.mmap(nil, 4096, 0, 0, nil, 0)")
-local sharedMemory = C.mmap(nil, 4096, 0, 0, 0, 0)
+local mmapArea = C.mmap(nil, 4096, 0, 0, 0, 0)
+
+print("  -- C.munmap(sharedMemory, 4096)")
+local i = C.munmap(mmapArea, 4096)
+
 print("  -- C.shm_unlink('asd')")
 local arg_c = C.shm_unlink("asd")
 

@@ -16,7 +16,7 @@ function getOffsetPointer(cdata, offset)
 function toHexString(num)
 function waitKeyPressed()
 function yield())
-function nanosleep(nanosec)
+function nanosleep(sec, nanosec)
 function processorCoreCount()
 function directory_files(dirpath)
 
@@ -35,12 +35,26 @@ io.write("press any key to start: ")
 local key = waitKeyPressed()
 print()
 io.write("start: "..timer)
-sleep(1)
-nanosleep(20)
+nanosleep(0, 200)
 timer = seconds(timer)
-print(", time used: "..timer..", key pressed: "..key )
-print()
+print(", time used: "..timer..", key pressed: '"..key.."'")
 
+local str_c = cstr("Processor core count: ")
+local count = processorCoreCount()
+print( ffi.string(str_c)..count )
+
+print("sleep(2*1000)")
+sleep(2*1000)
+
+print("nanosleep(1, 999999999)")
+nanosleep(1, 999999991) --2*1000*1000)
+
+print("Calling cerr(), will break here, is OK.")
+print()
+cerr() -- will break here
+
+print("-- TestUtil.lua end -- ")
+print()
 print("Calling cerr(), will break here, is OK.")
 print()
 cerr() -- will break here

@@ -171,8 +171,9 @@ if isWin then
     C.Sleep(millisec)
   end
 
-	function nanosleep(nanosec)
-		local millisec = math.floor(nanosec/1000)
+	function nanosleep(sec, nanosec)
+		local millisec = sec * 1000
+		millisec = math.floor(millisec + (nanosec/1000))
 		--if millisec < 1 then
 		--	millisec = 0 -- Sleep(0), best we can do
 		--end
@@ -205,8 +206,13 @@ else -- OSX, Posix, Linux?
   	C.usleep (microseconds)
   end
 
-	function nanosleep(nanosec)
-		local t = ffi.new("struct timespec", {tv_sec = 0, tv_nsec = nanosec})
+	function nanosleep(sec, nanosec)
+		if nanosec > 999999999 then
+			print(" *** ERR: max nanosec to sleep is 999999999")
+			nanosec = 999999999
+		end
+		local t = ffi.new("struct timespec", {tv_sec = sec, tv_nsec = nanosec})
+		-- The value of the nanoseconds field must be in the range 0 to 999999999.
 		return C.nanosleep(t, nil) -- assert(C.nanosleep(t, nil) == 0)
 	end
 

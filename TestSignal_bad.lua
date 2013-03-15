@@ -56,7 +56,7 @@ else
 	for i=1,signalSendCount do
 		print("signalSend(prsToSignal, SIGUSR1) start: "..i)
 		signalSend(prsToSignal, SIGUSR1)
-		yield() --nanosleep(1) --	sleep(0)
+		yield() --nanosleep(0, 1) --	sleep(0)
 	end
 	--C.kill(prsToSignal, SIGINT)
 end

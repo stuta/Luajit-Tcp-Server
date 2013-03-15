@@ -11,11 +11,7 @@ All code will be OSX + Windows + Linux. Contributios are welcome.
 
 ##### Test status
 
-Linux tests were done with Xubuntu that does not have rtlib in it. Next tests will be done in Mint 14.
-
-In Linux install jl.sh, read instructions from the file. 
-
-create shortcut:
+Linux tests were done in great ""Linux Mint 14 MATE"" 32-bit, 400 mb ram is enough in VirtualBox. In Linux install file jl.sh, read instructions from the file. 
 
 __Works__:
 
@@ -23,15 +19,14 @@ __Works__:
   * TestKqueue: osx
   * TestLinux: osx + linux (with lj.sh)
   * TestSharedMem: osx + win 
-  * TestSignal: osx
+  * TestSignal: osx + linux ("Bad system call"" with many signals)
   * TestSocket: osx + win
   * TestThread: osx, linux, win soon
-  	* linux: PANIC: unprotected error in call to Lua API (?)
-  * TestUtil: osx + win
+  	* return values disabled
+  * TestUtil: osx + win + linux
 
 __Current issues__:
 
-  - LinuxTest.lua:55: "undefined symbol: shm_unlink"
   - AddrinfoTest.lua
   	- what is correct way to call **data parameters?
   	- getaddrinfo parameters are mystery to me

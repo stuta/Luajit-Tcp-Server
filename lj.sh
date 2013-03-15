@@ -5,5 +5,5 @@ LD_PRELOAD=/usr/lib/i386-linux-gnu/librt.so luajit $*
 # after copying this file run "chmod +x ./lj.sh"
 # after installing luajit run: 
 # sudo ln -s /usr/local/bin/lj path_to_this_file/lj.sh
-# example: sudo ln -s /usr/local/bin/lj ~/Documents/lua/lj.sh
+# example: sudo ln ~/Documents/lua/lj.sh -s /usr/local/bin/lj
 # then instead of "luajit myprogram.lua" run "lj myprogram.lua"

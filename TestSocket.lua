@@ -41,6 +41,7 @@ local on_c = ffi.cast("char *",on)
 print("on[0]", on[0])
 local rc = socket_setsockopt(ListenSocket, C.SOL_SOCKET, C.SO_REUSEADDR, on_c, ffi.sizeof(on))
 
+-- FIX: with this code: http://beej.us/guide/bgnet/output/html/multipage/syscalls.html#bind
 local addr = ffi.new("struct sockaddr_in")
 addr.sin_family = C.AF_INET
 addr.sin_addr.s_addr = C.INADDR_ANY -- does not work in win without changing in_addr.S_addr to in_addr.s_addr

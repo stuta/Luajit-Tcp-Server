@@ -77,7 +77,7 @@ local threadAId = threadToId(threadA)
 print("threadA: "..threadAId..", funcPtr: "..tostring(func_ptr))
 
 sleep(1)
-
+print()
 local luaStateB,func_ptr = luaStateCreate(luaCode)
 local threadB = luaThreadCreate(func_ptr, cstr("Argument for threadB"))
 local threadBId = threadToId(threadB)

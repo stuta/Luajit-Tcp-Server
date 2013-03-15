@@ -46,13 +46,10 @@ function luaStateDelete(luaState)
 end
 
 function threadToId(thread)
-	local var
-	if isMac then
-		var = thread[0]
-	else --isLinux
-		var = thread
+	if isLinux then
+		return tonumber(thread)
 	end
-	return tonumber(ffi.cast('intptr_t', ffi.cast('void *', var))) -- is this ok?
+	return tonumber(ffi.cast('intptr_t', ffi.cast('void *', thread[0]))) -- is this ok?
 end
 
 
@@ -97,7 +94,7 @@ else
 		local arg_c = ffi.cast("void *", arg) -- necessary if arg is not cstr, should we we check arg type?
 		local res = C.pthread_create(thread_c, nil, ffi.cast("thread_func", func_ptr), arg_c)
 		assert(res == 0)
-		return thread_c -- thread_c,threadToId(thread_c)
+		return thread_c[0] -- thread_c,threadToId(thread_c)
 	end
 
 	function threadJoin(thread_id)

@@ -44,7 +44,7 @@ end
 timer = seconds()
 if useProfilier then ProFi:start() end
 if prsToSignal == 0 then
-	--signalHandlerSet(set, SIGUSR1)
+	--signalHandlerSet(set, SIGUSR2)
 	local sig,set = signalHandlerSet(0) -- 0 = wait for all signals or ctrl-c will not work
 	print("signal repeat start")
 	local i = 0
@@ -52,9 +52,9 @@ if prsToSignal == 0 then
 	repeat
 		i = i + 1
     signalWait(set, sig)
-    if sig[0] == SIGUSR1 then
+    if sig[0] == SIGUSR1 or sig[0] == SIGUSR2 then
     	if i < 10 or i % 5000 == 0 then
-				io.write(format_num(i, 0)..". *** Got SIGUSR1 ***\n") -- io.write is jitted, print() isn't
+				io.write(format_num(i, 0)..". *** Got "..signalName(sig[0]).." ***\n") -- io.write is jitted, print() isn't
 			end
 		else
 			io.write(" *** Got unexpected signal: "..sig[0]..". "..signalName(sig[0]).." ***\n")
@@ -63,15 +63,15 @@ if prsToSignal == 0 then
     end
 	until false
 	print("signal repeat after")
-	signalSend(pid, SIGUSR1) -- will cause 'own' signalCatch() to run
+	signalSend(pid, SIGUSR2) -- will cause 'own' signalCatch() to run
 	print("signal end")
 else
 	for i=1,signalSendCount do
 		if i % (signalSendCount/5) == 0 or i <= 2 or i > signalSendCount - 2 then
-			io.write("signalSend(prsToSignal, SIGUSR1) start: "..format_num(i, 0).."\n")
+			io.write("signalSend(prsToSignal, SIGUSR2) start: "..format_num(i, 0).."\n")
 			io.flush()
 		end
-		signalSend(prsToSignal, SIGUSR1)
+		signalSend(prsToSignal, SIGUSR2)
 		yield() --yield() --nanosleep(0, 200) --	sleep(0)
 	end
 end

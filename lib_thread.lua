@@ -46,8 +46,15 @@ function luaStateDelete(luaState)
 end
 
 function threadToId(thread)
-	return tonumber(ffi.cast('intptr_t', ffi.cast('void *', thread[0]))) -- is this ok?
+	local var
+	if isMac then
+		var = thread[0]
+	else --isLinux
+		var = thread
+	end
+	return tonumber(ffi.cast('intptr_t', ffi.cast('void *', var))) -- is this ok?
 end
+
 
 if isWin then
 
@@ -94,15 +101,20 @@ else
 	end
 
 	function threadJoin(thread_id)
-		local return_val = ffi.new("int[1]")
+		local return_val = ffi.new("int[1]") -- ffi.cast('intptr_t'
 		local return_ptr = ffi.cast('void *', return_val)
 		local res = C.pthread_join(thread_id[0], return_ptr) -- and IN thread C.pthread_exit(100)
 		return return_val[0]
 	end
 
 	function threadExit(return_val)
-		local return_ptr = ffi.cast('void *', return_val)
-		ffi.C.pthread_exit(return_ptr)
+		if false then
+		print()
+		print(" *** ERR: threadExit(return_val) is not supported, in Linux it will cause 'PANIC: unprotected error in call to Lua API (?)'")
+		print()
+			local return_ptr = ffi.cast('void *', return_val)
+			C.pthread_exit(return_ptr)
+		end
 	end
 
 	--[[

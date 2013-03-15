@@ -26,9 +26,9 @@ function format_num(amount, decimal, comma, prefix, neg_prefix)
 function table.show(t, name, indent)
 ]]
 
-local str_c = cstr("Processor core count: ")
-local count = processorCoreCount()
-print( ffi.string(str_c)..count )
+local str_c = cstr("Processor core count (configured, online): ")
+local count,online = processorCoreCount()
+print( ffi.string(str_c)..count..", "..online )
 
 local timer = seconds()
 io.write("press any key to start: ")
@@ -37,15 +37,11 @@ print()
 io.write("start: "..timer)
 nanosleep(0, 200)
 timer = seconds(timer)
-print(", time used: "..timer..", key pressed: '"..key.."'")
-
-local str_c = cstr("Processor core count: ")
-local count = processorCoreCount()
-print( ffi.string(str_c)..count )
-
+print(", time used: "..timer)
+print()
+print("key pressed: '"..key.."'")
 print("sleep(2*1000)")
 sleep(2*1000)
-
 print("nanosleep(1, 999999999)")
 nanosleep(1, 999999991) --2*1000*1000)
 

@@ -45,16 +45,20 @@ luaCode = [[
 		-- local arg = tonumber(ffi.cast('intptr_t', ffi.cast('void *', arg_ptr))) -- if arg is number
 		local arg = ffi.string(arg_ptr) -- if arg is cstr
 		local thread_id = threadSelf()
-		print("Hello from another Lua state, arg: "..arg..", thread_id: "..thread_id)
+		print(" ... Hello from another Lua state, arg: "..arg..", thread_id: "..thread_id)
 		repeat
-			sleep(1) --yield() --nanosleep(0, 20)
+			--sleep(100) --yield() --nanosleep(0, 20)
 		until true
-		print("Quit Lua state, arg: "..arg..", thread_id: "..thread_id)
+		print(" ... Quit Lua state, arg: "..arg..", thread_id: "..thread_id)
 		if arg == "Argument for threadA" then
 			threadExit(51)
+			-- ??not supported in linux will cause
+			-- 'PANIC: unprotected error in call to Lua API (?)'
 		else
 			threadExit(12)
 		end
+		-- it is better to let Lua state do it's dying in it's own phase
+		-- if you need return value then use some other method (shared mem/variable?)
 	end
 
 	thread_entry_address = threadFuncToAddress(thread_entry)
@@ -72,6 +76,8 @@ local threadA = luaThreadCreate(func_ptr, cstr("Argument for threadA"))
 local threadAId = threadToId(threadA)
 print("threadA: "..threadAId..", funcPtr: "..tostring(func_ptr))
 
+sleep(1)
+
 local luaStateB,func_ptr = luaStateCreate(luaCode)
 local threadB = luaThreadCreate(func_ptr, cstr("Argument for threadB"))
 local threadBId = threadToId(threadB)
@@ -86,33 +92,29 @@ local function signalWait(signal)
 end
 
 if false then
-if prsToSignal == 0 then
-	print("signal wait repeat start")
-	signalHandlerSet(SIGUSR1, signalHandler)
-	local i = 0
-	repeat
-		i = i + 1
-		print("signalHandlerSet() start: "..i)
-		--print("signalPause()")
-		signalPause()
-	until false
-	print("signal repeat after")
-	print("signal end")
-else
-	print("signal send repeat start")
-	for i=1,signalSendCount do
-		print("signalSend(prsToSignal, SIGUSR1) start: "..i)
-		signalSend(prsToSignal, SIGUSR1)
-		yield() --nanosleep(0, 1) --	sleep(0)
+	if prsToSignal == 0 then
+		print("signal wait repeat start")
+		signalHandlerSet(SIGUSR1, signalHandler)
+		local i = 0
+		repeat
+			i = i + 1
+			print("signalHandlerSet() start: "..i)
+			--print("signalPause()")
+			signalPause()
+		until false
+		print("signal repeat after")
+		print("signal end")
+	else
+		print("signal send repeat start")
+		for i=1,signalSendCount do
+			print("signalSend(prsToSignal, SIGUSR1) start: "..i)
+			signalSend(prsToSignal, SIGUSR1)
+			yield() --nanosleep(0, 1) --	sleep(0)
+		end
+		--C.kill(prsToSignal, SIGINT)
 	end
-	--C.kill(prsToSignal, SIGINT)
-end
 end
 
-
--- we MUST call either threadJoin() or do something (sleep) before lua_close
--- or we get Segmentation fault: 11
--- sleep(1) is smallest enough in this case because thread_entry func is fast
 
 --local ret = threadJoin(threadB) -- and IN thread threadExit(12)
 --print("threadJoin(threadB): "..ret)
@@ -122,9 +124,14 @@ end
 
 print("luaStateDelete() - start")
 sleep(10)
+-- we MUST call either threadJoin() or do something (sleep) before lua_close
+-- or we get Segmentation fault: 11
+-- sleep(1) is smallest enough in this case because thread_entry func is fast
+
 luaStateDelete(luaStateA) -- Destroys all objects in the given Lua state
 luaStateDelete(luaStateB) -- if Lua state is running you WILL get crash
 print("luaStateDelete() - end")
+
 
 print()
 print(" -- TestThread.lua end -- ")

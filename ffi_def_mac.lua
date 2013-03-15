@@ -12,9 +12,19 @@ ffi.cdef[[
 	typedef int32_t	suseconds_t;
 ]]
 
+-- util
+if isLinux then
+  ffi.cdef[[
+    static const int _SC_NPROCESSORS_CONF = 83; // for sysconf()
+    static const int _SC_NPROCESSORS_ONLN = 84;
+  ]]
+elseif isMac then
+  ffi.cdef[[
+    static const int _SC_NPROCESSORS_CONF = 57; // for sysconf()
+    static const int _SC_NPROCESSORS_ONLN = 58;
+  ]]
+end
 ffi.cdef[[
-	static const int _SC_NPROCESSORS_ONLN = 58; // for sysconf()
-
 		// http://www.opensource.apple.com/source/xnu/xnu-1456.1.26/bsd/i386/_types.h
 	struct 	timeval {
              time_t       tv_sec;   /* seconds since Jan. 1, 1970 */
@@ -29,7 +39,7 @@ ffi.cdef[[
 	long		sysconf(int name);
 ]]
 
--- ffi_def_shared_mem.lua
+-- shared_mem
 ffi.cdef[[
 	int 		shm_open(const char *name, int oflag, mode_t mode); // The parameter "mode_t mode" is optional.
 	// int 		shm_open(const char *name, int oflag);
@@ -46,35 +56,65 @@ ffi.cdef[[
   int 		mprotect(void*, size_t, int);
 ]]
 
---  ffi_def_thread.lua
+--  thread.lua
+
+if isLinux then
+  if ffi.arch == "x64" then
+		ffi.cdef[[
+				static const int __SIZEOF_PTHREAD_ATTR_T = 56;
+		]]
+  else
+		ffi.cdef[[
+				static const int __SIZEOF_PTHREAD_ATTR_T = 36;
+		]]
+  end
+	ffi.cdef[[
+	typedef uint64_t pthread_t;
+
+	typedef union {
+		int8_t __size[__SIZEOF_PTHREAD_ATTR_T];
+		int64_t __align;
+	} pthread_attr_t;
+	]]
+elseif isMac then
+	ffi.cdef[[
+		static const int __PTHREAD_SIZE__ = 1168;
+		struct __darwin_pthread_handler_rec
+		{
+			void           (*__routine)(void *);	/* Routine to call */
+			void           *__arg;			/* Argument to pass */
+			struct __darwin_pthread_handler_rec *__next;
+		};
+		struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec  *__cleanup_stack
+				; char __opaque[__PTHREAD_SIZE__]; };
+		typedef struct _opaque_pthread_t *__darwin_pthread_t;
+
+		typedef __darwin_pthread_t		pthread_t; // OSX
+		//typedef unsigned long int pthread_t;  // Linux?
+
+		static const int __PTHREAD_ATTR_SIZE__ = 56;
+		struct _opaque_pthread_attr_t { long __sig; char __opaque[__PTHREAD_ATTR_SIZE__]; };
+		typedef struct _opaque_pthread_attr_t __darwin_pthread_attr_t;
+		typedef __darwin_pthread_attr_t		pthread_attr_t;
+	]]
+end
+
+
+--  thread.lua
 ffi.cdef[[
-	static const int __PTHREAD_SIZE__ = 1168;
-	struct __darwin_pthread_handler_rec
-	{
-		void           (*__routine)(void *);	/* Routine to call */
-		void           *__arg;			/* Argument to pass */
-		struct __darwin_pthread_handler_rec *__next;
-	};
-	struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec  *__cleanup_stack
-			; char __opaque[__PTHREAD_SIZE__]; };
-	typedef struct _opaque_pthread_t *__darwin_pthread_t;
-
-	typedef __darwin_pthread_t		pthread_t; // OSX
-	//typedef unsigned long int pthread_t;  // Linux?
-
-	static const int __PTHREAD_ATTR_SIZE__ = 56;
-	struct _opaque_pthread_attr_t { long __sig; char __opaque[__PTHREAD_ATTR_SIZE__]; };
-	typedef struct _opaque_pthread_attr_t __darwin_pthread_attr_t;
-	typedef __darwin_pthread_attr_t		pthread_attr_t;
-
-	int       pthread_create(pthread_t * __restrict,
-                         const pthread_attr_t * __restrict,
-                         void *(*)(void *),
-                         void * __restrict);
+	int pthread_create(
+		pthread_t *thread,
+		const pthread_attr_t *attr,
+		void *(*start_routine)(void *),
+		void *arg
+	);
+	int pthread_join(
+		pthread_t thread,
+		void **value_ptr
+	);
 	int       pthread_detach(pthread_t );
 	int       pthread_equal(pthread_t , pthread_t );
 	void      pthread_exit(void *);
-	int       pthread_join(pthread_t , void **);
 	pthread_t pthread_self(void);
 
 	/* from: https://github.com/hnakamur/luajit-examples/blob/master/pthread/thread1.lua */

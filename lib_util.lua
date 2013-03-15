@@ -7,6 +7,7 @@ require "bit"
 -- global utility
 isWin = (ffi.os == "Windows")
 isMac = (ffi.os == "OSX")
+isLinux = (ffi.os == "Linux")
 is64bit = ffi.abi("64bit")
 is32bit = ffi.abi("32bit")
 if isWin then
@@ -136,7 +137,7 @@ if isWin then
 	function processorCoreCount()
 		local sysinfo = ffi.new("SYSTEM_INFO")
 		C.GetSystemInfo(sysinfo)
-		return sysinfo.dwNumberOfProcessors
+		return sysinfo.dwNumberOfProcessors,sysinfo.dwNumberOfProcessors -- conf and online? = hyperthreding
 	end
 
 	function waitKeyPressed()
@@ -184,8 +185,9 @@ else -- OSX, Posix, Linux?
 
 	function processorCoreCount()
 		-- http://www.gnu.org/software/libc/manual/html_node/Processor-Resources.html
-		local count = C.sysconf(C._SC_NPROCESSORS_ONLN) -- returns int64_t
-		return tonumber(count)
+		local countConfigured = C.sysconf(C._SC_NPROCESSORS_CONF)
+		local countOnline = C.sysconf(C._SC_NPROCESSORS_ONLN) -- returns int64_t
+		return tonumber(countConfigured),tonumber(countOnline)
 	end
 
 	function waitKeyPressed()

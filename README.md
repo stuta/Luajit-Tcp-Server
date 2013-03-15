@@ -13,17 +13,16 @@ All code will be OSX + Windows + Linux. Contributios are welcome.
 
 Linux tests were done with Xubuntu that does not have rtlib in it. Next tests will be done in Mint 14.
 
-Build Linux Luajit:
-export LIBS="-lpthread -lrt";
-echo $LIBS;
-make clean; make; sudo make install;
+In Linux install jl.sh, read instructions from the file. 
+
+create shortcut:
 
 __Works__:
 
   * TestAddrinfo: linux (partially)
   * TestKqueue: osx
-  * TestLinux: osx
-  * TestSharedMem: osx + win
+  * TestLinux: osx + linux (with lj.sh)
+  * TestSharedMem: osx + win 
   * TestSignal: osx
   * TestSocket: osx + win
   * TestThread: osx, linux, win soon

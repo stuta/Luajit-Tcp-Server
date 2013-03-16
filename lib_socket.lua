@@ -15,14 +15,15 @@ end
 
 if isWin then
 	--require "win_socket"
-	function sock_errortext(err)
+	function socket_errortext(err)
 		-- sock.WSAGetLastError() --err --ffi.string(ffi.C.gai_strerror(err))
 		local buffer = ffi.new("char[512]")
 		if not kernel32 then
 			kernel32 = ffi.load("kernel32")
 		end
 		local flags = bit.bor(s.FORMAT_MESSAGE_IGNORE_INSERTS, s.FORMAT_MESSAGE_FROM_SYSTEM)
-		kernel32.FormatMessageA(flags, nil, err, 0, buffer, ffi.sizeof(buffer), nil)
+		local err_c = ffi.cast("int", err)
+		kernel32.FormatMessageA(flags, nil, err_c, 0, buffer, ffi.sizeof(buffer), nil)
 		return string.sub(ffi.string(buffer), 1, -3) -- remove last crlf
 	end
 	function socket_initialize()
@@ -38,7 +39,8 @@ if isWin then
 		return err,wsadata
 	end
 	function socket_close(socket)
-		return s.closesocket(socket)
+		local socket_c = ffi.cast("int", socket)
+		return s.closesocket(socket_c)
 	end
 	function socket_cleanup(socket, errnum, errtext)
 		local wsa_err_num -- get WSAGetLastError() before close and WSACleanup
@@ -52,13 +54,13 @@ if isWin then
 		end
 		s.WSACleanup()
 		if errtext and #errtext > 0 then
-			error(errtext.."("..tonumber(errnum)..") "..sock_errortext(wsa_err_num))
+			error(errtext.."("..tonumber(errnum)..") "..socket_errortext(wsa_err_num))
 		end
 	end
 
 else
 	-- unix
-	function sock_errortext(err)
+	function socket_errortext(err)
 		return ffi.string(C.gai_strerror(err))
 	end
 	function socket_initialize()
@@ -73,7 +75,7 @@ else
 		end
 		--s.WSACleanup()
 		if errtext and #errtext > 0 then
-			error(errtext.."("..tonumber(errnum)..") "..sock_errortext(errnum))
+			error(errtext.."("..tonumber(errnum)..") "..socket_errortext(errnum))
 		end
 	end
 end

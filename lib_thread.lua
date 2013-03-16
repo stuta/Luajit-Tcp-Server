@@ -106,9 +106,9 @@ else
 
 	function threadExit(return_val)
 		if false then
-		print()
-		print(" *** ERR: threadExit(return_val) is not supported, in Linux it will cause 'PANIC: unprotected error in call to Lua API (?)'")
-		print()
+			print()
+			print(" *** ERR: threadExit(return_val) is not supported, in Linux it will cause 'PANIC: unprotected error in call to Lua API (?)'")
+			print()
 			local return_ptr = ffi.cast('void *', return_val)
 			C.pthread_exit(return_ptr)
 		end

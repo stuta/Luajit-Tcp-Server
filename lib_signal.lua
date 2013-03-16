@@ -120,7 +120,7 @@ function signalHandlerSet(signalToWait)
   	if C.sigaddset(set, signalToWait) == -1 then cerr() end
   end
 
-  local ret = C.pthread_sigmask(SIG_BLOCK, set, nul)
+  local ret = C.pthread_sigmask(SIG_BLOCK, set, nil)
 	print("pthread_sigmask: "..ret)
 	return sig,set
 end

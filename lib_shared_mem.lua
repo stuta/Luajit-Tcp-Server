@@ -120,29 +120,9 @@ if isWin then
 else
   -- OSX, Posix, Linux?
   	--/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/include/sys/mman.h
-	--Protections are chosen from these bits, or-ed together
-	PROT_NONE		= 0x00	-- /* [MC2] no permissions */
-	PROT_READ		= 0x01	-- /* [MC2] pages can be read */
-	PROT_WRITE	= 0x02	-- /* [MC2] pages can be written */
-	PROT_EXEC		= 0x04	-- /* [MC2] pages can be executed */
 
-	--Flags contain sharing type and options.
-	--Sharing types; choose one.
-	MAP_SHARED	= 0x0001		-- /* [MF|SHM] share changes */
-	MAP_PRIVATE	= 0x0002		-- /* [MF|SHM] changes are private */
-
-	MAP_FAILED	= ffi.cast("void *", -1) -- ((void *)-1)	-- /* [MF|SHM] mmap failed */
+	--MAP_FAILED	= ffi.cast("void *", -1) -- ((void *)-1)	-- /* [MF|SHM] mmap failed */
 	--print(MAP_FAILED) -> "cdata<void *>: 0xffffffffffffffff"
-
-  O_CREAT		= 0x0200		-- /* create if nonexistant */
-  O_TRUNC		= 0x0400		-- /* truncate to zero length */
-  O_EXCL		= 0x0800		-- /* error if already exists */
-
-	-- open-only flags
-  O_RDONLY	= 0x0000		-- /* open for reading only */
-  O_WRONLY	= 0x0001		-- /* open for writing only */
-  O_RDWR		= 0x0002		-- /* open for reading and writing */
-  O_ACCMODE	= 0x0003		-- /* mask for above modes */
 
   -- Lua globals
   shmemSize = 4096
@@ -194,13 +174,12 @@ else
 		if size and size > 0 then -- 0 = default smallest size
 			shmemSize = size
 		end
-		local opts = bit.bor(O_CREAT, O_EXCL, O_RDWR)
+		local opts = bit.bor(C.O_CREAT, C.O_EXCL, C.O_RDWR)
 		shFD = C.shm_open(shmName, opts, 0755) -- ,0600 or ,0755?, optional
 		if shFD >= 0 then
 				if C.ftruncate(shFD, shmemSize) == 0 then
-					sharedMemory = C.mmap(nil, shmemSize, bit.bor(PROT_READ, PROT_WRITE), MAP_SHARED, shFD, 0)
-													 --(nil, shmemSize, (PROT_READ | PROT_WRITE), MAP_SHARED, shFD, 0)
-					if sharedMemory ~= MAP_FAILED then
+					sharedMemory = C.mmap(nil, shmemSize, bit.bor(C.PROT_READ, C.PROT_WRITE), C.MAP_SHARED, shFD, 0)
+					if sharedMemory ~= C.MAP_FAILED then
 						-- print("sharedMemory OK: " .. filename)
 						-- Initialize shared memory if needed
 						-- Send 'shmemSize' & 'shmemSize' to other process(es)

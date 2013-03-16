@@ -39,9 +39,15 @@ typedef uint64_t		ULONGLONG;
 
 
 // Some pointer types
-typedef uint8_t	*		PBYTE;
+typedef int *        LPINT;
+typedef unsigned char *PBYTE;
+typedef char *			PCHAR;
+typedef uint16_t *		PWCHAR;
+
+typedef unsigned char *PBOOLEAN;
 typedef unsigned char	*PUCHAR;
-typedef const unsigned char	*PCUCHAR;
+typedef const unsigned char *PCUCHAR;
+typedef char *      PSTR;
 typedef unsigned int	*PUINT;
 typedef unsigned int	*PUINT32;
 typedef unsigned long	*PULONG;
@@ -66,6 +72,7 @@ typedef char *			LPSTR;
 typedef short *			LPWSTR;
 typedef short *			PWSTR;
 typedef const short *	LPCWSTR;
+typedef const short *	PCWSTR;
 typedef LPSTR			LPTSTR;
 
 typedef DWORD *			LPDWORD;
@@ -73,6 +80,7 @@ typedef void *			LPVOID;
 typedef WORD *			LPWORD;
 
 typedef const char *	LPCSTR;
+typedef const char *	PCSTR;
 typedef LPCSTR			LPCTSTR;
 typedef const void *	LPCVOID;
 
@@ -155,140 +163,12 @@ typedef ACCESS_MASK* PACCESS_MASK;
 typedef LONG FXPT16DOT16, *LPFXPT16DOT16;
 typedef LONG FXPT2DOT30, *LPFXPT2DOT30;
 
-typedef int NTSTATUS;
 
 ]]
 
 
---[[
-	From guiddef
---]]
 
-ffi.cdef[[
-typedef struct {
-    unsigned long 	Data1;
-    unsigned short	Data2;
-    unsigned short	Data3;
-    unsigned char	Data4[8];
-} GUID, UUID, *LPGUID;
-]]
-
-ffi.cdef[[
-typedef const GUID *	LPCGUID;
-typedef const GUID *	REFGUID;
-
-typedef GUID 			IID;
-typedef IID *			LPIID;
-typedef const IID *		REFIID;
-
-typedef GUID 			CLSID;
-typedef CLSID *			LPCLSID;
-typedef const GUID *	REFCLSID;
-]]
-
-
-local function bytecompare(a, b, n)
-	local res = true
-	for i=0,n-1 do
-		if a[i] ~= b[i] then
-			return false
-		end
-	end
-	return res
-end
-
-GUID = nil
-GUID_mt = {
-	__tostring = function(self)
-		local res = string.format("%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x",
-			self.Data1, self.Data2, self.Data3,
-			self.Data4[0], self.Data4[1],
-			self.Data4[2], self.Data4[3], self.Data4[4],
-			self.Data4[5], self.Data4[6], self.Data4[7])
-		return res
-	end,
-
-	__eq = function(a, b)
-		return (a.Data1 == b.Data1) and
-			(a.Data2 == b.Data2) and
-			(a.Data3 == b.Data3) and
-			bytecompare(a.Data4, b.Data4, 4)
-	end,
-
-	__index = {
-		Define = function(self, name, l, w1, w2, b1, b2,  b3,  b4,  b5,  b6,  b7,  b8 )
-			return GUID({ l, w1, w2, { b1, b2,  b3,  b4,  b5,  b6,  b7,  b8 } }), name
-		end,
-
-		DefineOle = function(self, name, l, w1, w2)
-			return GUID({ l, w1, w2, { 0xC0,0,0,0,0,0,0,0x46 } }), name
-		end,
-	},
-}
-GUID = ffi.metatype("GUID", GUID_mt)
-
---require "CGuid"
-
-GUID_NULL = GUID()
-IID_NULL = GUID_NULL
-CLSID_NULL = GUID_NULL
-FMTID_NULL = GUID_NULL
-
-
-function DEFINE_GUID(name, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8)
-	return GUID():Define(name, l, w1, w2, b1, b2, b3, b4, b5, b6, b7, b8)
-end
-
-DEFINE_UUID = DEFINE_GUID
-
-function DEFINE_OLEGUID(name, l, w1, w2)
-	return GUID():DefineOle(name, l, w1, w2)
-end
-
---[[
-	Useful routines
---]]
-
-function IsEqualIID(riid1, riid2)
-	return riid1 == riid2
-end
-
-function IsEqualCLSID(rclsid1, rclsid2)
-	return rclsid1 == rclsid2
-end
-
-function IsEqualFMTID(rfmtid1, rfmtid2)
-	return rfmtid1 == rfmtid2
-end
-
-
-
-
--- From Rpcrt4.h
-
-Rpcrt4 = ffi.load("Rpcrt4")
-
-ffi.cdef[[
-int UuidCreate(UUID * Uuid);
-
-int UuidFromStringA(const char * StringUuid, UUID * Uuid);
-
-int UuidToStringA(UUID * Uuid , char ** StringUuid);
-]]
-
-
--- Helpful function for constructing a UUID/GUID
--- from a string
-function UUIDFromString(stringid)
-	local id = ffi.new("UUID[1]")
-	Rpcrt4.UuidFromStringA(stringid, id)
-	id = id[0]
-
-	return id
-end
-
-
-
+require "guiddef"
 
 
 
@@ -367,7 +247,7 @@ typedef struct _SECURITY_DESCRIPTOR
     PSID Group;
     PACL Sacl;
     PACL Dacl;
-} 	SECURITY_DESCRIPTOR, *PISECURITY_DESCRIPTOR;
+} 	SECURITY_DESCRIPTOR, *PSECURITY_DESCRIPTOR;
 
 typedef struct _COAUTHIDENTITY
 {
@@ -565,7 +445,7 @@ WDT_REMOTE_CALL	=( 0x52746457 )
 WDT_INPROC64_CALL =	( 0x50746457 )
 
 
---[[
+
 ffi.cdef[[
 enum {
 	MAXSHORT = 32767,
@@ -574,12 +454,12 @@ enum {
 	MAXINT = 2147483647,
 	MININT = -2147483648,
 
-	MAXLONGLONG = 9223372036854775807LL,
-	MINLONGLONG = -9223372036854775807LL,
+//	MAXLONGLONG = 9223372036854775807,
+//	MINLONGLONG = -9223372036854775807,
 	};
 
 ]]
---]]
+
 
 ffi.cdef[[
 
@@ -768,14 +648,16 @@ typedef struct {
 
 BITMAPINFOHEADER = nil
 BITMAPINFOHEADER_mt = {
-	__new = function(ct)
-		print("BITMAPINFOHEADER: new()");
-		return ffi.new(ct, ffi.sizeof(ct))
-	end,
 
 	__index = {
+    __new = function(ct)
+    print("BITMAPINFOHEADER_ct")
+      local obj = ffi.new(ct);
+      obj.biSize = ffi.sizeof("BITMAPINFOHEADER")
+      return obj;
+    end,
+
 		Init = function(self)
-			print("BITMAPINFOHEADER:Init()");
 			self.biSize = ffi.sizeof("BITMAPINFOHEADER")
 		end,
 	}
@@ -783,16 +665,20 @@ BITMAPINFOHEADER_mt = {
 BITMAPINFOHEADER = ffi.metatype("BITMAPINFOHEADER", BITMAPINFOHEADER_mt)
 
 
-BITMAPINFO = nil
+BITMAPINFO = ffi.typeof("BITMAPINFO")
 BITMAPINFO_mt = {
-	__new = function(ct)
-		local obj = ffi.new(ct)
-		obj.bmiHeader:Init();
-		return obj;
-	end,
+  __new = function(ct)
+  print("BITMAPINFO_ct")
+    local obj = ffi.new(ct);
+    obj.bmiHeader:Init();
+    return obj;
+  end,
 
-
+  __index = {
+    Init = function(self)
+      self.bmiHeader:Init();
+    end,
+  },
 }
 BITMAPINFO = ffi.metatype("BITMAPINFO", BITMAPINFO_mt)
-
 

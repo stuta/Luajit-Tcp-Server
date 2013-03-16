@@ -1,4 +1,4 @@
--- ffi_def_mac.lua
+-- ffi_def_unix.lua
 local ffi = require "ffi"
 
 INVALID_SOCKET = -1
@@ -40,9 +40,49 @@ ffi.cdef[[
 ]]
 
 -- shared_mem
+if isMac then
+	ffi.cdef[[
+		static const int O_CREAT 	= 0x0200;		/* create if nonexistant */
+		static const int O_TRUNC	= 0x0400;		/* truncate to zero length */
+		static const int O_EXCL		= 0x0800;		/* error if already exists */
+	]]
+elseif isLinux then
+	ffi.cdef[[
+		/* octal (8-base) values in Linux header file in fcntl.h
+		dec:
+		O_CREAT, O_EXCL: 64, 128
+		S_IRUSR, S_IWUSR: 256, 128
+		flags, flags_file: 192, 384
+		OCTAL """
+		static const int	S_IRUSR	= 0400;	// Read by owner.
+		static const int	S_IWUSR	= 0200;	// Write by owner.
+		static const int	S_IXUSR	= 0100;	// Execute by owner.
+
+		static const int O_CREAT	= 0100;
+		static const int O_EXCL		= 0200;
+		static const int O_TRUNC	= 01000;
+		*/
+
+		static const int O_CREAT	= 64;
+		static const int O_EXCL		= 128;
+		static const int O_TRUNC	= 512;
+	]]
+end
 ffi.cdef[[
-	int 		shm_open(const char *name, int oflag, mode_t mode); // The parameter "mode_t mode" is optional.
-	// int 		shm_open(const char *name, int oflag);
+	static const int MAP_FAILED	= ((void *)-1);	// [MF|SHM] mmap failed
+
+	// Protections are chosen from these bits, or-ed together
+	static const int PROT_NONE		= 0x00;	// [MC2] no permissions
+	static const int PROT_READ		= 0x01;	// [MC2] pages can be read
+	static const int PROT_WRITE		= 0x02;	// [MC2] pages can be written
+	static const int PROT_EXEC		= 0x04;	// [MC2] pages can be executed
+
+	// Flags contain sharing type and options.
+	// Sharing types; choose one.
+	static const int MAP_SHARED		= 0x0001;		// [MF|SHM] share changes
+	static const int MAP_PRIVATE	= 0x0002;		// [MF|SHM] changes are private
+
+	int 		shm_open(const char *name, int oflag, mode_t mode);
 	int 		shm_unlink(const char *name);
 	int 		ftruncate(int fildes, off_t length);
 	void* 	mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset);
@@ -374,8 +414,9 @@ ffi.cdef[[
 	// #endif
 
 	// Address families.
-	static const int	 AF_UNIX = 1;		/* local to host (pipes) */
-	static const int	 AF_INET = 2;		/* internetwork: UDP, TCP, etc. */
+	static const int	 AF_UNSPEC 	= 0;		/* unspecified == give any listening address */
+	static const int	 AF_UNIX 		= 1;		/* local to host (pipes) */
+	static const int	 AF_INET 		= 2;		/* internetwork: UDP, TCP, etc. */
 
 	// Protocols (RFC 1700)
 	static const int	 IPPROTO_TCP = 6;		/* tcp */
@@ -389,6 +430,46 @@ ffi.cdef[[
 	typedef	uint8_t			sa_family_t;
 	typedef	uint16_t		in_port_t;
 	typedef	uint32_t		in_addr_t;	/* base type for internet address */
+]]
+if isLinux then
+	ffi.cdef[[
+		/* Structure describing a generic socket address.  */
+		struct sockaddr {
+			sa_family_t	sa_family;		/* Common data: address family and length.  */
+			char		sa_data[14];	/* Address data.  */
+		};
+		struct addrinfo {
+			int ai_flags;           /* input flags. AI_PASSIVE, AI_CANONNAME, AI_NUMERICHOST */
+			int ai_family;          /* protocol family for socket. PF_xxx */
+			int ai_socktype;        /* socket type. SOCK_xxx */
+			int ai_protocol;        /* protocol for socket, 0 or IPPROTO_xxx for IPv4 and IPv6 */
+			socklen_t ai_addrlen;   /* length of socket-address, length of ai_addr */
+			struct sockaddr *ai_addr; /* socket-address for socket, binary address */
+			char *ai_canonname;     /* canonical name for service location, canonical name for hostname */
+			struct addrinfo *ai_next; /* pointer to next in list, next structure in linked list */
+		 };
+	]]
+elseif isMac then -- "*ai_canonname" and "*ai_addr" are in different order than in Linux
+	ffi.cdef[[
+		/* Structure describing a generic socket address.  */
+		struct sockaddr {
+			uint8_t	sa_len;		/* total length */
+			sa_family_t	sa_family;	/* [XSI] address family */
+			char		sa_data[14];	/* [XSI] addr value (actually larger) */
+		};
+		struct addrinfo {
+			int ai_flags;           /* input flags. AI_PASSIVE, AI_CANONNAME, AI_NUMERICHOST */
+			int ai_family;          /* protocol family for socket. PF_xxx */
+			int ai_socktype;        /* socket type. SOCK_xxx */
+			int ai_protocol;        /* protocol for socket, 0 or IPPROTO_xxx for IPv4 and IPv6 */
+			socklen_t ai_addrlen;   /* length of socket-address, length of ai_addr */
+			char *ai_canonname;     /* canonical name for service location, canonical name for hostname */
+			struct sockaddr *ai_addr; /* socket-address for socket, binary address */
+			struct addrinfo *ai_next; /* pointer to next in list, next structure in linked list */
+		 };
+	]]
+end
+ffi.cdef[[
 	struct in_addr {
 		in_addr_t s_addr;
 	};
@@ -398,12 +479,6 @@ ffi.cdef[[
 	static const int NI_MAXHOST = 1025;
 	static const int NI_MAXSERV = 32;
 
-	struct sockaddr {
-		//uint8_t	sa_len;		/* total length */
-		sa_family_t	sa_family;	/* [XSI] address family */
-		char		sa_data[14];	/* [XSI] addr value (actually larger) */
-	};
-
 	// Socket address, internet style.
 	struct sockaddr_in {
 		uint8_t	sin_len;
@@ -412,20 +487,11 @@ ffi.cdef[[
 		struct	in_addr sin_addr;
 		char		sin_zero[8];
 	};
-	int getaddrinfo(const char *hostname, const char *servname, const struct addrinfo *hints, struct addrinfo **res);
-	void freeaddrinfo(struct addrinfo *ai);
-	int getnameinfo(const struct sockaddr *sa, socklen_t salen, char *host, socklen_t hostlen, char *serv, socklen_t servlen, int flags);
 
-	struct addrinfo {
-		int ai_flags;           /* input flags */
-		int ai_family;          /* protocol family for socket */
-		int ai_socktype;        /* socket type */
-		int ai_protocol;        /* protocol for socket */
-		socklen_t ai_addrlen;   /* length of socket-address */
-		struct sockaddr *ai_addr; /* socket-address for socket */
-		char *ai_canonname;     /* canonical name for service location */
-		struct addrinfo *ai_next; /* pointer to next in list */
-	 };
+	int 	getaddrinfo(const char *hostname, const char *servname, const struct addrinfo *hints, struct addrinfo **res);
+	void 	freeaddrinfo(struct addrinfo *ai);
+	int 	getnameinfo(const struct sockaddr *sa, socklen_t salen, char *host, socklen_t hostlen, char *serv, socklen_t servlen, int flags);
+
 	const char* gai_strerror(int ecode);
 	uint16_t htons(uint16_t hostshort);
 	// Socket address conversions END

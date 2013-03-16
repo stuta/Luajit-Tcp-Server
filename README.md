@@ -11,31 +11,27 @@ All code will be OSX + Windows + Linux. Contributios are welcome.
 
 ##### Test status
 
-Linux tests were done in great ""Linux Mint 14 MATE"" 32-bit, 400 mb ram is enough in VirtualBox. In Linux install file jl.sh, read instructions from the file. 
+Linux tests were done in great ""Linux Mint 14 MATE"" 32-bit, 400 mb ram is enough in VirtualBox. In Linux install file jl.sh, read instructions from the file. Mac tests has been done in 10.8 and windows tests in XP and Win7.
 
 __Works__:
 
   * TestAddrinfo: linux (partially)
   * TestKqueue: osx
-  * TestLinux: osx + linux (with lj.sh)
-  * TestSharedMem: osx + win 
-  * TestSignal: osx + linux ("Bad system call"" with many signals)
-  * TestSocket: osx + win
-  * TestThread: osx, linux, win soon
-  	* return values disabled
+  * TestLinux: osx + linux
+  * TestSharedMem: osx + win + linux 
+  * no need: [[ TestSignal: osx + linux ("Bad system call"" with many signals) ]]
+  * TestSocket: osx + win + linux
+  * TestThread: osx + (win soon) + linux 
+  	* return values has been disabled
   * TestUtil: osx + win + linux
 
 __Current issues__:
 
-  - AddrinfoTest.lua
-  	- what is correct way to call **data parameters?
-  	- getaddrinfo parameters are mystery to me
-  	- why code returns 'ai_canonname' in linux, but not in osx and win?
-  	
-  	```
-		  local res0 = ffi.new("struct addrinfo*[1]")
-		  sock.getaddrinfo(host, serv, hints, res0)
-  	```
+  * AddrinfoTest.lua
+  	- what is correct way to call **data parameters, is it data\*[1] ?
+  	- set correct parameters to addrinfo calls
+  * TestSocket: osx + win + linux
+  	 - in XP: lib_socket.lua:57: socket_recv failed with error: (-1), why? Win7 works.
   
 ##### TestAll.lua
 

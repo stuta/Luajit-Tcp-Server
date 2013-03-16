@@ -13,10 +13,10 @@ is32bit = ffi.abi("32bit")
 if isWin then
 	dofile "ffi_def_win.lua"
 elseif isMac then
-	dofile "ffi_def_mac.lua"
+	dofile "ffi_def_unix.lua"
 else
 	-- Linux
-	dofile "ffi_def_mac.lua"
+	dofile "ffi_def_unix.lua"
 end
 
 -- common win + osx + linux: C-functions
@@ -46,7 +46,7 @@ function cstr(str)
 end
 
 function cerr()
-	error( ffi.string(ffi.C.strerror(ffi.errno())) )
+	error( ffi.string(C.strerror(ffi.errno())) )
 end
 
 function createBuffer(datalen)
@@ -174,7 +174,7 @@ if isWin then
 
 	function nanosleep(sec, nanosec)
 		local millisec = sec * 1000
-		millisec = math.floor(millisec + (nanosec/1000))
+		millisec = math.floor(millisec + (nanosec/1000000))
 		--if millisec < 1 then
 		--	millisec = 0 -- Sleep(0), best we can do
 		--end

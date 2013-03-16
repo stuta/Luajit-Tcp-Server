@@ -13,7 +13,7 @@ local filename
 if isWin then
 	filename = "C:\\\\TestSharedMem.txt"
 else
-	filename = "./TestSharedMem.txt"
+	filename = "TestSharedMem.txt"
 	--/Users/pasi/svnroot/cpp/MA_Lua/github_repos/Luajit-Tcp-Server/shmfile.txt
 end
 local size = 4096

@@ -28,8 +28,18 @@ local bnot = bit.bnot
 local bswap = bit.bswap
 
 require "WinBase"
-require "kernel32_ffi"
 
+function MAKEWORD(low,high)
+	return bor(low , lshift(high , 8))
+end
+
+function LOWBYTE(word)
+	return band(word, 0xff)
+end
+
+function HIGHBYTE(word)
+	return band(rshift(word,8), 0xff)
+end
 
 
 ffi.cdef[[
@@ -39,7 +49,8 @@ typedef uint32_t    u_int;
 typedef unsigned long   u_long;
 typedef uint64_t 	u_int64;
 
-typedef uintptr_t	SOCKET;
+//typedef uintptr_t	SOCKET;
+typedef int32_t	SOCKET;
 
 typedef uint16_t 	ADDRESS_FAMILY;
 
@@ -63,97 +74,93 @@ INET_ADDRSTRLEN			= 16
 INET6_ADDRSTRLEN		= 46
 
 -- Socket Types
-ffi.cdef[[
-struct IP_SocketType {
-static const int SOCK_STREAM     = 1;    // stream socket
-static const int SOCK_DGRAM      = 2;    // datagram socket
-static const int SOCK_RAW        = 3;    // raw-protocol interface
-static const int SOCK_RDM        = 4;    // reliably-delivered message
-static const int SOCK_SEQPACKET  = 5;    // sequenced packet stream
-};
-]]
+SOCK_STREAM     = 1    -- stream socket
+SOCK_DGRAM      = 2    -- datagram socket
+SOCK_RAW        = 3    -- raw-protocol interface
+SOCK_RDM        = 4    -- reliably-delivered message
+SOCK_SEQPACKET  = 5    -- sequenced packet stream
 
 
-ffi.cdef[[
-// Address families
-struct IP_Family {
-static const int AF_UNSPEC 		= 0;          // unspecified
-static const int AF_UNIX 		= 1;          // local to host (pipes, portals)
-static const int AF_INET 		= 2;          // internetwork: UDP, TCP, etc.
-static const int AF_IMPLINK 	= 3;          // arpanet imp addresses
-static const int AF_PUP 		= 4;          // pup protocols: e.g. BSP
-static const int AF_CHAOS 		= 5;          // mit CHAOS protocols
-static const int AF_IPX 		= 6;          // IPX and SPX
-static const int AF_NS 			= 6;          // XEROX NS protocols
-static const int AF_ISO 		= 7;          // ISO protocols
-//static const int AF_OSI 		= AF_ISO      // OSI is ISO
-static const int AF_ECMA 		= 8;          // european computer manufacturers
-static const int AF_DATAKIT 	= 9;          // datakit protocols
-static const int AF_CCITT 		= 10;         // CCITT protocols, X.25 etc
-static const int AF_SNA 		= 11;         // IBM SNA
-static const int AF_DECnet 		= 12;         // DECnet
-static const int AF_DLI 		= 13;         // Direct data link interface
-static const int AF_LAT 		= 14;         // LAT
-static const int AF_HYLINK 		= 15;         // NSC Hyperchannel
-static const int AF_APPLETALK 	= 16;         // AppleTalk
-static const int AF_NETBIOS 	= 17;         // NetBios-style addresses
-static const int AF_VOICEVIEW 	= 18;         // VoiceView
-static const int AF_FIREFOX 	= 19;         // FireFox
-static const int AF_UNKNOWN1 	= 20;         // Somebody is using this!
-static const int AF_BAN 		= 21;         // Banyan
-static const int AF_INET6  		= 23;         // Internetwork Version 6
-static const int AF_IRDA   		= 26;         // IrDA
+-- Address families
+AF_UNSPEC 		= 0          -- unspecified */
+AF_UNIX 		= 1            -- local to host (pipes, portals) */
+AF_INET 		= 2            -- internetwork: UDP, TCP, etc. */
+AF_IMPLINK 		= 3         -- arpanet imp addresses */
+AF_PUP 			= 4            -- pup protocols: e.g. BSP */
+AF_CHAOS 		= 5           -- mit CHAOS protocols */
+AF_IPX 			= 6             -- IPX and SPX */
+AF_NS 			= 6              -- XEROX NS protocols */
+AF_ISO 			= 7             -- ISO protocols */
+AF_OSI 			= AF_ISO        -- OSI is ISO */
+AF_ECMA 		= 8            -- european computer manufacturers */
+AF_DATAKIT 		= 9         -- datakit protocols */
+AF_CCITT 		= 10          -- CCITT protocols, X.25 etc */
+AF_SNA 			= 11           -- IBM SNA */
+AF_DECnet 		= 12         -- DECnet */
+AF_DLI 			= 13            -- Direct data link interface */
+AF_LAT 			= 14            -- LAT */
+AF_HYLINK 		= 15         -- NSC Hyperchannel */
+AF_APPLETALK 	= 16      -- AppleTalk */
+AF_NETBIOS 		= 17        -- NetBios-style addresses */
+AF_VOICEVIEW 	= 18     -- VoiceView */
+AF_FIREFOX 		= 19        -- FireFox */
+AF_UNKNOWN1 	= 20       -- Somebody is using this! */
+AF_BAN 			= 21            -- Banyan */
+AF_INET6  		= 23              -- Internetwork Version 6
+AF_IRDA   		= 26              -- IrDA
+AF_NETDES       = 28;		-- Network Designers OSI & gateway
 
-static const int AF_MAX = 33;
-};
-]]
 
-ffi.cdef[[
-//
-// Protocols
-//
-struct IP_Protocol {
-static const int IPPROTO_IP			= 0;		// dummy for IP
-static const int IPPROTO_ICMP		= 1;		// control message protocol
-static const int IPPROTO_IGMP		= 2;		// group management protocol
-static const int IPPROTO_GGP			= 3;		// gateway^2 (deprecated)
-static const int IPPROTO_TCP			= 6;		// tcp
-static const int IPPROTO_PUP			= 12;		// pup
-static const int IPPROTO_UDP			= 17;		// user datagram protocol
-static const int IPPROTO_IDP			= 22;		// xns idp
-static const int IPPROTO_RDP			= 27;
-static const int IPPROTO_IPV6		= 41;		// IPv6 header
-static const int IPPROTO_ROUTING		= 43;		// IPv6 Routing header
-static const int IPPROTO_FRAGMENT	= 44;		// IPv6 fragmentation header
-static const int IPPROTO_ESP			= 50;		// encapsulating security payload
-static const int IPPROTO_AH			= 51;		// authentication header
-static const int IPPROTO_ICMPV6		= 58;		// ICMPv6
-static const int IPPROTO_NONE		= 59;		// IPv6 no next header
-static const int IPPROTO_DSTOPTS		= 60;		// IPv6 Destination options
-static const int IPPROTO_ND			= 77;		// UNOFFICIAL net disk proto
-static const int IPPROTO_ICLFXBM		= 78;
-static const int IPPROTO_PIM			= 103;
-static const int IPPROTO_PGM			= 113;
-//static const int IPPROTO_RM			= IPPROTO_PGM;
-static const int IPPROTO_L2TP		= 115;
-static const int IPPROTO_SCTP		= 132;
+AF_TCNPROCESS   = 29;
+AF_TCNMESSAGE   = 30;
+AF_ICLFXBM      = 31;
 
-static const int IPPROTO_RAW          =   255;             // raw IP packet
-static const int IPPROTO_MAX          =   256;
-
-//
-//  These are reserved for internal use by Windows.
-//
-static const int IPPROTO_RESERVED_RAW = 257;
-static const int IPPROTO_RESERVED_IPSEC = 258;
-static const int IPPROTO_RESERVED_IPSECOFFLOAD = 259;
-static const int IPPROTO_RESERVED_MAX = 260;
-};
-]]
+AF_BTH	= 32;              -- Bluetooth RFCOMM/L2CAP protocols
+AF_LINK = 33;
+AF_MAX  = 34;
 
 
 
+--
+-- Protocols
+--
 
+IPPROTO_IP			= 0;		-- dummy for IP
+IPPROTO_ICMP		= 1;		-- control message protocol
+IPPROTO_IGMP		= 2;		-- group management protocol
+IPPROTO_GGP			= 3;		-- gateway^2 (deprecated)
+IPPROTO_TCP			= 6;		-- tcp
+IPPROTO_PUP			= 12;		-- pup
+IPPROTO_UDP			= 17;		-- user datagram protocol
+IPPROTO_IDP			= 22;		-- xns idp
+IPPROTO_RDP			= 27;
+IPPROTO_IPV6		= 41;		-- IPv6 header
+IPPROTO_ROUTING		= 43;		-- IPv6 Routing header
+IPPROTO_FRAGMENT	= 44;		-- IPv6 fragmentation header
+IPPROTO_ESP			= 50;		-- encapsulating security payload
+IPPROTO_AH			= 51;		-- authentication header
+IPPROTO_ICMPV6		= 58;		-- ICMPv6
+IPPROTO_NONE		= 59;		-- IPv6 no next header
+IPPROTO_DSTOPTS		= 60;		-- IPv6 Destination options
+IPPROTO_ND			= 77;		-- UNOFFICIAL net disk proto
+IPPROTO_ICLFXBM		= 78;
+IPPROTO_PIM			= 103;
+IPPROTO_PGM			= 113;
+IPPROTO_RM			= IPPROTO_PGM;
+IPPROTO_L2TP		= 115;
+IPPROTO_SCTP		= 132;
+
+
+IPPROTO_RAW          =   255             -- raw IP packet
+IPPROTO_MAX          =   256
+
+--
+--  These are reserved for internal use by Windows.
+--
+IPPROTO_RESERVED_RAW = 257
+IPPROTO_RESERVED_IPSEC = 258
+IPPROTO_RESERVED_IPSECOFFLOAD = 259
+IPPROTO_RESERVED_MAX = 260
 
 --
 -- Options for use with [gs]etsockopt at the IP level.
@@ -206,45 +213,139 @@ FIONBIO     = _IOW(string.byte'f', 126, "uint32_t") -- set/clear non-blocking i/
 FIOASYNC    = _IOW(string.byte'f', 125, "uint32_t") -- set/clear async i/o
 
 
+
+
+--[[
+	WinSock 2 extension -- manifest constants for WSAIoctl()
+	From ws2def.h
+--]]
+local IOC_UNIX        = 0x00000000;
+local IOC_WS2         = 0x08000000;
+local IOC_PROTOCOL    = 0x10000000;
+local IOC_VENDOR      = 0x18000000;
+
+local function _WSAIO(x,y)
+	return bor(IOC_VOID, x, y)
+end
+
+local function _WSAIOR(x,y)
+	return bor(IOC_OUT, x,y)
+end
+
+local function _WSAIOW(x,y)
+	return bor(IOC_IN,x,y)
+end
+
+local function _WSAIORW(x,y)
+	return  bor(IOC_INOUT,x,y)
+end
+
+
+SIO_ASSOCIATE_HANDLE         =  _WSAIOW(IOC_WS2,1);
+SIO_ENABLE_CIRCULAR_QUEUEING  = _WSAIO(IOC_WS2,2);
+SIO_FIND_ROUTE                = _WSAIOR(IOC_WS2,3);
+SIO_FLUSH                     = _WSAIO(IOC_WS2,4);
+SIO_GET_BROADCAST_ADDRESS     = _WSAIOR(IOC_WS2,5);
+SIO_GET_EXTENSION_FUNCTION_POINTER = _WSAIORW(IOC_WS2,6);
+SIO_GET_QOS                   = _WSAIORW(IOC_WS2,7);
+SIO_GET_GROUP_QOS             = _WSAIORW(IOC_WS2,8);
+SIO_MULTIPOINT_LOOPBACK       = _WSAIOW(IOC_WS2,9);
+SIO_MULTICAST_SCOPE           = _WSAIOW(IOC_WS2,10);
+SIO_SET_QOS                   = _WSAIOW(IOC_WS2,11);
+SIO_SET_GROUP_QOS             = _WSAIOW(IOC_WS2,12);
+SIO_TRANSLATE_HANDLE          = _WSAIORW(IOC_WS2,13);
+SIO_ROUTING_INTERFACE_QUERY   = _WSAIORW(IOC_WS2,20);
+SIO_ROUTING_INTERFACE_CHANGE  = _WSAIOW(IOC_WS2,21);
+SIO_ADDRESS_LIST_QUERY        = _WSAIOR(IOC_WS2,22);
+SIO_ADDRESS_LIST_CHANGE       = _WSAIO(IOC_WS2,23);
+SIO_QUERY_TARGET_PNP_HANDLE   = _WSAIOR(IOC_WS2,24);
+
+
+--
+-- MSWSock.h
+--
+WSAID_ACCEPTEX = GUID{0xb5367df1,0xcbac,0x11cf,{0x95,0xca,0x00,0x80,0x5f,0x48,0xa1,0x92}}
+WSAID_CONNECTEX = GUID{0x25a207b9,0xddf3,0x4660,{0x8e,0xe9,0x76,0xe5,0x8c,0x74,0x06,0x3e}};
+WSAID_DISCONNECTEX = GUID{0x7fda2e11,0x8630,0x436f,{0xa0, 0x31, 0xf5, 0x36, 0xa6, 0xee, 0xc1, 0x57}};
+
+
+ffi.cdef[[
+typedef BOOL
+( * LPFN_ACCEPTEX)(
+    SOCKET sListenSocket,
+    SOCKET sAcceptSocket,
+    PVOID lpOutputBuffer,
+    DWORD dwReceiveDataLength,
+    DWORD dwLocalAddressLength,
+    DWORD dwRemoteAddressLength,
+    LPDWORD lpdwBytesReceived,
+    LPOVERLAPPED lpOverlapped
+    );
+
+typedef BOOL ( * LPFN_CONNECTEX) (
+    SOCKET s,
+    const struct sockaddr *name,
+    int namelen,
+    PVOID lpSendBuffer,
+    DWORD dwSendDataLength,
+    LPDWORD lpdwBytesSent,
+    LPOVERLAPPED lpOverlapped);
+
+
+
+typedef BOOL ( * LPFN_DISCONNECTEX) (
+    SOCKET s,
+    LPOVERLAPPED lpOverlapped,
+    DWORD  dwFlags,
+    DWORD  dwReserved);
+
+]]
+
+--
+-- MSTcpIP.h
+--
+ffi.cdef[[
+/* Argument structure for SIO_KEEPALIVE_VALS */
+
+struct tcp_keepalive {
+    ULONG onoff;
+    ULONG keepalivetime;
+    ULONG keepaliveinterval;
+};
+]]
+tcp_keepalive = ffi.typeof("struct tcp_keepalive");
+
+--
+-- New WSAIoctl Options
+--
+local SIO_RCVALL           = _WSAIOW(IOC_VENDOR,1);
+local SIO_RCVALL_MCAST     = _WSAIOW(IOC_VENDOR,2);
+local SIO_RCVALL_IGMPMCAST = _WSAIOW(IOC_VENDOR,3);
+SIO_KEEPALIVE_VALS   = _WSAIOW(IOC_VENDOR,4);
+local SIO_ABSORB_RTRALERT  = _WSAIOW(IOC_VENDOR,5);
+local SIO_UCAST_IF         = _WSAIOW(IOC_VENDOR,6);
+local SIO_LIMIT_BROADCASTS = _WSAIOW(IOC_VENDOR,7);
+local SIO_INDEX_BIND       = _WSAIOW(IOC_VENDOR,8);
+local SIO_INDEX_MCASTIF    = _WSAIOW(IOC_VENDOR,9);
+local SIO_INDEX_ADD_MCAST  = _WSAIOW(IOC_VENDOR,10);
+local SIO_INDEX_DEL_MCAST  = _WSAIOW(IOC_VENDOR,11);
+--      SIO_UDP_CONNRESET    = _WSAIOW(IOC_VENDOR,12);
+local SIO_RCVALL_MCAST_IF  = _WSAIOW(IOC_VENDOR,13);
+local SIO_RCVALL_IF        = _WSAIOW(IOC_VENDOR,14);
+
+
 --
 -- TCP/IP specific Ioctl codes.
 --
-SIO_GET_INTERFACE_LIST     = _IOR(string.byte't', 127, "uint32_t")
-SIO_GET_INTERFACE_LIST_EX  = _IOR(string.byte't', 126, "uint32_t")
-SIO_SET_MULTICAST_FILTER   = _IOW(string.byte't', 125, "uint32_t")
-SIO_GET_MULTICAST_FILTER   = _IOW(string.byte't', bor(124, IOC_IN), "uint32_t")
-SIOCSIPMSFILTER            = SIO_SET_MULTICAST_FILTER
-SIOCGIPMSFILTER            = SIO_GET_MULTICAST_FILTER
+SIO_GET_INTERFACE_LIST     = _IOR(string.byte't', 127, "uint32_t");
+SIO_GET_INTERFACE_LIST_EX  = _IOR(string.byte't', 126, "uint32_t");
+SIO_SET_MULTICAST_FILTER   = _IOW(string.byte't', 125, "uint32_t");
+SIO_GET_MULTICAST_FILTER   = _IOW(string.byte't', bor(124, IOC_IN), "uint32_t");
+SIOCSIPMSFILTER            = SIO_SET_MULTICAST_FILTER;
+SIOCGIPMSFILTER            = SIO_GET_MULTICAST_FILTER;
 
 
--- Constants for WSAIoctl()
-IOC_UNIX                     = 0x00000000;
-IOC_WS2                      = 0x08000000;
-IOC_PROTOCOL                 = 0x10000000;
-IOC_VENDOR                   = 0x18000000;
-local _WSAIO = function (x,y) return bor(IOC_VOID,x,y) end
-local _WSAIOR = function(x,y) return bor(IOC_OUT,x,y) end
-local _WSAIOW = function(x,y) return bor(IOC_IN,x,y) end
-local _WSAIORW = function(x,y)return bor(IOC_INOUT,x,y) end
 
-SIO_ASSOCIATE_HANDLE          = _WSAIOW(IOC_WS2,1)
-SIO_ENABLE_CIRCULAR_QUEUEING  = _WSAIO(IOC_WS2,2)
-SIO_FIND_ROUTE                = _WSAIOR(IOC_WS2,3)
-SIO_FLUSH                     = _WSAIO(IOC_WS2,4)
-SIO_GET_BROADCAST_ADDRESS     = _WSAIOR(IOC_WS2,5)
-SIO_GET_EXTENSION_FUNCTION_POINTER  =_WSAIORW(IOC_WS2,6)
-SIO_GET_QOS                   = _WSAIORW(IOC_WS2,7)
-SIO_GET_GROUP_QOS             = _WSAIORW(IOC_WS2,8)
-SIO_MULTIPOINT_LOOPBACK       = _WSAIOW(IOC_WS2,9)
-SIO_MULTICAST_SCOPE           = _WSAIOW(IOC_WS2,10)
-SIO_SET_QOS                   = _WSAIOW(IOC_WS2,11)
-SIO_SET_GROUP_QOS             = _WSAIOW(IOC_WS2,12)
-SIO_TRANSLATE_HANDLE          = _WSAIORW(IOC_WS2,13)
-SIO_ROUTING_INTERFACE_QUERY   = _WSAIORW(IOC_WS2,20)
-SIO_ROUTING_INTERFACE_CHANGE  = _WSAIOW(IOC_WS2,21)
-SIO_ADDRESS_LIST_QUERY        = _WSAIOR(IOC_WS2,22)
-SIO_ADDRESS_LIST_CHANGE       = _WSAIO(IOC_WS2,23)
---SIO_QUERY_TARGET_PNP_HANDLE   = _WSAIOR(IOC_W32,24)
 
 
 -- Possible flags for the  iiFlags - bitmask.
@@ -283,6 +384,12 @@ WSAESHUTDOWN	= 10058
 WSAETOOMANYREFS = 10059
 WSAETIMEDOUT	= 10060
 WSAECONNREFUSED = 10061
+
+WSASYSNOTREADY     = 10091;
+WSAVERNOTSUPPORTED = 10092;
+WSANOTINITIALISED  = 10093;
+
+
 WSAHOST_NOT_FOUND = 11001
 
 --
@@ -352,7 +459,7 @@ SO_SNDTIMEO   =  0x1005          -- send timeout
 SO_RCVTIMEO   =  0x1006          -- receive timeout
 SO_ERROR      =  0x1007          -- get error status and clear
 SO_TYPE       =  0x1008          -- get socket type
-
+SO_CONNECT_TIME = 0x700C;		-- Connection Time
 
 --
 -- TCP options.
@@ -385,7 +492,7 @@ enum {
 	IP_DEFAULT_MULTICAST_TTL  = 1,    /* normally limit m'casts to 1 hop  */
 	IP_DEFAULT_MULTICAST_LOOP = 1,    /* normally hear sends if a member  */
 	IP_MAX_MEMBERSHIPS        = 20,   /* per socket; must fit in one mbuf */
-}
+};
 
 
         // Options for connect and disconnect data and options.  Used only by
@@ -480,36 +587,6 @@ enum {
  s_lh    S_un.S_un_b.s_b3    // logical host
 --]]
 
---[[ffi.cdef[[
-	//
-	// IPv4 Internet address
-	// This is an 'on-wire' format structure.
-	//
-	typedef struct in_addr {
-					union {
-									struct { UCHAR s_b1,s_b2,s_b3,s_b4; } S_un_b;
-									struct { USHORT s_w1,s_w2; } S_un_w;
-									ULONG S_addr;
-					} S_un;
-	};
-	} IN_ADDR, *PIN_ADDR, FAR *LPIN_ADDR;
-
-]]
-
---[[
-	typedef unsigned short USHORT;
-	typedef unsigned long ULONG;
-	typedef unsigned char UCHAR;
-
-						//static const ULONG s_addr  = S_un.S_addr;
-						// #define s_addr  S_un.S_addr 				 // can be used for most tcp & ip code
-						// #define s_host  S_un.S_un_b.s_b2    // host on imp
-						// #define s_net   S_un.S_un_b.s_b1    // network
-						// #define s_imp   S_un.S_un_w.s_w2    // imp
-						// #define s_impno S_un.S_un_b.s_b4    // imp #
-						// #define s_lh    S_un.S_un_b.s_b3    // logical host
-]]
-
 ffi.cdef[[
 typedef struct in_addr {
 	union {
@@ -519,7 +596,7 @@ typedef struct in_addr {
 		struct {
 			uint16_t s_w1,s_w2;
 		} S_un_w;
-		uint32_t s_addr; // uint32_t S_addr;
+		uint32_t S_addr;
 	};
 } IN_ADDR, *PIN_ADDR, *LPIN_ADDR;
 ]]
@@ -713,15 +790,45 @@ typedef struct _QualityOfService {
 	WSABUF ProviderSpecific;
 } QOS,  *LPQOS;
 
-enum {
-	MAX_PROTOCOL_CHAIN = 7,
-	WSAPROTOCOL_LEN  = 255,
-};
+
+static const int MAX_PROTOCOL_CHAIN = 7;
+static const int WSAPROTOCOL_LEN  = 255;
+static const int BASE_PROTOCOL      = 1;
+static const int LAYERED_PROTOCOL   = 0;
+
+
 
 typedef struct _WSAPROTOCOLCHAIN {
 	int ChainLen;
 	DWORD ChainEntries[MAX_PROTOCOL_CHAIN];
 } WSAPROTOCOLCHAIN,  *LPWSAPROTOCOLCHAIN;
+]]
+
+
+ffi.cdef[[
+typedef struct _WSAPROTOCOL_INFO {
+  DWORD            dwServiceFlags1;
+  DWORD            dwServiceFlags2;
+  DWORD            dwServiceFlags3;
+  DWORD            dwServiceFlags4;
+  DWORD            dwProviderFlags;
+  GUID             ProviderId;
+  DWORD            dwCatalogEntryId;
+  WSAPROTOCOLCHAIN ProtocolChain;
+  int              iVersion;
+  int              iAddressFamily;
+  int              iMaxSockAddr;
+  int              iMinSockAddr;
+  int              iSocketType;
+  int              iProtocol;
+  int              iProtocolMaxOffset;
+  int              iNetworkByteOrder;
+  int              iSecurityScheme;
+  DWORD            dwMessageSize;
+  DWORD            dwProviderReserved;
+  TCHAR            szProtocol[WSAPROTOCOL_LEN+1];
+} WSAPROTOCOL_INFO, *LPWSAPROTOCOL_INFO;
+
 ]]
 
 ffi.cdef[[
@@ -926,7 +1033,11 @@ typedef struct pollfd {
 int WSAPoll(LPWSAPOLLFD fdArray, ULONG fds, INT timeout);
 ]]
 WSAPOLLFD = ffi.typeof("WSAPOLLFD")
-
+WSAPOLLFD_mt = {
+	__gc = function(self)
+		print("GC: WSAPOLLFD");
+	end,
+}
 
 ffi.cdef[[
 
@@ -1009,7 +1120,11 @@ typedef struct _INTERFACE_INFO {
     sockaddr_gen iiBroadcastAddress; // Broadcast address.
     sockaddr_gen iiNetmask;     // Network mask.
 } INTERFACE_INFO, *LPINTERFACE_INFO;
+]]
 
+
+
+ffi.cdef[[
 int WSAIoctl(
     SOCKET s,
     DWORD dwIoControlCode,
@@ -1021,14 +1136,15 @@ int WSAIoctl(
     LPWSAOVERLAPPED lpOverlapped,
     LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine
 );
+
+int WSAEnumProtocolsA(
+    LPINT lpiProtocols,
+    LPWSAPROTOCOL_INFOA lpProtocolBuffer,
+    LPDWORD lpdwBufferLength);
 ]]
 
 
 
 return {
 	wsadata_typename = wsadata_typename,
-
-	SocketType = ffi.new("struct IP_SocketType");
-	Protocol = ffi.new("struct IP_Protocol");
-	Family = ffi.new("struct IP_Family");
 }

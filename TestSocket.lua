@@ -28,8 +28,36 @@ if err ~= 0 then
 	socket_cleanup(nil, err, "ERROR in socket_initialize(): ")
 end
 
+--[[
+-- FIX: with this code: http://beej.us/guide/bgnet/output/html/multipage/syscalls.html#bind
+local addr = ffi.new("struct sockaddr_in")
+addr.sin_family = C.AF_INET
+addr.sin_addr.s_addr = C.INADDR_ANY -- does not work in win without changing in_addr.S_addr to in_addr.s_addr
+addr.sin_port = socket_htons(port)
+-- C.inet_aton("127.0.0.1", addr.sin_addr) -- test this
+]]
+
+-- http://beej.us/guide/bgnet/output/html/multipage/syscalls.html#bind
+local res = ffi.new("struct addrinfo*[1]")
+local hints = ffi.new("struct addrinfo")
+
+hints.ai_family = C.AF_INET -- DOES NOT work in windows: AF_UNSPEC,  AF_UNSPEC == use IPv4 or IPv6, whichever
+hints.ai_socktype = C.SOCK_STREAM
+hints.ai_protocol = C.IPPROTO_TCP
+hints.ai_flags = bit.bor(C.AI_PASSIVE) -- fill in my IP for me
+local host = nil -- binding, can be nil
+local serv = tostring(port)
+local err = socket_getaddrinfo(host, serv, hints, res)
+if err ~= 0 then
+	print("  -- sock.getaddrinfo error: '"..socket_errortext(err).."'")
+	os.exit()
+end
+
 -- Create a SOCKET for connecting to server
-ListenSocket = socket_socket(C.AF_INET, C.SOCK_STREAM, C.IPPROTO_TCP)
+-- print(res[0].ai_family, res[0].ai_socktype, res[0].ai_protocol) -- this MUST be same as next line
+-- print(C.AF_INET, C.SOCK_STREAM, C.IPPROTO_TCP)
+
+ListenSocket = socket_socket(res[0].ai_family, res[0].ai_socktype, res[0].ai_protocol) -- C.AF_INET, C.SOCK_STREAM, C.IPPROTO_TCP)
 if ListenSocket == INVALID_SOCKET then
 		socket_cleanup(nil, ListenSocket, "socket_socket failed with error: ")
 		return 1
@@ -37,20 +65,15 @@ end
 
 -- Setup the TCP listening socket
 local on = ffi.new("int32_t[1]", 1)
-local on_c = ffi.cast("char *",on)
-print("on[0]", on[0])
+local on_c = ffi.cast("char *", on)
 local rc = socket_setsockopt(ListenSocket, C.SOL_SOCKET, C.SO_REUSEADDR, on_c, ffi.sizeof(on))
 
--- FIX: with this code: http://beej.us/guide/bgnet/output/html/multipage/syscalls.html#bind
-local addr = ffi.new("struct sockaddr_in")
-addr.sin_family = C.AF_INET
-addr.sin_addr.s_addr = C.INADDR_ANY -- does not work in win without changing in_addr.S_addr to in_addr.s_addr
-addr.sin_port = socket_htons(port)
--- C.inet_aton("127.0.0.1", addr.sin_addr) -- test this
-
+--[[
 local sockaddr = ffi.cast("struct sockaddr *", addr)
 print(addr, sockaddr) -- ffi.cast("struct sockaddr *", addr)
 result = socket_bind(ListenSocket, sockaddr, ffi.sizeof(addr))
+]]
+result = socket_bind(ListenSocket, res[0].ai_addr, res[0].ai_addrlen)
 if result < 0 then
 	socket_cleanup(ListenSocket, result, "socket_bind failed with error: ")
 end
@@ -61,7 +84,8 @@ if result < 0 then
 end
 
 -- Accept a client socketlocal
-print("Waiting for client to connect to server socket: " .. ListenSocket)
+print("Waiting for client to connect to server socket: #" .. ListenSocket)
+print("Point your brorser to 127.0.0.1:"..port.." and do refresh TWICE.")
 
 client_addr = ffi.new("struct sockaddr_in[1]")
 client_addr_ptr = ffi.cast("struct sockaddr *", client_addr)
@@ -71,42 +95,41 @@ local ClientSocket = socket_accept(ListenSocket, client_addr_ptr, client_addr_si
 if ClientSocket < 0 then
 	socket_cleanup(ListenSocket, ClientSocket, "socket_accept failed with error: ")
 end
+socket_close(ListenSocket) -- not needed anymore
+print()
+
 print("socket accepted: " .. ClientSocket, client_addr_ptr, client_addr_size, client_addr_size[0])
-print("client  address: " .. client_addr[0].sin_family, client_addr[0].sin_port, client_addr[0].sin_addr, client_addr[0].sin_zero[0]) -- client_addr[0].sin_len not in win
+print("client address : " .. client_addr[0].sin_family, client_addr[0].sin_port, client_addr[0].sin_addr, client_addr[0].sin_zero[0]) -- client_addr[0].sin_len not in win
 
 -- http://stackoverflow.com/questions/4282292/convert-struct-in-addr-to-text
 -- http://www.freelists.org/post/luajit/FFI-pointers-to-pointers,1
 -- https://gist.github.com/neomantra/2644943
 
-local program_source1 = ffi.new("char[1]")
-local src_array =  ffi.new("char*[1]")
-src_array[0] = ffi.cast("char *",program_source1)
-
-local ai = ffi.new("struct addrinfo[1]")
+-- local ai = ffi.new("struct addrinfo[1]")
 local ai_array = ffi.new("struct addrinfo *[1]")
-ai_array[0] = ffi.cast("struct addrinfo *", ai)
-
+-- ai_array[0] = ffi.cast("struct addrinfo *", ai)
 local hints = ffi.new("struct addrinfo[1]")
-local AF_UNSPEC 		= 0 -- unspecified
-hints[0].ai_family = AF_UNSPEC
+hints[0].ai_family = C.AF_INET -- AF_UNSPEC
 hints[0].ai_socktype = C.SOCK_STREAM
 
-local err = socket_getaddrinfo("127.0.0.1", nil, nil, ai_array) -- C.getaddrinfo("8.8.8.8", "http", hints, ai)
-print("getaddrinfo: ", err, ai_array, ai_array[0], ai_array[0].ai_addrlen, ai_array[0].ai_addr, ai_array[0].ai_canonname) -- ", ai_canonname: '"..ffi.string(ai_ptr.ai_canonname).."'")
-print("getaddrinfo: ", err, ai, ai[0], ai[0].ai_addrlen, ai[0].ai_addr, ai[0].ai_canonname)
+--local err = socket_getaddrinfo("127.0.0.1", nil, nil, ai_array) -- C.getaddrinfo("8.8.8.8", "http", hints, ai)
+--[[
+print("getaddrinfo1: ", err, ai_array, ai_array[0])
+print("getaddrinfo2: ", ai_array[0].ai_addrlen, ai_array[0].ai_addr, ai_array[0].ai_canonname)
+print("getaddrinfo3: ", err, ai, ai[0])
+print("getaddrinfo4: ", ai[0].ai_addrlen, ai[0].ai_addr, ai[0].ai_canonname)
+print()
+]]
 
-
-local hostname = createBuffer(C.NI_MAXHOST) --getOffsetPointer(createBufferVariable(C.NI_MAXHOST), 0)
-local servInfo = createBuffer(C.NI_MAXSERV) --getOffsetPointer(createBufferVariable(C.NI_MAXSERV), 0)
+local hostname = createBuffer(C.NI_MAXHOST)
+local servInfo = createBuffer(C.NI_MAXSERV)
 local dwRetval = socket_getnameinfo(client_addr_ptr, ffi.sizeof(client_addr), hostname, C.NI_MAXHOST, servInfo, C.NI_MAXSERV, 0)
--- eorks: ffi.sizeof(client_addr) --client_addr_ptr.sa_len
+if dwRetval ~= 0 then
+	socket_cleanup("socket_getnameinfo failed with error: "..dwRetval..". "..socket_errortext(errnum))
+end
+print("client ip:port : "..ffi.string(hostname)..":"..ffi.string(servInfo)) -- servInfo is post number
+print()
 
---print("client  address: ",ffi.string(hostname[0])) -- .. ffi.string(servInfo[0]))
-print("client  address: ", dwRetval, hostname, ffi.string(hostname)) -- .. ffi.string(servInfo[0]))
-print("client  address: ", dwRetval, servInfo, ffi.string(servInfo))
--- ffi.string(C.gai_strerror(dwRetval))
-
-socket_close(ListenSocket)
 
 -- Receive until the peer shuts down the connection
 repeat

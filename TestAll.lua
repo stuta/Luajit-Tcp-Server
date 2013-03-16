@@ -2,6 +2,7 @@
 
 print()
 print(" -- TestAll.lua start -- ")
+print(" -- You MUST have linked osx/linux luajit to 'lj', see jl.sh -- ")
 
 dofile "lib_util.lua"
 local arg = {...}
@@ -16,7 +17,7 @@ for _,file in ipairs(dir) do
 		if ans == "q" then os.exit() end
 		if ans ~= "s" then
 			print(" ********** running file: "..file)
-			os.execute("luajit "..file)
+			os.execute("lj "..file)
 			print(" ********** end running file: "..file)
 		end
 		print()

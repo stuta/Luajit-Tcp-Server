@@ -5,7 +5,7 @@ Trying to create fastest possible OSX and Windows tcp server and very simple htt
 
 Currently this just collection of test code, tested with Luajit.
 
-WTypes.lua, WinBase.lua and win_socket.lua are copied from https://github.com/Wiladams/LJIT2Win32.
+WTypes.lua, WinBase.lua guiddef.lua, kernel32_ffi.lua and win_socket.lua have been copied from https://github.com/Wiladams/TINN.
 
 All code will be OSX + Windows + Linux. Contributios are welcome.
 

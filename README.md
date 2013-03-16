@@ -11,7 +11,7 @@ All code will be OSX + Windows + Linux. Contributios are welcome.
 
 ##### Test status
 
-Linux tests were done in great "Linux Mint 14 MATE" 32-bit, 400 mb ram is enough in VirtualBox. In Linux install file jl.sh, read instructions from the file. Mac tests has been done in 10.8 and windows tests in XP and Win7.
+Linux tests were done in great "Linux Mint 14 MATE" 32-bit, 400 mb ram is enough in VirtualBox. In Linux install file lj.sh, read instructions from the file. Mac needs symlink too. Mac tests have been done in OSX 10.8. Windows tests have been done in XP and Win7.
 
 __Works__:
 

@@ -84,7 +84,7 @@ if result < 0 then
 end
 
 -- Accept a client socketlocal
-print("Waiting for client to connect to server socket: #" .. ListenSocket)
+print("Waiting for client to connect to server socket number: " .. ListenSocket)
 print("Point your brorser to 127.0.0.1:"..port.." and do refresh TWICE.")
 
 client_addr = ffi.new("struct sockaddr_in[1]")
@@ -95,31 +95,16 @@ local ClientSocket = socket_accept(ListenSocket, client_addr_ptr, client_addr_si
 if ClientSocket < 0 then
 	socket_cleanup(ListenSocket, ClientSocket, "socket_accept failed with error: ")
 end
+local rc = socket_setsockopt(ClientSocket, C.SOL_SOCKET, C.SO_REUSEADDR, on_c, ffi.sizeof(on))
 socket_close(ListenSocket) -- not needed anymore
 print()
 
 print("socket accepted: " .. ClientSocket, client_addr_ptr, client_addr_size, client_addr_size[0])
-print("client address : " .. client_addr[0].sin_family, client_addr[0].sin_port, client_addr[0].sin_addr, client_addr[0].sin_zero[0]) -- client_addr[0].sin_len not in win
+print("client address : " .. client_addr[0].sin_family, client_addr[0].sin_port, client_addr[0].sin_addr, client_addr[0].sin_zero[0])
 
 -- http://stackoverflow.com/questions/4282292/convert-struct-in-addr-to-text
 -- http://www.freelists.org/post/luajit/FFI-pointers-to-pointers,1
 -- https://gist.github.com/neomantra/2644943
-
--- local ai = ffi.new("struct addrinfo[1]")
-local ai_array = ffi.new("struct addrinfo *[1]")
--- ai_array[0] = ffi.cast("struct addrinfo *", ai)
-local hints = ffi.new("struct addrinfo[1]")
-hints[0].ai_family = C.AF_INET -- AF_UNSPEC
-hints[0].ai_socktype = C.SOCK_STREAM
-
---local err = socket_getaddrinfo("127.0.0.1", nil, nil, ai_array) -- C.getaddrinfo("8.8.8.8", "http", hints, ai)
---[[
-print("getaddrinfo1: ", err, ai_array, ai_array[0])
-print("getaddrinfo2: ", ai_array[0].ai_addrlen, ai_array[0].ai_addr, ai_array[0].ai_canonname)
-print("getaddrinfo3: ", err, ai, ai[0])
-print("getaddrinfo4: ", ai[0].ai_addrlen, ai[0].ai_addr, ai[0].ai_canonname)
-print()
-]]
 
 local hostname = createBuffer(C.NI_MAXHOST)
 local servInfo = createBuffer(C.NI_MAXSERV)
@@ -132,6 +117,7 @@ print()
 
 
 -- Receive until the peer shuts down the connection
+print(ClientSocket)
 repeat
 	result = socket_recv(ClientSocket, recvbuf_ptr, recvbuflen, 0)
 	if result > 0 then
@@ -162,76 +148,6 @@ end
 socket_close(ClientSocket)
 socket_cleanup()
 
--- ============================================
-
---[[
-local sockfd = socket_socket(C.AF_INET, C.SOCK_STREAM, C.IPPROTO_TCP)
-if sockfd < 0 then
-	socket_cleanup()
-	error("ERROR opening socket")
-end
-
--- Initialize socket structure
-local serv_addr 	= ffi.new("struct addrinfo[1]")
-local cli_addr 	= ffi.new("struct addrinfo[1]")
-
-local portno = 5001
-serv_addr[0].sin_family = C.AF_INET
-serv_addr[0].sin_addr.s_addr = C.INADDR_ANY
-serv_addr[0].sin_port = socket_htons(portno)
-
--- Now bind the host address using bind() call.
-if socket_bind(sockfd, ffi.cast("struct sockaddr *", serv_addr), ffi.sizeof(serv_addr)) < 0 then
-	socket_cleanup()
-	error("ERROR on binding")
-end
-
-hints.ai_family = PF_UNSPEC
-hints.ai_socktype = SOCK_STREAM
-hints.ai_flags = AI_PASSIVE
-error = getaddrinfo(nil, "http", &hints, &res0)
-if error
-			 errx(1, "%s", gai_strerror(error))
-			 /*NOTREACHED*/
-end
-
- s[nsock] = socket(res->ai_family, res->ai_socktype, res->ai_protocol)
- if s[nsock] < 0
-				 cause = "socket"
-				 continue
- end
-
- if bind(s[nsock], res->ai_addr, res->ai_addrlen) < 0
-
-
--- Now start listening for the clients, here process will
--- go in sleep mode and will wait for the incoming connection
-socket_listen(sockfd, 5)
-
--- Accept actual connection from the client
-local newsockfd = socket_accept(sockfd, ffi.cast("struct sockaddr *", cli_addr), clilen)
-if newsockfd < 0 then
-	socket_cleanup()
-	error("ERROR on accept")
-end
-
--- If connection is established then start communicating
-print("C.read")
-local n = socket_read(newsockfd, buffer[0], 255)
-if n < 0 then
-	socket_cleanup()
-	error("ERROR reading from socket: "..tonumber(n))
-end
-print("Here is the message: %s\n", ffi.string(buffer[0]))
-
--- Write a response to the client
-n = socket_write(newsockfd, "I got your message", 18)
-if n < 0 then
-	socket_cleanup()
-	error("ERROR writing to socket")
-end
-socket_cleanup()
---]]
 
 print()
 print(" -- TestSocket.lua end -- ")

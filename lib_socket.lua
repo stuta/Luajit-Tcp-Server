@@ -16,6 +16,9 @@ end
 if isWin then
 	--require "win_socket"
 	function socket_errortext(err)
+		if not err then
+			return("ERR: socket_errortext() called with nil value")
+		end
 		-- sock.WSAGetLastError() --err --ffi.string(ffi.C.gai_strerror(err))
 		local buffer = ffi.new("char[512]")
 		if not kernel32 then
@@ -24,7 +27,7 @@ if isWin then
 		local flags = bit.bor(s.FORMAT_MESSAGE_IGNORE_INSERTS, s.FORMAT_MESSAGE_FROM_SYSTEM)
 		local err_c = ffi.cast("int", err)
 		kernel32.FormatMessageA(flags, nil, err_c, 0, buffer, ffi.sizeof(buffer), nil)
-		return string.sub(ffi.string(buffer), 1, -3) -- remove last crlf
+		return string.sub(ffi.string(buffer), 1, -3).." ("..err..")" -- remove last crlf
 	end
 	function socket_initialize()
 		local wsadata
@@ -33,10 +36,14 @@ if isWin then
 		else
 			wsadata = ffi.new("WSADATA[1]")
 		end
-		local wVersionRequested = MAKEWORD(2, 2)
+		local wVersionRequested = MAKEWORD(2, 2) --ffi.cast("WORD", MAKEWORD(2, 2))
     local err = s.WSAStartup(wVersionRequested, wsadata)
-		wsadata = wsadata[0]
-		return err,wsadata
+    if err ~= 0 then
+			print("ERR: WSAStartup failed with error code: "..err)
+    elseif s.WSAGetLastError() ~= 0 then
+			print("ERR: WSAStartup failed with error code: "..s.WSAGetLastError())
+    end
+		return err,wsadata[0]
 	end
 	function socket_close(socket)
 		local socket_c = ffi.cast("int", socket)
@@ -44,10 +51,10 @@ if isWin then
 	end
 	function socket_cleanup(socket, errnum, errtext)
 		local wsa_err_num -- get WSAGetLastError() before close and WSACleanup
-		if errnum and errnum ~= 0 then
+		if errnum and errnum ~= 0 and errnum ~= -1 then
 			wsa_err_num = errnum
 		else
-			wsa_err_num = errnum or s.WSAGetLastError()
+			wsa_err_num = s.WSAGetLastError() or 0
 		end
 		if socket then
 			socket_close(socket)

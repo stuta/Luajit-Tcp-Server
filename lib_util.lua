@@ -26,14 +26,26 @@ ffi.cdef([[
 
 -- Lua state - creating a new Lua state to a new thread
 ffi.cdef([[
+	/* garbage-collection function and options */
+	static const int LUA_GCSTOP		= 0;
+	static const int LUA_GCRESTART		= 1;
+	static const int LUA_GCCOLLECT		= 2;
+	static const int LUA_GCCOUNT		= 3;
+	static const int LUA_GCCOUNTB		= 4;
+	static const int LUA_GCSTEP		= 5;
+	static const int LUA_GCSETPAUSE		= 6;
+	static const int LUA_GCSETSTEPMUL	= 7;
+
+	static const int LUA_GLOBALSINDEX = -10002;
 	typedef struct lua_State lua_State;
+
+	int (lua_gc) (lua_State *L, int what, int data);
 	lua_State *luaL_newstate(void);
 	void luaL_openlibs(lua_State *L);
 	void lua_close(lua_State *L);
 	int luaL_loadstring(lua_State *L, const char *s);
 	int lua_pcall(lua_State *L, int nargs, int nresults, int errfunc);
 
-	static const int LUA_GLOBALSINDEX = -10002;
 	void lua_getfield(lua_State *L, int index, const char *k);
 	ptrdiff_t lua_tointeger(lua_State *L, int index);
 	void lua_settop(lua_State *L, int index);
@@ -155,10 +167,13 @@ if isWin then
 		if not h then return 0 end-- not a console
 		local mode = ffi.new("DWORD[1]")
 		C.GetConsoleMode( h, mode )
-		local modeSet = bit.band(mode[0], bit.bnot(bit.bor(C.ENABLE_LINE_INPUT, C.ENABLE_ECHO_INPUT)))
+		local modeSet = bit.band(mode[0], bit.bnot(bit.bor(C.ENABLE_LINE_INPUT, C.ENABLE_ECHO_INPUT))) --, C.ENABLE_PROCESSED_INPUT)))
 		C.SetConsoleMode( h, modeSet )
 		local ch = ffi.new("DWORD[1]")
 		local count = ffi.new("DWORD[1]")
+		-- to read also arrows and other special chars from input:
+		-- http://msdn.microsoft.com/en-us/library/windows/desktop/ms684958(v=vs.85).aspx
+		-- last param: A pointer to a CONSOLE_READCONSOLE_CONTROL structure that specifies a control character to signal the end of the read operation. This parameter can be NULL.
 		C.ReadConsoleA( h, ch, 1, count, nil )
 		C.SetConsoleMode( h, mode[0] )
 		return string.char(tonumber(ch[0]))

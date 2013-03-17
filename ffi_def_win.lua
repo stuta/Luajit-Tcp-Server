@@ -24,8 +24,9 @@ ffi.cdef[[
 	static const DWORD STD_OUTPUT_HANDLE = -11;	// #define STD_OUTPUT_HANDLE   (DWORD)-11
 	static const DWORD STD_ERROR_HANDLE = -12;	// #define STD_ERROR_HANDLE    (DWORD)-12
 
-	static const int ENABLE_LINE_INPUT = 0x0002;	// #define ENABLE_LINE_INPUT       0x0002
-	static const int ENABLE_ECHO_INPUT = 0x0004;	// #define ENABLE_ECHO_INPUT       0x0004
+	static const int ENABLE_PROCESSED_INPUT = 0x0001;	// #define ENABLE_ECHO_INPUT       0x0004
+	static const int ENABLE_LINE_INPUT 			= 0x0002;	// #define ENABLE_LINE_INPUT       0x0002
+	static const int ENABLE_ECHO_INPUT 			= 0x0004;	// #define ENABLE_ECHO_INPUT       0x0004
 
 ]]
 
@@ -176,6 +177,9 @@ ffi.cdef[[
 ]]
 
 --  thread.lua
+ffi.cdef[[
+		static const int INFINITE = 0xFFFFFFFF;
+]]
 --[[ffi.cdef[ [
 	// Windows
 	// https://github.com/Wiladams/BanateCoreWin32/blob/master/win_kernel32.lua

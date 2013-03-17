@@ -23,7 +23,11 @@ end
 function luaStateCreate(lua_code)
 	local L = C.luaL_newstate()
 	assert(L ~= nil)
+
+	-- http://williamaadams.wordpress.com/2012/04/03/step-by-step-inch-by-inch/
+	C.lua_gc(L, C.LUA_GCSTOP, 0) -- stop collector during initialization
 	C.luaL_openlibs(L)
+	C.lua_gc(L, C.LUA_GCRESTART, -1)
 
 	assert(C.luaL_loadstring(L, lua_code) == 0)
 	local res = C.lua_pcall(L, 0, 1, 0) -- runs code
@@ -46,35 +50,49 @@ function luaStateDelete(luaState)
 end
 
 function threadToId(thread)
-	if isLinux then
-		return tonumber(thread)
+	if isMac then
+		return tonumber(ffi.cast('intptr_t', ffi.cast('void *', thread[0]))) -- is this ok?
 	end
-	return tonumber(ffi.cast('intptr_t', ffi.cast('void *', thread[0]))) -- is this ok?
+	return tonumber(thread)
 end
 
 
 if isWin then
 
+	local k32 = require "win_kernel32" -- k32 not needed here
+
 	function threadSelf()
-		local id = 0
-		return id --threadToId(id)
+		local id = C.GetCurrentThreadId()
+		return threadToId(id)
 	end
 
 	-- then use pthread_create() from the original state, passing the callback address of the other state
-	function luaThreadCreate(func_ptr, arg)
-		local thread_c = ffi.new("int[1]")
-		print(" *** Win FAKE thread!!! ***")
-		return thread_c -- thread_c,threadToId(thread_c)
+	function luaThreadCreate(func_ptr, arg, flags)
+		flags = flags or 0
+		local thread_c = ffi.new("DWORD[1]")
+		local arg_c = ffi.cast("void *", arg) -- necessary if arg is not cstr, should we we check arg type?
+		local func_ptr_c = ffi.cast("void *", func_ptr)
+		local handle = C.CreateThread(nil, 0, func_ptr_c, arg_c, flags, thread_c)
+		assert(handle, " *** ERR: luaThreadCreate() failed.")
+		return thread_c[0]
 	end
 
 	function threadJoin(thread_id)
-		local return_val = ffi.new("int[1]")
-		return return_val[0]
+		--local return_val = ffi.new("int[1]") -- ffi.cast('intptr_t'
+		--local return_ptr = ffi.cast('void *', return_val)
+		--local res = C.pthread_join(thread_id[0], return_ptr) -- and IN thread C.pthread_exit(100)
+		C.WaitForSingleObject(thread_id, C.INFINITE)
+		--return return_val[0]
 	end
 
 	function threadExit(return_val)
-		local return_ptr = ffi.cast('void *', return_val)
-		--ffi.C.pthread_exit(return_ptr)
+		if false then
+			print()
+			print(" *** ERR: threadExit(return_val) is not supported")
+			print()
+			local return_ptr = ffi.cast('void *', return_val)
+			--ffi.C.pthread_exit(return_ptr)
+		end
 	end
 
 else
@@ -93,7 +111,7 @@ else
 		local thread_c = ffi.new("pthread_t[1]")
 		local arg_c = ffi.cast("void *", arg) -- necessary if arg is not cstr, should we we check arg type?
 		local res = C.pthread_create(thread_c, nil, ffi.cast("thread_func", func_ptr), arg_c)
-		assert(res == 0)
+		assert(res == 0, " *** ERR: luaThreadCreate() failed.")
 		return thread_c[0] -- thread_c,threadToId(thread_c)
 	end
 

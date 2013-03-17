@@ -123,10 +123,10 @@ end
 --print("threadJoin(threadA): "..ret)
 
 print("luaStateDelete() - start")
-sleep(10)
+sleep(200)
 -- we MUST call either threadJoin() or do something (sleep) before lua_close
 -- or we get Segmentation fault: 11
--- sleep(1) is smallest enough in this case because thread_entry func is fast
+-- in osx sleep(1) is smallest enough in this case because thread_entry func is fast, win needs longer time
 
 luaStateDelete(luaStateA) -- Destroys all objects in the given Lua state
 luaStateDelete(luaStateB) -- if Lua state is running you WILL get crash

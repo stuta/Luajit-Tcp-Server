@@ -11,7 +11,7 @@ All code will be OSX + Windows + Linux. Contributios are welcome.
 
 ##### Test status
 
-Linux tests were done in great "Linux Mint 14 MATE" 32-bit, 400 mb ram is enough in VirtualBox. In Linux install file lj.sh, read instructions from the file. Mac needs symlink too. Mac tests have been done in OSX 10.8. Windows tests have been done in XP and Win7.
+Linux tests were done in great "Linux Mint 14 MATE" 32-bit, 400 mb ram is enough in VirtualBox. In Linux install file lj.sh, read instructions from the file. Also Mac needs "lj"-symlink. Windows binaries are included in repo. Mac tests have been done in OSX 10.8. Windows tests have been done in XP and Win7.
 
 __Works__:
 
@@ -21,12 +21,12 @@ __Works__:
   * TestSharedMem: osx + win + linux 
   * no need: [[ TestSignal: osx + linux ("Bad system call"" with many signals) ]]
   * TestSocket: osx + win + linux
-  * TestThread: osx + (win soon) + linux 
-  	* return values has been disabled
+  * TestThread: osx + win + linux 
+  	- thread return values have been disabled
   * TestUtil: osx + win + linux
 
 __Current issues__:
-
+  * Move to native win socket code for IOCP support.
   * AddrinfoTest.lua
   	- what is correct way to call **data parameters, is it data\*[1] ?
   	- set correct parameters to addrinfo calls

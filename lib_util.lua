@@ -51,6 +51,24 @@ ffi.cdef([[
 	void lua_settop(lua_State *L, int index);
 ]])
 
+if isWin then
+	--require "win_socket"
+	function win_errortext(err)
+		if not err then
+			return("ERR: win_errortext() called with nil value")
+		end
+		-- sock.WSAGetLastError() --err --ffi.string(ffi.C.gai_strerror(err))
+		local buffer = ffi.new("char[512]")
+		if not kernel32 then
+			kernel32 = ffi.load("kernel32")
+		end
+		local flags = bit.bor(C.FORMAT_MESSAGE_IGNORE_INSERTS, C.FORMAT_MESSAGE_FROM_SYSTEM)
+		local err_c = ffi.cast("int", err)
+		kernel32.FormatMessageA(flags, nil, err_c, 0, buffer, ffi.sizeof(buffer), nil)
+		return string.sub(ffi.string(buffer), 1, -3).." ("..err..")" -- remove last crlf
+	end
+end
+
 function cstr(str)
 	local len = str:len()+1
   local typeStr = "uint8_t[" .. len .. "]"
@@ -329,6 +347,19 @@ function directory_files(dirpath)
 end
 
 -- === external (borrowed) utilities === --
+
+function numStringLength( i )
+  if (i < 10) then return 1 end
+  if (i < 100) then return 2 end
+  if (i < 1000) then return 3 end
+  if (i < 10000) then return 4 end
+  if (i < 100000) then return 5 end
+  if (i < 1000000) then return 6 end
+  if (i < 10000000) then return 7 end
+  if (i < 100000000) then return 8 end
+  if (i < 1000000000) then return 9 end
+  return 100
+end
 
 -- add comma to separate thousands
 function comma_value(amount, comma)

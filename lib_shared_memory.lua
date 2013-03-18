@@ -1,4 +1,4 @@
---  lib_shared_mem.lua
+--  lib_shared_memory.lua
 
 dofile "lib_util.lua"
 local ffi = require("ffi")
@@ -17,12 +17,19 @@ osx:
 http://stackoverflow.com/questions/10668/reading-other-process-memory-in-os-x-bsd
 ]]
 
+local INVALID_HANDLE_VALUE	= ffi.cast("void *", -1)
+
+local function print_error(functionName, str)
+	print("### shared mem lua error (" .. functionName .. "): " .. str .. " ###")
+end
+
 if isWin then
 
 	-- good (linux, osx, FreeBSD, Solaris):
 	--   https://github.com/D-Programming-Language/druntime/blob/master/src/core/sys/posix/sys/mman.d
 	-- constants: https://github.com/Wiladams/BanateCoreWin32/blob/master/WinBase.lua
 	-- http://www.programarts.com/cfree_en/winbase_h.html
+	local k32 = require("win_kernel32")
 
 	FILE_MAP_ALL_ACCESS = 0xf001f
 	FILE_MAP_READ    		= 4
@@ -46,75 +53,152 @@ if isWin then
 
 	-- http://www.pinvoke.net/default.aspx/Structures/MEMORY_BASIC_INFORMATION.html
 	FILE_ATTRIBUTE_NORMAL = 0x80
+	FILE_ATTRIBUTE_READONLY = 0x01
+	FILE_FLAG_DELETE_ON_CLOSE = 0x04000000
 	PAGE_READONLY         = 0x02
 	PAGE_READWRITE        = 0x04
   PAGE_WRITECOPY        = 0x08
+  SEC_COMMIT = 0x8000000
 
-	INVALID_HANDLE_VALUE	= ffi.cast("void *", -1)
 
   -- globas, create array of these, filename as index
 	un = {}
-	un.memptr = nil
-	un.file = nil
-	un.map = nil
-	un.filesize = -1
-
-	shmName = nil --"shmfile.txt"
+	shmName = {} --"shmfile.txt"
 
 	-- map 'filename' and return a pointer to it. fill out *length and *un if not-nil
 	-- example: http://msdn.microsoft.com/en-us/library/windows/desktop/aa366551(v=vs.85).aspx
-	function sharedMemorySize()
-		return un.filesize
+
+	function sharedMemorySize(filename)
+		return un[filename].filesize
 	end
 
-	function sharedMemoryCreate(filename, size)
-		shmName = cstr(filename)
-		local openOpts  = bit.bor(GENERIC_READ, GENERIC_WRITE)
-		local shareOpts = bit.bor(FILE_SHARE_READ, FILE_SHARE_WRITE)
-		local hFile = C.CreateFileA(shmName, openOpts, shareOpts, nil, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, nil);
-		if hFile == INVALID_HANDLE_VALUE then
-			print("C.CreateFileA() failed: "..GetLastError())
-			return nil
+
+	function sharedMemoryOpen(filename, size, create)
+		if size < 65536 then
+			size = 65536
 		end
 
-		local hMapFile = C.CreateFileMappingA(hFile, nil, PAGE_READWRITE, 0, size, nil)
-		if hMapFile == nil then
-			print("C.CreateFileMappingA() failed"..GetLastError())
-			C.CloseHandle(hFile)
-			return nil
-		end
-		local pMem = C.MapViewOfFile(hMapFile, FILE_MAP_ALL_ACCESS, 0, 0, 0) -- , 0, 0, size)
+		shmName[filename] = cstr(filename)
+		local shm_global_name = string.gsub(filename, "\\", "_")
+		shm_global_name = string.gsub(shm_global_name, "C:_", "") -- "Global\\"
+		print(shm_global_name)
+		shm_global_name = cstr(shm_global_name)
 
+		local accessOpts, shareOpts, openOpts, fileOpts, protectOpts, fileProtectOpts
+		if create then
+			accessOpts  = bit.bor(GENERIC_WRITE, GENERIC_READ)
+			shareOpts = bit.bor(FILE_SHARE_WRITE, FILE_SHARE_READ)
+			openOpts = OPEN_ALWAYS
+			fileOpts = bit.bor(FILE_ATTRIBUTE_NORMAL, FILE_FLAG_DELETE_ON_CLOSE)
+			protectOpts = bit.bor(PAGE_READWRITE, SEC_COMMIT)
+			fileProtectOpts = FILE_MAP_ALL_ACCESS
+		else
+			accessOpts  = bit.bor(GENERIC_READ)
+			shareOpts = bit.bor(FILE_SHARE_READ)
+			openOpts = OPEN_EXISTING
+			fileOpts = FILE_ATTRIBUTE_READONLY
+			protectOpts = PAGE_READONLY
+			fileProtectOpts = FILE_MAP_READ
+		end
+
+		--[[
+		local hFile
+		if  create then
+			hFile = C.CreateFileA(shmName[filename], accessOpts, shareOpts, nil, openOpts, fileOpts, nil);
+			if hFile == INVALID_HANDLE_VALUE then
+				--if create then
+					print("C.CreateFileA() failed, error: "..win_errortext(C.GetLastError()))
+				--end
+				return nil
+			end
+		end
+		]]
+
+		local hMapFile
+		if create then
+			hMapFile = C.CreateFileMappingA(INVALID_HANDLE_VALUE, nil, protectOpts, 0, size, shm_global_name)
+			--hMapFile = C.CreateFileMappingA(hFile, nil, protectOpts, 0, size, shm_global_name)
+			if hMapFile == nil then
+				print("C.CreateFileMappingA() failed, error: "..win_errortext(C.GetLastError()))
+				--C.CloseHandle(hFile)
+				return nil
+			end
+		else
+			hMapFile = C.OpenFileMappingA(fileProtectOpts, 0, shm_global_name)
+			if hMapFile == nil then
+				print("C.OpenFileMappingA() failed, error: "..win_errortext(C.GetLastError()))
+				--C.CloseHandle(hFile)
+				return nil
+			end
+		end
+
+		local pMem = C.MapViewOfFile(hMapFile, fileProtectOpts, 0, 0, 0) -- , 0, 0, size)
 		--(hMapFile, FILE_MAP_READ, 0,0,0)
 		if pMem == nil then
-			print("C.MapViewOfFile() failed"..GetLastError())
+			print("C.MapViewOfFile() failed, error: "..win_errortext(C.GetLastError()))
 			C.CloseHandle(hMapFile)
-			C.CloseHandle(hFile)
+			--C.CloseHandle(hFile)
 			return nil
 	 	end
 
-		local filesize = C.GetFileSize(hFile, nil) -- where used?
-		un.memptr = pMem
-		un.file = hFile
-		un.map = hMapFile
-		un.filesize = filesize
+		if create then
+			ffi.fill(pMem, size , 0) -- set area to full of zeroes
+		end
 
+		--local filesize = C.GetFileSize(hFile, nil) -- where used?
+		un[filename] = {}
+		un[filename].memptr = pMem
+		--un[filename].file = hFile
+		un[filename].map = hMapFile
+		un[filename].filesize = filesize
+
+		collectgarbage()
 		return pMem
 	end
 
-	function sharedMemoryDelete(filename)
+	function sharedMemoryDisconnect(filename)
+		local ret = 0
 		-- later: find filename from array and use it's values
-		-- if filename ~= shmName then
-		-- 	error("filename ~= shmName (sharedMemoryDelete)")
+		-- if filename ~= shmName[filename] then
+		-- 	print_error("sharedMemoryDisconnect", "filename ~= shmName (sharedMemoryDelete)")
 		-- 	return
 		-- end
-		if un.map then
-			C.UnmapViewOfFile(un.map)
-		 	C.CloseHandle(un.memptr)
-		 	C.CloseHandle(un.file)
+		if un[filename].map then
+			C.UnmapViewOfFile(un[filename].map)
 		else
-			error("un.map == nil (sharedMemoryDelete)")
+			print_error("sharedMemoryDisconnect", "un[filename].map == nil", filename)
+			ret = -1
 		end
+		if un[filename].memptr then
+		 	C.CloseHandle(un[filename].memptr)
+		else
+			print_error("sharedMemoryDisconnect", "un[filename].memptr == nil", filename)
+			ret = ret + -2
+		end
+		--[[
+		if un[filename].file then
+		 	C.CloseHandle(un[filename].file)
+		else
+			print_error("sharedMemoryDisconnect", "un[filename].file == nil", filename)
+			ret = ret + -4
+		end
+		]]
+		collectgarbage()
+		return ret
+	end
+
+	function sharedMemoryDelete(filename)
+		local ret = sharedMemoryDisconnect(filename)
+		--[[print("sharedMemoryDelete", filename)
+		-- actual delete of file here
+		local del = C.DeleteFileA(cstr(filename))
+		if del ~= 1 then
+			print_error("sharedMemoryDelete", "DeleteFile() failed", filename)
+			ret = ret + -8
+		end
+		]]
+		collectgarbage()
+		return ret
 	end
 
 else
@@ -126,82 +210,353 @@ else
 
   -- Lua globals
   shmemSize = 4096
-	sharedMemory = nil
-	shFD = -10
-	shmName = nil
+	sharedMemory = {}
+	shFD = {}
+	shmName = {}
 
 	-- http://stackoverflow.com/questions/10668/reading-other-process-memory-in-os-x-bsd
-	local function shared_memory_clear(doPrint)
-		if sharedMemory then
-			if doPrint then print("sharedMemory already existed (sharedMemoryCreate) ", sharedMemory) end
-			C.munmap(sharedMemory, shmemSize)
+	local function shared_memory_clear(filename, doPrint)
+		if sharedMemory[filename] then
+			if doPrint then print("sharedMemory already existed (sharedMemoryCreate) ", filename) end
+			C.munmap(sharedMemory[filename], shmemSize)
 		end
-		if shFD >= 0 then
-			if doPrint then print("shFD was already >= 0 (sharedMemoryCreate)", shFD) end
-			C.close(shFD)
+		if shFD[filename] >= 0 then
+			if doPrint then print("shFD[filename] was already >= 0 (sharedMemoryCreate)", shFD[filename], filename) end
 		end
-		if shmName then
-			if doPrint then print("shmName already existed (sharedMemoryCreate)", shmName) end
-			C.shm_unlink(shmName) -- can not start again if shm_unlink has not been done
+		if shFD[filename] then
+			C.close(shFD[filename])
 		end
-		sharedMemory = nil
+		if shmName[filename] then
+			if doPrint then print("shmName already existed (sharedMemoryCreate)", filename) end
+		end
+		if shmName[filename] then
+			C.shm_unlink(shmName[filename]) -- can not start again if shm_unlink has not been done
+		end
+		sharedMemory[filename] = nil
+		collectgarbage()
+	end
+
+	function sharedMemoryDisconnect(filename)
+	local ret = 0
+		if not sharedMemory[filename] then
+			print("sharedMemory[filename] == nil (sharedMemoryDisconnect)", filename)
+			ret = -1
+		else
+			C.munmap(sharedMemory[filename], shmemSize)
+			sharedMemory[filename] = nil
+		end
+		if not shmName[filename] then
+			print("shmName[filename] == nil (sharedMemoryDisconnect)", filename)
+			ret = -2
+		else
+			C.shm_unlink(shmName[filename])
+		end
+		shmName[filename] = nil
+		collectgarbage()
+		return ret
 	end
 
 	-- Tear down shared memory
 	function sharedMemoryDelete(filename)
-		if shmName and ffi.string(shmName) ~= filename then
-			print("shmName ~= filename (sharedMemoryDelete)")
-			C.shm_unlink(shmName) -- unlink old name
-		end
-		shmName = cstr(filename)
-		if not sharedMemory then
-			print("sharedMemory == nil (sharedMemoryDelete)")
+		local ret = 0
+		print("sharedMemoryDelete(): ",filename)
+		if not sharedMemory[filename] then
+			print("sharedMemory[filename] == nil (sharedMemoryDelete)", filename)
+			ret = -1
 		else
-			C.munmap(sharedMemory, shmemSize)
+			C.munmap(sharedMemory[filename], shmemSize)
+			sharedMemory[filename] = nil
 		end
-		if shFD < 0 then
-			print("shFD < 1 (sharedMemoryDelete)", shFD)
+		if not shFD[filename] then
+			print("shFD[filename] < 1 (sharedMemoryDelete)", filename)
+			ret = -2
 		else
-			C.close(shFD)
+			C.close(shFD[filename])
+			shFD[filename] = nil
 		end
-		C.shm_unlink(shmName) -- can not start again if shm_unlink has not been done
+		filename = cstr(filename)
+		C.shm_unlink(filename) -- can not start again if shm_unlink has not been done
+		shmName[filename] = nil
+		collectgarbage()
+		return ret
 	end
 
-	function sharedMemoryCreate(filename, size)
-		shared_memory_clear(true) -- not a very good idea?
+	function sharedMemoryOpen(filename, size, create)
+		shmName[filename] = cstr(filename)
+		-- shared_memory_clear(filename, true) -- not a very good idea?
 
-		shmName = cstr(filename)
+		local shm_options, mmap_options, ret
+		if create then
+			shm_options = bit.bor(C.O_RDWR, C.O_CREAT, C.O_EXCL)
+		 	mmap_options = bit.bor(C.PROT_WRITE)
+		else
+		 	shm_options = bit.bor(C.O_RDONLY)
+		 	mmap_options = bit.bor(C.PROT_READ)
+		end
+
 		if size and size > 0 then -- 0 = default smallest size
 			shmemSize = size
 		end
-		local opts = bit.bor(C.O_CREAT, C.O_EXCL, C.O_RDWR)
-		shFD = C.shm_open(shmName, opts, 0755) -- ,0600 or ,0755?, optional
-		if shFD >= 0 then
-				if C.ftruncate(shFD, shmemSize) == 0 then
-					sharedMemory = C.mmap(nil, shmemSize, bit.bor(C.PROT_READ, C.PROT_WRITE), C.MAP_SHARED, shFD, 0)
-					if sharedMemory ~= C.MAP_FAILED then
+		shFD[filename] = C.shm_open(shmName[filename], shm_options, 0755) -- ,0600 or ,0755?, optional
+		if shFD[filename] >= 0 then
+				if create then
+					ret = C.ftruncate(shFD[filename], shmemSize)
+				else
+					ret = 0
+				end
+				if ret == 0 then
+					sharedMemory[filename] = C.mmap(nil, shmemSize, mmap_options, C.MAP_SHARED, shFD[filename], 0)
+					if sharedMemory[filename] ~= C.MAP_FAILED then
 						-- print("sharedMemory OK: " .. filename)
 						-- Initialize shared memory if needed
 						-- Send 'shmemSize' & 'shmemSize' to other process(es)
-						ffi.fill(sharedMemory, shmemSize , 0)
+						if create then
+							ffi.fill(sharedMemory[filename], shmemSize , 0) -- set area to full of zeroes
+						end
 					else
 						print("sharedMemory == MAP_FAILED: FAILED")
-						shared_memory_clear(false)
-						return sharedMemory
+						shared_memory_clear(filename, false)
+						return sharedMemory[filename]
 					end
 				else
-					print("ftruncate(shFD, shmemSize) ~= 0: FAILED")
-					shared_memory_clear(false)
-					return sharedMemory
+					print("ftruncate(shFD[filename], shmemSize) ~= 0: FAILED")
+					shared_memory_clear(filename, false)
+					return sharedMemory[filename]
 				end
-				C.close(shFD)		-- Note: sharedMemory still valid until munmap() called
+				C.close(shFD[filename])		-- Note: sharedMemory still valid until munmap() called
 		else
-			print("shFD < 0: FAILED, shFD = "..shFD)
-			shared_memory_clear(false)
-			return sharedMemory
+			if create then
+				print("shFD[filename] < 0: FAILED, shFD[filename] = "..shFD[filename], filename)
+				shared_memory_clear(filename, false)
+			end
+			return sharedMemory[filename]
 		end
-		return sharedMemory
+		collectgarbage()
+		return sharedMemory[filename]
+	end
+
+end
+
+function sharedMemoryCreate(filename, size)
+	print("sharedMemoryCreate(): ",filename, size)
+	return sharedMemoryOpen(filename, size, true)
+end
+
+function sharedMemoryConnect(filename, size)
+	print("sharedMemoryConnect(): ",filename, size)
+	return sharedMemoryOpen(filename, size, false)
+end
+
+
+-- helper funcs
+
+local yieldTime = yield
+
+local append = -1 -- mf.append
+local inPos = 0
+local outPos = 0
+	--[[
+	http://www.freelists.org/post/luajit/How-to-create-another-lua-State-in-pthread,4
+	The canonical way to convert a cdata pointer to a Lua number is:
+    tonumber(ffi.cast('intptr_t', ffi.cast('void *', ptr)))
+	This returns a signed result, which is cheaper to handle and turns
+	into a no-op, when JIT-compiled. If you really need an unsigned
+	address (and not just an abstract identifier), then use uintptr_t.
+	]]
+local inAddress_c --= ffi.new("unsigned int[1]") --ffi.new("unsigned int[1]") -- uintptr_t = unsigned int? yes in osx64
+local outAddress_c --= ffi.new("unsigned int[1]")
+local waitCount = 0 -- global
+
+local statusLen = 1 -- uint8_t -- how namy bits (not bytes)
+local statusType = "int"..(statusLen*8).."_t" -- int8_t
+local statusTypePtr = statusType.." *"
+
+local inPtrStatus, inPtrData, outPtrStatus, outPtrData  --, inPtrStatus[0], outPtrStatus[0] -- set in mmapAddressSet()
+local inSize, outSize, outMaxSize
+
+
+function mmapInStatus()
+	return inPtrStatus[0]
+end
+
+function mmapOutStatus()
+	return outPtrStatus[0]
+end
+
+function mmapWaitCount()
+	return waitCount
+end
+
+function mmapInDisconnect(filename)
+	return sharedMemoryDisconnect(filename)
+end
+
+function mmapOutDestroy(filename)
+	return sharedMemoryDelete(filename)
+end
+
+function mmapAddressSet()
+
+	print()
+	print("statusLen   : ", statusLen)
+
+	print("outBuffer   : ", outSize)
+	print("outAddress_c: ", outAddress_c)
+	outPtrStatus = getOffsetPointer(outAddress_c, 0)
+	print("outPtrStatus: ", outPtrStatus)
+	outPtrData = getOffsetPointer(outAddress_c, statusLen)
+	print("outPtrData  : ", outPtrData)
+	print("outPtrStatus[0] : ", outPtrStatus[0])
+
+	print("inBuffer    : ", inSize)
+	print("inAddress_c : ", inAddress_c)
+	inPtrStatus = getOffsetPointer(inAddress_c, 0)
+	print("inPtrStatus : ", inPtrStatus)
+	inPtrData = getOffsetPointer(inAddress_c, statusLen)
+	print("inPtrData   : ", inPtrData)
+	print("inPtrStatus[0]  : ", inPtrStatus[0])
+
+	print()
+end
+
+function mmapInConnect(filename, bufferSize)
+	inSize =  bufferSize
+	inFilename = filename
+	inAddress_c = sharedMemoryConnect(inFilename, inSize)
+	if not inAddress_c or inAddress_c == INVALID_HANDLE_VALUE then
+		-- print_error("mmapInConnect", " -- inAddress_c = sharedMemoryCreate() == nil, FAILED")
+		inSize = 0
+	end
+	return inSize -- fix to real buffer size
+end
+
+function mmapOutCreate(filename, bufferSize)
+  outSize =  bufferSize
+	outMaxSize = outSize - statusLen
+	outFilename = filename
+	outAddress_c = sharedMemoryCreate(outFilename, outSize)
+	if not outAddress_c or outAddress_c == INVALID_HANDLE_VALUE then
+		print_error("mmapOutCreate", " -- outAddress_c = sharedMemoryCreate() == nil, FAILED")
+		os.exit()
+	end
+
+	return bufferSize -- fix to real buffer size
+end
+
+
+function mmapStatusInWait(waitForStatus)
+	--[[if waitForStatus < 0 then
+		waitForStatus = abs(waitForStatus)
+		while inPtrStatus[0] == waitForStatus do
+			waitCount = waitCount + 1
+			yieldTime()
+		end
+	else]]
+		--print("mmapStatusInWait(): ", inPtrStatus[0], waitForStatus)
+		while inPtrStatus[0] ~= waitForStatus do
+			waitCount = waitCount + 1
+			yieldTime()
+		end
+	--end
+end
+
+
+function mmapStatusOutSet(stat)
+	--ma.ReadWriteMemoryBarrier()
+	outPtrStatus[0] = stat
+end
+
+function mmapOutWrite(status, pos, data, dataLen)
+	-- lua ffi version
+	--[[if( not outAddress_c ) then
+		print_error( "mmapOutWrite", "outAddress_c is NULL" )
+		return -1
+	end]]
+
+	if ( dataLen < 1 )  then
+		--dataLen = (int32_t)strlen( (char *)data ) -- int32_t = -214783648 to 2,147,483,647
+		print("data len cast 1: " .. dataLen)
+		dataLen = C.strlen(data) --ffi.cast("int32_t",C.strlen(data)) -- 64 -> 32?
+		print("data len cast 2: " .. dataLen)
+		io.flush()
+	end
+	if( dataLen < 1 ) then
+		print_error( "mmapOutWrite", "data length < 1" )
+		return -4
+	end
+
+	if( pos > append ) then  -- append = -1
+		if( pos > ( outMaxSize - 1 ) ) then
+			print_error( "mmapOutWrite", string.format("out position is bigger than buffer size-1: %d > %d", pos, outMaxSize) )
+			return -2
+		end
+		-- outPos = outFileBuf->pubseekoff( 0, ios_base::cur ) -- get current out pos
+		if( ( pos + dataLen ) > outMaxSize ) then
+			print_error( "mmapOutWrite", string.format("out position + data length > buffer size: %d + %d > %d", pos, dataLen, outMaxSize) )
+			return -3 -- must test and return before setting new outPos for next call
+		end
+		outPos = pos --outFileBuf->pubseekpos( pos )
+	else
+		if( ( outPos + dataLen ) > outMaxSize ) then
+			print_error( "mmapOutWrite", string.format("out position + data length > buffer size: %d + %d > %d", outPos, dataLen, outMaxSize) )
+			return -3 -- same as before, this is ok
+		end
 	end
 
 
+	--char* writePtr = (char *)outAddress_c; // nicer to debug char*
+	--char* writeDataPtr = writePtr + outPos + statusLen;
+	--memcpy( writeDataPtr, data, dataLen );
+	--memcpy( writePtr, &status, statusLen );
+	-- void * memcpy ( void * destination, const void * source, size_t num ); -> destination is returned.
+	if outPos == 0 then
+		ffi.copy(outPtrData, data, dataLen)
+	else
+		local outPtrDataTmp = ffi.cast("uintptr_t *", outAddress_c + statusLen + outPos)
+		ffi.copy(outPtrDataTmp, data, dataLen)
+	end
+	mmapStatusOutSet(status)
+	outPos = outPos + dataLen -- outPos += outFileBuf->sputn( data, dataLen )
+
+	return 0 --outPtrStatus[0][0] --dataLen
+end
+
+function mmapInRead(status, pos, data, dataLen)
+	if( dataLen < 0 ) then
+		print_error( "mmapInRead", "read data length < 0" )
+		return -2
+	end
+
+	local inMaxSize = inSize - statusLen
+	if( pos > append ) then  -- append = -1
+		if( pos > ( inMaxSize-1 ) ) then
+			print_error( "mmapInRead", string.format("in position is bigger than buffer size-1: %d > %d", pos, inMaxSize) )
+			return -3
+		end
+		inPos = pos
+	end
+
+	-- inPos = inAddress_c->pubseekoff( 0, ios_base::cur ) -- get current in pos
+	if( inPos > inMaxSize ) then
+		print_error( "mmapInRead", string.format("read position > buffer size: %d > %d", inPos, inMaxSize) )
+		return -4
+	end
+
+	if( ( inPos + dataLen ) > inMaxSize ) then
+		print_error( "mmapInRead", string.format("read position + read length > buffer size: %d + %d > %d", inPos, dataLen, inMaxSize) )
+		return -5
+		-- OR use: dataLen = inSize - inPos
+	end
+
+	if inPos == 0 then
+		ffi.copy(data, inPtrData, dataLen)
+	else
+		local inPtrDataTmp = ffi.cast("uintptr_t *", outAddress_c + inPos + statusLen)
+		ffi.copy(data, inPtrDataTmp, dataLen) --memcpy( data, readPtr, dataLen )
+	end
+	mmapStatusOutSet(status)
+
+	inPos = inPos + dataLen -- outPos += outFileBuf->sputn( data, dataLen )
+
+	return 0 -- 0=all ok
 end

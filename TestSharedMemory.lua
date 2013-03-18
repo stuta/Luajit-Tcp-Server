@@ -55,6 +55,12 @@ else
 	buffer_ptr = getOffsetPointer(buffer, 0)
 	print(" -- 12+ 4 rcev: "..ffi.string(buffer_ptr))
 
+	shm_ptr = getOffsetPointer(shm, 0)
+	shm_ptr[0] = string.byte("A")
+	print(" -- shm_ptr[0] = string.byte('A'): ", shm_ptr[0], ffi.string(shm))
+	shm_ptr[1] = string.byte("@")
+	print(" -- shm_ptr[1] = string.byte('@'): ", shm_ptr[0], ffi.string(shm))
+
 	--[[
 	local strIn_cp = ffi.cast("char *", strIn_c + 0)
 	ffi.copy(strIn_cp, shm_ptr, strlen)

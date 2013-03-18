@@ -120,13 +120,14 @@ ffi.cdef[[
   	LPCSTR               name
 	 );
 
-	HANDLE OpenFileMapping(
+	HANDLE OpenFileMappingA(
 		DWORD dwDesiredAccess, // _In_
 		BOOL bInheritHandle, // _In_
 		LPCTSTR lpName // _In_
 	);
 
  	/* not in use
+	BOOL DeleteFileA(LPCTSTR lpFileName);
 
 	HANDLE CreateFile(
 		LPCTSTR lpFileName, //

@@ -1,6 +1,6 @@
---  TestSocket.lua
+--  lib_tcp.lua
 print()
-print(" -- TestSocket.lua start -- ")
+print(" -- lib_tcp.lua start -- ")
 print()
 
 dofile "lib_socket.lua"
@@ -8,7 +8,7 @@ local arg = {...}
 local ffi = require("ffi")
 local C = ffi.C
 
-local buflen = 1024
+local buflen = 200
 local recvbuflen = buflen
 local recvbuf,recvbuf_ptr = createBuffer(buflen)
 local port = 5001
@@ -115,8 +115,10 @@ end
 print("client ip:port : "..ffi.string(hostname)..":"..ffi.string(servInfo)) -- servInfo is post number
 print()
 
+
 -- Receive until the peer shuts down the connection
 print(ClientSocket)
+print(recvbuflen)
 repeat
 	result = socket_recv(ClientSocket, recvbuf_ptr, recvbuflen, 0)
 	if result > 0 then
@@ -149,5 +151,5 @@ socket_cleanup()
 
 
 print()
-print(" -- TestSocket.lua end -- ")
+print(" -- lib_tcp.lua end -- ")
 print()

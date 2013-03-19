@@ -30,6 +30,9 @@ if isWin then
     end
 		return err,wsadata[0]
 	end
+	function socket_poll(fdArray, fds, timeout)
+		return s.WSAPoll(fdArray, fds, timeout)
+	end
 	function socket_close(socket)
 		local socket_c = ffi.cast("int", socket)
 		return s.closesocket(socket_c)
@@ -57,6 +60,9 @@ else
 	end
 	function socket_initialize()
 		return 0,nil -- for win compatibilty
+	end
+	function socket_poll(fds, nfds, timeout)
+		return s.poll(fds, nfds, timeout)
 	end
 	function socket_close(socket)
 		return s.close(socket)
@@ -92,7 +98,7 @@ function socket_connect(socket, sockaddr ,address_len)
 end
 function socket_accept(socket, sockaddr ,addrlen)
 	return s.accept(socket, sockaddr ,addrlen)
-end
+end    
 function socket_recv(socket, buffer, length, flags)
 	return s.recv(socket, buffer, length, flags)
 end

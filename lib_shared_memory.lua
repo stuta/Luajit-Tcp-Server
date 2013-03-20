@@ -288,7 +288,7 @@ else
 
 		local shm_options, mmap_options, shm_mode, ret
 		if create then
-			shm_options = bit.bor(C.O_RDWR, C.O_CREAT, C.O_EXCL)
+			shm_options = bit.bor(C.O_RDWR, C.O_CREAT) -- , C.O_EXCL
 		 	mmap_options = bit.bor(C.PROT_WRITE)
 		 	shm_mode = 755 -- 0600, 777?
 		else
@@ -301,7 +301,7 @@ else
 			shmemSize = size
 		end
 
-		shFD[filename] = C.shm_open(shmName[filename], shm_options, shm_mode) -- ,0600 or ,0755?, optional
+		shFD[filename] = C.shm_open(shmName[filename], shm_options, shm_mode) -- ,0600 or ,0755?
 		if shFD[filename] >= 0 then
 				if create then
 					ret = C.ftruncate(shFD[filename], shmemSize)

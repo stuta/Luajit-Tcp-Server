@@ -14,6 +14,16 @@ else
 end
 
 if isWin then
+	INVALID_SOCKET = ffi.new("SOCKET", -1)
+else
+	INVALID_SOCKET = -1
+end
+SOCKET_ERROR	= -1	-- 0xffffffff
+
+if isWin then
+	function socket_errortext(err)
+		return win_errortext(err)
+	end
 	function socket_initialize()
 		local wsadata
 		if is64bit then
@@ -21,14 +31,18 @@ if isWin then
 		else
 			wsadata = ffi.new("WSADATA[1]")
 		end
-		local wVersionRequested = MAKEWORD(2, 2) --ffi.cast("WORD", MAKEWORD(2, 2))
+		local wVersionRequested = ffi.cast("WORD", MAKEWORD(2, 2))
     local err = s.WSAStartup(wVersionRequested, wsadata)
     if err ~= 0 then
 			print("ERR: WSAStartup failed with error code: "..err)
     elseif s.WSAGetLastError() ~= 0 then
 			print("ERR: WSAStartup failed with error code: "..s.WSAGetLastError())
     end
-		return err,wsadata[0]
+    --print("WSAStartup: ".. err)
+		return err -- err,wsadata[0]
+	end
+	function socket_poll(fdArray, fds, timeout)
+		return s.WSAPoll(fdArray, fds, timeout)
 	end
 	function socket_poll(fdArray, fds, timeout)
 		return s.WSAPoll(fdArray, fds, timeout)
@@ -38,28 +52,44 @@ if isWin then
 		return s.closesocket(socket_c)
 	end
 	function socket_cleanup(socket, errnum, errtext)
-		local wsa_err_num -- get WSAGetLastError() before close and WSACleanup
-		if errnum and errnum ~= 0 and errnum ~= -1 then
-			wsa_err_num = errnum
-		else
-			wsa_err_num = s.WSAGetLastError() or 0
+		-- get WSAGetLastError() before close and WSACleanup
+		local wsa_err_num = s.WSAGetLastError()
+		local	wsa_err_text = win_errortext(wsa_err_num)
+		if errnum and errnum ~= -1 and errnum ~= wsa_err_num then
+			wsa_err_text = win_errortext(wsa_err_num)..", WSAGetLastError: "..tonumber(wsa_err_num)..". "..wsa_err_text
 		end
 		if socket then
 			socket_close(socket)
 		end
 		s.WSACleanup()
 		if errtext and #errtext > 0 then
-			error(errtext.."("..tonumber(errnum)..") "..win_errortext(wsa_err_num))
+			error(errtext.."("..tonumber(errnum)..") "..wsa_err_text)
 		end
 	end
+	function socket_inet_ntop(family, pAddr, strptr)
+		-- win XP: http://memset.wordpress.com/2010/10/09/inet_ntop-for-win32/
+		local srcaddr = ffi.new("struct sockaddr_in") --ffi.cast("struct sockaddr_in *", pAddr)
+		ffi.copy(srcaddr.sin_addr, pAddr, ffi.sizeof(srcaddr.sin_addr))
+		srcaddr.sin_family = family
+		local len = ffi.new("unsigned long[1]", ffi.sizeof(strptr))
+    local ret = s.WSAAddressToStringA(ffi.cast("struct sockaddr *", srcaddr), ffi.sizeof("struct sockaddr"), nil, strptr, len)
+    if ret ~= 0 then
+   		print("WSAAddressToString failed with error: "..tonumber(ret))
+      return nil
+    end
+    return strptr
+  end
 
 else
 	-- unix
-	function win_errortext(err)
+	function socket_errortext(err)
 		return ffi.string(C.gai_strerror(err))
 	end
 	function socket_initialize()
-		return 0,nil -- for win compatibilty
+		return 0 -- for win compatibilty
+	end
+	function socket_poll(fds, nfds, timeout)
+		return s.poll(fds, nfds, timeout)
 	end
 	function socket_poll(fds, nfds, timeout)
 		return s.poll(fds, nfds, timeout)
@@ -73,11 +103,20 @@ else
 		end
 		--s.WSACleanup()
 		if errtext and #errtext > 0 then
-			error(errtext.."("..tonumber(errnum)..") "..win_errortext(errnum))
+			error(errtext.."("..tonumber(errnum)..") "..socket_errortext(errnum))
 		end
 	end
+	function socket_inet_ntop(family, pAddr, strptr)
+		return s.inet_ntop(family, pAddr, strptr, ffi.sizeof(strptr))
+	end
+
 end
 
+function socket_ioctlsocket(socket, command, arg)
+	local arg_c = ffi.new("unsigned long[1]")
+	arg_c[0] = arg
+	return s.ioctlsocket(socket, command, arg_c)
+end
 function socket_shutdown(socket, how)
 	return s.shutdown(socket, how)
 end
@@ -100,22 +139,31 @@ function socket_accept(socket, sockaddr ,addrlen)
 	return s.accept(socket, sockaddr ,addrlen)
 end    
 function socket_recv(socket, buffer, length, flags)
-	return s.recv(socket, buffer, length, flags)
+	return tonumber(s.recv(socket, buffer, length, flags))
 end
 function socket_send(socket, buffer, length, flags)
-	return s.send(socket, buffer, length, flags)
+	return tonumber(s.send(socket, buffer, length, flags))
 end
 function socket_getsockopt(socket, level, option_name, option_value, option_len)
 	return s.getsockopt(socket, level, option_name, option_value, option_len)
 end
-function socket_setsockopt(socket, level, option_name, option_value, option_len)
-	return s.setsockopt(socket, level, option_name, option_value, option_len)
+function socket_setsockopt(socket, level, option_name, option_value)
+	local arg_c = ffi.new("uint32_t[1]", option_value)
+	local option_len = ffi.sizeof(arg_c)
+	return s.setsockopt(socket, level, option_name, ffi.cast("char *", arg_c), option_len)
 end
 function socket_getaddrinfo(hostname, servname, hints, res)
 	return s.getaddrinfo(hostname, servname, hints, res)
 end
 function socket_getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
 	return s.getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
+end
+
+function socket_getpeername(socket, name, namelen)
+	return s.getpeername(socket, name, namelen)
+end
+function socket_ntohs(netshort)
+	return s.ntohs(netshort)
 end
 
 --[[

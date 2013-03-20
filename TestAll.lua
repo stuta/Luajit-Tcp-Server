@@ -2,7 +2,7 @@
 
 print()
 print(" -- TestAll.lua start -- ")
-print(" -- You MUST have linked osx/linux luajit to 'lj', see jl.sh -- ")
+-- print(" -- You MUST have linked osx/linux luajit to 'lj', see jl.sh -- ")
 
 dofile "lib_util.lua"
 local arg = {...}

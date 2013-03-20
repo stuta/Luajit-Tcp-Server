@@ -84,19 +84,20 @@ if isWin then
 		print(shm_global_name)
 		shm_global_name = cstr(shm_global_name)
 
-		local accessOpts, shareOpts, openOpts, fileOpts, protectOpts, fileProtectOpts
+		-- local accessOpts, shareOpts, openOpts, fileOpts
+		local protectOpts, fileProtectOpts
 		if create then
-			accessOpts  = bit.bor(GENERIC_WRITE, GENERIC_READ)
-			shareOpts = bit.bor(FILE_SHARE_WRITE, FILE_SHARE_READ)
-			openOpts = OPEN_ALWAYS
-			fileOpts = bit.bor(FILE_ATTRIBUTE_NORMAL, FILE_FLAG_DELETE_ON_CLOSE)
-			protectOpts = bit.bor(PAGE_READWRITE, SEC_COMMIT)
+			-- accessOpts  = bit.bor(GENERIC_WRITE, GENERIC_READ)
+			-- shareOpts = bit.bor(FILE_SHARE_WRITE, FILE_SHARE_READ)
+			-- openOpts = OPEN_ALWAYS
+			-- fileOpts = bit.bor(FILE_ATTRIBUTE_NORMAL, FILE_FLAG_DELETE_ON_CLOSE)
+			protectOpts = bit.bor(PAGE_READWRITE) -- SEC_COMMIT needed?
 			fileProtectOpts = FILE_MAP_ALL_ACCESS
 		else
-			accessOpts  = bit.bor(GENERIC_READ)
-			shareOpts = bit.bor(FILE_SHARE_READ)
-			openOpts = OPEN_EXISTING
-			fileOpts = FILE_ATTRIBUTE_READONLY
+			-- accessOpts  = bit.bor(GENERIC_READ)
+			-- shareOpts = bit.bor(FILE_SHARE_READ)
+			-- openOpts = OPEN_EXISTING
+			-- fileOpts = FILE_ATTRIBUTE_READONLY
 			protectOpts = PAGE_READONLY
 			fileProtectOpts = FILE_MAP_READ
 		end
@@ -285,19 +286,22 @@ else
 		shmName[filename] = cstr(filename)
 		-- shared_memory_clear(filename, true) -- not a very good idea?
 
-		local shm_options, mmap_options, ret
+		local shm_options, mmap_options, shm_mode, ret
 		if create then
 			shm_options = bit.bor(C.O_RDWR, C.O_CREAT, C.O_EXCL)
 		 	mmap_options = bit.bor(C.PROT_WRITE)
+		 	shm_mode = 755 -- 0600, 777?
 		else
 		 	shm_options = bit.bor(C.O_RDONLY)
 		 	mmap_options = bit.bor(C.PROT_READ)
+		 	shm_mode = 755 -- 755
 		end
 
 		if size and size > 0 then -- 0 = default smallest size
 			shmemSize = size
 		end
-		shFD[filename] = C.shm_open(shmName[filename], shm_options, 0755) -- ,0600 or ,0755?, optional
+
+		shFD[filename] = C.shm_open(shmName[filename], shm_options, shm_mode) -- ,0600 or ,0755?, optional
 		if shFD[filename] >= 0 then
 				if create then
 					ret = C.ftruncate(shFD[filename], shmemSize)
@@ -307,6 +311,15 @@ else
 				if ret == 0 then
 					sharedMemory[filename] = C.mmap(nil, shmemSize, mmap_options, C.MAP_SHARED, shFD[filename], 0)
 					if sharedMemory[filename] ~= C.MAP_FAILED then
+
+						--[[if create then -- Linux options so that we don't need to run as root
+							perms = ffi.new("struct ipc_perm")
+							perms.uid = 100
+							perms.gid = 200
+							perms.mode = 755 -- 0660 = Allow read/write only by uid '100' or members of group '200'
+							C.shmctl(shmid, C.IPC_SET, perms);
+						end	]]
+
 						-- print("sharedMemory OK: " .. filename)
 						-- Initialize shared memory if needed
 						-- Send 'shmemSize' & 'shmemSize' to other process(es)

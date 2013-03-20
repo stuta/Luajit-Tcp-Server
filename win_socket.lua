@@ -905,7 +905,9 @@ unsigned long inet_addr(const char* cp);
 char* inet_ntoa(struct   in_addr in);
 
 int inet_pton(int Family, const char * szAddrString, const void * pAddrBuf);
-const char * inet_ntop(int Family, const void *pAddr, intptr_t strptr, size_t len);
+
+// const char * inet_ntop(int Family, const void *pAddr, intptr_t strptr, size_t len);
+const char * inet_ntop(int Family, const void *pAddr, char * strptr, size_t len);
 
 SOCKET socket(int af, int type, int protocol);
 

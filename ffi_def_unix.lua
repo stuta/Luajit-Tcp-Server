@@ -10,6 +10,14 @@ ffi.cdef[[
 	typedef uint32_t useconds_t;
 	typedef long time_t;
 	typedef int32_t	suseconds_t;
+	typedef unsigned long	__darwin_size_t;
+
+	typedef int32_t	pid_t;  /* pid_t is int32_t at least in OSX */
+	typedef uint32_t sigset_t; /* in OSX */
+	typedef	int32_t		key_t;
+	typedef uint32_t uid_t;
+	typedef uint32_t gid_t;
+	typedef unsigned short	shmatt_t;
 ]]
 
 -- util
@@ -42,12 +50,37 @@ ffi.cdef[[
 -- shared_mem
 if isMac then
 	ffi.cdef[[
+
 		static const int O_CREAT 	= 0x0200;		/* create if nonexistant */
 		static const int O_TRUNC	= 0x0400;		/* truncate to zero length */
 		static const int O_EXCL		= 0x0800;		/* error if already exists */
+		struct ipc_perm { // osx
+			uid_t		uid;		/* [XSI] Owner's user ID */
+			gid_t		gid;		/* [XSI] Owner's group ID */
+			uid_t		cuid;		/* [XSI] Creator's user ID */
+			gid_t		cgid;		/* [XSI] Creator's group ID */
+			mode_t		mode;		/* [XSI] Read/write permission */
+			unsigned short	_seq;		/* Reserved for internal use */
+			key_t		_key;		/* Reserved for internal use */
+		};
+
+		struct shmid_ds {
+			struct ipc_perm shm_perm;	/* [XSI] Operation permission value */
+			size_t		shm_segsz;	/* [XSI] Size of segment in bytes */
+			pid_t		shm_lpid;	/* [XSI] PID of last shared memory op */
+			pid_t		shm_cpid;	/* [XSI] PID of creator */
+			shmatt_t	shm_nattch;	/* [XSI] Number of current attaches */
+			time_t		shm_atime;	/* [XSI] Time of last shmat() */
+			time_t		shm_dtime;	/* [XSI] Time of last shmdt() */
+			time_t		shm_ctime;	/* [XSI] Time of last shmctl() change */
+			void		*shm_internal;	/* reserved for kernel use */
+		};
 	]]
 elseif isLinux then
 	ffi.cdef[[
+		typedef int __pid_t;
+		typedef long __time_t;
+
 		/* octal (8-base) values in Linux header file in fcntl.h
 		dec:
 		O_CREAT, O_EXCL: 64, 128
@@ -66,6 +99,35 @@ elseif isLinux then
 		static const int O_CREAT	= 64;
 		static const int O_EXCL		= 128;
 		static const int O_TRUNC	= 512;
+
+		struct ipc_perm { // Linux
+			key_t          __key;    /* Key supplied to shmget(2) */
+			uid_t          uid;      /* Effective UID of owner */
+			gid_t          gid;      /* Effective GID of owner */
+			uid_t          cuid;     /* Effective UID of creator */
+			gid_t          cgid;     /* Effective GID of creator */
+			unsigned short mode;     /* Permissions + SHM_DEST and
+																	SHM_LOCKED flags */
+			unsigned short __seq;    /* Sequence number */
+		};
+
+		// Data structure describing a shared memory segment.
+		struct shmid_ds
+		{
+			struct ipc_perm shm_perm;		/* operation permission struct */
+			size_t shm_segsz;			/* size of segment in bytes */
+			__time_t shm_atime;			/* time of last shmat() */
+			unsigned long int __unused1;
+			__time_t shm_dtime;			/* time of last shmdt() */
+			unsigned long int __unused2;
+			__time_t shm_ctime;			/* time of last change by shmctl() */
+			unsigned long int __unused3;
+			__pid_t shm_cpid;			/* pid of creator */
+			__pid_t shm_lpid;			/* pid of last shmop */
+			shmatt_t shm_nattch;		/* number of current attaches */
+			unsigned long int __unused4;
+			unsigned long int __unused5;
+		};
 	]]
 end
 ffi.cdef[[
@@ -82,6 +144,9 @@ ffi.cdef[[
 	static const int MAP_SHARED		= 0x0001;		// [MF|SHM] share changes
 	static const int MAP_PRIVATE	= 0x0002;		// [MF|SHM] changes are private
 
+	static const int IPC_SET	=	1;		/* Set `ipc_perm' options.  */
+	int shmctl(int shmid, int cmd, struct shmid_ds *buf);
+
 	int 		shm_open(const char *name, int oflag, mode_t mode);
 	int 		shm_unlink(const char *name);
 	int 		ftruncate(int fildes, off_t length);
@@ -94,6 +159,7 @@ ffi.cdef[[
 	int 		mlockall(int);
   int 		munlockall();
   int 		mprotect(void*, size_t, int);
+
 ]]
 
 --  thread.lua
@@ -265,8 +331,6 @@ ffi.cdef[[
 
 -- ffi_def_signal.lua
 ffi.cdef[[
-	typedef int32_t	pid_t;  /* pid_t is int32_t at least in OSX */
-	typedef uint32_t sigset_t; /* in OSX */
 	struct sigaction {
 		void (*sa_handler) (int); /* address of signal handler */
 		sigset_t  sa_mask;        /* signals to block in addition to the one being handled */
@@ -379,6 +443,24 @@ ffi.cdef[[
 	// #endif  /* (!__APPLE__) */
 	// #endif	/* (!_POSIX_C_SOURCE || _DARWIN_C_SOURCE) */
 
+	static const int	 	TCP_NODELAY             = 0x01;    /* don't delay send to coalesce packets */
+	static const int	 	TCP_MAXSEG              = 0x02;    /* set maximum segment size */
+	static const int	  TCP_NOPUSH              = 0x04;    /* don't push last block of write */
+	static const int	  TCP_NOOPT               = 0x08;    /* don't use TCP options */
+	static const int	  TCP_KEEPALIVE           = 0x10;    /* idle time used when SO_KEEPALIVE is enabled */
+	static const int	  TCP_CONNECTIONTIMEOUT   = 0x20;    /* connection timeout */
+	static const int	  PERSIST_TIMEOUT					= 0x40;	/* time after which a connection in
+					 *  persist timeout will terminate.
+					 *  see draft-ananth-tcpm-persist-02.txt
+					 */
+	static const int	  TCP_RXT_CONNDROPTIME	= 0x80;	/* time after which tcp retransmissions will be
+					 * stopped and the connection will be dropped
+					 */
+	static const int	  TCP_RXT_FINDROP	= 0x100;	/* when this option is set, drop a connection
+					 * after retransmitting the FIN 3 times. It will
+					 * prevent holding too many mbufs in socket
+					 * buffer queues.
+					 */
 
 	// Additional options, not kept in so_options.
 	static const int	 SO_SNDBUF	= 0x1001;		/* send buffer size */
@@ -488,6 +570,19 @@ ffi.cdef[[
 		char		sin_zero[8];
 	};
 
+	static const int _SS_MAXSIZE		= 128;
+	static const int _SS_ALIGNSIZE 	= (sizeof(int64_t));
+	static const int _SS_PAD1SIZE		= (_SS_ALIGNSIZE - sizeof(uint8_t) - sizeof(sa_family_t));
+	static const int _SS_PAD2SIZE		= (_SS_MAXSIZE - sizeof(uint8_t) - sizeof(sa_family_t) - _SS_PAD1SIZE - _SS_ALIGNSIZE);
+
+	struct sockaddr_storage {
+		uint8_t	ss_len;		/* address length */
+		sa_family_t	ss_family;	/* [XSI] address family */
+		char			__ss_pad1[_SS_PAD1SIZE];
+		int64_t	__ss_align;	/* force structure storage alignment */
+		char			__ss_pad2[_SS_PAD2SIZE];
+	};
+
 	int 	getaddrinfo(const char *hostname, const char *servname, const struct addrinfo *hints, struct addrinfo **res);
 	void 	freeaddrinfo(struct addrinfo *ai);
 	int 	getnameinfo(const struct sockaddr *sa, socklen_t salen, char *host, socklen_t hostlen, char *serv, socklen_t servlen, int flags);
@@ -528,6 +623,28 @@ ffi.cdef[[
 	static const int SD_BOTH 		= 2; // Shutdown both send and receive operations.
 
 	static const int SOL_SOCKET = 0xffff;
+	static const int INET6_ADDRSTRLEN	= 46;
+	static const int INET_ADDRSTRLEN	= 16;
 
+	in_addr_t	 inet_addr(const char *);
+	char		*inet_ntoa(struct in_addr);
+	const char	*inet_ntop(int, const void *, char *, socklen_t);
+	int		 inet_pton(int, const char *, void *);
+	int		 ascii2addr(int, const char *, void *);
+	char		*addr2ascii(int, const void *, int, char *);
+	int		 inet_aton(const char *, struct in_addr *);
+	in_addr_t	 inet_lnaof(struct in_addr);
+	struct in_addr	 inet_makeaddr(in_addr_t, in_addr_t);
+	in_addr_t	 inet_netof(struct in_addr);
+	in_addr_t	 inet_network(const char *);
+	char		*inet_net_ntop(int, const void *, int, char *, __darwin_size_t);
+	int		 inet_net_pton(int, const char *, void *, __darwin_size_t);
+	char	 	*inet_neta(in_addr_t, char *, __darwin_size_t);
+	unsigned int	 inet_nsap_addr(const char *, unsigned char *, int maxlen);
+	char	*inet_nsap_ntoa(int, const unsigned char *, char *ascii);
 
+	uint32_t htonl(uint32_t hostlong);
+	uint16_t htons(uint16_t hostshort);
+	uint32_t ntohl(uint32_t netlong);
+	uint16_t ntohs(uint16_t netshort);
 ]]

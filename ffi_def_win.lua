@@ -227,6 +227,55 @@ ffi.cdef[[
 	static const int INADDR_LOOPBACK        = 0x7f000001;
 	static const int INADDR_NONE            = 0xffffffff;
 
+	/* options for socket level */
+	static const int SOL_SOCKET 	= 0xffff;
+
+	/* Option flags per-socket. */
+	static const int SO_DEBUG        = 0x0001;          /* turn on debugging info recording */
+	static const int SO_ACCEPTCONN   = 0x0002;          /* socket has had listen() */
+	static const int SO_REUSEADDR    = 0x0004;          /* allow local address reuse */
+	static const int SO_KEEPALIVE    = 0x0008;          /* keep connections alive */
+	static const int SO_DONTROUTE    = 0x0010;          /* just use interface addresses */
+	static const int SO_BROADCAST    = 0x0020;          /* permit sending of broadcast msgs */
+	static const int SO_USELOOPBACK  = 0x0040;          /* bypass hardware when possible */
+	static const int SO_LINGER       = 0x0080;          /* linger on close if data present */
+	static const int SO_OOBINLINE    = 0x0100;          /* leave received OOB data in line */
+	static const int SO_DONTLINGER   			= (int)(~SO_LINGER);
+	static const int SO_EXCLUSIVEADDRUSE 	= ((int)(~SO_REUSEADDR)); /* disallow local address reuse */
+
+	// Additional options.
+	static const int SO_SNDBUF     =  0x1001;         // send buffer size
+	static const int SO_RCVBUF     =  0x1002;         // receive buffer size
+	static const int SO_SNDLOWAT   =  0x1003;         // send low-water mark
+	static const int SO_RCVLOWAT   =  0x1004;         // receive low-water mark
+	static const int SO_SNDTIMEO   =  0x1005;         // send timeout
+	static const int SO_RCVTIMEO   =  0x1006;         // receive timeout
+	static const int SO_ERROR      =  0x1007;         // get error status and clear
+	static const int SO_TYPE       =  0x1008;         // get socket type
+	// defined in win_socket.lua: static const int SO_CONNECT_TIME = 0x700C;				// Connection Time
+
+
+	static const int INET6_ADDRSTRLEN	= 46;
+	static const int INET_ADDRSTRLEN	= 16;
+
+	static const int TCP_NODELAY     = 0x0001;
+	static const int TCP_KEEPALIVE 	= 0x0003;
+	static const int TCP_BSDURGENT   = 0x7000;
+
+	// Event flag definitions for WSAPoll().
+	static const int POLLRDNORM  = 0x0100;
+	static const int POLLRDBAND  = 0x0200;
+	static const int POLLIN      = (POLLRDNORM | POLLRDBAND);
+	static const int POLLPRI     = 0x0400;
+
+	static const int POLLWRNORM  = 0x0010;
+	static const int POLLOUT     = POLLWRNORM;
+	static const int POLLWRBAND  = 0x0020;
+
+	static const int POLLERR     = 0x0001;
+	static const int POLLHUP     = 0x0002;
+	static const int POLLNVAL    = 0x0004;
+
 	// end win_socket.lua redefines
 ]]
 
@@ -261,22 +310,6 @@ ffi.cdef[[
 	static const int NI_DGRAM				= 0x00000010;
 	static const int NI_WITHSCOPEID	= 0x00000020;
 
-	/* options for socket level */
-	static const int SOL_SOCKET 	= 0xffff;
-
-	/* Option flags per-socket. */
-	static const int SO_DEBUG        = 0x0001;          /* turn on debugging info recording */
-	static const int SO_ACCEPTCONN   = 0x0002;          /* socket has had listen() */
-	static const int SO_REUSEADDR    = 0x0004;          /* allow local address reuse */
-	static const int SO_KEEPALIVE    = 0x0008;          /* keep connections alive */
-	static const int SO_DONTROUTE    = 0x0010;          /* just use interface addresses */
-	static const int SO_BROADCAST    = 0x0020;          /* permit sending of broadcast msgs */
-	static const int SO_USELOOPBACK  = 0x0040;          /* bypass hardware when possible */
-	static const int SO_LINGER       = 0x0080;          /* linger on close if data present */
-	static const int SO_OOBINLINE    = 0x0100;          /* leave received OOB data in line */
-	static const int SO_DONTLINGER   			= (int)(~SO_LINGER);
-	static const int SO_EXCLUSIVEADDRUSE 	= ((int)(~SO_REUSEADDR)); /* disallow local address reuse */
-
 	static const int 		FORMAT_MESSAGE_FROM_SYSTEM = 0x00001000;
 	static const int 		FORMAT_MESSAGE_IGNORE_INSERTS = 0x00000200;
 
@@ -305,6 +338,12 @@ ffi.cdef[[
 		DWORD servlen, // _In_
 		int flags // _In_
 	);
+	int getpeername(
+		SOCKET s, //   _In_
+		struct sockaddr *name, //   _Out_
+		int *namelen //   _Inout_
+	);
+
 	DWORD FormatMessageA(
 		DWORD dwFlags, // _In_
     LPCVOID lpSource, // _In_opt_

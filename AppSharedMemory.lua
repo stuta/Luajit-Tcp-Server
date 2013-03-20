@@ -1,4 +1,4 @@
---  TestSharedMemoryApp.lua
+--  AppSharedMemory.lua
 
 dofile "lib_shared_memory.lua"
 local arg = {...}
@@ -18,8 +18,13 @@ local sendDataLen = string.len(sendData)
 local sendData_c = cstr(sendData)
 
 print()
-print(" -- TestSharedMemoryApp.lua START -- ")
+print(" -- AppSharedMemory.lua START -- ")
 
+if isLinux then
+	print()
+	print(" *** AppSharedMemory.lua needs to be run with 'sudo' in Linux *** ")
+	print()
+end
 
 local isServer, isClient
 if arg[1] == "s" then
@@ -67,14 +72,9 @@ local function argPrint()
 end
 argPrint()
 
-local fileNameTest = "TestSharedMemory-test.shm"
-local fileNameS = "TestSharedMemory-srv.shm"
-local fileNameC = "TestSharedMemory-cli.shm" --"TestSharedMemoryApp-c.shm"
-if isWin then
-	fileNameTest = "C:\\"..fileNameTest
-	fileNameS = "C:\\"..fileNameS
-	fileNameC = "C:\\"..fileNameC
-end
+local fileNameTest = "TestShm_test.shm"
+local fileNameS = "TestShm_srv.shm"
+local fileNameC = "TestShm_cli.shm" --"AppSharedMemory-c.shm"
 local sendBufferSize, readBufferSize
 local i
 local bufferSize = 4096 -- in windows this is 65536
@@ -230,13 +230,11 @@ end
 
 mmapAddressSet()
 send_data_set(0)
-print("mmapStatusOutSet()")
 mmapStatusOutSet(base64ascii[0]-1) -- ascii(65-1) = "@"
 print("mmapStatusInWait()")
 mmapStatusInWait(base64ascii[0]-1) -- wait for other partner to set same value
 sleep(connectSleepMs+200) -- must be bigger than connectSleepMs so that another process can catch us
   -- give another time to wait base64ascii[0]-1 and set base64ascii[0]
-print("mmapStatusOutSet()")
 mmapStatusOutSet(base64ascii[0]) -- ascii(65) = "A"- we are ready for loop
 
 
@@ -340,5 +338,5 @@ if useProfilier then
 		os.execute("edit SharedMemReport2Cli.txt")
 	end
 end
-print(" -- TestSharedMemoryApp.lua end -- ")
+print(" -- AppSharedMemory.lua end -- ")
 print()

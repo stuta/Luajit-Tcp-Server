@@ -3,6 +3,7 @@
 dofile "lib_util.lua"
 local ffi = require("ffi")
 local C = ffi.C
+local bit = require("bit")
 
 local s
 if isWin then
@@ -79,6 +80,11 @@ if isWin then
     end
     return strptr
   end
+	function socket_set_nonblock(socket, arg)
+		local arg_c = ffi.new("unsigned long[1]")
+		arg_c[0] = arg
+		return s.ioctlsocket(socket, s.FIONBIO, arg_c)
+	end
 
 else
 	-- unix
@@ -109,14 +115,18 @@ else
 	function socket_inet_ntop(family, pAddr, strptr)
 		return s.inet_ntop(family, pAddr, strptr, ffi.sizeof(strptr))
 	end
-
+	function socket_set_nonblock(socket, arg)
+		local flags = s.fcntl(socket, s.F_GETFL, 0);
+		if flags < 0 then return flags end
+		if arg ~= 0 then
+			flags = bit.bor(flags, s.O_NONBLOCK)
+		else
+			flags = bit.band(flags, bit.bnot(s.O_NONBLOCK))
+		end
+		return s.fcntl(socket, s.F_SETFL, flags)
+	end
 end
 
-function socket_ioctlsocket(socket, command, arg)
-	local arg_c = ffi.new("unsigned long[1]")
-	arg_c[0] = arg
-	return s.ioctlsocket(socket, command, arg_c)
-end
 function socket_shutdown(socket, how)
 	return s.shutdown(socket, how)
 end
@@ -137,7 +147,7 @@ function socket_connect(socket, sockaddr ,address_len)
 end
 function socket_accept(socket, sockaddr ,addrlen)
 	return s.accept(socket, sockaddr ,addrlen)
-end    
+end
 function socket_recv(socket, buffer, length, flags)
 	return tonumber(s.recv(socket, buffer, length, flags))
 end

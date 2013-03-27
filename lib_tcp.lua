@@ -4,13 +4,7 @@ local arg = {...}
 local ffi = require("ffi")
 local C = ffi.C
 
-local buflen = 200
-local recvbuflen = buflen
-local recvbuf,recvbuf_ptr = createBuffer(buflen)
-local port = 5001
-print("..Lua tcp server waiting on: 127.0.0.1:"..port)
-print()
-
+-- INVALID_SOCKET here, in lib_socket.lua or in C?
 local INVALID_SOCKET, SOCKET_ERROR
 if isWin then
 	INVALID_SOCKET = ffi.new("SOCKET", -1)
@@ -53,81 +47,84 @@ function tcp_listen(port)
 		os.exit()
 	end
 	-- Create a SOCKET for connecting to server
-	local ListenSocket = socket_socket(res[0].ai_family, res[0].ai_socktype, res[0].ai_protocol)
+	local listen_socket = socket_socket(res[0].ai_family, res[0].ai_socktype, res[0].ai_protocol)
 	--[[if res[0].ai_family ~= C.AF_INET or res[0].ai_socktype ~= C.SOCK_STREAM or res[0].ai_protocol~= C.IPPROTO_TCP then
 		-- socket_socket(C.AF_INET, C.SOCK_STREAM, C.IPPROTO_TCP)
-		socket_cleanup(nil, ListenSocket, "socket_socket types are incorrect: ")
+		socket_cleanup(nil, listen_socket, "socket_socket types are incorrect: ")
 		return -1
 	end]]
-	if ListenSocket == INVALID_SOCKET then
-			socket_cleanup(nil, ListenSocket, "socket_socket failed with error: ")
+	if listen_socket == INVALID_SOCKET then
+			socket_cleanup(nil, listen_socket, "socket_socket failed with error: ")
 			return -1
 	end
 
 	-- Setup the TCP listening socket
 	local result
 	-- SO_REUSEADDR, set reuse address for listen socket before bind
-	result = socket_setsockopt(ListenSocket, C.SOL_SOCKET, C.SO_REUSEADDR, 1)
+	result = socket_setsockopt(listen_socket, C.SOL_SOCKET, C.SO_REUSEADDR, 1)
 	if result ~= 0 then
-		socket_cleanup(ListenSocket, result, "socket_setsockopt SO_REUSEADDR failed with error: ")
+		socket_cleanup(listen_socket, result, "socket_setsockopt SO_REUSEADDR failed with error: ")
 	end
-	-- bind
-	result = socket_bind(ListenSocket, res[0].ai_addr, res[0].ai_addrlen)
+
+	-- set to non-blocking mode
+	local result
+	result = socket_set_nonblock(listen_socket, 1)
 	if result ~= 0 then
-		socket_cleanup(ListenSocket, result, "socket_bind failed with error: ")
+		socket_cleanup(listen_socket, result, "socket_set_nonblock (set to non-blocking mode) failed with error: ")
+	end
+
+	-- SO_USELOOPBACK, use always loopback when possible
+	if not isWin then -- SO_USELOOPBACK is not supported by windows
+		result = socket_setsockopt(listen_socket, C.SOL_SOCKET, C.SO_USELOOPBACK, 1)
+		if result ~= 0 then
+			socket_cleanup(listen_socket, result, "socket_setsockopt SO_USELOOPBACK failed with error: ")
+		end
+	end
+
+	-- bind
+	result = socket_bind(listen_socket, res[0].ai_addr, res[0].ai_addrlen)
+	if result ~= 0 then
+		socket_cleanup(listen_socket, result, "socket_bind failed with error: ")
 	end
 	-- listen
-	result = socket_listen(ListenSocket, C.SOMAXCONN)
+	result = socket_listen(listen_socket, C.SOMAXCONN)
 	if result ~= 0 then
-		socket_cleanup(ListenSocket, result, "socket_listen failed with error: ")
+		socket_cleanup(listen_socket, result, "socket_listen failed with error: ")
 	end
-	return ListenSocket
+	return listen_socket
 end
 
-function tcp_accept(ListenSocket)
+function tcp_accept(listen_socket)
 	-- Accept a client socket
 	client_addr = ffi.new("struct sockaddr_in[1]") -- "struct sockaddr_in[1]"
 	client_addr_ptr = ffi.cast("struct sockaddr *", client_addr)
 	local client_addr_size = ffi.new("int[1]")
 	client_addr_size[0] = ffi.sizeof("struct sockaddr")
-	local ClientSocket = socket_accept(ListenSocket, client_addr_ptr, client_addr_size)
-
-	local ClientSocket = socket_accept(ListenSocket, client_addr_ptr, client_addr_size)
-	if ClientSocket < 0 then
-		socket_cleanup(ListenSocket, ClientSocket, "socket_accept failed with error: ")
+	local client_socket = socket_accept(listen_socket, client_addr_ptr, client_addr_size)
+	if client_socket < 0 then
+		return client_socket
+		--socket_cleanup(listen_socket, client_socket, "socket_accept failed with error: ")
 	end
+
 	-- SO_SNDBUF, send buffer size
-	result = socket_setsockopt(ClientSocket, C.SOL_SOCKET, C.SO_SNDBUF, sendBufSize)
+	result = socket_setsockopt(client_socket, C.SOL_SOCKET, C.SO_SNDBUF, sendBufSize)
 	if result ~= 0 then
-		socket_cleanup(ClientSocket, result, "socket_setsockopt SO_SNDBUF failed with error: ")
+		socket_cleanup(client_socket, result, "socket_setsockopt SO_SNDBUF failed with error: ")
 	end
+
 	-- SO_RCVBUF, reveive buffer size
-	result = socket_setsockopt(ClientSocket, C.SOL_SOCKET, C.SO_RCVBUF, receiveBufSize)
+	result = socket_setsockopt(client_socket, C.SOL_SOCKET, C.SO_RCVBUF, receiveBufSize)
 	if result ~= 0 then
-		socket_cleanup(ClientSocket, result, "socket_setsockopt SO_RCVBUF failed with error: ")
+		socket_cleanup(client_socket, result, "socket_setsockopt SO_RCVBUF failed with error: ")
 	end
+
 	-- TCP_NODELAY, tcp-nodelay to 1
-	result = socket_setsockopt(ClientSocket, C.SOL_SOCKET, C.TCP_NODELAY, tcpNoDelay)
+	--[[result = socket_setsockopt(client_socket, C.SOL_SOCKET, C.TCP_NODELAY, tcpNoDelay)
 	if result ~= 0 then
-		socket_cleanup(ClientSocket, result, "socket_setsockopt TCP_NODELAY failed with error: ")
-	end
-	-- SO_USELOOPBACK, use always loopback when possible
-	if not isWin then -- SO_USELOOPBACK is not supported by windows
-		result = socket_setsockopt(ClientSocket, C.SOL_SOCKET, C.SO_USELOOPBACK, 1)
-		if result ~= 0 then
-			socket_cleanup(ClientSocket, result, "socket_setsockopt SO_USELOOPBACK failed with error: ")
-		end
-	end
+		socket_cleanup(client_socket, result, "socket_setsockopt TCP_NODELAY failed with error: ")
+	end]]
 
-	--[[ -- set to blocking mode
-	local result
-	result = socket_ioctlsocket(ListenSocket, FIONBIO, 1)
-	if result ~= 0 then
-		socket_cleanup(ListenSocket, result, "socket_ioctlsocket (set to blocking mode) failed with error: ")
-	end
-	]]
-
-	return ClientSocket --,client_addr_ptr
+	return client_socket --,client_addr_ptr
 end
 
 function tcp_address(socket)
@@ -165,8 +162,8 @@ function tcp_address(socket)
 	]]
 end
 
-function tcp_close(ListenSocket)
-	socket_close(ListenSocket) -- not needed anymore
+function tcp_close(socket)
+	socket_close(socket) -- not needed anymore
 end
 
 local conn_wait_polltype = 0

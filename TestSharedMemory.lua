@@ -29,7 +29,7 @@ else
 	local strlen = #str + 1
 	local str_c = cstr(str)
 	local buffer,buffer_ptr = createBuffer(64) --ffi.new("char *[?]", strlen*2)
-	print(shm, buffer,buffer_ptr)
+	print(shm, buffer, buffer_ptr)
 	local shm_ptr = getOffsetPointer(shm, 0) --getPointer(shm)
 	ffi.copy(shm_ptr, str_c, strlen) -- copy text to shared memory
 	print(" -- 0 + 0 send: "..ffi.string(shm)) -- print shared memory

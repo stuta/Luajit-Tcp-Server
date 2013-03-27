@@ -42,7 +42,6 @@ ffi.cdef[[
 	int 		gettimeofday(struct timeval *restrict tp, void *restrict tzp);
 	int 		nanosleep(const struct timespec *req, struct timespec *rem);
 	int			usleep(useconds_t useconds); // mac sleep
-	int 		poll(struct pollfd *fds, unsigned long nfds, int timeout); // mac sleep
 	int 		sched_yield(void); // mac yield
 	long		sysconf(int name);
 ]]
@@ -397,6 +396,60 @@ ffi.cdef[[
 ]]
 
 
+-- poll
+ffi.cdef[[
+
+	// OSX:
+	/*
+	 * Requestable events.  If poll(2) finds any of these set, they are
+	 * copied to revents on return.
+	 */
+	static const int	POLLIN		= 0x0001;		/* any readable data available */
+	static const int	POLLPRI		= 0x0002;		/* OOB/Urgent readable data */
+	static const int	POLLOUT		= 0x0004;		/* file descriptor is writeable */
+	static const int	POLLRDNORM	= 0x0040;		/* non-OOB/URG data available */
+	static const int	POLLWRNORM	= POLLOUT;		/* no write type differentiation */
+	static const int	POLLRDBAND	= 0x0080;		/* OOB/Urgent readable data */
+	static const int	POLLWRBAND	= 0x0100;		/* OOB/Urgent data can be written */
+
+	/*
+	 * FreeBSD extensions: polling on a regular file might return one
+	 * of these events (currently only supported on local filesystems).
+	 */
+	static const int	POLLEXTEND	= 0x0200;		/* file may have been extended */
+	static const int	POLLATTRIB	= 0x0400;		/* file attributes may have changed */
+	static const int	POLLNLINK	= 0x0800;		/* (un)link/rename may have happened */
+	static const int	POLLWRITE	= 0x1000;		/* file's contents may have changed */
+
+	/*
+	 * These events are set if they occur regardless of whether they were
+	 * requested.
+	 */
+	static const int	POLLERR		= 0x0008;		/* some poll error occurred */
+	static const int	POLLHUP		= 0x0010;		/* file descriptor was "hung up" */
+	static const int	POLLNVAL	= 0x0020;		/* requested events "invalid" */
+
+	static const int	POLLSTANDARD	= (POLLIN|POLLPRI|POLLOUT|POLLRDNORM|POLLRDBAND|\
+			 POLLWRBAND|POLLERR|POLLHUP|POLLNVAL);
+
+	struct pollfd {
+		 int    fd;       /* file descriptor */
+		 short  events;   /* events to look for */
+		 short  revents;  /* events returned */
+	};
+
+	int poll(struct pollfd *fds, unsigned long nfds, int timeout); // mac sleep + poll
+
+	// fcntl definitions
+	static const int	O_NONBLOCK	= 0x0004;		/* no delay */
+	/* command values */
+	static const int	F_DUPFD		= 0;		/* duplicate file descriptor */
+	static const int	F_GETFD		= 1;		/* get file descriptor flags */
+	static const int	F_SETFD		= 2;		/* set file descriptor flags */
+	static const int	F_GETFL		= 3;		/* get file status flags */
+	static const int	F_SETFL		= 4;		/* set file status flags */
+	int	fcntl(int fildes, int cmd, int flags); // , ...);
+]]
 
 -- socket
 -- https://gist.github.com/cyberroadie/3490843

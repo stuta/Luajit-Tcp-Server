@@ -8,6 +8,9 @@ local bit = require("bit")
 local s
 if isWin then
 	--require "win_socket"
+	ffi.cdef[[
+		int WSAPoll(LPWSAPOLLFD fdArray, ULONG fds, INT timeout);
+	]]
 	s = ffi.load("ws2_32")
 else
 	-- unix
@@ -45,9 +48,6 @@ if isWin then
 	function socket_poll(fdArray, fds, timeout)
 		return s.WSAPoll(fdArray, fds, timeout)
 	end
-	function socket_poll(fdArray, fds, timeout)
-		return s.WSAPoll(fdArray, fds, timeout)
-	end
 	function socket_close(socket)
 		local socket_c = ffi.cast("int", socket)
 		return s.closesocket(socket_c)
@@ -81,9 +81,9 @@ if isWin then
     return strptr
   end
 	function socket_set_nonblock(socket, arg)
-		local arg_c = ffi.new("unsigned long[1]")
+		local arg_c = ffi.new("int[1]")
 		arg_c[0] = arg
-		return s.ioctlsocket(socket, s.FIONBIO, arg_c)
+		return s.ioctlsocket(socket, FIONBIO, arg_c) -- FIONBIO in win_socket.lua
 	end
 
 else
@@ -93,9 +93,6 @@ else
 	end
 	function socket_initialize()
 		return 0 -- for win compatibilty
-	end
-	function socket_poll(fds, nfds, timeout)
-		return s.poll(fds, nfds, timeout)
 	end
 	function socket_poll(fds, nfds, timeout)
 		return s.poll(fds, nfds, timeout)
@@ -123,7 +120,7 @@ else
 		else
 			flags = bit.band(flags, bit.bnot(s.O_NONBLOCK))
 		end
-		return s.fcntl(socket, s.F_SETFL, flags)
+		return s.fcntl(socket, s.F_SETFL, ffi.new("int", flags))
 	end
 end
 
@@ -160,7 +157,7 @@ end
 function socket_setsockopt(socket, level, option_name, option_value)
 	local arg_c = ffi.new("uint32_t[1]", option_value)
 	local option_len = ffi.sizeof(arg_c)
-	return s.setsockopt(socket, level, option_name, ffi.cast("char *", arg_c), option_len)
+	return s.setsockopt(socket, level, option_name, ffi.cast("void *", arg_c), option_len)
 end
 function socket_getaddrinfo(hostname, servname, hints, res)
 	return s.getaddrinfo(hostname, servname, hints, res)

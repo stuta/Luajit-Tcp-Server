@@ -10,14 +10,29 @@ local ffi = require("ffi")
 local C = ffi.C
 local bit = require("bit")
 
-local timeout = 2*1000 -- 2000 ms = 2 sec
+local ProFi = require 'ProFi'
+--ProFi:setGetTimeMethod( microSeconds )
+local useProfilier=false
+
+local port = tonumber(arg[1]) or 5001
+local debug = tonumber(arg[2]) or 0
+local timeout = tonumber(arg[3]) or 2
+local closeConnection = tonumber(arg[4]) or 0
+local debugPrintChars = tonumber(arg[5]) or 40
+print("default usage: lj AppServer.lua 5001 0 2 0 40")
+print("port="..port.." debug="..debug.." timeout="..timeout.." closeConnection="..closeConnection.." debugPrintChars="..debugPrintChars)
+print("debug=-1 means that program will be profilied until 10 000 polls has happened")
+timeout = timeout * 1000  -- milliseconds to seconds
+
+useProfilier = debug < 0
+
 --[[	If timeout is greater than zero, it specifies a maximum interval (in milliseconds) to wait for any file
      	descriptor to become ready.  If timeout is zero, then poll() will return without blocking. If the value
      	of timeout is -1, the poll blocks indefinitely.]]
 
-local client_events = bit.bor(C.POLLIN)
-local listen_events = bit.bor(C.POLLIN, C.POLLOUT)
-local port = 5001
+--[[POLLPRI	Priority data may be read without blocking. This flag is not supported by the Microsoft Winsock provider.]]
+local client_events = bit.bor(C.POLLIN) --, C.POLLPRI)
+local listen_events = bit.bor(C.POLLIN) --, C.POLLPRI) --, C.POLLOUT)
 local buflen = 16384
 
 
@@ -25,14 +40,13 @@ local answerStart = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nContent-Lengt
 local answerEnd = "\r\nConnection: close\r\n\r\n"
 
 local sendbuflen = buflen + #answerStart + 10 + #answerEnd -- buflen + length of headers + 10 bytes for content length
-print("sendbuflen:"..sendbuflen)
+-- print("sendbuflen:"..sendbuflen)
 --local maxContentLengthNumbers = 5 -- 16384 is 5 digits
 --local contentLengthPos = #answerStart
 local recvbuf,recvbuf_ptr = createBuffer(buflen)
 local sendbuf,sendbuf_ptr = createBuffer(sendbuflen)
 
 local answerCount = 0
-local pollCount = 0
 local pollInCount = 0
 local pollOutCount = 0
 local pollCloseCount = 0
@@ -44,14 +58,13 @@ local receiveFlags = 0
 local sendFlags = 0
 
 
-print("..Lua tcp server waiting on: 127.0.0.1:"..port)
+print("..Lua tcp server waiting on: http://127.0.0.1:"..port)
 print()
 
 -- http://beej.us/guide/bgnet/output/html/multipage/syscalls.html#bind
 local listen_socket = tcp_listen(port)
 -- Accept a client socketlocal
 print("Waiting for client to connect to server socket number: " .. listen_socket)
-print("Point your brorser to 127.0.0.1:"..port.." and do refresh 3 times (or more).")
 
 --[[local client_socket = tcp_accept(listen_socket)
 print("client ip:port = "..tcp_address(client_socket))
@@ -65,6 +78,14 @@ content = header..content
 local content_len = #content
 ffi.copy(sendbuf_ptr, cstr(content), content_len) -- copy header to answer buffer
 
+local function close(socket)
+  if socket < 1 then
+  	print("-*-ERR: close socket: "..socket)
+  end
+	poll_remove_fd(socket)
+	tcp_close(socket)
+end
+
 local function answer(socket)
 	answerCount = answerCount + 1
 	local show = answerCount%500 == 0
@@ -74,61 +95,54 @@ local function answer(socket)
 	result = socket_recv(socket, recvbuf_ptr, buflen, receiveFlags)
 	if result > 0 then
 		totalBytesReceived = totalBytesReceived + result
-		--[[print(" -- Bytes received: ", result.." / "..totalBytesReceived.." total")
-		print(" -- Data  received: \n\n", ffi.string(recvbuf_ptr))
-		print()
-		print()]]
-		-- Echo the buffer back to the sender
-		--local send_result = socket_send(socket, recvbuf_ptr, result, sendFlags)
-
+		if debug >= 2 then
+			print(" -- Bytes received: ", result.." / "..totalBytesReceived.." total")
+			print(" -- Data  received: \n\n", string.sub(ffi.string(recvbuf_ptr) ,1 ,debugPrintChars))
+			print()
+		end
 		local send_result = socket_send(socket, sendbuf_ptr, content_len, sendFlags) -- send answer buffer
 
+		if debug >= 3 then print(" -- sendbuf_ptr:\n"..ffi.string(sendbuf_ptr).."\n") end
 		--print(" -- send_result / content_len: "..send_result.." / "..content_len)
 		if send_result < 0 then
 			socket_cleanup(socket, send_result, "socket_send failed with error: ")
-		elseif send_result == content_len then
-			poll_remove_fd(socket)
-			tcp_close(socket)
-		else
-			poll_remove_fd(socket)
-			tcp_close(socket)
-		end
-		if send_result > 0 then
+		elseif send_result > 0 then
 			totalBytesSent = totalBytesSent + tonumber(send_result)
+		end
+		if closeConnection > 0 then
+			close(socket)
 		end
 		--print(" -- Bytes sent: ", send_result.." / "..totalBytesSent.." total")
 	elseif result == 0 then
 		print(" -- nothing received...")
 	else
-		poll_remove_fd(socket)
-		tcp_close(socket)
 		print(" -- socket_recv failed with error: "..result)
+		close(socket)
 		--socket_cleanup(socket, result, "socket_recv failed with error: ")
 	end
 end
 
 function out_callback(socket)
-	print("out_callback: ", socket)
+	if debug > 0 then print("out_callback: ", socket) end
 	-- runs this function when you can write out
 	pollOutCount = pollOutCount + 1
 end
 
 function close_callback(socket)
-	print("close_callback: ", socket)
+	if debug > 0 then print("close_callback: ", socket) end
 	-- runs this function when you can write out
-	poll_remove_fd(socket)
-	tcp_close(socket) --socket_cleanup(socket, 0, "")
+	close(socket)
 	pollCloseCount = pollCloseCount + 1
 end
 
 function error_callback(socket, event_text)
-	print("error_callback: "..event_text, socket)
+	print("*-*ERR: error_callback: "..event_text..", fd="..socket)
 	-- runs this function when you can write out
-	poll_remove_fd(socket)
 	if event_text == "POLLNVAL" then
-		tcp_close(socket) --socket_cleanup(socket, 0, "")
-	else
-		socket_cleanup(socket, 0, "error_callback: "..event_text)
+		close(socket)
+	else -- event_text == "POLLERR"
+		close(socket)
+		-- socket_cleanup(socket, 0, "error_callback: "..event_text)
 	end
 	pollErrCount = pollErrCount + 1
 end
@@ -139,7 +153,7 @@ function in_callback(socket)
 			local client_socket = tcp_accept(socket)
 			if client_socket > 0 then
 				poll_add_fd(client_socket, client_events)
-				-- print(" -- new client, ip:port = "..tcp_address(client_socket))
+				if debug > 0 then print("  -- new client, ip:port = "..tcp_address(client_socket)) end
 			end
 		until client_socket < 1
 	else
@@ -149,6 +163,7 @@ function in_callback(socket)
 end
 
 -- set poll timeout, callbacks and sockets
+poll_debug_set(debug)
 poll_timeout_set(timeout)
 
 poll_in_callback_set(in_callback)
@@ -158,22 +173,22 @@ poll_error_callback_set(error_callback)
 
 poll_add_fd(listen_socket, listen_events) -- add listen socket to poll arrays
 
-local pollMaxEventCount = 0
+--local pollMaxEventCount = 0
+local loopCount = 0
+if useProfilier then ProFi:start() end
 repeat
-	pollCount = pollCount + 1
-	--[[local show = pollCount%500 == 0
-	if show then
-		print("poll: "..pollCount..". ") --io.write("poll: "..pollCount..". "); io.flush()
-	end]]
+	loopCount = loopCount + 1
 	local ret = poll_poll()
-	--if ret > pollMaxEventCount then pollMaxEventCount = ret end
-	--[[if show then
-		print("ret="..ret)
+	--[[local key = io.read(0)
+	if key == "q" then
+		print("do you want to quit?")
+		key = waitKeyPressed()
+		if key == "y" then break end
 	end]]
-until false -- and pollCount > 200 or pollInCount > 100 -- or ctrl-C or some keypressed quit?
+until useProfilier and loopCount > 10000
+if useProfilier then ProFi:stop() end
 
-poll_remove_fd(listen_socket)
-tcp_close(listen_socket)
+close(listen_socket)
 
 print()
 print(" -- AppServer.lua STATS -- ")
@@ -183,14 +198,19 @@ print("poll_fd_count:        "..poll_fd_count())
 if poll_fd_count() > 0 then
 	poll_remove_all(tcp_close)
 end
-print("poll_max_event_count: "..pollMaxEventCount)
-print("pollCount:            "..pollCount)
+--print("poll_max_event_count: "..pollMaxEventCount)
+print("pollCount:            "..poll_poll_count())
 print("pollInCount:          "..pollInCount)
 print("pollOutCount:         "..pollOutCount)
 print("pollCloseCount:       "..pollCloseCount)
 print("pollErrCount:         "..pollErrCount)
+print("fd add/remove count:  "..poll_fd_add_count().."/"..poll_fd_remove_count())
 print("totalBytesReceived:   "..totalBytesReceived)
 print("totalBytesSent:       "..totalBytesSent)
+if useProfilier then
+	ProFi:writeReport("AppServer.txt")
+	os.execute("edit AppServer.txt")
+end
 
 print()
 print(" -- AppServer.lua end -- ")
@@ -198,17 +218,6 @@ print()
 
 
 local function answer_echo(socket)
-	answerCount = answerCount + 1
-	--print("answer: ", socket)
-	result = socket_recv(socket, recvbuf_ptr, buflen, receiveFlags)
-	if result > 0 then
-		totalBytesReceived = totalBytesReceived + result
-		--[[print(" -- Bytes received: ", result.." / "..totalBytesReceived.." total")
-		print(" -- Data  received: \n\n", ffi.string(recvbuf_ptr))
-		print()
-		print()]]
-		-- Echo the buffer back to the sender
-		--local send_result = socket_send(socket, recvbuf_ptr, result, sendFlags)
 
 		local content_len = result --#content -- result
 		local header = answerStart..tostring(content_len + #htmlEnd)..answerEnd..answerCount..".\r\n"
@@ -225,22 +234,5 @@ local function answer_echo(socket)
 		--print(" -- sendbuf_ptr:\n"..ffi.string(sendbuf_ptr))
 		local send_result = socket_send(socket, sendbuf_ptr, content_len, sendFlags) -- send answer buffer
 		--print(" -- send_result / content_len: "..send_result.." / "..content_len)
-		if send_result < 0 then
-			socket_cleanup(socket, send_result, "socket_send failed with error: ")
-		elseif send_result == content_len then
-			poll_remove_fd(socket)
-			tcp_close(socket)
-		else
-			poll_remove_fd(socket)
-			tcp_close(socket)
-		end
-		if send_result > 0 then
-			totalBytesSent = totalBytesSent + tonumber(send_result)
-		end
-		print(" -- Bytes sent: ", send_result.." / "..totalBytesSent.." total")
-	elseif result == 0 then
-		print(" -- nothing received...")
-	else
-		socket_cleanup(socket, result, "socket_recv failed with error: ")
-	end
+
 end

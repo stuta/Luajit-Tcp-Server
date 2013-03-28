@@ -253,7 +253,7 @@ ffi.cdef[[
 	static const int O_RDWR			= 0x0002;		/* open for reading and writing */
 	static const int O_ACCMODE	= 0x0003;		/* mask for above modes */
 
-  int	open(const char *, int); 	// int	open(const char *, int, ...);
+  int	open(const char *, int, ...);
 ]]
 
 -- kqueue
@@ -448,7 +448,7 @@ ffi.cdef[[
 	static const int	F_SETFD		= 2;		/* set file descriptor flags */
 	static const int	F_GETFL		= 3;		/* get file status flags */
 	static const int	F_SETFL		= 4;		/* set file status flags */
-	int	fcntl(int fildes, int cmd, int flags); // , ...);
+	int	fcntl(int fildes, int cmd, ...);
 ]]
 
 -- socket
@@ -468,33 +468,6 @@ ffi.cdef[[
 	static const int	 SOCK_RDM	= 4;		/* reliably-delivered message */
 	static const int	 SOCK_SEQPACKET	= 5;		/* sequenced packet stream */
 
-	// Option flags per-socket.
-	static const int	 SO_DEBUG	= 0x0001;		/* turn on debugging info recording */
-	static const int	 SO_ACCEPTCONN	= 0x0002;		/* socket has had listen() */
-	static const int	 SO_REUSEADDR	= 0x0004;		/* allow local address reuse */
-	static const int	 SO_KEEPALIVE	= 0x0008;		/* keep connections alive */
-	static const int	 SO_DONTROUTE	= 0x0010;		/* just use interface addresses */
-	static const int	 SO_BROADCAST	= 0x0020;		/* permit sending of broadcast msgs */
-	// #if !defined(_POSIX_C_SOURCE) || defined(_DARWIN_C_SOURCE)
-	static const int	 SO_USELOOPBACK	= 0x0040;		/* bypass hardware when possible */
-	static const int	 SO_LINGER	= 0x0080;          /* linger on close if data present (in ticks) */
-	// #else
-	// static const int	 SO_LINGER	= 0x1080;          /* linger on close if data present (in seconds) */
-	// #endif	/* (!_POSIX_C_SOURCE || _DARWIN_C_SOURCE) */
-	static const int	 SO_OOBINLINE	= 0x0100;		/* leave received OOB data in line */
-	// #if !defined(_POSIX_C_SOURCE) || defined(_DARWIN_C_SOURCE)
-	static const int	 SO_REUSEPORT	= 0x0200;		/* allow local address & port reuse */
-	static const int	 SO_TIMESTAMP	= 0x0400;		/* timestamp received dgram traffic */
-	static const int	 SO_TIMESTAMP_MONOTONIC	= 0x0800;	/* Monotonically increasing timestamp on rcvd dgram */
-	// #ifndef __APPLE__
-	// static const int	 SO_ACCEPTFILTER	= 0x1000;		/* there is an accept filter */
-	// #else
-	static const int	 SO_DONTTRUNC	= 0x2000;		/* APPLE: Retain unread data */
-					/*  (ATOMIC proto) */
-	static const int	 SO_WANTMORE	= 0x4000;		/* APPLE: Give hint when more data ready */
-	static const int	 SO_WANTOOBFLAG	= 0x8000;		/* APPLE: Want OOB in MSG_FLAG on receive */
-	// #endif  /* (!__APPLE__) */
-	// #endif	/* (!_POSIX_C_SOURCE || _DARWIN_C_SOURCE) */
 
 	static const int	 	TCP_NODELAY             = 0x01;    /* don't delay send to coalesce packets */
 	static const int	 	TCP_MAXSEG              = 0x02;    /* set maximum segment size */
@@ -568,6 +541,13 @@ ffi.cdef[[
 ]]
 if isLinux then
 	ffi.cdef[[
+
+		static const int SOL_SOCKET = 1;
+
+		static const int	 SO_REUSEADDR	= 1;		/* allow local address reuse */
+		static const int	 SO_KEEPALIVE	= 9;		/* keep connections alive */
+		static const int	 SO_DONTROUTE	= 5;		/* just use interface addresses */
+
 		/* Structure describing a generic socket address.  */
 		struct sockaddr {
 			sa_family_t	sa_family;		/* Common data: address family and length.  */
@@ -586,6 +566,38 @@ if isLinux then
 	]]
 elseif isMac then -- "*ai_canonname" and "*ai_addr" are in different order than in Linux
 	ffi.cdef[[
+
+		static const int SOL_SOCKET = 0xffff;
+
+
+		// Option flags per-socket.
+		static const int	 SO_DEBUG	= 0x0001;		/* turn on debugging info recording */
+		static const int	 SO_ACCEPTCONN	= 0x0002;		/* socket has had listen() */
+		static const int	 SO_REUSEADDR	= 0x0004;		/* allow local address reuse */
+		static const int	 SO_KEEPALIVE	= 0x0008;		/* keep connections alive */
+		static const int	 SO_DONTROUTE	= 0x0010;		/* just use interface addresses */
+		static const int	 SO_BROADCAST	= 0x0020;		/* permit sending of broadcast msgs */
+		// #if !defined(_POSIX_C_SOURCE) || defined(_DARWIN_C_SOURCE)
+		static const int	 SO_USELOOPBACK	= 0x0040;		/* bypass hardware when possible */
+		static const int	 SO_LINGER	= 0x0080;          /* linger on close if data present (in ticks) */
+		// #else
+		// static const int	 SO_LINGER	= 0x1080;          /* linger on close if data present (in seconds) */
+		// #endif	/* (!_POSIX_C_SOURCE || _DARWIN_C_SOURCE) */
+		static const int	 SO_OOBINLINE	= 0x0100;		/* leave received OOB data in line */
+		// #if !defined(_POSIX_C_SOURCE) || defined(_DARWIN_C_SOURCE)
+		static const int	 SO_REUSEPORT	= 0x0200;		/* allow local address & port reuse */
+		static const int	 SO_TIMESTAMP	= 0x0400;		/* timestamp received dgram traffic */
+		static const int	 SO_TIMESTAMP_MONOTONIC	= 0x0800;	/* Monotonically increasing timestamp on rcvd dgram */
+		// #ifndef __APPLE__
+		// static const int	 SO_ACCEPTFILTER	= 0x1000;		/* there is an accept filter */
+		// #else
+		static const int	 SO_DONTTRUNC	= 0x2000;		/* APPLE: Retain unread data */
+						/*  (ATOMIC proto) */
+		static const int	 SO_WANTMORE	= 0x4000;		/* APPLE: Give hint when more data ready */
+		static const int	 SO_WANTOOBFLAG	= 0x8000;		/* APPLE: Want OOB in MSG_FLAG on receive */
+		// #endif  /* (!__APPLE__) */
+		// #endif	/* (!_POSIX_C_SOURCE || _DARWIN_C_SOURCE) */
+
 		/* Structure describing a generic socket address.  */
 		struct sockaddr {
 			uint8_t	sa_len;		/* total length */
@@ -605,14 +617,21 @@ elseif isMac then -- "*ai_canonname" and "*ai_addr" are in different order than 
 	]]
 end
 ffi.cdef[[
-	struct in_addr {
-		in_addr_t s_addr;
-	};
 
+	static const int SD_RECEIVE = 0; // Shutdown receive operations.
+	static const int SD_SEND 		= 1; // Shutdown send operations.
+	static const int SD_BOTH 		= 2; // Shutdown both send and receive operations.
+
+	static const int INET6_ADDRSTRLEN	= 46;
+	static const int INET_ADDRSTRLEN	= 16;
 
 	// Socket address conversions
 	static const int NI_MAXHOST = 1025;
 	static const int NI_MAXSERV = 32;
+
+	struct in_addr {
+		in_addr_t s_addr;
+	};
 
 	// Socket address, internet style.
 	struct sockaddr_in {
@@ -670,14 +689,6 @@ ffi.cdef[[
 	int setsockopt(int socket, int level, int option_name, const void *option_value, socklen_t option_len);
 	int getsockopt(int socket, int level, int option_name, void *restrict option_value, socklen_t *restrict option_len);
 
-
-	static const int SD_RECEIVE = 0; // Shutdown receive operations.
-	static const int SD_SEND 		= 1; // Shutdown send operations.
-	static const int SD_BOTH 		= 2; // Shutdown both send and receive operations.
-
-	static const int SOL_SOCKET = 0xffff;
-	static const int INET6_ADDRSTRLEN	= 46;
-	static const int INET_ADDRSTRLEN	= 16;
 
 	in_addr_t	 inet_addr(const char *);
 	char		*inet_ntoa(struct in_addr);

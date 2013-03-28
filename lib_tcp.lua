@@ -81,6 +81,24 @@ function tcp_listen(port)
 		end
 	end
 
+	-- SO_SNDBUF, send buffer size
+	result = socket_setsockopt(listen_socket, C.SOL_SOCKET, C.SO_SNDBUF, sendBufSize)
+	if result ~= 0 then
+		socket_cleanup(listen_socket, result, "socket_setsockopt SO_SNDBUF failed with error: ")
+	end
+
+	-- SO_RCVBUF, reveive buffer size
+	result = socket_setsockopt(listen_socket, C.SOL_SOCKET, C.SO_RCVBUF, receiveBufSize)
+	if result ~= 0 then
+		socket_cleanup(listen_socket, result, "socket_setsockopt SO_RCVBUF failed with error: ")
+	end
+
+	-- TCP_NODELAY, tcp-nodelay to 1
+	result = socket_setsockopt(listen_socket, C.SOL_SOCKET, C.TCP_NODELAY, tcpNoDelay)
+	if result ~= 0 then
+		socket_cleanup(listen_socket, result, "socket_setsockopt TCP_NODELAY failed with error: ")
+	end
+
 	-- bind
 	result = socket_bind(listen_socket, res[0].ai_addr, res[0].ai_addrlen)
 	if result ~= 0 then
@@ -102,10 +120,11 @@ function tcp_accept(listen_socket)
 	client_addr_size[0] = ffi.sizeof("struct sockaddr")
 	local client_socket = socket_accept(listen_socket, client_addr_ptr, client_addr_size)
 	if client_socket < 0 then
-		return client_socket
+		return client_socket -- poll error, ok
 		--socket_cleanup(listen_socket, client_socket, "socket_accept failed with error: ")
 	end
 
+	--[[
 	-- SO_SNDBUF, send buffer size
 	result = socket_setsockopt(client_socket, C.SOL_SOCKET, C.SO_SNDBUF, sendBufSize)
 	if result ~= 0 then
@@ -119,10 +138,11 @@ function tcp_accept(listen_socket)
 	end
 
 	-- TCP_NODELAY, tcp-nodelay to 1
-	--[[result = socket_setsockopt(client_socket, C.SOL_SOCKET, C.TCP_NODELAY, tcpNoDelay)
+	result = socket_setsockopt(client_socket, C.SOL_SOCKET, C.TCP_NODELAY, tcpNoDelay)
 	if result ~= 0 then
 		socket_cleanup(client_socket, result, "socket_setsockopt TCP_NODELAY failed with error: ")
-	end]]
+	end
+	]]
 
 	return client_socket --,client_addr_ptr
 end

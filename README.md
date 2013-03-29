@@ -13,7 +13,7 @@ All code will be OSX + Windows + Linux. Contributios are welcome.
 
 Tests were done in OSX 27" late 2009 iMac, 3,06 GHz Intel Core 2 Duo, no hyperthreading.
 
-  - **2,5 million** roundtrip messages / second with shared memory between 2 _applications_.
+  - **2,5 million** roundtrip messages / second with shared memory between 2 _applications_
   - **27 000** roundtrip messages / second with tcp between 2 applications 
   	- Nginx gives 9 000 messages / second in this same machine
 
@@ -23,19 +23,17 @@ In modern (2012) Core i5 machine you can get double speed. **Shut down other pro
 
 Install [httperf](http://www.hpl.hp.com/research/linux/httperf/). Other performace tools (ab, siege) break connection and crete always a new socket. In OSX those results are completely unreliable and will cause sockets to end and resulst will go down very soon until you wait system to release unused socket to use (can somebody explain this better?). Httperf will not disconnect open sockets and it gives consistent results.
 
-In one terminal window run "lj AppServer.lua". In another teminal run httperfas shown below.
+In one terminal window run "lj AppServer.lua". In another teminal run httperf as shown below.
  
 ##### Apache
 
-httperf --verbose --rate=1000 --num-conns=4 --num-calls=2000 --port=80
-
+  - httperf --verbose --rate=1000 --num-conns=4 --num-calls=2000 --port=80
   - Request rate, max: **5 083.6** req/s
   - typically **4 500**
 
 ##### Nginx
 
-httperf --verbose --rate=1000 --num-conns=4 --num-calls=2000 --port=80
-
+  - httperf --verbose --rate=1000 --num-conns=4 --num-calls=2000 --port=80
   - Request rate, max: **9 219.6** req/s
   - typically **8 000**
 
@@ -43,8 +41,7 @@ httperf --verbose --rate=1000 --num-conns=4 --num-calls=2000 --port=80
 
 Single-threaded simple version using traditional poll and WSAPoll (WSAPoll does not work in Windows XP).
 
-httperf --verbose --rate=1000 --num-conns=4 --num-calls=2000 --port=5001
-
+  - httperf --verbose --rate=1000 --num-conns=4 --num-calls=2000 --port=5001
   - Request rate, max: **24 227.8** req/s
   - typically **23 500**
   - in longer (20 million calls) test maximum was **26 746**, typically **26 000**
@@ -56,7 +53,7 @@ Test with "httperf --verbose --rate=1000 --num-conns=4 --num-calls=200000 --port
 
 ### AppSharedMemory.lua
 
-In one terminal window run "lj AppSharedMemory.lua s". In another teminal run "hlj AppSharedMemory.lua c".
+In one terminal window run "lj AppSharedMemory.lua s". In another teminal run "lj AppSharedMemory.lua c".
 
 Client sends a message to server and waits for an answer. Server copies read message to send buffer. After answer client sends another message. This happens 5 million times in less than 2 seconds, that means 2.5 million roundtrip-messages in second = 200 nanoseconds for one message to go to one direction. With tcp server we get 26 000 roundtrip messages in second. 
 
@@ -64,9 +61,7 @@ Code is not optimized, this is first working version.
 
 This version simply waits for an answer before sending next message. It could be optimized to use sendbuffer in client. Server should read all messages in the readbuffer and singnal client to send more messages while working with answers.
 
-It seems that using appoximately 30 messages a batch yields the best results. Note that batching up to 8 messages is not worth of doing because the overhead associated with the batching makes it even slower than one-by-one message transfer.
-
-
+From ZeroMQ page: _"It seems that using appoximately 30 messages a batch yields the best results. Note that batching up to 8 messages is not worth of doing because the overhead associated with the batching makes it even slower than one-by-one message transfer."_
 
 ```
  ..for loop=1, 5 000 000 write+read time: 1.9428 sec
@@ -95,11 +90,10 @@ Inside critical path do these things:
 - test all, test often
 - therories are nice to have, but test results tell the truth
 - test many ways to do same things in critical path (ffi cdata vs Lua tables)
-- avoid memory allocation! 
-- allocate memory beforehand and grow in bigger chunks
+- avoid memory allocation
+	- allocate memory beforehand and grow in bigger chunks
 - do not pass arguments if you don't have to
 	- use set_xx -functions before critical path
-- less lines is usually faster code
 - do things only when they are really needed
 	- for ex. do not parse all http headers, only those that are needed
 	- headers can be parsed directly from inbuffer using ffi.C -calls
@@ -108,6 +102,7 @@ Inside critical path do these things:
 	- for ex. socket poll cdata is it's own bookeeping data
 - avoid memory copy, but small memory copy is fast (see [ZeroMQ page](http://www.zeromq.org/results:copying))
 - no more threads than cores in machine
+- less lines is usually faster code
 
 ---
 
@@ -139,6 +134,8 @@ __Some open issues__:
   * TestSocket: osx + win + linux
   	 - in XP: lib_socket.lua:57: socket_recv failed with error: (-1), why? Win7 works.
   
+### Test Programs
+
 ##### TestAll.lua
 
 Runs all TestXxx.lua code in directory. You can cance running test with ctrl-c and continue to next test.

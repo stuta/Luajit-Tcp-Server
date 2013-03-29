@@ -46,10 +46,10 @@ else
 end
 
 local arg2 = tonumber(arg[2]) or 0
-print("parameter 2 (no changeing of send data = 1): "..arg2)
+print("parameter 2 (use changing send data = 1): "..arg2)
 local arg2abs = math.abs(arg2)
-local useSetData = arg2abs~=1
-local useReply = arg[3] == "r" --arg2abs==1 or arg2abs==4
+local useSetData = arg2abs == 1 or false
+local useReply = arg[3] == "r" or true --arg2abs==1 or arg2abs==4
 local bigLoops = tonumber(arg[4]) or 1
 local	loopCount = tonumber(arg[5]) or 5000000
 if arg2 < 0 then

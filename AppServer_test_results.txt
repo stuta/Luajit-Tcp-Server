@@ -1,0 +1,17 @@
+
+apache:
+httperf --verbose --rate=100 --num-conns=4 --num-calls=2000 --port=80
+Request rate, max: 5083.6 req/s
+ - typically 4500
+
+nginx:
+httperf --verbose --rate=100 --num-conns=4 --num-calls=2000 --port=80
+Request rate, max: 9219.6 req/s
+ - typically 8000
+
+pure-Lua static web server:
+httperf --verbose --rate=100 --num-conns=4 --num-calls=2000 --port=5001
+Request rate, max: 24227.8 req/s
+ - typically 23500
+ - in longer tests max 26 746.3 msg/sec, typically 26000
+ - just serves static content, does not even change the date of reply headers

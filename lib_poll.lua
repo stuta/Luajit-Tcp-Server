@@ -167,16 +167,6 @@ function poll_error_callback_set(func)
 	error_callback = func
 end
 
-local prevPollEmpty = false
-local function print_poll()
-	if prevPollEmpty and not isWin then
-		print(string.char(27).."[F"..pollCount..". poll, nfds="..nfds) -- go 1 line up in terminal
-	else
-		prevPollEmpty = true
-		print(pollCount..". poll, nfds="..nfds)
-	end
-end
-
 function poll_poll()
 	pollCount = pollCount + 1
 	local ret = socket_poll(fds, nfds, timeout)
@@ -184,10 +174,8 @@ function poll_poll()
 		print(pollCount..". poll, nfds="..nfds)
 		socket_cleanup(fds[0].fd, ret, "socket_poll failed with error: ")
 	elseif ret == 0 then
-		print_poll()
 		return 0
 	end
-	prevPollEmpty = false
 
 	-- loop all events, break loop as soon as possible
 	local served = 0

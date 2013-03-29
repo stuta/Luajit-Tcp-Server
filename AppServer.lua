@@ -154,7 +154,7 @@ local function answer(socket)
 		if debug >= 3 then print(" -- sendbuf_ptr:\n"..ffi.string(sendbuf_ptr).."\n") end
 		--print(" -- send_result / content_len: "..send_result.." / "..content_len)
 		if send_result < 0 then
-			socket_cleanuprint(socket, send_result, "socket_send failed with error: ")
+			socket_cleanup(socket, send_result, "socket_send failed with error: ")
 		elseif send_result > 0 then
 			totalBytesSent = totalBytesSent + tonumber(send_result)
 		end
@@ -167,7 +167,7 @@ local function answer(socket)
 	else
 		print(" -- socket_recv failed with error: "..result)
 		close(socket)
-		--socket_cleanuprint(socket, result, "socket_recv failed with error: ")
+		--socket_cleanup(socket, result, "socket_recv failed with error: ")
 	end
 end
 
@@ -191,7 +191,7 @@ function error_callback(socket, event_text)
 		close(socket)
 	else -- event_text == "POLLERR"
 		close(socket)
-		-- socket_cleanuprint(socket, 0, "error_callback: "..event_text)
+		-- socket_cleanup(socket, 0, "error_callback: "..event_text)
 	end
 	pollErrCount = pollErrCount + 1
 end
@@ -244,7 +244,7 @@ repeat
 		print_poll()
 	end
 until useProfilier and loopCount > 10000
-if useProfilier then ProFi:stoprint() end
+if useProfilier then ProFi:stop() end
 
 close(listen_socket)
 

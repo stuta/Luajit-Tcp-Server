@@ -16,6 +16,10 @@ else
 	-- unix
 	s = C
 end
+local err_prefix = "  SOCKET ERROR: "
+function error_prefix_text_set(errTxt)
+	err_prefix = errTxt
+end
 
 if isWin then
 	INVALID_SOCKET = ffi.new("SOCKET", -1)
@@ -38,11 +42,11 @@ if isWin then
 		local wVersionRequested = ffi.cast("WORD", MAKEWORD(2, 2))
     local err = s.WSAStartup(wVersionRequested, wsadata)
     if err ~= 0 then
-			print("ERR: WSAStartup failed with error code: "..err)
+			print(err_prefix.."WSAStartup failed with error code: "..err)
     elseif s.WSAGetLastError() ~= 0 then
-			print("ERR: WSAStartup failed with error code: "..s.WSAGetLastError())
+			print(err_prefix.."WSAStartup failed with error code: "..s.WSAGetLastError())
     end
-    --print("WSAStartup: ".. err)
+    --print(err_prefix.."WSAStartup: ".. err)
 		return err -- err,wsadata[0]
 	end
 	function socket_poll(fdArray, fds, timeout)
@@ -64,7 +68,7 @@ if isWin then
 		end
 		s.WSACleanup()
 		if errtext and #errtext > 0 then
-			error(errtext.."("..tonumber(errnum)..") "..wsa_err_text)
+			print(err_prefix..errtext.."("..tonumber(errnum)..") "..wsa_err_text)
 		end
 	end
 	function socket_inet_ntop(family, pAddr, strptr)
@@ -75,7 +79,7 @@ if isWin then
 		local len = ffi.new("unsigned long[1]", ffi.sizeof(strptr))
     local ret = s.WSAAddressToStringA(ffi.cast("struct sockaddr *", srcaddr), ffi.sizeof("struct sockaddr"), nil, strptr, len)
     if ret ~= 0 then
-   		print("WSAAddressToString failed with error: "..tonumber(ret))
+   		print(err_prefix.."WSAAddressToString failed with error: "..tonumber(ret))
       return nil
     end
     return strptr
@@ -106,7 +110,7 @@ else
 		end
 		--s.WSACleanup()
 		if errtext and #errtext > 0 then
-			error(errtext.."("..tonumber(errnum)..") "..socket_errortext(errnum))
+			print(err_prefix..errtext.."("..tonumber(errnum)..") "..socket_errortext(errnum))
 		end
 	end
 	function socket_inet_ntop(family, pAddr, strptr)

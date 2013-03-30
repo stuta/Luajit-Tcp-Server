@@ -47,7 +47,7 @@ local sendbuf,sendbuf_ptr = createBuffer(sendbuflen)
 --local content = "<html><body>Hello World!</body></html>"
 
 --[[ APACHE:
-local answerStart = [[HTTP/1.1 200 OK
+local answerStart = [ [HTTP/1.1 200 OK
 Date: Thu, 28 Mar 2013 19:43:20 GMT
 Server: Manage/0.1.00 (Unix) DAV/2 mod_ssl/2.2.22 OpenSSL/0.9.8r
 Content-Location: index.html.en
@@ -58,26 +58,26 @@ ETag: "bd9c3-2c-4c5bf4b80cbc0"
 Accept-Ranges: bytes
 Content-Length: ]]
 --[[ APACHE:
-local answerEnd = [[
+local answerEnd = [ [
 
 Content-Type: text/html
 Content-Language: en
 
 ]] -- do not remove empty lines inside [[ ]]
 
--- nginx:
+-- nginx: (Connection: Close ?)
 local answerStart = [[HTTP/1.1 200 OK
 Server: masrv/0.1.0
 Date: Thu, 28 Mar 2013 22:16:09 GMT
 Content-Type: text/html
+Connection: Keep-Alive
 Content-Length: ]]
 local answerEnd = [[
 
 Last-Modified: Wed, 21 Sep 2011 14:34:51 GMT
-Connection: close
 Accept-Ranges: bytes
 
-]]
+]]  -- do not remove empty lines inside [[ ]]
 
 answerEnd:gsub("\n", "\r\n")
 answerStart:gsub("\n", "\r\n")

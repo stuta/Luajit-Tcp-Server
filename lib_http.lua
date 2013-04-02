@@ -1,6 +1,7 @@
 -- lib_http.lua
+module(..., package.seeall)
 
--- dofile "lib_util.lua"
+-- require "lib_util"
 -- local ffi = require("ffi")
 -- local C = ffi.C
 

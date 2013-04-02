@@ -1,21 +1,18 @@
 --  ffi_def_win.lua
-local ffi = require "ffi"
-local bit = require "bit"
+module(..., package.seeall)
 
--- local bnot = bit.bnot
--- local band = bit.band
+local ffi = require "ffi"
+require "win_socket"
+local bit = require "bit"
 local bor = bit.bor
 local lshift = bit.lshift
--- local rshift = bit.rshif
 
 --[[
 https://github.com/Wiladams/BanateCoreWin32
 https://github.com/Wiladams/LJIT2Win32/blob/master/WinBase.lua
+https://github.com/Wiladams/LJIT2Win32/blob/master/win_socket.lua
 ]]
 
--- Berkeley Sockets calls
--- https://github.com/Wiladams/LJIT2Win32/blob/master/win_socket.lua
-dofile "win_socket.lua"
 
 ffi.cdef[[
 	// Windows

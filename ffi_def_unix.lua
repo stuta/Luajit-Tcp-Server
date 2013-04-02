@@ -1,6 +1,10 @@
 -- ffi_def_unix.lua
+module(..., package.seeall)
+
 local ffi = require "ffi"
 
+local isMac = (ffi.os == "OSX")
+local isLinux = (ffi.os == "Linux")
 INVALID_SOCKET = -1
 
 ffi.cdef[[

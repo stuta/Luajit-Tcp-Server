@@ -1,8 +1,10 @@
 --  AppSharedMemory.lua
 
-dofile "lib_shared_memory.lua"
 local arg = {...}
 local ffi = require("ffi")
+
+local util = require "lib_util"
+local shm = require "lib_shared_memory"
 
 local ProFi = require 'ProFi'
 ProFi:setGetTimeMethod( microSeconds )
@@ -11,11 +13,11 @@ local useProfilier=false
 -- local pos = 0
 local readData = "--- not read yet ---" -- this is the length of a input buffer
 local readDataLen = string.len(readData)
-local readData_c = cstr(readData)
+local readData_c = util.cstr(readData)
 
 local sendData = "--- not sent yet ---"
 local sendDataLen = string.len(sendData)
-local sendData_c = cstr(sendData)
+local sendData_c = util.cstr(sendData)
 
 print()
 print(" -- AppSharedMemory.lua START -- ")
@@ -94,26 +96,26 @@ end
 print()
 
 
-i = mmapOutCreate(fileNameTest, bufferSize)
+i = shm.mmapOutCreate(fileNameTest, bufferSize)
 if i > bufferSize then bufferSize = i end -- test windows buffersize, in win7 is 65536, not 4096
---readBufferSize = mmapInConnect(fileNameTest, bufferSize)
---readBufferSize = mmapInDisonnect(fileNameTest)
-i = mmapOutDestroy(fileNameTest)
+--readBufferSize = shm.mmapInConnect(fileNameTest, bufferSize)
+--readBufferSize = shm.mmapInDisonnect(fileNameTest)
+i = shm.mmapOutDestroy(fileNameTest)
 
 
 -- both client and server will crate send file
 if( isServer ) then
 	-- delete client send buffer
-	i = mmapOutCreate(fileNameC , bufferSize)
-	--print(" ..mmapOutCreate result is: " .. i)
-	i = mmapOutDestroy(fileNameC)
-	--print(" ..mmapOutCreate result is: " .. i)
+	i = shm.mmapOutCreate(fileNameC , bufferSize)
+	--print(" ..shm.mmapOutCreate result is: " .. i)
+	i = shm.mmapOutDestroy(fileNameC)
+	--print(" ..shm.mmapOutCreate result is: " .. i)
 
-	sendBufferSize = mmapOutCreate(fileNameS , bufferSize)
+	sendBufferSize = shm.mmapOutCreate(fileNameS , bufferSize)
 else
-	sendBufferSize = mmapOutCreate(fileNameC , bufferSize * 2)
+	sendBufferSize = shm.mmapOutCreate(fileNameC , bufferSize * 2)
 end
-print(" ..mmapOutCreate result is: " .. sendBufferSize)
+print(" ..shm.mmapOutCreate result is: " .. sendBufferSize)
 
 if( sendBufferSize < bufferSize )	then
 	print("sendBufferSize < bufferSize")
@@ -121,23 +123,23 @@ if( sendBufferSize < bufferSize )	then
 end
 
 -- both client and server will connect
-timer = seconds()
+timer = util.seconds()
 repeat
 	if( isServer ) then
-		readBufferSize = mmapInConnect(fileNameC, bufferSize * 2)
-		if seconds(timer) > 2 then
-			print(" ..server mmapInConnect to "..ffi.string(fileNameC).." result is: " .. readBufferSize)
-			timer = seconds()
+		readBufferSize = shm.mmapInConnect(fileNameC, bufferSize * 2)
+		if util.seconds(timer) > 2 then
+			print(" ..server shm.mmapInConnect to "..ffi.string(fileNameC).." result is: " .. readBufferSize)
+			timer = util.seconds()
 		end
 	else
-		readBufferSize = mmapInConnect(fileNameS, bufferSize)
-		if seconds(timer) > 2 then
-			print(" ..client mmapInConnect to "..ffi.string(fileNameS).." result is: " .. readBufferSize)
-			timer = seconds()
+		readBufferSize = shm.mmapInConnect(fileNameS, bufferSize)
+		if util.seconds(timer) > 2 then
+			print(" ..client shm.mmapInConnect to "..ffi.string(fileNameS).." result is: " .. readBufferSize)
+			timer = util.seconds()
 		end
 	end
 	if( readBufferSize < bufferSize ) then
-		sleep(connectSleepMs)
+		util.sleep(connectSleepMs)
 	end
 until readBufferSize > 0
 
@@ -152,7 +154,7 @@ local function send_data_set(loop)
 		sendData = sendData .. string.rep("0", string.len(tostring(loopCount)))
 			-- loopCount is max number, fill with as many zeroes, for ex 22000 -> 00000
 		sendDataLen = string.len(sendData)
-		sendData_c = cstr(sendData)
+		sendData_c = util.cstr(sendData)
 
 		readDataLen = sendDataLen
 	else
@@ -175,19 +177,19 @@ local function send_data(loop)
 	local doPrint = loop % (loopCount/5) == 0 or loop < 3 or loop > loopCount-2
 
 	if doPrint then
-		-- print(loop..". send_data() before, mmapInStatus / mmapOutStatus / wait: "
-		-- 	..string.char(mmapInStatus())..string.char(mmapOutStatus()).." "..base64char[statusIdx])
+		-- print(loop..". send_data() before, shm.mmapInStatus / shm.mmapOutStatus / wait: "
+		-- 	..string.char(shm.mmapInStatus())..string.char(shm.mmapOutStatus()).." "..base64char[statusIdx])
 		status_to_wait_char = base64char[statusIdx]
 	end
 
-	mmapStatusInWait(base64ascii[statusIdx])
+	shm.mmapStatusInWait(base64ascii[statusIdx])
 	statusIdxAdd()
 
-	local status = mmapOutWrite(base64ascii[statusIdx], 0, sendData_c, sendDataLen )
+	local status = shm.mmapOutWrite(base64ascii[statusIdx], 0, sendData_c, sendDataLen )
 	sentCount = sentCount + 1
 	if doPrint then
-		print(loop..". sent_data, mmapInStatus, mmapOutStatus, wait: "..ffi.string(sendData_c, sendDataLen).."  "
-			..string.char(mmapInStatus())..string.char(mmapOutStatus())..status_to_wait_char) -- ..base64char[statusIdx]
+		print(loop..". sent_data, shm.mmapInStatus, shm.mmapOutStatus, wait: "..ffi.string(sendData_c, sendDataLen).."  "
+			..string.char(shm.mmapInStatus())..string.char(shm.mmapOutStatus())..status_to_wait_char) -- ..base64char[statusIdx]
 		if isServer then
 			print()
 		end
@@ -203,20 +205,20 @@ end
 local function read_data(loop)
 	local doPrint = loop % (loopCount/5) == 0 or loop < 3 or loop > loopCount-2
 	if doPrint then
-		-- print(loop..". read_data() before, mmapInStatus / mmapOutStatus / wait: "
-		-- 	..string.char(mmapInStatus())..string.char(mmapOutStatus()).." "..base64char[statusIdx])
+		-- print(loop..". read_data() before, shm.mmapInStatus / shm.mmapOutStatus / wait: "
+		-- 	..string.char(shm.mmapInStatus())..string.char(shm.mmapOutStatus()).." "..base64char[statusIdx])
 		status_to_wait_char = base64char[statusIdx]
 	end
 
 	statusIdxAdd()
-	mmapStatusInWait(base64ascii[statusIdx])
+	shm.mmapStatusInWait(base64ascii[statusIdx])
 
-	local status = mmapInRead(base64ascii[statusIdx], 0, readData_c, readDataLen)
+	local status = shm.mmapInRead(base64ascii[statusIdx], 0, readData_c, readDataLen)
 	readCount = readCount + 1
 	if doPrint then
 	  local readDataIn = ffi.string(readData_c, readDataLen)
-		print(loop..". read_data, mmapInStatus, mmapOutStatus, wait: "..readDataIn.."  "
-			..string.char(mmapInStatus())..string.char(mmapOutStatus())..status_to_wait_char) -- ..base64char[statusIdx]
+		print(loop..". read_data, shm.mmapInStatus, shm.mmapOutStatus, wait: "..readDataIn.."  "
+			..string.char(shm.mmapInStatus())..string.char(shm.mmapOutStatus())..status_to_wait_char) -- ..base64char[statusIdx]
 		if isClient  then
 			print()
 		end
@@ -228,24 +230,24 @@ local function read_data(loop)
 	return status
 end
 
-mmapAddressSet()
+shm.mmapAddressSet()
 send_data_set(0)
-mmapStatusOutSet(base64ascii[0]-1) -- ascii(65-1) = "@"
-print("mmapStatusInWait()")
-mmapStatusInWait(base64ascii[0]-1) -- wait for other partner to set same value
-sleep(connectSleepMs+200) -- must be bigger than connectSleepMs so that another process can catch us
+shm.mmapStatusOutSet(base64ascii[0]-1) -- ascii(65-1) = "@"
+print("shm.mmapStatusInWait()")
+shm.mmapStatusInWait(base64ascii[0]-1) -- wait for other partner to set same value
+util.sleep(connectSleepMs+200) -- must be bigger than connectSleepMs so that another process can catch us
   -- give another time to wait base64ascii[0]-1 and set base64ascii[0]
-mmapStatusOutSet(base64ascii[0]) -- ascii(65) = "A"- we are ready for loop
+shm.mmapStatusOutSet(base64ascii[0]) -- ascii(65) = "A"- we are ready for loop
 
 
-timer = seconds()
+timer = util.seconds()
 if useProfilier then ProFi:start() end
 
  -- server starts with send and does not wait last
  -- client starts with reply
 
 local bigloop = 0
---local runtime = seconds()
+--local runtime = util.seconds()
 repeat
 	bigloop = bigloop + 1
 	for loop=1, loopCount do
@@ -277,24 +279,24 @@ repeat
 		send_data(loopCount+1)
 	end
 	print()
-	print("*** loopCount total: "..format_num(bigloop * loopCount, 0))
+	print("*** loopCount total: "..util.format_num(bigloop * loopCount, 0))
 	print()
-until bigloop >= bigLoops --seconds(runtime) >= 60*60*2 -- 5 hours -- 60*60*5
+until bigloop >= bigLoops --util.seconds(runtime) >= 60*60*2 -- 5 hours -- 60*60*5
 loopCount = bigloop * loopCount
 
 if useProfilier then ProFi:stop() end
-local timeUsed = seconds(timer)
+local timeUsed = util.seconds(timer)
 local msgCount = sentCount + readCount
 print()
-print(" ..for loop=1, " .. format_num( loopCount, 0 ) .. " write+read time: " .. format_num( timeUsed, 4 ) .. " sec")
-print(" ..sentCount: " .. format_num( sentCount, 0 ) .. ", readCount: " .. format_num( readCount, 0 )
-	.. ", messageCount: " .. format_num( msgCount, 0 ))
-print(" ..for loop: " .. format_num( loopCount/timeUsed, 0 ) .. " loop / sec")
-print(" ..for loop: " .. format_num( msgCount/timeUsed, 0 ) ..  " msg  / sec")
-print(" ..for loop: " .. format_num( (timeUsed*1000*1000*1000) / msgCount, 0 )  .. " ns / msg")
-print(" ..latency : " .. format_num( (timeUsed*1000*1000*1000) / loopCount, 0 ) .. " ns / msg")
+print(" ..for loop=1, " .. util.format_num( loopCount, 0 ) .. " write+read time: " .. util.format_num( timeUsed, 4 ) .. " sec")
+print(" ..sentCount: " .. util.format_num( sentCount, 0 ) .. ", readCount: " .. util.format_num( readCount, 0 )
+	.. ", messageCount: " .. util.format_num( msgCount, 0 ))
+print(" ..for loop: " .. util.format_num( loopCount/timeUsed, 0 ) .. " loop / sec")
+print(" ..for loop: " .. util.format_num( msgCount/timeUsed, 0 ) ..  " msg  / sec")
+print(" ..for loop: " .. util.format_num( (timeUsed*1000*1000*1000) / msgCount, 0 )  .. " ns / msg")
+print(" ..latency : " .. util.format_num( (timeUsed*1000*1000*1000) / loopCount, 0 ) .. " ns / msg")
 print(" ..for loop max message len: " .. sendDataLen)
-print(" ..status read wait count  : " .. format_num( mmapWaitCount(), 0 ))
+print(" ..status read wait count  : " .. util.format_num( shm.mmapWaitCount(), 0 ))
 argPrint()
 
 print()
@@ -305,28 +307,28 @@ if( isServer ) then
 else
 	filename = fileNameS
 end
-local i = mmapInDisconnect(filename)
-print(" ..mmapInDisconnect("..filename..") result is: " .. i)
+local i = shm.mmapInDisconnect(filename)
+print(" ..shm.mmapInDisconnect("..filename..") result is: " .. i)
 
-sleep(500) -- wait for another to disconnect before mmapOutDestroy()
+util.sleep(500) -- wait for another to disconnect before shm.mmapOutDestroy()
 
---i =  mmapOutFlush()
---print(" ..mmapOutFlush() result is: " .. i)
+--i =  shm.mmapOutFlush()
+--print(" ..shm.mmapOutFlush() result is: " .. i)
 
 if( isServer ) then
 	filename = fileNameS
 else
 	filename = fileNameC
 end
-i = mmapOutDestroy(filename)
-print(" ..mmapOutDestroy("..filename..") result is: " .. i)
+i = shm.mmapOutDestroy(filename)
+print(" ..shm.mmapOutDestroy("..filename..") result is: " .. i)
 
 --[[
 -- delete client send file too
-i = mmapOutCreate(fileNameC , bufferSize)
-print(" ..mmapOutCreate(fileNameC , bufferSize) result is: " .. i)
-i = mmapOutDestroy(fileNameC)
-print(" ..mmapOutDestroy(fileNameC) result is: " .. i)
+i = shm.mmapOutCreate(fileNameC , bufferSize)
+print(" ..shm.mmapOutCreate(fileNameC , bufferSize) result is: " .. i)
+i = shm.mmapOutDestroy(fileNameC)
+print(" ..shm.mmapOutDestroy(fileNameC) result is: " .. i)
 ]]
 
 if useProfilier then

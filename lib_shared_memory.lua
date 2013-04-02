@@ -1,9 +1,10 @@
 --  lib_shared_memory.lua
+module(..., package.seeall)
 
-dofile "lib_util.lua"
 local ffi = require("ffi")
-local bit = require("bit")
 local C = ffi.C
+local util = require("lib_util")
+local bit = require("bit")
 --local isWin = isWin
 --[[
 windows:
@@ -78,11 +79,11 @@ if isWin then
 			size = 65536
 		end
 
-		shmName[filename] = cstr(filename)
+		shmName[filename] = util.cstr(filename)
 		local shm_global_name = string.gsub(filename, "\\", "_")
 		shm_global_name = string.gsub(shm_global_name, "C:_", "") -- "Global\\"
 		print(shm_global_name)
-		shm_global_name = cstr(shm_global_name)
+		shm_global_name = util.cstr(shm_global_name)
 
 		-- local accessOpts, shareOpts, openOpts, fileOpts
 		local protectOpts, fileProtectOpts
@@ -192,7 +193,7 @@ if isWin then
 		local ret = sharedMemoryDisconnect(filename)
 		--[[print("sharedMemoryDelete", filename)
 		-- actual delete of file here
-		local del = C.DeleteFileA(cstr(filename))
+		local del = C.DeleteFileA(util.cstr(filename))
 		if del ~= 1 then
 			print_error("sharedMemoryDelete", "DeleteFile() failed", filename)
 			ret = ret + -8
@@ -275,7 +276,7 @@ else
 			C.close(shFD[filename])
 			shFD[filename] = nil
 		end
-		filename = cstr(filename)
+		filename = util.cstr(filename)
 		C.shm_unlink(filename) -- can not start again if shm_unlink has not been done
 		shmName[filename] = nil
 		collectgarbage()
@@ -283,7 +284,7 @@ else
 	end
 
 	function sharedMemoryOpen(filename, size, create)
-		shmName[filename] = cstr(filename)
+		shmName[filename] = util.cstr(filename)
 		-- shared_memory_clear(filename, true) -- not a very good idea?
 
 		local shm_options, mmap_options, shm_mode, ret
@@ -363,7 +364,7 @@ end
 
 -- helper funcs
 
-local yieldTime = yield
+local yieldTime = util.yield
 
 local append = -1 -- mf.append
 local inPos = 0
@@ -415,17 +416,17 @@ function mmapAddressSet()
 
 	print("outBuffer   : ", outSize)
 	print("outAddress_c: ", outAddress_c)
-	outPtrStatus = getOffsetPointer(outAddress_c, 0)
+	outPtrStatus = util.getOffsetPointer(outAddress_c, 0)
 	print("outPtrStatus: ", outPtrStatus)
-	outPtrData = getOffsetPointer(outAddress_c, statusLen)
+	outPtrData = util.getOffsetPointer(outAddress_c, statusLen)
 	print("outPtrData  : ", outPtrData)
 	print("outPtrStatus[0] : ", outPtrStatus[0])
 
 	print("inBuffer    : ", inSize)
 	print("inAddress_c : ", inAddress_c)
-	inPtrStatus = getOffsetPointer(inAddress_c, 0)
+	inPtrStatus = util.getOffsetPointer(inAddress_c, 0)
 	print("inPtrStatus : ", inPtrStatus)
-	inPtrData = getOffsetPointer(inAddress_c, statusLen)
+	inPtrData = util.getOffsetPointer(inAddress_c, statusLen)
 	print("inPtrData   : ", inPtrData)
 	print("inPtrStatus[0]  : ", inPtrStatus[0])
 

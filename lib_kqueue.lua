@@ -1,11 +1,12 @@
 --  lib_kqueue.lua
+module(..., package.seeall)
 
-dofile "lib_util.lua"
 local ffi = require("ffi")
 local C = ffi.C
-local bit = require("bit")
+--[[local bit = require("bit")
 local band = bit.band
-local bor = bit.bor
+local bor = bit.bor]]
+--local util = require "lib_util"
 -- kqueue, kevent
 --[[
 https://bitbucket.org/armatys/perun/src/f106ac49f19ae6aa7a0615914420d2a7e7f370e6/lua/perun/init.lua
@@ -32,7 +33,7 @@ context:init()
 --print(table.show(context, "context"))
 ]]
 
-function keventGet(ident, filter, flags, fflags, data, udata)
+function kevent_get(ident, filter, flags, fflags, data, udata)
 	local kev = ffi.new('struct kevent[1]')
 	if ident then
 		kev[0].ident = ident 		-- identifier for this event

@@ -1,4 +1,5 @@
 --  lib_util.lua
+module(..., package.seeall)
 
 local ffi = require "ffi"
 local C = ffi.C
@@ -11,12 +12,12 @@ isLinux = (ffi.os == "Linux")
 is64bit = ffi.abi("64bit")
 is32bit = ffi.abi("32bit")
 if isWin then
-	dofile "ffi_def_win.lua"
+	require "ffi_def_win"
 elseif isMac then
-	dofile "ffi_def_unix.lua"
+	require "ffi_def_unix"
 else
 	-- Linux
-	dofile "ffi_def_unix.lua"
+	require "ffi_def_unix"
 end
 
 -- common win + osx + linux: C-functions

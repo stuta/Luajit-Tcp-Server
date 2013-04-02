@@ -1,8 +1,8 @@
 --  lib_signal.lua
 
-dofile "lib_util.lua"
 local ffi = require("ffi")
 local C = ffi.C
+local util = require("lib_util")
 
 -- http://www.cis.temple.edu/~giorgio/cis307/readings/signals.html
 -- You may see what are the defined signals with the shell command

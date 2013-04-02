@@ -1,8 +1,9 @@
 --  lib_thread.lua
+module(..., package.seeall)
 
-dofile "lib_util.lua"
 local ffi = require("ffi")
 local C = ffi.C
+local util = require("lib_util")
 
 -- thread
 --[[

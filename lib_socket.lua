@@ -1,8 +1,9 @@
 --  lib_socket.lua
+module(..., package.seeall)
 
-dofile "lib_util.lua"
 local ffi = require("ffi")
 local C = ffi.C
+local util = require("lib_util")
 local bit = require("bit")
 
 local s
@@ -29,10 +30,10 @@ end
 SOCKET_ERROR	= -1	-- 0xffffffff
 
 if isWin then
-	function socket_errortext(err)
+	function errortext(err)
 		return win_errortext(err)
 	end
-	function socket_initialize()
+	function initialize()
 		local wsadata
 		if is64bit then
 			wsadata = ffi.new("WSADATA64[1]")
@@ -49,14 +50,14 @@ if isWin then
     --print(err_prefix.."WSAStartup: ".. err)
 		return err -- err,wsadata[0]
 	end
-	function socket_poll(fdArray, fds, timeout)
+	function poll(fdArray, fds, timeout)
 		return s.WSAPoll(fdArray, fds, timeout)
 	end
-	function socket_close(socket)
+	function close(socket)
 		local socket_c = ffi.cast("int", socket)
 		return s.closesocket(socket_c)
 	end
-	function socket_cleanup(socket, errnum, errtext)
+	function cleanup(socket, errnum, errtext)
 		-- get WSAGetLastError() before close and WSACleanup
 		local wsa_err_num = s.WSAGetLastError()
 		local	wsa_err_text = win_errortext(wsa_err_num)
@@ -71,7 +72,7 @@ if isWin then
 			print(err_prefix..errtext.."("..tonumber(errnum)..") "..wsa_err_text)
 		end
 	end
-	function socket_inet_ntop(family, pAddr, strptr)
+	function inet_ntop(family, pAddr, strptr)
 		-- win XP: http://memset.wordpress.com/2010/10/09/inet_ntop-for-win32/
 		local srcaddr = ffi.new("struct sockaddr_in") --ffi.cast("struct sockaddr_in *", pAddr)
 		ffi.copy(srcaddr.sin_addr, pAddr, ffi.sizeof(srcaddr.sin_addr))
@@ -84,7 +85,7 @@ if isWin then
     end
     return strptr
   end
-	function socket_set_nonblock(socket, arg)
+	function set_nonblock(socket, arg)
 		local arg_c = ffi.new("int[1]")
 		arg_c[0] = arg
 		return s.ioctlsocket(socket, FIONBIO, arg_c) -- FIONBIO in win_socket.lua
@@ -92,19 +93,19 @@ if isWin then
 
 else
 	-- unix
-	function socket_errortext(err)
+	function errortext(err)
 		return ffi.string(C.gai_strerror(err))
 	end
-	function socket_initialize()
+	function initialize()
 		return 0 -- for win compatibilty
 	end
-	function socket_poll(fds, nfds, timeout)
+	function poll(fds, nfds, timeout)
 		return s.poll(fds, nfds, timeout)
 	end
-	function socket_close(socket)
+	function close(socket)
 		return s.close(socket)
 	end
-	function socket_cleanup(socket, errnum, errtext)
+	function cleanup(socket, errnum, errtext)
 		if socket then
 			socket_close(socket)
 		end
@@ -113,10 +114,10 @@ else
 			print(err_prefix..errtext.."("..tonumber(errnum)..") "..socket_errortext(errnum))
 		end
 	end
-	function socket_inet_ntop(family, pAddr, strptr)
+	function inet_ntop(family, pAddr, strptr)
 		return s.inet_ntop(family, pAddr, strptr, ffi.sizeof(strptr))
 	end
-	function socket_set_nonblock(socket, arg)
+	function set_nonblock(socket, arg)
 		local flags = s.fcntl(socket, s.F_GETFL, 0);
 		if flags < 0 then return flags end
 		if arg ~= 0 then
@@ -128,52 +129,52 @@ else
 	end
 end
 
-function socket_shutdown(socket, how)
+function shutdown(socket, how)
 	return s.shutdown(socket, how)
 end
-function socket_htons(num)
+function htons(num)
 	return s.htons(num)
 end
-function socket_socket(domain, type_, protocol)
+function socket(domain, type_, protocol)
 	return s.socket(domain, type_, protocol)
 end
-function socket_bind(socket, sockaddr ,addrlen)
+function bind(socket, sockaddr ,addrlen)
 	return s.bind(socket, sockaddr ,addrlen)
 end
-function socket_listen(socket, backlog)
+function listen(socket, backlog)
 	return s.listen(socket, backlog)
 end
-function socket_connect(socket, sockaddr ,address_len)
+function connect(socket, sockaddr ,address_len)
 	return s.connect(socket, sockaddr ,address_len)
 end
-function socket_accept(socket, sockaddr ,addrlen)
+function accept(socket, sockaddr ,addrlen)
 	return s.accept(socket, sockaddr ,addrlen)
 end
-function socket_recv(socket, buffer, length, flags)
+function recv(socket, buffer, length, flags)
 	return tonumber(s.recv(socket, buffer, length, flags))
 end
-function socket_send(socket, buffer, length, flags)
+function send(socket, buffer, length, flags)
 	return tonumber(s.send(socket, buffer, length, flags))
 end
-function socket_getsockopt(socket, level, option_name, option_value, option_len)
+function getsockopt(socket, level, option_name, option_value, option_len)
 	return s.getsockopt(socket, level, option_name, option_value, option_len)
 end
-function socket_setsockopt(socket, level, option_name, option_value)
+function setsockopt(socket, level, option_name, option_value)
 	local arg_c = ffi.new("uint32_t[1]", option_value)
 	local option_len = ffi.sizeof(arg_c)
 	return s.setsockopt(socket, level, option_name, ffi.cast("void *", arg_c), option_len)
 end
-function socket_getaddrinfo(hostname, servname, hints, res)
+function getaddrinfo(hostname, servname, hints, res)
 	return s.getaddrinfo(hostname, servname, hints, res)
 end
-function socket_getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
+function getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
 	return s.getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
 end
 
-function socket_getpeername(socket, name, namelen)
+function getpeername(socket, name, namelen)
 	return s.getpeername(socket, name, namelen)
 end
-function socket_ntohs(netshort)
+function ntohs(netshort)
 	return s.ntohs(netshort)
 end
 

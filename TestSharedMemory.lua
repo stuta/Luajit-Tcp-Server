@@ -4,14 +4,15 @@ print()
 print(" -- TestSharedMemory.lua start -- ")
 print()
 
-dofile "lib_shared_memory.lua"
 local arg = {...}
 local ffi = require("ffi")
 local C = ffi.C
+local util = require("lib_util")
+dofile "lib_shared_memory.lua"
 
 local isClient = arg[1]=="c" or false
 local filename
-if isWin then
+if util.isWin then
 	filename = "TestSharedMemory.txt" -- "C:\\\\TestSharedMemory.txt"
 else
 	filename = "TestSharedMemory.txt"

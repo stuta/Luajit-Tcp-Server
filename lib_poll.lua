@@ -15,12 +15,13 @@ ffi.cdef[[
 	void free (void* ptr);
 ]]
 
-local in_callback, out_callback, close_callback, error_callback
+local poll_event, in_callback, out_callback, close_callback, error_callback
 local fds, nfds, pollCount
-local fdsListSize, timeout, fdsListAddCount, debug
+local fdsListSize, timeout, fdsListAddCount, debug_level
 local fdAddCount, fdRemoveCount
 
 local function clear_all()
+  poll_event = nil
 	in_callback = nil 		-- runs this function when data has come in
 	out_callback = nil 		-- runs this function when you can write out
 	close_callback = nil	-- runs this function when you need to close socket
@@ -31,7 +32,7 @@ local function clear_all()
 	fdsListSize = 0 -- how many fd's can fit in to fds memory size
 	timeout = 0
 	fdsListAddCount = 10
-	debug = 0
+	debug_level = 0
 	fdAddCount = 0
 	fdRemoveCount = 0
 end
@@ -91,19 +92,19 @@ function add_fd(fd, events)
 	fds[nfds].events 	= events -- bor(C.POLLIN, C.POLLOUT, C.POLLRDHUP)
 	-- fds[nfds].revents 	= 0 -- no need to set
 	nfds = nfds + 1 -- fds is C-mem area and 0-based, so add it only in the end
-	if debug > 0 then print("  poll.add_fd: fd="..fd..", nfds="..nfds) end
+	if debug_level > 0 then print("  poll.add_fd: fd="..fd..", nfds="..nfds) end
 end
 
 function remove_fd(fd)
 	fdRemoveCount = fdRemoveCount + 1
 	local idx = fd_arr_index(fd)
 	if idx < 0 then
-		print("ERR: Fd was not found from array (poll.remove_fd): fd="..fd..", nfds="..nfds)
+		error("ERR: Fd was not found from array (poll.remove_fd): fd="..fd..", nfds="..nfds)
 		print(fd_arr_show())
 		return
 	end
 	if idx ~= nfds-1 then -- if not last item, move an item from end of list to fill the empty spot
-		if debug > 0 then
+		if debug_level > 0 then
 			print("  poll.remove_fd from middle: idx=".. idx+1 ..", fd="..fd..", nfds="..nfds)
 			print("  "..fd_arr_show())
 		end
@@ -112,13 +113,13 @@ function remove_fd(fd)
 		local lastevent = fds[nfds].events
 		fds[idx].fd = lastfd
 		fds[idx].events = lastevent
-		if debug > 0 then
+		if debug_level > 0 then
 			print("  "..fd_arr_show())
 		end
 	else
 		nfds = nfds - 1 -- decrease nfds count so that fds[nfds] is zero-based
 		fds[idx].fd = -1
-		if debug > 0 then
+		if debug_level > 0 then
 			print("  poll.remove_fd from end   : idx=".. idx+1 ..", fd="..fd..", nfds="..nfds)
 			print("  "..fd_arr_show())
 		end
@@ -150,10 +151,6 @@ function fd_remove_count()
 	return fdRemoveCount
 end
 
-function debug_set(deBug)
-	debug = deBug
-end
-
 function timeout_set(timeOut)
 	timeout = timeOut
 end
@@ -172,60 +169,123 @@ end
 	
 	-- http://www.greenend.org.uk/rjk/tech/poll.html
 	-- *** we use elseif here because id some event is really needed it will come on next poll *** --
-local poll_event
-if debug < 1 then
-	local function poll_evt(i, evt, fd)
-		if band(evt, C.POLLHUP) ~= 0 then
-			close_callback(fd)
-		elseif band(evt, C.POLLIN) ~= 0 then
-			in_callback(fd)
-		elseif band(evt, C.POLLOUT) ~= 0 then
-			out_callback(fd)
-		elseif band(evt, C.POLLNVAL) ~= 0 then
-			error_callback(fd, "POLLNVAL")
-		elseif band(evt, C.POLLERR) ~= 0 then
-			error_callback(fd, "POLLERR")
-		end
-	end
-	poll_event = poll_evt
-else
-	local function poll_evt(i, evt, fd)
-		-- debug version, must be same ifs as above
-		if band(evt, C.POLLHUP) ~= 0 then -- usually C.POLLIN | C.POLLHUP, but we don't want C.POLLIN
-			-- POLLHUP, output only
-			print(pollCount..". POLLHUP : idx="..i..", evt="..evt..", fd="..fd..", nfds="..nfds)
-			close_callback(fd)
-		elseif band(evt, C.POLLIN) ~= 0 then
-			-- POLLIN
-			print(pollCount..". POLLIN  : idx="..i..", evt="..evt..", fd="..fd..", nfds="..nfds)
-			in_callback(fd)
-		--[[elseif band(evt, C.POLLPRI) ~= 0 then
-			--[ [POLLPRI	Priority data may be read without blocking. This flag is not supported by the Microsoft Winsock provider.] ]
-			if debug > 0 then print(pollCount..". POLLPRI : idx="..i..", evt="..evt..", fd="..fd..", nfds="..nfds) end
-			in_callback(fd)]]
-		elseif band(evt, C.POLLOUT) ~= 0 then
-			-- POLLOUT
-			-- because we exclude POLLHUP and POLLIN we cand exclude POLLOUT
-			print(pollCount..". POLLOUT : idx="..i..", evt="..evt..", fd="..fd..", nfds="..nfds)
-			out_callback(fd)
-		elseif band(evt, C.POLLNVAL) ~= 0 then
-			-- POLLNVAL, output only
-			print(pollCount..". POLLNVAL: idx="..i..", evt="..evt..", fd="..fd..", nfds="..nfds)
-			error_callback(fd, "POLLNVAL")
-		elseif band(evt, C.POLLERR) ~= 0 then
-			-- POLLERR, output only
-			print(pollCount..". POLLERR : idx="..i..", evt="..evt..", fd="..fd..", nfds="..nfds)
-			error_callback(fd, "POLLERR")
-		end
-		--[[elseif band(evt, C.POLLRDHUP) ~= 0 then
-			-- POLLRDHUP
-			if debug > 0 then print(pollCount..". POLLRDHUP: idx="..i..", evt="..evt..", fd="..fd..", nfds="..nfds) end
-			close_callback(fd)
-		end]]
-	end
-	poll_event = poll_evt
+
+local function poll_event_nodebug(evt, fd)
+
+  if band(evt, C.POLLHUP) ~= 0 then
+
+    close_callback(fd)
+
+  elseif band(evt, C.POLLIN) ~= 0 then
+
+    in_callback(fd)
+
+  elseif band(evt, C.POLLOUT) ~= 0 then
+
+    out_callback(fd)
+
+  elseif band(evt, C.POLLNVAL) ~= 0 then
+
+    error_callback(fd, "POLLNVAL")
+
+  elseif band(evt, C.POLLERR) ~= 0 then
+
+    error_callback(fd, "POLLERR")
+
+  end
+
+end
+
+
+
+local function poll_event_debug(evt, fd, i)
+
+  -- debug_level version, must be same ifs as above
+
+  if band(evt, C.POLLHUP) ~= 0 then -- usually C.POLLIN | C.POLLHUP, but we don't want C.POLLIN
+
+    -- POLLHUP, output only
+
+    print("\n"..pollCount..". POLLHUP : idx="..i..", evt="..evt..", fd="..fd..", nfds="..nfds)
+
+    close_callback(fd)
+
+  elseif band(evt, C.POLLIN) ~= 0 then
+
+    -- POLLIN
+
+    print("\n"..pollCount..". POLLIN  : idx="..i..", evt="..evt..", fd="..fd..", nfds="..nfds)
+
+    in_callback(fd)
+
+  --[[elseif band(evt, C.POLLPRI) ~= 0 then
+
+    --[ [POLLPRI	Priority data may be read without blocking. This flag is not supported by the Microsoft Winsock provider.] ]
+
+    if debug_level > 0 then print(pollCount..". POLLPRI : idx="..i..", evt="..evt..", fd="..fd..", nfds="..nfds) end
+
+    in_callback(fd)]]
+
+  elseif band(evt, C.POLLOUT) ~= 0 then
+
+    -- POLLOUT
+
+    -- because we exclude POLLHUP and POLLIN we cand exclude POLLOUT
+
+    print("\n"..pollCount..". POLLOUT : idx="..i..", evt="..evt..", fd="..fd..", nfds="..nfds)
+
+    out_callback(fd)
+
+  elseif band(evt, C.POLLNVAL) ~= 0 then
+
+    -- POLLNVAL, output only
+
+    print("\n"..pollCount..". POLLNVAL: idx="..i..", evt="..evt..", fd="..fd..", nfds="..nfds)
+
+    error_callback(fd, "POLLNVAL")
+
+  elseif band(evt, C.POLLERR) ~= 0 then
+
+    -- POLLERR, output only
+
+    print("\n"..pollCount..". POLLERR : idx="..i..", evt="..evt..", fd="..fd..", nfds="..nfds)
+
+    error_callback(fd, "POLLERR")
+
+  end
+
+  --[[elseif band(evt, C.POLLRDHUP) ~= 0 then
+
+    -- POLLRDHUP
+
+    if debug_level > 0 then print(pollCount..". POLLRDHUP: idx="..i..", evt="..evt..", fd="..fd..", nfds="..nfds) end
+
+    close_callback(fd)
+
+  end]]
+
 end
 		
+
+function debug_level_set(level)
+
+	debug_level = level
+
+  if debug_level > 0 then
+
+    poll_event = poll_event_debug -- change to debug function
+
+  else
+
+    poll_event = poll_event_nodebug -- change to debug function
+
+  end
+
+	print("poll debug level:  "..debug_level, poll_event)
+
+end
+
+
 function poll()
 	pollCount = pollCount + 1
 	local ret = socket.poll(fds, nfds, timeout)
@@ -242,7 +302,7 @@ function poll()
 		local evt = fds[i-1].revents
 		if evt~= 0 then
 			local fd = fds[i-1].fd
-			poll_event(i, evt, fd)
+			poll_event(evt, fd, i)
 		end
 		if served == ret then break end -- break loop as soon as possible
 	end

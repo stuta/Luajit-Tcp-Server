@@ -58,7 +58,7 @@ function threadToId(thread)
 end
 
 
-if isWin then
+if util.isWin then
 
 	local k32 = require "win_kernel32" -- k32 not needed here
 

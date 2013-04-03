@@ -20,18 +20,18 @@ local ProFi = require 'ProFi'
 local useProfilier=false
 
 local port = tonumber(arg[1]) or 5001
-local debug = tonumber(arg[2]) or 0
+local debug_level = tonumber(arg[2]) or 0
 local timeout = tonumber(arg[3]) or 2
 local closeConnection = tonumber(arg[4]) or 0
-local debugPrintChars = tonumber(arg[5]) or 40
+local debug_levelPrintChars = tonumber(arg[5]) or 40
 local prevPollEmpty = false
 
 print("default usage: lj AppServer.lua 5001 0 2 0 40")
-print("port="..port.." debug="..debug.." timeout="..timeout.." closeConnection="..closeConnection.." debugPrintChars="..debugPrintChars)
-print("debug=-1 means that program will be profilied until 10 000 polls has happened")
+print("port="..port.." debug_level="..debug_level.." timeout="..timeout.." closeConnection="..closeConnection.." debug_levelPrintChars="..debug_levelPrintChars)
+print("debug_level=-1 means that program will be profilied until 10 000 polls has happened")
 timeout = timeout * 1000  -- milliseconds to seconds
 
-useProfilier = debug < 0
+useProfilier = debug_level < 0
 
 --[[	If timeout is greater than zero, it specifies a maximum interval (in milliseconds) to wait for any file
      	descriptor to become ready.  If timeout is zero, then poll() will return without blocking. If the value
@@ -82,10 +82,10 @@ Accept-Ranges: bytes
 
 ]]  -- do not remove empty lines inside [[ ]]
 
-answerEnd:gsub("\n", "\r\n")
-answerStart:gsub("\n", "\r\n")
+answerEnd = answerEnd:gsub("\n", "\r\n")
+answerStart = answerStart:gsub("\n", "\r\n")
 local content = [[<html><body><h1>It works - stuta!</h1></body></html>]]
-content:gsub("\n", "\r\n")
+content = content:gsub("\n", "\r\n") -- is this needed?
 
 local content_len = #content
 local header = answerStart..tostring(content_len)..answerEnd
@@ -105,7 +105,7 @@ local totalBytesSent = 0
 local receiveFlags = 0
 local sendFlags = 0
 
-print("..Lua tcp server waiting on: http://127.0.0.1:"..port)
+print("..Lua tcp server waiting on: http://127.0.0.1:"..port.."/")
 print()
 
 -- http://beej.us/guide/bgnet/output/html/multipage/syscalls.html#bind
@@ -147,14 +147,14 @@ local function answer(sock)
 	local result = socket.recv(sock, recvbuf_ptr, buflen, receiveFlags)
 	if result > 0 then
 		totalBytesReceived = totalBytesReceived + result
-		if debug >= 2 then
+		if debug_level >= 2 then
 			print(" -- Bytes received: ", result.." / "..totalBytesReceived.." total")
-			print(" -- Data  received: \n\n", string.sub(ffi.string(recvbuf_ptr) ,1 ,debugPrintChars))
+			print(" -- Data  received: \n", string.sub(ffi.string(recvbuf_ptr) ,1 ,debug_levelPrintChars))
 			print()
 		end
 		local send_result = socket.send(sock, sendbuf_ptr, content_len, sendFlags) -- send answer buffer
 
-		if debug >= 3 then print(" -- sendbuf_ptr:\n"..ffi.string(sendbuf_ptr).."\n") end
+		if debug_level >= 3 then print(" -- sendbuf_ptr:\n"..ffi.string(sendbuf_ptr).."\n") end
 		--print(" -- send_result / content_len: "..send_result.." / "..content_len)
 		if send_result < 0 then
 			socket.cleanup(sock, send_result, "socket.send failed with error: ")
@@ -175,13 +175,13 @@ local function answer(sock)
 end
 
 function out_callback(sock)
-	if debug > 0 then print("out_callback: ", sock) end
+	if debug_level > 0 then print("out_callback: ", sock) end
 	-- runs this function when you can write out
 	pollOutCount = pollOutCount + 1
 end
 
 function close_callback(sock)
-	if debug > 0 then print("close_callback: ", sock) end
+	if debug_level > 0 then print("close_callback: ", sock) end
 	-- runs this function when you can write out
 	close(sock)
 	pollCloseCount = pollCloseCount + 1
@@ -205,7 +205,7 @@ function in_callback(sock)
 			local client_socket = tcp.accept(sock)
 			if client_socket > 0 then
 				poll.add_fd(client_socket, client_events)
-				if debug > 0 then print("  -- new client, ip:port = "..tcp.address(client_socket)) end
+				if debug_level > 0 then print("  -- new client, ip:port = "..tcp.address(client_socket)) end
 			end
 		until client_socket < 1
 	else
@@ -215,7 +215,7 @@ function in_callback(sock)
 end
 
 -- set poll timeout, callbacks and sockets
-poll.debug_set(debug)
+poll.debug_level_set(debug_level)
 poll.timeout_set(timeout)
 
 poll.in_callback_set(in_callback)

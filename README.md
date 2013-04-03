@@ -11,7 +11,13 @@ All code will be OSX + Windows + Linux. Contributios are welcome.
 
 ## Performance
 
-Tests were done in OSX 27" late 2009 iMac, 3,06 GHz Intel Core 2 Duo, no hyperthreading.
+In OSX , 3,6 GHz Intel i5, 4 cores and hyperthreading.
+
+  - **4,8 million** roundtrip messages / second with shared memory between 2 _applications_
+  - **105 000** roundtrip messages / second with tcp between 2 applications 
+  	- httperf --port=5001 --verbose --rate=1000 --num-conns=8 --num-calls=100000
+    
+In OSX 27" late 2009 iMac, 3,06 GHz Intel Core 2 Duo, no hyperthreading.
 
   - **2,5 million** roundtrip messages / second with shared memory between 2 _applications_
   - **27 000** roundtrip messages / second with tcp between 2 applications 
@@ -27,13 +33,13 @@ In one terminal window run "lj AppServer.lua". In another teminal run httperf as
  
 ##### Apache
 
-  - httperf --verbose --rate=1000 --num-conns=4 --num-calls=2000 --port=80
+  - httperf --port=80 --verbose --rate=1000 --num-conns=4 --num-calls=2000 --
   - Request rate, max: **5 083.6** req/s
   - typically **4 500**
 
 ##### Nginx
 
-  - httperf --verbose --rate=1000 --num-conns=4 --num-calls=2000 --port=80
+  - httperf --port=80 --verbose --rate=1000 --num-conns=4 --num-calls=2000
   - Request rate, max: **9 219.6** req/s
   - typically **8 000**
 
@@ -41,10 +47,11 @@ In one terminal window run "lj AppServer.lua". In another teminal run httperf as
 
 Single-threaded simple version using traditional poll and WSAPoll (WSAPoll does not work in Windows XP).
 
-  - httperf --verbose --rate=1000 --num-conns=4 --num-calls=2000 --port=5001
+  - httperf --port=5001 --verbose --rate=1000 --num-conns=4 --num-calls=2000
   - Request rate, max: **24 227.8** req/s
   - typically **23 500**
   - in longer (20 million calls) test maximum was **26 746**, typically **26 000**
+  - with 4 core i5, 3.6GHz: **105 000** req/s (httperf --num-conns=8)
 
 This version just serves static content, does not even change the date of reply headers so it is unfair to others, but the point was to get baseline where to compare after more realistic features. This is the first working version, alternative speed tests have not been done (see "Design principles").
   
@@ -76,6 +83,20 @@ change data in every loop: FALSE
 read reply (2-way communication): TRUE
 ```
 
+with 4 core i5, 3.6GHz:
+
+```
+..for loop=1, 5 000 000 write+read time: 1.0375 sec
+ ..sentCount: 5 000 000, readCount: 5 000 000, messageCount: 10 000 000
+ ..for loop: 4 819 426 loop / sec
+ ..for loop: 9 638 852 msg  / sec
+ ..for loop: 104 ns / msg
+ ..latency : 207 ns / msg
+ ..for loop max message len: 11
+ ..status read wait count  : 8 688 380
+change data in every loop: FALSE
+read reply (2-way communication): TRUE
+```
 
 ## Design Principles
 

@@ -3,11 +3,12 @@ module(..., package.seeall)
 
 local ffi = require("ffi")
 local C = ffi.C
+local util = require "lib_util"
 local socket = require "lib_socket"
 
 -- INVALID_SOCKET here, in lib_socket.lua or in C?
 local INVALID_SOCKET, SOCKET_ERROR
-if isWin then
+if util.isWin then
 	INVALID_SOCKET = ffi.new("SOCKET", -1)
 else
 	INVALID_SOCKET = -1
@@ -55,8 +56,10 @@ function listen(port)
 		return -1
 	end]]
 	if listen_socket == INVALID_SOCKET then
-			socket.cleanup(nil, listen_socket, "socket.socket failed with error: ")
-			return -1
+    socket.cleanup(nil, listen_socket, "socket.socket failed with error: ")
+
+		os.exit()
+    return -1
 	end
 
 	-- Setup the TCP listening socket
@@ -75,7 +78,7 @@ function listen(port)
 	end
 
 	-- SO_USELOOPBACK, use always loopback when possible
-	if not isWin then -- SO_USELOOPBACK is not supported by windows
+	if not util.isWin then -- SO_USELOOPBACK is not supported by windows
 		result = socket.setsockopt(listen_socket, C.SOL_SOCKET, C.SO_USELOOPBACK, 1)
 		if result ~= 0 then
 			socket.cleanup(listen_socket, result, "socket.setsockopt SO_USELOOPBACK failed with error: ")

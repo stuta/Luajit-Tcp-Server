@@ -2,7 +2,8 @@
 module(..., package.seeall)
 
 local ffi = require "ffi"
-require "win_socket"
+require "win_socket" 
+--dofile "win_socket.lua"
 local bit = require "bit"
 local bor = bit.bor
 local lshift = bit.lshift

@@ -4,6 +4,7 @@ print(" -- TestKqueue.lua start -- ")
 print()
 
 dofile "lib_kqueue.lua"
+local util = require("lib_util")
 local arg = {...}
 local ffi = require("ffi")
 local C = ffi.C
@@ -16,7 +17,7 @@ print("Kqueue test was copied from: http://julipedia.meroh.net/2004/10/example-o
 print("...watching changes for file: ")
 print("   "..filename)
 
-if isWin then
+if util.isWin then
 	--[[
 	windows IOCP
 	http://stackoverflow.com/questions/4093185/whats-the-difference-between-epoll-poll-threadpool

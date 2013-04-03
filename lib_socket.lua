@@ -7,7 +7,7 @@ local util = require("lib_util")
 local bit = require("bit")
 
 local s
-if isWin then
+if util.isWin then
 	--require "win_socket"
 	ffi.cdef[[
 		int WSAPoll(LPWSAPOLLFD fdArray, ULONG fds, INT timeout);
@@ -22,16 +22,16 @@ function error_prefix_text_set(errTxt)
 	err_prefix = errTxt
 end
 
-if isWin then
+if util.isWin then
 	INVALID_SOCKET = ffi.new("SOCKET", -1)
 else
 	INVALID_SOCKET = -1
 end
 SOCKET_ERROR	= -1	-- 0xffffffff
 
-if isWin then
+if util.isWin then
 	function errortext(err)
-		return win_errortext(err)
+		return util.win_errortext(err)
 	end
 	function initialize()
 		local wsadata
@@ -60,16 +60,16 @@ if isWin then
 	function cleanup(socket, errnum, errtext)
 		-- get WSAGetLastError() before close and WSACleanup
 		local wsa_err_num = s.WSAGetLastError()
-		local	wsa_err_text = win_errortext(wsa_err_num)
+		local	wsa_err_text = errortext(wsa_err_num)
 		if errnum and errnum ~= -1 and errnum ~= wsa_err_num then
-			wsa_err_text = win_errortext(wsa_err_num)..", WSAGetLastError: "..tonumber(wsa_err_num)..". "..wsa_err_text
+			wsa_err_text = errortext(wsa_err_num)..", WSAGetLastError: "..tonumber(wsa_err_num)..". "..wsa_err_text
 		end
 		if socket then
-			socket_close(socket)
+			close(socket)
 		end
 		s.WSACleanup()
 		if errtext and #errtext > 0 then
-			print(err_prefix..errtext.."("..tonumber(errnum)..") "..wsa_err_text)
+			error(err_prefix..errtext.."("..tonumber(errnum)..") "..wsa_err_text)
 		end
 	end
 	function inet_ntop(family, pAddr, strptr)
@@ -91,6 +91,7 @@ if isWin then
 		return s.ioctlsocket(socket, FIONBIO, arg_c) -- FIONBIO in win_socket.lua
 	end
 
+  
 else
 	-- unix
 	function errortext(err)
@@ -107,11 +108,11 @@ else
 	end
 	function cleanup(socket, errnum, errtext)
 		if socket then
-			socket_close(socket)
+			close(socket)
 		end
 		--s.WSACleanup()
 		if errtext and #errtext > 0 then
-			print(err_prefix..errtext.."("..tonumber(errnum)..") "..socket_errortext(errnum))
+			error(err_prefix..errtext.."("..tonumber(errnum)..") "..errortext(errnum))
 		end
 	end
 	function inet_ntop(family, pAddr, strptr)
@@ -164,13 +165,15 @@ function setsockopt(socket, level, option_name, option_value)
 	local option_len = ffi.sizeof(arg_c)
 	return s.setsockopt(socket, level, option_name, ffi.cast("void *", arg_c), option_len)
 end
-function getaddrinfo(hostname, servname, hints, res)
-	return s.getaddrinfo(hostname, servname, hints, res)
-end
 function getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
 	return s.getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
 end
 
+function getaddrinfo(hostname, servname, hints, res)
+
+  return s.getaddrinfo(hostname, servname, hints, res)
+
+end
 function getpeername(socket, name, namelen)
 	return s.getpeername(socket, name, namelen)
 end

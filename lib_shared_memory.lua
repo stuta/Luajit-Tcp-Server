@@ -5,7 +5,6 @@ local ffi = require("ffi")
 local C = ffi.C
 local util = require("lib_util")
 local bit = require("bit")
---local isWin = isWin
 --[[
 windows:
 http://mollyrocket.com/forums/viewtopic.php?p=2529
@@ -24,7 +23,7 @@ local function print_error(functionName, str)
 	print("### shared mem lua error (" .. functionName .. "): " .. str .. " ###")
 end
 
-if isWin then
+if util.isWin then
 
 	-- good (linux, osx, FreeBSD, Solaris):
 	--   https://github.com/D-Programming-Language/druntime/blob/master/src/core/sys/posix/sys/mman.d

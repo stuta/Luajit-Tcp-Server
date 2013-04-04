@@ -206,7 +206,7 @@ else
   -- OSX, Posix, Linux?
   	--/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/usr/include/sys/mman.h
 
-	--MAP_FAILED	= ffi.cast("void *", -1) -- ((void *)-1)	-- /* [MF|SHM] mmap failed */
+	MAP_FAILED	= ffi.cast("void *", -1) -- ((void *)-1)	-- /* [MF|SHM] mmap failed */
 	--print(MAP_FAILED) -> "cdata<void *>: 0xffffffffffffffff"
 
   -- Lua globals
@@ -310,7 +310,7 @@ else
 				end
 				if ret == 0 then
 					sharedMemory[filename] = C.mmap(nil, shmemSize, mmap_options, C.MAP_SHARED, shFD[filename], 0)
-					if sharedMemory[filename] ~= C.MAP_FAILED then
+					if sharedMemory[filename] ~= MAP_FAILED then
 
 						--[[if create then -- Linux options so that we don't need to run as root
 							perms = ffi.new("struct ipc_perm")

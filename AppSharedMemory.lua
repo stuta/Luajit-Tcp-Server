@@ -128,13 +128,13 @@ repeat
 	if( isServer ) then
 		readBufferSize = shm.mmapInConnect(fileNameC, bufferSize * 2)
 		if util.seconds(timer) > 2 then
-			print(" ..server shm.mmapInConnect to "..ffi.string(fileNameC).." result is: " .. readBufferSize)
+			print(" ..server shm.mmapInConnect to "..fileNameC.." result is: " .. readBufferSize)
 			timer = util.seconds()
 		end
 	else
 		readBufferSize = shm.mmapInConnect(fileNameS, bufferSize)
 		if util.seconds(timer) > 2 then
-			print(" ..client shm.mmapInConnect to "..ffi.string(fileNameS).." result is: " .. readBufferSize)
+			print(" ..client shm.mmapInConnect to "..fileNameS.." result is: " .. readBufferSize)
 			timer = util.seconds()
 		end
 	end

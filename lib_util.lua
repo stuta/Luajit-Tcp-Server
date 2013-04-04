@@ -95,10 +95,12 @@ function getOffsetPointer(cdata, offset)
 	local address_as_number
 	if is64bit_l then
 		address_as_number = ffi.cast("int64_t", cdata)
+		-- return ffi.cast("int64_t *", address_as_number + offset)
 	else --if is32bit then
 		address_as_number = ffi.cast("int32_t", cdata)
+		-- return ffi.cast("int32_t *", address_as_number + offset)
 	end -- is there 16 bit luajit systems?
-	return ffi.cast("int8_t *", address_as_number + offset)
+	return ffi.cast("int8_t *", tonumber(address_as_number) + offset)
 end
 
 
@@ -281,7 +283,7 @@ function get_seconds( multiplier, prevMs )
 		if rc ~= 0 then
 			returnValue64_c = ffi.new("int64_t", -1) -- error here, we need to have returnValue64_c always ctype<int64_t>
 		else
-			returnValue64_c = (tv.tv_sec * 1000000) + tv.tv_usec
+			returnValue64_c = (tonumber(tv.tv_sec) * 1000000) + tonumber(tv.tv_usec)
 		end
 	end
 

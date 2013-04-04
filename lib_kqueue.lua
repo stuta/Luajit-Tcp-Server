@@ -30,7 +30,7 @@ function context:init()
 	self.defers = {}
 end
 context:init()
---print(table.show(context, "context"))
+--print(table_show(context, "context"))
 ]]
 
 function kevent_get(ident, filter, flags, fflags, data, udata)

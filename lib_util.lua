@@ -11,6 +11,7 @@ isMac = (ffi.os == "OSX")
 isLinux = (ffi.os == "Linux")
 is64bit = ffi.abi("64bit")
 is32bit = ffi.abi("32bit")
+
 if isWin then
 	require "ffi_def_win"
 elseif isMac then
@@ -443,7 +444,7 @@ end
    This routine can serve for pretty formating tables with
    proper indentations, apart from printing them:
 
-      print(table.show(t, "t"))   -- a typical use
+      print(table_show(t, "t"))   -- a typical use
 
    Heavily based on "Saving tables with cycles", PIL2, p. 113.
 
@@ -452,7 +453,7 @@ end
       name is the name of the table (optional)
       indent is a first indentation (optional).
 --]]
-function table.show(t, name, indent)
+function table_show(t, name, indent)
    local cart     -- a container
    local autoref  -- for self references
 

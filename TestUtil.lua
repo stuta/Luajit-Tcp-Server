@@ -23,7 +23,7 @@ function directory_files(dirpath)
 function comma_value(amount, comma)
 function round(val, decimal)
 function format_num(amount, decimal, comma, prefix, neg_prefix)
-function table.show(t, name, indent)
+function table_show(t, name, indent)
 ]]
 
 local str_c = util.cstr("Processor core count (configured, online): ")

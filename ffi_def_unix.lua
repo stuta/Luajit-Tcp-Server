@@ -45,7 +45,7 @@ ffi.cdef[[
 	struct 	timespec { int tv_sec; long tv_nsec; };
 	int 		gettimeofday(struct timeval *restrict tp, void *restrict tzp);
 	int 		nanosleep(const struct timespec *req, struct timespec *rem);
-	int			usleep(useconds_t useconds); // mac sleep
+	int 		usleep(useconds_t useconds); // mac sleep
 	int 		sched_yield(void); // mac yield
 	long		sysconf(int name);
 ]]
@@ -90,9 +90,9 @@ elseif isLinux then
 		S_IRUSR, S_IWUSR: 256, 128
 		flags, flags_file: 192, 384
 		OCTAL """
-		static const int	S_IRUSR	= 0400;	// Read by owner.
-		static const int	S_IWUSR	= 0200;	// Write by owner.
-		static const int	S_IXUSR	= 0100;	// Execute by owner.
+		static const int S_IRUSR	= 0400;	// Read by owner.
+		static const int S_IWUSR	= 0200;	// Write by owner.
+		static const int S_IXUSR	= 0100;	// Execute by owner.
 
 		static const int O_CREAT	= 0100;
 		static const int O_EXCL		= 0200;
@@ -134,7 +134,7 @@ elseif isLinux then
 	]]
 end
 ffi.cdef[[
-	static const int MAP_FAILED	= ((void *)-1);	// [MF|SHM] mmap failed
+	// static const int MAP_FAILED	= ((void *)-1);	// [MF|SHM] mmap failed
 
 	// Protections are chosen from these bits, or-ed together
 	static const int PROT_NONE		= 0x00;	// [MC2] no permissions
@@ -154,9 +154,9 @@ ffi.cdef[[
 	int 		shm_unlink(const char *name);
 	int 		ftruncate(int fildes, off_t length);
 	void* 	mmap(void *addr, size_t len, int prot, int flags, int fd, off_t offset);
-	int			close(int fildes);
-	int			munmap(void *addr, size_t len);
-	int			shm_unlink(const char *name);
+	int 		close(int fildes);
+	int 		munmap(void *addr, size_t len);
+	int 		shm_unlink(const char *name);
   int 		mlock(void*, size_t);
   int 		munlock(void*, size_t);
 	int 		mlockall(int);
@@ -257,7 +257,7 @@ ffi.cdef[[
 	static const int O_RDWR			= 0x0002;		/* open for reading and writing */
 	static const int O_ACCMODE	= 0x0003;		/* mask for above modes */
 
-  int	open(const char *, int, ...);
+  int open(const char *, int, ...);
 ]]
 
 -- kqueue
@@ -408,33 +408,32 @@ ffi.cdef[[
 	 * Requestable events.  If poll(2) finds any of these set, they are
 	 * copied to revents on return.
 	 */
-	static const int	POLLIN		= 0x0001;		/* any readable data available */
-	static const int	POLLPRI		= 0x0002;		/* OOB/Urgent readable data */
-	static const int	POLLOUT		= 0x0004;		/* file descriptor is writeable */
-	static const int	POLLRDNORM	= 0x0040;		/* non-OOB/URG data available */
-	static const int	POLLWRNORM	= POLLOUT;		/* no write type differentiation */
-	static const int	POLLRDBAND	= 0x0080;		/* OOB/Urgent readable data */
-	static const int	POLLWRBAND	= 0x0100;		/* OOB/Urgent data can be written */
+	static const int POLLIN		= 0x0001;		/* any readable data available */
+	static const int POLLPRI		= 0x0002;		/* OOB/Urgent readable data */
+	static const int POLLOUT		= 0x0004;		/* file descriptor is writeable */
+	static const int POLLRDNORM	= 0x0040;		/* non-OOB/URG data available */
+	static const int POLLWRNORM	= POLLOUT;		/* no write type differentiation */
+	static const int POLLRDBAND	= 0x0080;		/* OOB/Urgent readable data */
+	static const int POLLWRBAND	= 0x0100;		/* OOB/Urgent data can be written */
 
 	/*
 	 * FreeBSD extensions: polling on a regular file might return one
 	 * of these events (currently only supported on local filesystems).
 	 */
-	static const int	POLLEXTEND	= 0x0200;		/* file may have been extended */
-	static const int	POLLATTRIB	= 0x0400;		/* file attributes may have changed */
-	static const int	POLLNLINK	= 0x0800;		/* (un)link/rename may have happened */
-	static const int	POLLWRITE	= 0x1000;		/* file's contents may have changed */
+	static const int POLLEXTEND	= 0x0200;		/* file may have been extended */
+	static const int POLLATTRIB	= 0x0400;		/* file attributes may have changed */
+	static const int POLLNLINK	= 0x0800;		/* (un)link/rename may have happened */
+	static const int POLLWRITE	= 0x1000;		/* file's contents may have changed */
 
 	/*
 	 * These events are set if they occur regardless of whether they were
 	 * requested.
 	 */
-	static const int	POLLERR		= 0x0008;		/* some poll error occurred */
-	static const int	POLLHUP		= 0x0010;		/* file descriptor was "hung up" */
-	static const int	POLLNVAL	= 0x0020;		/* requested events "invalid" */
+	static const int POLLERR		= 0x0008;		/* some poll error occurred */
+	static const int POLLHUP		= 0x0010;		/* file descriptor was "hung up" */
+	static const int POLLNVAL	= 0x0020;		/* requested events "invalid" */
 
-	static const int	POLLSTANDARD	= (POLLIN|POLLPRI|POLLOUT|POLLRDNORM|POLLRDBAND|\
-			 POLLWRBAND|POLLERR|POLLHUP|POLLNVAL);
+	//static const int POLLSTANDARD	= (POLLIN|POLLPRI|POLLOUT|POLLRDNORM|POLLRDBAND|POLLWRBAND|POLLERR|POLLHUP|POLLNVAL);
 
 	struct pollfd {
 		 int    fd;       /* file descriptor */
@@ -445,14 +444,14 @@ ffi.cdef[[
 	int poll(struct pollfd *fds, unsigned long nfds, int timeout); // mac sleep + poll
 
 	// fcntl definitions
-	static const int	O_NONBLOCK	= 0x0004;		/* no delay */
+	static const int O_NONBLOCK	= 0x0004;		/* no delay */
 	/* command values */
-	static const int	F_DUPFD		= 0;		/* duplicate file descriptor */
-	static const int	F_GETFD		= 1;		/* get file descriptor flags */
-	static const int	F_SETFD		= 2;		/* set file descriptor flags */
-	static const int	F_GETFL		= 3;		/* get file status flags */
-	static const int	F_SETFL		= 4;		/* set file status flags */
-	int	fcntl(int fildes, int cmd, ...);
+	static const int F_DUPFD		= 0;		/* duplicate file descriptor */
+	static const int F_GETFD		= 1;		/* get file descriptor flags */
+	static const int F_SETFD		= 2;		/* set file descriptor flags */
+	static const int F_GETFL		= 3;		/* get file status flags */
+	static const int F_SETFL		= 4;		/* set file status flags */
+	int fcntl(int fildes, int cmd, ...);
 ]]
 
 -- socket
@@ -461,81 +460,81 @@ ffi.cdef[[
 	// Definitions of bits in internet address integers.
 	// On subnets, the decomposition of addresses to host and net parts
 	// is done according to subnet mask, not the masks here.
-	static const uint32_t	 INADDR_ANY				= 0x00000000;
-	static const uint32_t	 INADDR_BROADCAST	= 0xffffffff;	/* must be masked */
+	static const int	 INADDR_ANY				= 0x00000000;
+	static const int	 INADDR_BROADCAST	= 0xffffffff;	/* must be masked */
 
 
 	// Types
-	static const int	 SOCK_STREAM = 1	;	/* stream socket */
-	static const int	 SOCK_DGRAM	= 2;		/* datagram socket */
-	static const int	 SOCK_RAW	= 3;		/* raw-protocol interface */
-	static const int	 SOCK_RDM	= 4;		/* reliably-delivered message */
-	static const int	 SOCK_SEQPACKET	= 5;		/* sequenced packet stream */
+	static const int  SOCK_STREAM = 1	;	/* stream socket */
+	static const int  SOCK_DGRAM	= 2;		/* datagram socket */
+	static const int  SOCK_RAW	= 3;		/* raw-protocol interface */
+	static const int  SOCK_RDM	= 4;		/* reliably-delivered message */
+	static const int  SOCK_SEQPACKET	= 5;		/* sequenced packet stream */
 
 
-	static const int	 	TCP_NODELAY             = 0x01;    /* don't delay send to coalesce packets */
-	static const int	 	TCP_MAXSEG              = 0x02;    /* set maximum segment size */
-	static const int	  TCP_NOPUSH              = 0x04;    /* don't push last block of write */
-	static const int	  TCP_NOOPT               = 0x08;    /* don't use TCP options */
-	static const int	  TCP_KEEPALIVE           = 0x10;    /* idle time used when SO_KEEPALIVE is enabled */
-	static const int	  TCP_CONNECTIONTIMEOUT   = 0x20;    /* connection timeout */
-	static const int	  PERSIST_TIMEOUT					= 0x40;	/* time after which a connection in
+	static const int  	TCP_NODELAY             = 0x01;    /* don't delay send to coalesce packets */
+	static const int  	TCP_MAXSEG              = 0x02;    /* set maximum segment size */
+	static const int   TCP_NOPUSH              = 0x04;    /* don't push last block of write */
+	static const int   TCP_NOOPT               = 0x08;    /* don't use TCP options */
+	static const int   TCP_KEEPALIVE           = 0x10;    /* idle time used when SO_KEEPALIVE is enabled */
+	static const int   TCP_CONNECTIONTIMEOUT   = 0x20;    /* connection timeout */
+	static const int   PERSIST_TIMEOUT					= 0x40;	/* time after which a connection in
 					 *  persist timeout will terminate.
 					 *  see draft-ananth-tcpm-persist-02.txt
 					 */
-	static const int	  TCP_RXT_CONNDROPTIME	= 0x80;	/* time after which tcp retransmissions will be
+	static const int   TCP_RXT_CONNDROPTIME	= 0x80;	/* time after which tcp retransmissions will be
 					 * stopped and the connection will be dropped
 					 */
-	static const int	  TCP_RXT_FINDROP	= 0x100;	/* when this option is set, drop a connection
+	static const int   TCP_RXT_FINDROP	= 0x100;	/* when this option is set, drop a connection
 					 * after retransmitting the FIN 3 times. It will
 					 * prevent holding too many mbufs in socket
 					 * buffer queues.
 					 */
 
 	// Additional options, not kept in so_options.
-	static const int	 SO_SNDBUF	= 0x1001;		/* send buffer size */
-	static const int	 SO_RCVBUF	= 0x1002;		/* receive buffer size */
-	static const int	 SO_SNDLOWAT	= 0x1003;		/* send low-water mark */
-	static const int	 SO_RCVLOWAT	= 0x1004;		/* receive low-water mark */
-	static const int	 SO_SNDTIMEO	= 0x1005;		/* send timeout */
-	static const int	 SO_RCVTIMEO	= 0x1006;		/* receive timeout */
-	static const int	 SO_ERROR	= 0x1007;		/* get error status and clear */
-	static const int	 SO_TYPE		= 0x1008;		/* get socket type_ */
+	static const int  SO_SNDBUF	= 0x1001;		/* send buffer size */
+	static const int  SO_RCVBUF	= 0x1002;		/* receive buffer size */
+	static const int  SO_SNDLOWAT	= 0x1003;		/* send low-water mark */
+	static const int  SO_RCVLOWAT	= 0x1004;		/* receive low-water mark */
+	static const int  SO_SNDTIMEO	= 0x1005;		/* send timeout */
+	static const int  SO_RCVTIMEO	= 0x1006;		/* receive timeout */
+	static const int  SO_ERROR	= 0x1007;		/* get error status and clear */
+	static const int  SO_TYPE		= 0x1008;		/* get socket type_ */
 	// #if !defined(_POSIX_C_SOURCE) || defined(_DARWIN_C_SOURCE)
-	static const int	 SO_PRIVSTATE	= 0x1009;		   /* get/deny privileged state */
-	static const int	 SO_LABEL        = 0x1010;          /* socket's MAC label */
-	static const int	 SO_PEERLABEL    = 0x1011;          /* socket's peer MAC label */
+	static const int  SO_PRIVSTATE	= 0x1009;		   /* get/deny privileged state */
+	static const int  SO_LABEL        = 0x1010;          /* socket's MAC label */
+	static const int  SO_PEERLABEL    = 0x1011;          /* socket's peer MAC label */
 	// #ifdef __APPLE__
-	static const int	 SO_NREAD	= 0x1020;		/* APPLE: get 1st-packet byte count */
-	static const int	 SO_NKE		= 0x1021;		/* APPLE: Install socket-level NKE */
-	static const int	 SO_NOSIGPIPE	= 0x1022;		/* APPLE: No SIGPIPE on EPIPE */
-	static const int	 SO_NOADDRERR	= 0x1023;		/* APPLE: Returns EADDRNOTAVAIL when src is not available anymore */
-	static const int	 SO_NWRITE	= 0x1024;		/* APPLE: Get number of bytes currently in send socket buffer */
-	static const int	 SO_REUSESHAREUID	= 0x1025;		/* APPLE: Allow reuse of port/socket by different userids */
+	static const int  SO_NREAD	= 0x1020;		/* APPLE: get 1st-packet byte count */
+	static const int  SO_NKE		= 0x1021;		/* APPLE: Install socket-level NKE */
+	static const int  SO_NOSIGPIPE	= 0x1022;		/* APPLE: No SIGPIPE on EPIPE */
+	static const int  SO_NOADDRERR	= 0x1023;		/* APPLE: Returns EADDRNOTAVAIL when src is not available anymore */
+	static const int  SO_NWRITE	= 0x1024;		/* APPLE: Get number of bytes currently in send socket buffer */
+	static const int  SO_REUSESHAREUID	= 0x1025;		/* APPLE: Allow reuse of port/socket by different userids */
 	// #ifdef __APPLE_API_PRIVATE
-	static const int	 SO_NOTIFYCONFLICT	= 0x1026;	/* APPLE: send notification if there is a bind on a port which is already in use */
-	static const int	 SO_UPCALLCLOSEWAIT	= 0x1027;	/* APPLE: block on close until an upcall returns */
+	static const int  SO_NOTIFYCONFLICT	= 0x1026;	/* APPLE: send notification if there is a bind on a port which is already in use */
+	static const int  SO_UPCALLCLOSEWAIT	= 0x1027;	/* APPLE: block on close until an upcall returns */
 	// #endif
-	static const int	 SO_LINGER_SEC	= 0x1080;          /* linger on close if data present (in seconds) */
-	static const int	 SO_RESTRICTIONS	= 0x1081;	/* APPLE: deny inbound/outbound/both/flag set */
-	static const int	 SO_RESTRICT_DENYIN		= 0x00000001;	/* flag for SO_RESTRICTIONS - deny inbound */
-	static const int	 SO_RESTRICT_DENYOUT		= 0x00000002;	/* flag for SO_RESTRICTIONS - deny outbound */
-	static const int	 SO_RESTRICT_DENYSET		= 0x80000000;	/* flag for SO_RESTRICTIONS - deny has been set */
-	static const int	 SO_RANDOMPORT   = 0x1082;  /* APPLE: request local port randomization */
-	static const int	 SO_NP_EXTENSIONS	= 0x1083;	/* To turn off some POSIX behavior */
+	static const int  SO_LINGER_SEC	= 0x1080;          /* linger on close if data present (in seconds) */
+	static const int  SO_RESTRICTIONS	= 0x1081;	/* APPLE: deny inbound/outbound/both/flag set */
+	static const int  SO_RESTRICT_DENYIN		= 0x00000001;	/* flag for SO_RESTRICTIONS - deny inbound */
+	static const int  SO_RESTRICT_DENYOUT		= 0x00000002;	/* flag for SO_RESTRICTIONS - deny outbound */
+	static const int  SO_RESTRICT_DENYSET		= 0x80000000;	/* flag for SO_RESTRICTIONS - deny has been set */
+	static const int  SO_RANDOMPORT   = 0x1082;  /* APPLE: request local port randomization */
+	static const int  SO_NP_EXTENSIONS	= 0x1083;	/* To turn off some POSIX behavior */
 	// #endif
 
 	// Address families.
-	static const int	 AF_UNSPEC 	= 0;		/* unspecified == give any listening address */
-	static const int	 AF_UNIX 		= 1;		/* local to host (pipes) */
-	static const int	 AF_INET 		= 2;		/* internetwork: UDP, TCP, etc. */
+	static const int  AF_UNSPEC 	= 0;		/* unspecified == give any listening address */
+	static const int  AF_UNIX 		= 1;		/* local to host (pipes) */
+	static const int  AF_INET 		= 2;		/* internetwork: UDP, TCP, etc. */
 
 	// Protocols (RFC 1700)
-	static const int	 IPPROTO_TCP = 6;		/* tcp */
-	static const int	 IPPROTO_UDP = 17;		/* user datagram protocol */
+	static const int  IPPROTO_TCP = 6;		/* tcp */
+	static const int  IPPROTO_UDP = 17;		/* user datagram protocol */
 
 	static const int 	SOMAXCONN = 128;	// Maximum queue length specifiable by listen.
-	static const int	AI_PASSIVE = 0x00000001; /* get address to use bind() */
+	static const int AI_PASSIVE = 0x00000001; /* get address to use bind() */
 
 	typedef long				ssize_t;	/* byte count or error */
 	typedef uint32_t			socklen_t;
@@ -548,9 +547,9 @@ if isLinux then
 
 		static const int SOL_SOCKET = 1;
 
-		static const int	 SO_REUSEADDR	= 1;		/* allow local address reuse */
-		static const int	 SO_KEEPALIVE	= 9;		/* keep connections alive */
-		static const int	 SO_DONTROUTE	= 5;		/* just use interface addresses */
+		static const int  SO_REUSEADDR	= 1;		/* allow local address reuse */
+		static const int  SO_KEEPALIVE	= 9;		/* keep connections alive */
+		static const int  SO_DONTROUTE	= 5;		/* just use interface addresses */
 
 		/* Structure describing a generic socket address.  */
 		struct sockaddr {
@@ -575,30 +574,30 @@ elseif isMac then -- "*ai_canonname" and "*ai_addr" are in different order than 
 
 
 		// Option flags per-socket.
-		static const int	 SO_DEBUG	= 0x0001;		/* turn on debugging info recording */
-		static const int	 SO_ACCEPTCONN	= 0x0002;		/* socket has had listen() */
-		static const int	 SO_REUSEADDR	= 0x0004;		/* allow local address reuse */
-		static const int	 SO_KEEPALIVE	= 0x0008;		/* keep connections alive */
-		static const int	 SO_DONTROUTE	= 0x0010;		/* just use interface addresses */
-		static const int	 SO_BROADCAST	= 0x0020;		/* permit sending of broadcast msgs */
+		static const int  SO_DEBUG	= 0x0001;		/* turn on debugging info recording */
+		static const int  SO_ACCEPTCONN	= 0x0002;		/* socket has had listen() */
+		static const int  SO_REUSEADDR	= 0x0004;		/* allow local address reuse */
+		static const int  SO_KEEPALIVE	= 0x0008;		/* keep connections alive */
+		static const int  SO_DONTROUTE	= 0x0010;		/* just use interface addresses */
+		static const int  SO_BROADCAST	= 0x0020;		/* permit sending of broadcast msgs */
 		// #if !defined(_POSIX_C_SOURCE) || defined(_DARWIN_C_SOURCE)
-		static const int	 SO_USELOOPBACK	= 0x0040;		/* bypass hardware when possible */
-		static const int	 SO_LINGER	= 0x0080;          /* linger on close if data present (in ticks) */
+		static const int  SO_USELOOPBACK	= 0x0040;		/* bypass hardware when possible */
+		static const int  SO_LINGER	= 0x0080;          /* linger on close if data present (in ticks) */
 		// #else
-		// static const int	 SO_LINGER	= 0x1080;          /* linger on close if data present (in seconds) */
+		// static const int  SO_LINGER	= 0x1080;          /* linger on close if data present (in seconds) */
 		// #endif	/* (!_POSIX_C_SOURCE || _DARWIN_C_SOURCE) */
-		static const int	 SO_OOBINLINE	= 0x0100;		/* leave received OOB data in line */
+		static const int  SO_OOBINLINE	= 0x0100;		/* leave received OOB data in line */
 		// #if !defined(_POSIX_C_SOURCE) || defined(_DARWIN_C_SOURCE)
-		static const int	 SO_REUSEPORT	= 0x0200;		/* allow local address & port reuse */
-		static const int	 SO_TIMESTAMP	= 0x0400;		/* timestamp received dgram traffic */
-		static const int	 SO_TIMESTAMP_MONOTONIC	= 0x0800;	/* Monotonically increasing timestamp on rcvd dgram */
+		static const int  SO_REUSEPORT	= 0x0200;		/* allow local address & port reuse */
+		static const int  SO_TIMESTAMP	= 0x0400;		/* timestamp received dgram traffic */
+		static const int  SO_TIMESTAMP_MONOTONIC	= 0x0800;	/* Monotonically increasing timestamp on rcvd dgram */
 		// #ifndef __APPLE__
-		// static const int	 SO_ACCEPTFILTER	= 0x1000;		/* there is an accept filter */
+		// static const int  SO_ACCEPTFILTER	= 0x1000;		/* there is an accept filter */
 		// #else
-		static const int	 SO_DONTTRUNC	= 0x2000;		/* APPLE: Retain unread data */
+		static const int  SO_DONTTRUNC	= 0x2000;		/* APPLE: Retain unread data */
 						/*  (ATOMIC proto) */
-		static const int	 SO_WANTMORE	= 0x4000;		/* APPLE: Give hint when more data ready */
-		static const int	 SO_WANTOOBFLAG	= 0x8000;		/* APPLE: Want OOB in MSG_FLAG on receive */
+		static const int  SO_WANTMORE	= 0x4000;		/* APPLE: Give hint when more data ready */
+		static const int  SO_WANTOOBFLAG	= 0x8000;		/* APPLE: Want OOB in MSG_FLAG on receive */
 		// #endif  /* (!__APPLE__) */
 		// #endif	/* (!_POSIX_C_SOURCE || _DARWIN_C_SOURCE) */
 
@@ -671,24 +670,24 @@ ffi.cdef[[
 
 	int accept(int socket, struct sockaddr *restrict address, socklen_t *restrict address_len);
 	// int select(int nfds, fd_set *restrict readfds, fd_set *restrict writefds, fd_set *restrict errorfds, struct timeval *restrict timeout);
-	int	bind(int socket, const struct sockaddr *address, socklen_t address_len);
-	int	connect(int socket, const struct sockaddr *address, socklen_t address_len);
-	int	getpeername(int, struct sockaddr * __restrict, socklen_t * __restrict);
-	int	getsockname(int socket, struct sockaddr *restrict address, socklen_t *restrict address_len);
-	int	getsockopt(int socket, int level, int option_name, void *restrict option_value, socklen_t *restrict option_len);
-	int	listen(int socket, int backlog);
+	int bind(int socket, const struct sockaddr *address, socklen_t address_len);
+	int connect(int socket, const struct sockaddr *address, socklen_t address_len);
+	int getpeername(int, struct sockaddr * __restrict, socklen_t * __restrict);
+	int getsockname(int socket, struct sockaddr *restrict address, socklen_t *restrict address_len);
+	int getsockopt(int socket, int level, int option_name, void *restrict option_value, socklen_t *restrict option_len);
+	int listen(int socket, int backlog);
 	ssize_t	recv(int socket, void *buffer, size_t length, int flags);
 	ssize_t	recvfrom(int socket, void *restrict buffer, size_t length, int flags, struct sockaddr *restrict address, socklen_t *restrict address_len);
 	ssize_t	recvmsg(int socket, struct msghdr *message, int flags);
 	ssize_t	send(int socket, const void *buffer, size_t length, int flags);
 	ssize_t sendmsg(int socket, const struct msghdr *message, int flags);
 	ssize_t	sendto(int socket, const void *buffer, size_t length, int flags, const struct sockaddr *dest_addr, socklen_t dest_len);
-	int	setsockopt(int socket, int level, int option_name, const void *option_value, socklen_t option_len);
-	int	shutdown(int socket, int how);
-	int	sockatmark(int);
-	int	socket(int domain, int type, int protocol);
-	int	socketpair(int, int, int, int *);
-	int	sendfile(int, int, off_t, off_t *, struct sf_hdtr *, int);
+	int setsockopt(int socket, int level, int option_name, const void *option_value, socklen_t option_len);
+	int shutdown(int socket, int how);
+	int sockatmark(int);
+	int socket(int domain, int type, int protocol);
+	int socketpair(int, int, int, int *);
+	int sendfile(int, int, off_t, off_t *, struct sf_hdtr *, int);
 	void	pfctlinput(int, struct sockaddr *);
 	int setsockopt(int socket, int level, int option_name, const void *option_value, socklen_t option_len);
 	int getsockopt(int socket, int level, int option_name, void *restrict option_value, socklen_t *restrict option_len);
@@ -697,18 +696,18 @@ ffi.cdef[[
 	in_addr_t	 inet_addr(const char *);
 	char		*inet_ntoa(struct in_addr);
 	const char	*inet_ntop(int, const void *, char *, socklen_t);
-	int		 inet_pton(int, const char *, void *);
-	int		 ascii2addr(int, const char *, void *);
+	int 	 inet_pton(int, const char *, void *);
+	int 	 ascii2addr(int, const char *, void *);
 	char		*addr2ascii(int, const void *, int, char *);
-	int		 inet_aton(const char *, struct in_addr *);
+	int 	 inet_aton(const char *, struct in_addr *);
 	in_addr_t	 inet_lnaof(struct in_addr);
 	struct in_addr	 inet_makeaddr(in_addr_t, in_addr_t);
 	in_addr_t	 inet_netof(struct in_addr);
 	in_addr_t	 inet_network(const char *);
 	char		*inet_net_ntop(int, const void *, int, char *, __darwin_size_t);
-	int		 inet_net_pton(int, const char *, void *, __darwin_size_t);
+	int 	 inet_net_pton(int, const char *, void *, __darwin_size_t);
 	char	 	*inet_neta(in_addr_t, char *, __darwin_size_t);
-	unsigned int	 inet_nsap_addr(const char *, unsigned char *, int maxlen);
+	unsigned int  inet_nsap_addr(const char *, unsigned char *, int maxlen);
 	char	*inet_nsap_ntoa(int, const unsigned char *, char *ascii);
 
 	uint32_t htonl(uint32_t hostlong);

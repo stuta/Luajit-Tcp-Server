@@ -10,7 +10,8 @@ local ffi = require("ffi")
 local C = ffi.C
 
 local dir = directory_files("")
-for _,file in ipairs(dir) do
+for i=1,#dir do
+	local file=dir[i]
 	if file ~= "TestAll.lua" and  string.find(file, "Test%a*.lua") then
 		io.write(" **********  file: "..file, ", press 's' tos skip and 'q' to quit: ")
 		local ans = string.lower(io.read("*line"))

@@ -59,6 +59,9 @@ if arg2 < 0 then
 	loopCount = loopCount / 200
 	--ProFi:start()
 end
+if not ffi.version then -- plain Lua
+	loopCount = loopCount / 100
+end
 
 local function argPrint()
 	if useSetData then

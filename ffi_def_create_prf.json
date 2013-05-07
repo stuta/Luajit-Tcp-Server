@@ -1,0 +1,9 @@
+{
+         "basic_type": [ "typedef", "struct", "int", "long", "double" ],
+     "c_call_pattern": "C%.([_%a][_%w]*)",
+    "generated_start": "-- generated code start --",
+         "headerfile": "c_include/osx/sys/time.h",
+     "name_separator": "[^_%w]",
+         "sourcefile": "lib_date_time.lua",
+    "target_ffi_file": "ffi_def_osx.lua"
+}

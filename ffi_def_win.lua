@@ -60,7 +60,8 @@ ffi.cdef[[
 ffi.cdef[[
 	// Windows
 	// win basic functions
-
+  // void *realloc(void *memblock, size_t size);
+  
 	BOOL QueryPerformanceFrequency(int64_t *lpFrequency);
 	BOOL QueryPerformanceCounter(int64_t *lpPerformanceCount);
 

@@ -154,6 +154,11 @@ end
 
 ]]
 
+function file_exists(name)
+   local f=io.open(name,"r")
+   if f~=nil then io.close(f) return true else return false end
+end
+
 function toHexString(num)
 	if type(num) ~= "number" then
 		num = tonumber(num) -- try to cast for ex. cdata[0]
@@ -424,6 +429,12 @@ function format_num(amount, decimal, comma, prefix, neg_prefix)
   return formatted
 end
 
+-- http://stackoverflow.com/questions/9754285/in-lua-how-do-you-find-out-the-key-an-object-is-stored-in
+function table_invert(t)
+  local u = { }
+  for k,v in pairs(t) do u[v] = k end
+  return u
+end
 
 -- http://lua-users.org/wiki/TableSerialization
 --[[

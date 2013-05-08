@@ -159,6 +159,14 @@ function file_exists(name)
    if f~=nil then io.close(f) return true else return false end
 end
 
+function string_starts(String, Start)
+   return string.sub(String,1,string.len(Start))==Start
+end
+
+function string_ends(String, End)
+   return End=="" or string.sub(String,-string.len(End))==End
+end
+
 function toHexString(num)
 	if type(num) ~= "number" then
 		num = tonumber(num) -- try to cast for ex. cdata[0]

@@ -5,12 +5,13 @@ print(" -- ffi_def_create_headers.lua start -- ")
 print()
 
 local arg = {...}
+
+local util = require "lib_util"
 local osname
 if true then -- keep ffi valid only inside if to make ZeroBrane debugger work
 	local ffi = require("ffi")
 	osname = string.lower(ffi.os)
 end
-local util = require "lib_util"
 
 local timeUsed = util.seconds()
 
@@ -24,70 +25,27 @@ local sourcepaths = {
 	["linux"] = "/usr/include/",
 }
 
-local sourcefiles = {
+sourcefiles = {
 	["windows"] = [[
 #include <windows.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
-#include <stdlib.h>
-#include <stdio.h>
-
-#include <Ws2tcpip.h>
-#include <ws2def.h>
-#include <sys/types.h>
-
-#include <time.h>
 ]],
 
 	["osx"] = [[
 #include <sys/types.h>
-#include <sys/event.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <sys/time.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <errno.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <poll.h>
-#include <netinet/tcp.h>
-#include <sys/ipc.h>
-#include <sys/shm.h>
-#include <pthread.h>
-#include <signal.h>
-#include <time.h>
 // /Users/pasi/asennetut_paketit/Lua/lua-5.1.5/src/install_bin/include/lua.h
 ]],
 
 	["linux"] = [[
 #include <sys/types.h>
-#include <sys/event.h>
-#include <unistd.h>
-#include <sys/mman.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <sys/time.h>
-#include <unistd.h>
-#include <sys/socket.h>
-#include <errno.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <poll.h>
-#include <netinet/tcp.h>
-#include <sys/ipc.h>
-#include <sys/shm.h>
-#include <pthread.h>
-#include <signal.h>
-#include <time.h>
 ]],
 }
+
+local prfFileName = "ffi_def_create_headers_prf.txt"
+if util.file_exists(prfFileName) then
+	dofile "ffi_def_create_headers_prf.txt"
+end
 
 local sourcepath = sourcepaths[osname]
 local sourcefile = sourcefiles[osname]

@@ -5,13 +5,13 @@ print(" -- ffi_def_create.lua start -- ")
 print()
 
 local arg = {...}
+local util = require "lib_util"
+local JSON = require "JSON"
 local osname
 if true then -- keep ffi valid only inside if to make ZeroBrane debugger work
 	local ffi = require("ffi")
 	osname = string.lower(ffi.os)
 end
-local util = require "lib_util"
-local JSON = require "JSON"
 
 local timeUsed = util.seconds()
 
@@ -250,20 +250,34 @@ for _,sourcefile in pairs(sourcefiles) do
 		local static_const_lines = {}
 		for i=1,#new_calls do
 			local findpos = 1
-			if new_calls[i] == "poll" then -- for trace
-				new_calls[i] = new_calls[i]
+			local findcall = new_calls[i]
+			if findcall == "pthread_self" then -- for trace
+				findcall = "pthread_self"
 			end
-			local pattern = name_separator..new_calls[i]..name_separator --"%f[%a]"..new_calls[i].."%f[%A]"
+			local pattern = name_separator..findcall..name_separator --"%f[%a]"..findcall.."%f[%A]"
 			local startpos,endpos = header:find(pattern, findpos)
 			while startpos do
 				local line_start,line_end = stringBetweenPosition(header, startpos, endpos, ";", ";")
 				
-				
 				if line_start then
+					-- skip wrong finds
 					local line = header:sub(line_start + 1, line_end)
-					if line:find("\n// ***") then
-						line_start = nil -- inside comment -> find next
+					local s,e = line:find("= "..findcall) -- pthread_self fix
+					if s then
+						line_start = nil -- wrong -> find next
 						findpos = endpos + 1  -- set next find pos
+					else
+						-- skip comment lines
+						repeat
+							local s,e = line:find("\n// ***")
+							if e then
+								local s2,e2 = line:find("\n", e + 1)
+								if s2 then
+									line_start = line_start + s2 - 1
+									line = header:sub(line_start + 1, line_end)
+								end
+							end
+						until not e
 					end
 				end
 									

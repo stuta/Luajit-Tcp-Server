@@ -41,7 +41,7 @@ ffi.cdef[[
 	typedef __darwin_time_t time_t;
 	
 	double difftime(time_t, time_t);
-	time_t time(time_t *);
+	typedef signed char __int8_t;
 ]]
 
 --[[ lib_kqueue.lua ]]
@@ -53,7 +53,7 @@ ffi.cdef[[
 ffi.cdef[[
 	static const int POLLERR = 0x0008;
 	static const int POLLHUP = 0x0010;
-	static const int POLLSTANDARD = (POLLIN|POLLPRI|POLLOUT|POLLRDNORM|POLLRDBAND| POLLWRBAND|POLLERR|POLLHUP|POLLNVAL);
+	static const int POLLIN = 0x0001;
 	static const int POLLNVAL = 0x0020;
 	static const int POLLOUT = 0x0004;
 	static const int POLLPRI = 0x0002;
@@ -121,6 +121,7 @@ ffi.cdef[[
 	int shm_open(const char *, int, ...);
 	int shm_unlink(const char *);
 	int shmctl(int, int, struct __shmid_ds_new *);
+	size_t strlen(const char *);
 ]]
 
 --[[ lib_signal.lua ]]
@@ -171,9 +172,6 @@ ffi.cdef[[
 
 --[[ lib_thread.lua ]]
 ffi.cdef[[
-	struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
-	typedef struct _opaque_pthread_attr_t
-	   __darwin_pthread_attr_t;
 	struct __darwin_pthread_handler_rec
 	{
 	 void (*__routine)(void *);
@@ -181,11 +179,13 @@ ffi.cdef[[
 	 struct __darwin_pthread_handler_rec *__next;
 	};
 	struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
-	typedef __darwin_pthread_attr_t pthread_attr_t;
+	struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
 	typedef struct _opaque_pthread_t
 	   *__darwin_pthread_t;
+	typedef struct _opaque_pthread_attr_t
+	   __darwin_pthread_attr_t;
 	typedef __darwin_pthread_t pthread_t;
-	pthread_t __self = pthread_self();
+	typedef __darwin_pthread_attr_t pthread_attr_t;
 	
 	int pthread_create(pthread_t * ,
                          const pthread_attr_t * ,
@@ -193,35 +193,29 @@ ffi.cdef[[
                          void * );
 	void pthread_exit(void *);
 	int pthread_join(pthread_t , void **);
-	pthread_t __self = pthread_self();
+	pthread_t pthread_self(void);
 ]]
 
 --[[ lib_util.lua ]]
 ffi.cdef[[
 	static const int _SC_NPROCESSORS_CONF = 57;
 	static const int _SC_NPROCESSORS_ONLN = 58;
+	static const int POLLIN = 0x0001;
 	
 	typedef __uint32_t __darwin_useconds_t;
-	typedef __int32_t __darwin_suseconds_t;
 	typedef __darwin_useconds_t useconds_t;
-	typedef unsigned int nfds_t;
+	typedef __int32_t __darwin_suseconds_t;
 	struct timeval
 	{
 	 __darwin_time_t tv_sec;
 	 __darwin_suseconds_t tv_usec;
 	};
 	struct timespec;
-	struct pollfd
-	{
-	 int fd;
-	 short events;
-	 short revents;
-	};
 	
 	int gettimeofday(struct timeval * , void * );
 	int nanosleep(const struct timespec *, struct timespec *);
-	extern int poll (struct pollfd *, nfds_t, int);
 	extern int sched_yield(void);
+	char *strerror(int);
 	long sysconf(int);
 	int usleep(useconds_t);
 ]]
@@ -242,32 +236,30 @@ not found calls = {
    [11] = "GetLastError";
    [12] = "MapViewOfFile";
    [13] = "OpenFileMappingA";
-   [14] = "strlen";
-   [15] = "UnmapViewOfFile";
-   [16] = "--- lib_signal.lua ---";
-   [17] = "--- lib_socket.lua ---";
-   [18] = "--- lib_tcp.lua ---";
-   [19] = "--- lib_thread.lua ---";
-   [20] = "CreateThread";
-   [21] = "GetCurrentThreadId";
-   [22] = "INFINITE";
-   [23] = "WaitForSingleObject";
-   [24] = "--- lib_util.lua ---";
-   [25] = "ENABLE_ECHO_INPUT";
-   [26] = "ENABLE_LINE_INPUT";
-   [27] = "ENABLE_PROCESSED_INPUT";
-   [28] = "FORMAT_MESSAGE_FROM_SYSTEM";
-   [29] = "FORMAT_MESSAGE_IGNORE_INSERTS";
-   [30] = "GetConsoleMode";
-   [31] = "GetStdHandle";
-   [32] = "GetSystemInfo";
-   [33] = "QueryPerformanceCounter";
-   [34] = "QueryPerformanceFrequency";
-   [35] = "ReadConsoleA";
-   [36] = "SetConsoleMode";
-   [37] = "Sleep";
-   [38] = "STD_INPUT_HANDLE";
-   [39] = "strerror";
-   [40] = "SwitchToThread";
+   [14] = "UnmapViewOfFile";
+   [15] = "--- lib_signal.lua ---";
+   [16] = "--- lib_socket.lua ---";
+   [17] = "--- lib_tcp.lua ---";
+   [18] = "--- lib_thread.lua ---";
+   [19] = "CreateThread";
+   [20] = "GetCurrentThreadId";
+   [21] = "INFINITE";
+   [22] = "WaitForSingleObject";
+   [23] = "--- lib_util.lua ---";
+   [24] = "ENABLE_ECHO_INPUT";
+   [25] = "ENABLE_LINE_INPUT";
+   [26] = "ENABLE_PROCESSED_INPUT";
+   [27] = "FORMAT_MESSAGE_FROM_SYSTEM";
+   [28] = "FORMAT_MESSAGE_IGNORE_INSERTS";
+   [29] = "GetConsoleMode";
+   [30] = "GetStdHandle";
+   [31] = "GetSystemInfo";
+   [32] = "QueryPerformanceCounter";
+   [33] = "QueryPerformanceFrequency";
+   [34] = "ReadConsoleA";
+   [35] = "SetConsoleMode";
+   [36] = "Sleep";
+   [37] = "STD_INPUT_HANDLE";
+   [38] = "SwitchToThread";
 };
 ]]

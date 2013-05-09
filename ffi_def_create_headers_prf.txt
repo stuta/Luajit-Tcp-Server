@@ -1,0 +1,68 @@
+sourcefiles = {
+	["windows"] = [[
+#include <windows.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+#include <Ws2tcpip.h>
+#include <ws2def.h>
+#include <sys/types.h>
+
+#include <time.h>
+]],
+
+	["osx"] = [[
+#include <sys/types.h>
+#include <sys/event.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <errno.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <poll.h>
+#include <netinet/tcp.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <pthread.h>
+#include <signal.h>
+#include <time.h>
+#include <stdio.h>
+#include <string.h>
+// /Users/pasi/asennetut_paketit/Lua/lua-5.1.5/src/install_bin/include/lua.h
+]],
+
+	["linux"] = [[
+#include <sys/types.h>
+#include <sys/event.h>
+#include <unistd.h>
+#include <sys/mman.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <sys/socket.h>
+#include <errno.h>
+#include <netinet/in.h>
+#include <netdb.h>
+#include <arpa/inet.h>
+#include <poll.h>
+#include <netinet/tcp.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <pthread.h>
+#include <signal.h>
+#include <time.h>
+#include <stdio.h>
+#include <string.h>
+]],
+}

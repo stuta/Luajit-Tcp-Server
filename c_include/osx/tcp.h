@@ -118,28 +118,6 @@ static const int __weak = __attribute__((objc_gc(weak)));
 static const int __block = __attribute__((__blocks__(byref)));
 static const int OBJC_NEW_PROPERTIES = 1;
 static const int __DYNAMIC__ = 1;
-static const int POLLIN = 0x0001;
-static const int POLLPRI = 0x0002;
-static const int POLLOUT = 0x0004;
-static const int POLLRDNORM = 0x0040;
-static const int POLLWRNORM = POLLOUT;
-static const int POLLRDBAND = 0x0080;
-static const int POLLWRBAND = 0x0100;
-static const int POLLEXTEND = 0x0200;
-static const int POLLATTRIB = 0x0400;
-static const int POLLNLINK = 0x0800;
-static const int POLLWRITE = 0x1000;
-static const int POLLERR = 0x0008;
-static const int POLLHUP = 0x0010;
-static const int POLLNVAL = 0x0020;
-static const int POLLSTANDARD = (POLLIN|POLLPRI|POLLOUT|POLLRDNORM|POLLRDBAND| POLLWRBAND|POLLERR|POLLHUP|POLLNVAL);
-struct pollfd
-{
- int fd;
- short events;
- short revents;
-};
-typedef unsigned int nfds_t;
 static const int __P(protos) = protos;
 static const int __CONCAT(x,y) = x ## y;
 static const int __STRING(x) = #x;
@@ -199,4 +177,212 @@ static const int _DARWIN_FEATURE_64_BIT_INODE = 1;
 static const int _DARWIN_FEATURE_ONLY_UNIX_CONFORMANCE = 1;
 static const int _DARWIN_FEATURE_UNIX_CONFORMANCE = 3;
 static const int __CAST_AWAY_QUALIFIER(variable,qualifier,type) = (type) (long)(variable);
-extern int poll (struct pollfd *, nfds_t, int) __asm("_" "poll" );
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef short __int16_t;
+typedef unsigned short __uint16_t;
+typedef int __int32_t;
+typedef unsigned int __uint32_t;
+typedef long long __int64_t;
+typedef unsigned long long __uint64_t;
+typedef long __darwin_intptr_t;
+typedef unsigned int __darwin_natural_t;
+typedef int __darwin_ct_rune_t;
+typedef union {
+ char __mbstate8[128];
+ long long _mbstateL;
+} __mbstate_t;
+typedef __mbstate_t __darwin_mbstate_t;
+typedef long int __darwin_ptrdiff_t;
+typedef long unsigned int __darwin_size_t;
+typedef __builtin_va_list __darwin_va_list;
+typedef int __darwin_wchar_t;
+typedef __darwin_wchar_t __darwin_rune_t;
+typedef int __darwin_wint_t;
+typedef unsigned long __darwin_clock_t;
+typedef __uint32_t __darwin_socklen_t;
+typedef long __darwin_ssize_t;
+typedef long __darwin_time_t;
+static const int __PTHREAD_SIZE__ = 1168;
+static const int __PTHREAD_ATTR_SIZE__ = 56;
+static const int __PTHREAD_MUTEXATTR_SIZE__ = 8;
+static const int __PTHREAD_MUTEX_SIZE__ = 56;
+static const int __PTHREAD_CONDATTR_SIZE__ = 8;
+static const int __PTHREAD_COND_SIZE__ = 40;
+static const int __PTHREAD_ONCE_SIZE__ = 8;
+static const int __PTHREAD_RWLOCK_SIZE__ = 192;
+static const int __PTHREAD_RWLOCKATTR_SIZE__ = 16;
+struct __darwin_pthread_handler_rec
+{
+ void (*__routine)(void *);
+ void *__arg;
+ struct __darwin_pthread_handler_rec *__next;
+};
+struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
+struct _opaque_pthread_cond_t { long __sig; char __opaque[40]; };
+struct _opaque_pthread_condattr_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_mutex_t { long __sig; char __opaque[56]; };
+struct _opaque_pthread_mutexattr_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_once_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
+struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
+struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
+static const int __DARWIN_NULL = ((void *)0);
+typedef __int64_t __darwin_blkcnt_t;
+typedef __int32_t __darwin_blksize_t;
+typedef __int32_t __darwin_dev_t;
+typedef unsigned int __darwin_fsblkcnt_t;
+typedef unsigned int __darwin_fsfilcnt_t;
+typedef __uint32_t __darwin_gid_t;
+typedef __uint32_t __darwin_id_t;
+typedef __uint64_t __darwin_ino64_t;
+typedef __darwin_ino64_t __darwin_ino_t;
+typedef __darwin_natural_t __darwin_mach_port_name_t;
+typedef __darwin_mach_port_name_t __darwin_mach_port_t;
+typedef __uint16_t __darwin_mode_t;
+typedef __int64_t __darwin_off_t;
+typedef __int32_t __darwin_pid_t;
+typedef struct _opaque_pthread_attr_t
+   __darwin_pthread_attr_t;
+typedef struct _opaque_pthread_cond_t
+   __darwin_pthread_cond_t;
+typedef struct _opaque_pthread_condattr_t
+   __darwin_pthread_condattr_t;
+typedef unsigned long __darwin_pthread_key_t;
+typedef struct _opaque_pthread_mutex_t
+   __darwin_pthread_mutex_t;
+typedef struct _opaque_pthread_mutexattr_t
+   __darwin_pthread_mutexattr_t;
+typedef struct _opaque_pthread_once_t
+   __darwin_pthread_once_t;
+typedef struct _opaque_pthread_rwlock_t
+   __darwin_pthread_rwlock_t;
+typedef struct _opaque_pthread_rwlockattr_t
+   __darwin_pthread_rwlockattr_t;
+typedef struct _opaque_pthread_t
+   *__darwin_pthread_t;
+typedef __uint32_t __darwin_sigset_t;
+typedef __int32_t __darwin_suseconds_t;
+typedef __uint32_t __darwin_uid_t;
+typedef __uint32_t __darwin_useconds_t;
+typedef unsigned char __darwin_uuid_t[16];
+typedef char __darwin_uuid_string_t[37];
+static const int _QUAD_HIGHWORD = 1;
+static const int _QUAD_LOWWORD = 0;
+static const int __DARWIN_LITTLE_ENDIAN = 1234;
+static const int __DARWIN_BIG_ENDIAN = 4321;
+static const int __DARWIN_PDP_ENDIAN = 3412;
+static const int __DARWIN_BYTE_ORDER = __DARWIN_LITTLE_ENDIAN;
+static const int LITTLE_ENDIAN = __DARWIN_LITTLE_ENDIAN;
+static const int BIG_ENDIAN = __DARWIN_BIG_ENDIAN;
+static const int PDP_ENDIAN = __DARWIN_PDP_ENDIAN;
+static const int BYTE_ORDER = __DARWIN_BYTE_ORDER;
+static const int __DARWIN_OSSwapConstInt16(x) = ((__uint16_t)((((__uint16_t)(x) & 0xff00) >> 8) | (((__uint16_t)(x) & 0x00ff) << 8)));
+static const int __DARWIN_OSSwapConstInt32(x) = ((__uint32_t)((((__uint32_t)(x) & 0xff000000) >> 24) | (((__uint32_t)(x) & 0x00ff0000) >> 8) | (((__uint32_t)(x) & 0x0000ff00) << 8) | (((__uint32_t)(x) & 0x000000ff) << 24)));
+static const int __DARWIN_OSSwapConstInt64(x) = ((__uint64_t)((((__uint64_t)(x) & 0xff00000000000000ULL) >> 56) | (((__uint64_t)(x) & 0x00ff000000000000ULL) >> 40) | (((__uint64_t)(x) & 0x0000ff0000000000ULL) >> 24) | (((__uint64_t)(x) & 0x000000ff00000000ULL) >> 8) | (((__uint64_t)(x) & 0x00000000ff000000ULL) << 8) | (((__uint64_t)(x) & 0x0000000000ff0000ULL) << 24) | (((__uint64_t)(x) & 0x000000000000ff00ULL) << 40) | (((__uint64_t)(x) & 0x00000000000000ffULL) << 56)));
+static const int __DARWIN_OS_INLINE = static __inline__;
+static __inline__
+__uint16_t
+_OSSwapInt16(
+    __uint16_t _data
+)
+{
+    return ((_data << 8) | (_data >> 8));
+}
+static __inline__
+__uint32_t
+_OSSwapInt32(
+    __uint32_t _data
+)
+{
+    return __builtin_bswap32(_data);
+}
+static __inline__
+__uint64_t
+_OSSwapInt64(
+    __uint64_t _data
+)
+{
+    return __builtin_bswap64(_data);
+}
+static const int __DARWIN_OSSwapInt16(x) = ((__uint16_t)(__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt16(x) : _OSSwapInt16(x)));
+static const int __DARWIN_OSSwapInt32(x) = (__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt32(x) : _OSSwapInt32(x));
+static const int __DARWIN_OSSwapInt64(x) = (__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt64(x) : _OSSwapInt64(x));
+static const int ntohs(x) = __DARWIN_OSSwapInt16(x);
+static const int htons(x) = __DARWIN_OSSwapInt16(x);
+static const int ntohl(x) = __DARWIN_OSSwapInt32(x);
+static const int htonl(x) = __DARWIN_OSSwapInt32(x);
+static const int NTOHL(x) = (x) = ntohl((__uint32_t)x);
+static const int NTOHS(x) = (x) = ntohs((__uint16_t)x);
+static const int HTONL(x) = (x) = htonl((__uint32_t)x);
+static const int HTONS(x) = (x) = htons((__uint16_t)x);
+typedef __uint32_t tcp_seq;
+typedef __uint32_t tcp_cc;
+static const int tcp6_seq = tcp_seq;
+static const int tcp6hdr = tcphdr;
+struct tcphdr {
+ unsigned short th_sport;
+ unsigned short th_dport;
+ tcp_seq th_seq;
+ tcp_seq th_ack;
+ unsigned int th_x2:4,
+   th_off:4;
+ unsigned char th_flags;
+static const int TH_FIN = 0x01;
+static const int TH_SYN = 0x02;
+static const int TH_RST = 0x04;
+static const int TH_PUSH = 0x08;
+static const int TH_ACK = 0x10;
+static const int TH_URG = 0x20;
+static const int TH_ECE = 0x40;
+static const int TH_CWR = 0x80;
+static const int TH_FLAGS = (TH_FIN|TH_SYN|TH_RST|TH_ACK|TH_URG|TH_ECE|TH_CWR);
+ unsigned short th_win;
+ unsigned short th_sum;
+ unsigned short th_urp;
+};
+static const int TCPOPT_EOL = 0;
+static const int TCPOPT_NOP = 1;
+static const int TCPOPT_MAXSEG = 2;
+static const int TCPOLEN_MAXSEG = 4;
+static const int TCPOPT_WINDOW = 3;
+static const int TCPOLEN_WINDOW = 3;
+static const int TCPOPT_SACK_PERMITTED = 4;
+static const int TCPOLEN_SACK_PERMITTED = 2;
+static const int TCPOPT_SACK = 5;
+static const int TCPOLEN_SACK = 8;
+static const int TCPOPT_TIMESTAMP = 8;
+static const int TCPOLEN_TIMESTAMP = 10;
+static const int TCPOLEN_TSTAMP_APPA = (TCPOLEN_TIMESTAMP+2);
+static const int TCPOPT_TSTAMP_HDR = (TCPOPT_NOP<<24|TCPOPT_NOP<<16|TCPOPT_TIMESTAMP<<8|TCPOLEN_TIMESTAMP);
+static const int MAX_TCPOPTLEN = 40;
+static const int TCPOPT_CC = 11;
+static const int TCPOPT_CCNEW = 12;
+static const int TCPOPT_CCECHO = 13;
+static const int TCPOLEN_CC = 6;
+static const int TCPOLEN_CC_APPA = (TCPOLEN_CC+2);
+static const int TCPOPT_CC_HDR(ccopt) = (TCPOPT_NOP<<24|TCPOPT_NOP<<16|(ccopt)<<8|TCPOLEN_CC);
+static const int TCPOPT_SIGNATURE = 19;
+static const int TCPOLEN_SIGNATURE = 18;
+static const int TCPOPT_SACK_PERMIT_HDR = (TCPOPT_NOP<<24|TCPOPT_NOP<<16|TCPOPT_SACK_PERMITTED<<8|TCPOLEN_SACK_PERMITTED);
+static const int TCPOPT_SACK_HDR = (TCPOPT_NOP<<24|TCPOPT_NOP<<16|TCPOPT_SACK<<8);
+static const int MAX_SACK_BLKS = 6;
+static const int TCP_MAX_SACK = 3;
+static const int TCP_MSS = 512;
+static const int TCP_MINMSS = 216;
+static const int TCP_MINMSSOVERLOAD = 1000;
+static const int TCP6_MSS = 1024;
+static const int TCP_MAXWIN = 65535;
+static const int TTCP_CLIENT_SND_WND = 4096;
+static const int TCP_MAX_WINSHIFT = 14;
+static const int TCP_MAXHLEN = (0xf<<2);
+static const int TCP_MAXOLEN = (TCP_MAXHLEN - sizeof(struct tcphdr));
+static const int TCP_NODELAY = 0x01;
+static const int TCP_MAXSEG = 0x02;
+static const int TCP_NOPUSH = 0x04;
+static const int TCP_NOOPT = 0x08;
+static const int TCP_KEEPALIVE = 0x10;
+static const int TCP_CONNECTIONTIMEOUT = 0x20;
+static const int PERSIST_TIMEOUT = 0x40;
+static const int TCP_RXT_CONNDROPTIME = 0x80;
+static const int TCP_RXT_FINDROP = 0x100;

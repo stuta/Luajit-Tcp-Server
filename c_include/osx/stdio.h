@@ -177,96 +177,6 @@ static const int _DARWIN_FEATURE_64_BIT_INODE = 1;
 static const int _DARWIN_FEATURE_ONLY_UNIX_CONFORMANCE = 1;
 static const int _DARWIN_FEATURE_UNIX_CONFORMANCE = 3;
 static const int __CAST_AWAY_QUALIFIER(variable,qualifier,type) = (type) (long)(variable);
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef short __int16_t;
-typedef unsigned short __uint16_t;
-typedef int __int32_t;
-typedef unsigned int __uint32_t;
-typedef long long __int64_t;
-typedef unsigned long long __uint64_t;
-typedef long __darwin_intptr_t;
-typedef unsigned int __darwin_natural_t;
-typedef int __darwin_ct_rune_t;
-typedef union {
- char __mbstate8[128];
- long long _mbstateL;
-} __mbstate_t;
-typedef __mbstate_t __darwin_mbstate_t;
-typedef long int __darwin_ptrdiff_t;
-typedef long unsigned int __darwin_size_t;
-typedef __builtin_va_list __darwin_va_list;
-typedef int __darwin_wchar_t;
-typedef __darwin_wchar_t __darwin_rune_t;
-typedef int __darwin_wint_t;
-typedef unsigned long __darwin_clock_t;
-typedef __uint32_t __darwin_socklen_t;
-typedef long __darwin_ssize_t;
-typedef long __darwin_time_t;
-static const int __PTHREAD_SIZE__ = 1168;
-static const int __PTHREAD_ATTR_SIZE__ = 56;
-static const int __PTHREAD_MUTEXATTR_SIZE__ = 8;
-static const int __PTHREAD_MUTEX_SIZE__ = 56;
-static const int __PTHREAD_CONDATTR_SIZE__ = 8;
-static const int __PTHREAD_COND_SIZE__ = 40;
-static const int __PTHREAD_ONCE_SIZE__ = 8;
-static const int __PTHREAD_RWLOCK_SIZE__ = 192;
-static const int __PTHREAD_RWLOCKATTR_SIZE__ = 16;
-struct __darwin_pthread_handler_rec
-{
- void (*__routine)(void *);
- void *__arg;
- struct __darwin_pthread_handler_rec *__next;
-};
-struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_cond_t { long __sig; char __opaque[40]; };
-struct _opaque_pthread_condattr_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_mutex_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_mutexattr_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_once_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
-struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
-struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
-static const int __DARWIN_NULL = ((void *)0);
-typedef __int64_t __darwin_blkcnt_t;
-typedef __int32_t __darwin_blksize_t;
-typedef __int32_t __darwin_dev_t;
-typedef unsigned int __darwin_fsblkcnt_t;
-typedef unsigned int __darwin_fsfilcnt_t;
-typedef __uint32_t __darwin_gid_t;
-typedef __uint32_t __darwin_id_t;
-typedef __uint64_t __darwin_ino64_t;
-typedef __darwin_ino64_t __darwin_ino_t;
-typedef __darwin_natural_t __darwin_mach_port_name_t;
-typedef __darwin_mach_port_name_t __darwin_mach_port_t;
-typedef __uint16_t __darwin_mode_t;
-typedef __int64_t __darwin_off_t;
-typedef __int32_t __darwin_pid_t;
-typedef struct _opaque_pthread_attr_t
-   __darwin_pthread_attr_t;
-typedef struct _opaque_pthread_cond_t
-   __darwin_pthread_cond_t;
-typedef struct _opaque_pthread_condattr_t
-   __darwin_pthread_condattr_t;
-typedef unsigned long __darwin_pthread_key_t;
-typedef struct _opaque_pthread_mutex_t
-   __darwin_pthread_mutex_t;
-typedef struct _opaque_pthread_mutexattr_t
-   __darwin_pthread_mutexattr_t;
-typedef struct _opaque_pthread_once_t
-   __darwin_pthread_once_t;
-typedef struct _opaque_pthread_rwlock_t
-   __darwin_pthread_rwlock_t;
-typedef struct _opaque_pthread_rwlockattr_t
-   __darwin_pthread_rwlockattr_t;
-typedef struct _opaque_pthread_t
-   *__darwin_pthread_t;
-typedef __uint32_t __darwin_sigset_t;
-typedef __int32_t __darwin_suseconds_t;
-typedef __uint32_t __darwin_uid_t;
-typedef __uint32_t __darwin_useconds_t;
-typedef unsigned char __darwin_uuid_t[16];
-typedef char __darwin_uuid_string_t[37];
 static const int __MAC_10_0 = 1000;
 static const int __MAC_10_1 = 1010;
 static const int __MAC_10_2 = 1020;
@@ -362,192 +272,300 @@ static const int __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_NA = __AVAILABILITY_
 static const int __AVAILABILITY_INTERNAL__MAC_NA_DEP__MAC_NA = __AVAILABILITY_INTERNAL_UNAVAILABLE;
 static const int __OSX_AVAILABLE_STARTING(_osx,_ios) = __AVAILABILITY_INTERNAL ##_osx;
 static const int __OSX_AVAILABLE_BUT_DEPRECATED(_osxIntro,_osxDep,_iosIntro,_iosDep) = __AVAILABILITY_INTERNAL ##_osxIntro ##_DEP ##_osxDep;
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef short __int16_t;
+typedef unsigned short __uint16_t;
+typedef int __int32_t;
+typedef unsigned int __uint32_t;
+typedef long long __int64_t;
+typedef unsigned long long __uint64_t;
+typedef long __darwin_intptr_t;
+typedef unsigned int __darwin_natural_t;
+typedef int __darwin_ct_rune_t;
+typedef union {
+ char __mbstate8[128];
+ long long _mbstateL;
+} __mbstate_t;
+typedef __mbstate_t __darwin_mbstate_t;
+typedef long int __darwin_ptrdiff_t;
+typedef long unsigned int __darwin_size_t;
+typedef __builtin_va_list __darwin_va_list;
+typedef int __darwin_wchar_t;
+typedef __darwin_wchar_t __darwin_rune_t;
+typedef int __darwin_wint_t;
+typedef unsigned long __darwin_clock_t;
+typedef __uint32_t __darwin_socklen_t;
+typedef long __darwin_ssize_t;
+typedef long __darwin_time_t;
+static const int __PTHREAD_SIZE__ = 1168;
+static const int __PTHREAD_ATTR_SIZE__ = 56;
+static const int __PTHREAD_MUTEXATTR_SIZE__ = 8;
+static const int __PTHREAD_MUTEX_SIZE__ = 56;
+static const int __PTHREAD_CONDATTR_SIZE__ = 8;
+static const int __PTHREAD_COND_SIZE__ = 40;
+static const int __PTHREAD_ONCE_SIZE__ = 8;
+static const int __PTHREAD_RWLOCK_SIZE__ = 192;
+static const int __PTHREAD_RWLOCKATTR_SIZE__ = 16;
+struct __darwin_pthread_handler_rec
+{
+ void (*__routine)(void *);
+ void *__arg;
+ struct __darwin_pthread_handler_rec *__next;
+};
+struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
+struct _opaque_pthread_cond_t { long __sig; char __opaque[40]; };
+struct _opaque_pthread_condattr_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_mutex_t { long __sig; char __opaque[56]; };
+struct _opaque_pthread_mutexattr_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_once_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
+struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
+struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
+static const int __DARWIN_NULL = ((void *)0);
+typedef __int64_t __darwin_blkcnt_t;
+typedef __int32_t __darwin_blksize_t;
+typedef __int32_t __darwin_dev_t;
+typedef unsigned int __darwin_fsblkcnt_t;
+typedef unsigned int __darwin_fsfilcnt_t;
+typedef __uint32_t __darwin_gid_t;
+typedef __uint32_t __darwin_id_t;
+typedef __uint64_t __darwin_ino64_t;
+typedef __darwin_ino64_t __darwin_ino_t;
+typedef __darwin_natural_t __darwin_mach_port_name_t;
+typedef __darwin_mach_port_name_t __darwin_mach_port_t;
+typedef __uint16_t __darwin_mode_t;
+typedef __int64_t __darwin_off_t;
+typedef __int32_t __darwin_pid_t;
+typedef struct _opaque_pthread_attr_t
+   __darwin_pthread_attr_t;
+typedef struct _opaque_pthread_cond_t
+   __darwin_pthread_cond_t;
+typedef struct _opaque_pthread_condattr_t
+   __darwin_pthread_condattr_t;
+typedef unsigned long __darwin_pthread_key_t;
+typedef struct _opaque_pthread_mutex_t
+   __darwin_pthread_mutex_t;
+typedef struct _opaque_pthread_mutexattr_t
+   __darwin_pthread_mutexattr_t;
+typedef struct _opaque_pthread_once_t
+   __darwin_pthread_once_t;
+typedef struct _opaque_pthread_rwlock_t
+   __darwin_pthread_rwlock_t;
+typedef struct _opaque_pthread_rwlockattr_t
+   __darwin_pthread_rwlockattr_t;
+typedef struct _opaque_pthread_t
+   *__darwin_pthread_t;
+typedef __uint32_t __darwin_sigset_t;
+typedef __int32_t __darwin_suseconds_t;
+typedef __uint32_t __darwin_uid_t;
+typedef __uint32_t __darwin_useconds_t;
+typedef unsigned char __darwin_uuid_t[16];
+typedef char __darwin_uuid_string_t[37];
+static const int __strfmonlike(fmtarg,firstvararg) = __attribute__((__format__ (__strfmon__, fmtarg, firstvararg)));
+static const int __strftimelike(fmtarg) = __attribute__((__format__ (__strftime__, fmtarg, 0)));
+typedef int __darwin_nl_item;
+typedef int __darwin_wctrans_t;
+typedef __uint32_t __darwin_wctype_t;
+static const int __DARWIN_WCHAR_MAX = __WCHAR_MAX__;
+static const int __DARWIN_WCHAR_MIN = (-0x7fffffff - 1);
+static const int __DARWIN_WEOF = ((__darwin_wint_t)-1);
+static const int _FORTIFY_SOURCE = 2;
+typedef __darwin_va_list va_list;
 typedef __darwin_size_t size_t;
-typedef __darwin_mode_t mode_t;
-typedef __darwin_off_t off_t;
-typedef __darwin_pid_t pid_t;
-static const int O_RDONLY = 0x0000;
-static const int O_WRONLY = 0x0001;
-static const int O_RDWR = 0x0002;
-static const int O_ACCMODE = 0x0003;
-static const int FREAD = 0x0001;
-static const int FWRITE = 0x0002;
-static const int O_NONBLOCK = 0x0004;
-static const int O_APPEND = 0x0008;
-static const int O_SYNC = 0x0080;
-static const int O_SHLOCK = 0x0010;
-static const int O_EXLOCK = 0x0020;
-static const int O_ASYNC = 0x0040;
-static const int O_FSYNC = O_SYNC;
-static const int O_NOFOLLOW = 0x0100;
-static const int O_CREAT = 0x0200;
-static const int O_TRUNC = 0x0400;
-static const int O_EXCL = 0x0800;
-static const int O_EVTONLY = 0x8000;
-static const int O_NOCTTY = 0x20000;
-static const int O_DIRECTORY = 0x100000;
-static const int O_SYMLINK = 0x200000;
-static const int O_DSYNC = 0x400000;
-static const int O_CLOEXEC = 0x1000000;
-static const int O_DP_GETRAWENCRYPTED = 0x0001;
-static const int FAPPEND = O_APPEND;
-static const int FASYNC = O_ASYNC;
-static const int FFSYNC = O_FSYNC;
-static const int FFDSYNC = O_DSYNC;
-static const int FNONBLOCK = O_NONBLOCK;
-static const int FNDELAY = O_NONBLOCK;
-static const int O_NDELAY = O_NONBLOCK;
-static const int CPF_OVERWRITE = 1;
-static const int CPF_IGNORE_MODE = 2;
-static const int CPF_MASK = (CPF_OVERWRITE|CPF_IGNORE_MODE);
-static const int F_DUPFD = 0;
-static const int F_GETFD = 1;
-static const int F_SETFD = 2;
-static const int F_GETFL = 3;
-static const int F_SETFL = 4;
-static const int F_GETOWN = 5;
-static const int F_SETOWN = 6;
-static const int F_GETLK = 7;
-static const int F_SETLK = 8;
-static const int F_SETLKW = 9;
-static const int F_FLUSH_DATA = 40;
-static const int F_CHKCLEAN = 41;
-static const int F_PREALLOCATE = 42;
-static const int F_SETSIZE = 43;
-static const int F_RDADVISE = 44;
-static const int F_RDAHEAD = 45;
-static const int F_READBOOTSTRAP = 46;
-static const int F_WRITEBOOTSTRAP = 47;
-static const int F_NOCACHE = 48;
-static const int F_LOG2PHYS = 49;
-static const int F_GETPATH = 50;
-static const int F_FULLFSYNC = 51;
-static const int F_PATHPKG_CHECK = 52;
-static const int F_FREEZE_FS = 53;
-static const int F_THAW_FS = 54;
-static const int F_GLOBAL_NOCACHE = 55;
-static const int F_ADDSIGS = 59;
-static const int F_MARKDEPENDENCY = 60;
-static const int F_ADDFILESIGS = 61;
-static const int F_NODIRECT = 62;
-static const int F_GETPROTECTIONCLASS = 63;
-static const int F_SETPROTECTIONCLASS = 64;
-static const int F_LOG2PHYS_EXT = 65;
-static const int F_GETLKPID = 66;
-static const int F_SETBACKINGSTORE = 70;
-static const int F_GETPATH_MTMINFO = 71;
-static const int F_SETNOSIGPIPE = 73;
-static const int F_GETNOSIGPIPE = 74;
-static const int F_TRANSCODEKEY = 75;
-static const int F_SINGLE_WRITER = 76;
-static const int F_GETPROTECTIONLEVEL = 77;
-static const int FCNTL_FS_SPECIFIC_BASE = 0x00010000;
-static const int F_DUPFD_CLOEXEC = 67;
-static const int FD_CLOEXEC = 1;
-static const int F_RDLCK = 1;
-static const int F_UNLCK = 2;
-static const int F_WRLCK = 3;
+static const int NULL = __DARWIN_NULL;
+typedef __darwin_off_t fpos_t;
+struct __sbuf {
+ unsigned char *_base;
+ int _size;
+};
+struct __sFILEX;
+typedef struct __sFILE {
+ unsigned char *_p;
+ int _r;
+ int _w;
+ short _flags;
+ short _file;
+ struct __sbuf _bf;
+ int _lbfsize;
+ void *_cookie;
+ int (*_close)(void *);
+ int (*_read) (void *, char *, int);
+ fpos_t (*_seek) (void *, fpos_t, int);
+ int (*_write)(void *, const char *, int);
+ struct __sbuf _ub;
+ struct __sFILEX *_extra;
+ int _ur;
+ unsigned char _ubuf[3];
+ unsigned char _nbuf[1];
+ struct __sbuf _lb;
+ int _blksize;
+ fpos_t _offset;
+} FILE;
+extern FILE *__stdinp;
+extern FILE *__stdoutp;
+extern FILE *__stderrp;
+static const int __SLBF = 0x0001;
+static const int __SNBF = 0x0002;
+static const int __SRD = 0x0004;
+static const int __SWR = 0x0008;
+static const int __SRW = 0x0010;
+static const int __SEOF = 0x0020;
+static const int __SERR = 0x0040;
+static const int __SMBF = 0x0080;
+static const int __SAPP = 0x0100;
+static const int __SSTR = 0x0200;
+static const int __SOPT = 0x0400;
+static const int __SNPT = 0x0800;
+static const int __SOFF = 0x1000;
+static const int __SMOD = 0x2000;
+static const int __SALC = 0x4000;
+static const int __SIGN = 0x8000;
+static const int _IOFBF = 0;
+static const int _IOLBF = 1;
+static const int _IONBF = 2;
+static const int BUFSIZ = 1024;
+static const int EOF = (-1);
+static const int FOPEN_MAX = 20;
+static const int FILENAME_MAX = 1024;
+static const char P_tmpdir = "/var/tmp/";
+static const int L_tmpnam = 1024;
+static const int TMP_MAX = 308915776;
 static const int SEEK_SET = 0;
 static const int SEEK_CUR = 1;
 static const int SEEK_END = 2;
-static const int S_IFMT = 0170000;
-static const int S_IFIFO = 0010000;
-static const int S_IFCHR = 0020000;
-static const int S_IFDIR = 0040000;
-static const int S_IFBLK = 0060000;
-static const int S_IFREG = 0100000;
-static const int S_IFLNK = 0120000;
-static const int S_IFSOCK = 0140000;
-static const int S_IFWHT = 0160000;
-static const int S_IRWXU = 0000700;
-static const int S_IRUSR = 0000400;
-static const int S_IWUSR = 0000200;
-static const int S_IXUSR = 0000100;
-static const int S_IRWXG = 0000070;
-static const int S_IRGRP = 0000040;
-static const int S_IWGRP = 0000020;
-static const int S_IXGRP = 0000010;
-static const int S_IRWXO = 0000007;
-static const int S_IROTH = 0000004;
-static const int S_IWOTH = 0000002;
-static const int S_IXOTH = 0000001;
-static const int S_ISUID = 0004000;
-static const int S_ISGID = 0002000;
-static const int S_ISVTX = 0001000;
-static const int S_ISTXT = S_ISVTX;
-static const int S_IREAD = S_IRUSR;
-static const int S_IWRITE = S_IWUSR;
-static const int S_IEXEC = S_IXUSR;
-static const int F_ALLOCATECONTIG = 0x00000002;
-static const int F_ALLOCATEALL = 0x00000004;
-static const int F_PEOFPOSMODE = 3;
-static const int F_VOLPOSMODE = 4;
-struct flock {
- off_t l_start;
- off_t l_len;
- pid_t l_pid;
- short l_type;
- short l_whence;
-};
-struct radvisory {
-       off_t ra_offset;
-       int ra_count;
-};
-typedef struct fsignatures {
- off_t fs_file_start;
- void *fs_blob_start;
- size_t fs_blob_size;
-} fsignatures_t;
-static const int LOCK_SH = 0x01;
-static const int LOCK_EX = 0x02;
-static const int LOCK_NB = 0x04;
-static const int LOCK_UN = 0x08;
-typedef struct fstore {
- unsigned int fst_flags;
- int fst_posmode;
- off_t fst_offset;
- off_t fst_length;
- off_t fst_bytesalloc;
-} fstore_t;
-typedef struct fbootstraptransfer {
-  off_t fbt_offset;
-  size_t fbt_length;
-  void *fbt_buffer;
-} fbootstraptransfer_t;
-#pragma pack(4)
-struct log2phys {
- unsigned int l2p_flags;
- off_t l2p_contigbytes;
- off_t l2p_devoffset;
-};
-#pragma pack()
-static const int O_POPUP = 0x80000000;
-static const int O_ALERT = 0x20000000;
-struct _filesec;
-typedef struct _filesec *filesec_t;
-typedef enum {
- FILESEC_OWNER = 1,
- FILESEC_GROUP = 2,
- FILESEC_UUID = 3,
- FILESEC_MODE = 4,
- FILESEC_ACL = 5,
- FILESEC_GRPUUID = 6,
- FILESEC_ACL_RAW = 100,
- FILESEC_ACL_ALLOCSIZE = 101
-} filesec_property_t;
-static const int FILESEC_GUID = FILESEC_UUID;
-int open(const char *, int, ...) __asm("_" "open" );
-int creat(const char *, mode_t) __asm("_" "creat" );
-int fcntl(int, int, ...) __asm("_" "fcntl" );
-int openx_np(const char *, int, filesec_t);
-int open_dprotected_np ( const char *, int, int, int, ...);
-int flock(int, int);
-filesec_t filesec_init(void);
-filesec_t filesec_dup(filesec_t);
-void filesec_free(filesec_t);
-int filesec_get_property(filesec_t, filesec_property_t, void *);
-int filesec_query_property(filesec_t, filesec_property_t, int *);
-int filesec_set_property(filesec_t, filesec_property_t, const void *);
-int filesec_unset_property(filesec_t, filesec_property_t) __attribute__((visibility("default")));
-static const int _FILESEC_UNSET_PROPERTY = ((void *)0);
-static const int _FILESEC_REMOVE_ACL = ((void *)1);
+static const int stdin = __stdinp;
+static const int stdout = __stdoutp;
+static const int stderr = __stderrp;
+void clearerr(FILE *);
+int fclose(FILE *);
+int feof(FILE *);
+int ferror(FILE *);
+int fflush(FILE *);
+int fgetc(FILE *);
+int fgetpos(FILE * , fpos_t *);
+char *fgets(char * , int, FILE *);
+FILE *fopen(const char * , const char * ) __asm("_" "fopen" );
+int fprintf(FILE * , const char * , ...) __attribute__((__format__ (__printf__, 2, 3)));
+int fputc(int, FILE *);
+int fputs(const char * , FILE * ) __asm("_" "fputs" );
+size_t fread(void * , size_t, size_t, FILE * );
+FILE *freopen(const char * , const char * ,
+                 FILE * ) __asm("_" "freopen" );
+int fscanf(FILE * , const char * , ...) __attribute__((__format__ (__scanf__, 2, 3)));
+int fseek(FILE *, long, int);
+int fsetpos(FILE *, const fpos_t *);
+long ftell(FILE *);
+size_t fwrite(const void * , size_t, size_t, FILE * ) __asm("_" "fwrite" );
+int getc(FILE *);
+int getchar(void);
+char *gets(char *);
+void perror(const char *);
+int printf(const char * , ...) __attribute__((__format__ (__printf__, 1, 2)));
+int putc(int, FILE *);
+int putchar(int);
+int puts(const char *);
+int remove(const char *);
+int rename (const char *, const char *);
+void rewind(FILE *);
+int scanf(const char * , ...) __attribute__((__format__ (__scanf__, 1, 2)));
+void setbuf(FILE * , char * );
+int setvbuf(FILE * , char * , int, size_t);
+int sprintf(char * , const char * , ...) __attribute__((__format__ (__printf__, 2, 3)));
+int sscanf(const char * , const char * , ...) __attribute__((__format__ (__scanf__, 2, 3)));
+FILE *tmpfile(void);
+char *tmpnam(char *);
+int ungetc(int, FILE *);
+int vfprintf(FILE * , const char * , va_list) __attribute__((__format__ (__printf__, 2, 0)));
+int vprintf(const char * , va_list) __attribute__((__format__ (__printf__, 1, 0)));
+int vsprintf(char * , const char * , va_list) __attribute__((__format__ (__printf__, 2, 0)));
+static const int L_ctermid = 1024;
+static const int __CTERMID_DEFINED = 1;
+char *ctermid(char *);
+FILE *fdopen(int, const char *) __asm("_" "fdopen" );
+int fileno(FILE *);
+int pclose(FILE *);
+FILE *popen(const char *, const char *) __asm("_" "popen" );
+int __srget(FILE *);
+int __svfscanf(FILE *, const char *, va_list) __attribute__((__format__ (__scanf__, 2, 0)));
+int __swbuf(int, FILE *);
+static const int __sgetc(p) = (--(p)->_r < 0 ? __srget(p) : (int)(*(p)->_p++));
+static __inline int __sputc(int _c, FILE *_p) {
+ if (--_p->_w >= 0 || (_p->_w >= _p->_lbfsize && (char)_c != '\n'))
+  return (*_p->_p++ = _c);
+ else
+  return (__swbuf(_c, _p));
+}
+static const int __sfeof(p) = (((p)->_flags & __SEOF) != 0);
+static const int __sferror(p) = (((p)->_flags & __SERR) != 0);
+static const int __sclearerr(p) = ((void)((p)->_flags &= ~(__SERR|__SEOF)));
+static const int __sfileno(p) = ((p)->_file);
+void flockfile(FILE *);
+int ftrylockfile(FILE *);
+void funlockfile(FILE *);
+int getc_unlocked(FILE *);
+int getchar_unlocked(void);
+int putc_unlocked(int, FILE *);
+int putchar_unlocked(int);
+int getw(FILE *);
+int putw(int, FILE *);
+char *tempnam(const char *, const char *) __asm("_" "tempnam" );
+static const int getc_unlocked(fp) = __sgetc(fp);
+static const int putc_unlocked(x,fp) = __sputc(x, fp);
+static const int getchar_unlocked() = getc_unlocked(stdin);
+static const int putchar_unlocked(x) = putc_unlocked(x, stdout);
+typedef __darwin_off_t off_t;
+int fseeko(FILE *, off_t, int);
+off_t ftello(FILE *);
+int snprintf(char * , size_t, const char * , ...) __attribute__((__format__ (__printf__, 3, 4)));
+int vfscanf(FILE * , const char * , va_list) __attribute__((__format__ (__scanf__, 2, 0)));
+int vscanf(const char * , va_list) __attribute__((__format__ (__scanf__, 1, 0)));
+int vsnprintf(char * , size_t, const char * , va_list) __attribute__((__format__ (__printf__, 3, 0)));
+int vsscanf(const char * , const char * , va_list) __attribute__((__format__ (__scanf__, 2, 0)));
+typedef __darwin_ssize_t ssize_t;
+int dprintf(int, const char * , ...) __attribute__((__format__ (__printf__, 2, 3))) __attribute__((visibility("default")));
+int vdprintf(int, const char * , va_list) __attribute__((__format__ (__printf__, 2, 0))) __attribute__((visibility("default")));
+ssize_t getdelim(char ** , size_t * , int, FILE * ) __attribute__((visibility("default")));
+ssize_t getline(char ** , size_t * , FILE * ) __attribute__((visibility("default")));
+extern const int sys_nerr;
+extern const char *const sys_errlist[];
+int asprintf(char **, const char *, ...) __attribute__((__format__ (__printf__, 2, 3)));
+char *ctermid_r(char *);
+char *fgetln(FILE *, size_t *);
+const char *fmtcheck(const char *, const char *);
+int fpurge(FILE *);
+void setbuffer(FILE *, char *, int);
+int setlinebuf(FILE *);
+int vasprintf(char **, const char *, va_list) __attribute__((__format__ (__printf__, 2, 0)));
+FILE *zopen(const char *, const char *, int);
+FILE *funopen(const void *,
+                 int (*)(void *, char *, int),
+                 int (*)(void *, const char *, int),
+                 fpos_t (*)(void *, fpos_t, int),
+                 int (*)(void *));
+static const int fropen(cookie,fn) = funopen(cookie, fn, 0, 0, 0);
+static const int fwopen(cookie,fn) = funopen(cookie, 0, fn, 0, 0);
+static const int feof_unlocked(p) = __sfeof(p);
+static const int ferror_unlocked(p) = __sferror(p);
+static const int clearerr_unlocked(p) = __sclearerr(p);
+static const int fileno_unlocked(p) = __sfileno(p);
+#undef _USE_FORTIFY_LEVEL
+static const int _USE_FORTIFY_LEVEL = 2;
+static const int __darwin_obsz0(object) = __builtin_object_size (object, 0);
+static const int __darwin_obsz(object) = __builtin_object_size (object, _USE_FORTIFY_LEVEL > 1);
+#undef sprintf
+#undef vsprintf
+#undef snprintf
+#undef vsnprintf
+extern int __sprintf_chk (char * , int, size_t,
+     const char * , ...);
+static const int sprintf(str,...) = __builtin___sprintf_chk (str, 0, __darwin_obsz(str), __VA_ARGS__);
+extern int __snprintf_chk (char * , size_t, int, size_t,
+      const char * , ...);
+static const int snprintf(str,len,...) = __builtin___snprintf_chk (str, len, 0, __darwin_obsz(str), __VA_ARGS__);
+extern int __vsprintf_chk (char * , int, size_t,
+      const char * , va_list);
+static const int vsprintf(str,format,ap) = __builtin___vsprintf_chk (str, 0, __darwin_obsz(str), format, ap);
+extern int __vsnprintf_chk (char * , size_t, int, size_t,
+       const char * , va_list);
+static const int vsnprintf(str,len,format,ap) = __builtin___vsnprintf_chk (str, len, 0, __darwin_obsz(str), format, ap);

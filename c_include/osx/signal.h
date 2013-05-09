@@ -118,101 +118,6 @@ static const int __weak = __attribute__((objc_gc(weak)));
 static const int __block = __attribute__((__blocks__(byref)));
 static const int OBJC_NEW_PROPERTIES = 1;
 static const int __DYNAMIC__ = 1;
-static const int __MAC_10_0 = 1000;
-static const int __MAC_10_1 = 1010;
-static const int __MAC_10_2 = 1020;
-static const int __MAC_10_3 = 1030;
-static const int __MAC_10_4 = 1040;
-static const int __MAC_10_5 = 1050;
-static const int __MAC_10_6 = 1060;
-static const int __MAC_10_7 = 1070;
-static const int __MAC_10_8 = 1080;
-static const int __MAC_NA = 9999;
-static const int __IPHONE_2_0 = 20000;
-static const int __IPHONE_2_1 = 20100;
-static const int __IPHONE_2_2 = 20200;
-static const int __IPHONE_3_0 = 30000;
-static const int __IPHONE_3_1 = 30100;
-static const int __IPHONE_3_2 = 30200;
-static const int __IPHONE_4_0 = 40000;
-static const int __IPHONE_4_1 = 40100;
-static const int __IPHONE_4_2 = 40200;
-static const int __IPHONE_4_3 = 40300;
-static const int __IPHONE_5_0 = 50000;
-static const int __IPHONE_5_1 = 50100;
-static const int __IPHONE_NA = 99999;
-static const int __AVAILABILITY_INTERNAL_DEPRECATED = __attribute__((deprecated,visibility("default")));
-static const int __AVAILABILITY_INTERNAL_UNAVAILABLE = __attribute__((unavailable,visibility("default")));
-static const int __AVAILABILITY_INTERNAL_WEAK_IMPORT = __attribute__((weak_import,visibility("default")));
-static const int __AVAILABILITY_INTERNAL_REGULAR = __attribute__((visibility("default")));
-static const int __MAC_OS_X_VERSION_MIN_REQUIRED = __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__;
-static const int __MAC_OS_X_VERSION_MAX_ALLOWED = __MAC_10_8;
-static const int __AVAILABILITY_INTERNAL__MAC_10_8 = __AVAILABILITY_INTERNAL_REGULAR;
-static const int __AVAILABILITY_INTERNAL__MAC_10_7 = __AVAILABILITY_INTERNAL_REGULAR;
-static const int __AVAILABILITY_INTERNAL__MAC_10_6 = __AVAILABILITY_INTERNAL_REGULAR;
-static const int __AVAILABILITY_INTERNAL__MAC_10_5 = __AVAILABILITY_INTERNAL_REGULAR;
-static const int __AVAILABILITY_INTERNAL__MAC_10_4 = __AVAILABILITY_INTERNAL_REGULAR;
-static const int __AVAILABILITY_INTERNAL__MAC_10_3 = __AVAILABILITY_INTERNAL_REGULAR;
-static const int __AVAILABILITY_INTERNAL__MAC_10_2 = __AVAILABILITY_INTERNAL_REGULAR;
-static const int __AVAILABILITY_INTERNAL__MAC_10_1 = __AVAILABILITY_INTERNAL_REGULAR;
-static const int __AVAILABILITY_INTERNAL__MAC_10_0 = __AVAILABILITY_INTERNAL_REGULAR;
-static const int __AVAILABILITY_INTERNAL__MAC_NA = __AVAILABILITY_INTERNAL_UNAVAILABLE;
-static const int __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_1 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_1 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_2 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_2 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_2 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_3 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_3 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_3 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_3 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_4 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_4 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_4 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_4 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_4 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_5 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_5 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_5 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_5 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_5 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_5 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_6 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_6 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_6 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_6 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_6 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_6 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_6 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_7 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_7 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_7 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_7 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_7 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_7 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_7 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_7 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_10_8 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_10_8 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_10_8 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_10_8 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_10_8 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_10_8 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_10_8 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_10_8 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_10_8 = __AVAILABILITY_INTERNAL_DEPRECATED;
-static const int __AVAILABILITY_INTERNAL__MAC_10_0_DEP__MAC_NA = __AVAILABILITY_INTERNAL__MAC_10_0;
-static const int __AVAILABILITY_INTERNAL__MAC_10_1_DEP__MAC_NA = __AVAILABILITY_INTERNAL__MAC_10_1;
-static const int __AVAILABILITY_INTERNAL__MAC_10_2_DEP__MAC_NA = __AVAILABILITY_INTERNAL__MAC_10_2;
-static const int __AVAILABILITY_INTERNAL__MAC_10_3_DEP__MAC_NA = __AVAILABILITY_INTERNAL__MAC_10_3;
-static const int __AVAILABILITY_INTERNAL__MAC_10_4_DEP__MAC_NA = __AVAILABILITY_INTERNAL__MAC_10_4;
-static const int __AVAILABILITY_INTERNAL__MAC_10_5_DEP__MAC_NA = __AVAILABILITY_INTERNAL__MAC_10_5;
-static const int __AVAILABILITY_INTERNAL__MAC_10_6_DEP__MAC_NA = __AVAILABILITY_INTERNAL__MAC_10_6;
-static const int __AVAILABILITY_INTERNAL__MAC_10_7_DEP__MAC_NA = __AVAILABILITY_INTERNAL__MAC_10_7;
-static const int __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_NA = __AVAILABILITY_INTERNAL__MAC_10_8;
-static const int __AVAILABILITY_INTERNAL__MAC_NA_DEP__MAC_NA = __AVAILABILITY_INTERNAL_UNAVAILABLE;
-static const int __OSX_AVAILABLE_STARTING(_osx,_ios) = __AVAILABILITY_INTERNAL ##_osx;
-static const int __OSX_AVAILABLE_BUT_DEPRECATED(_osxIntro,_osxDep,_iosIntro,_iosDep) = __AVAILABILITY_INTERNAL ##_osxIntro ##_DEP ##_osxDep;
 static const int __P(protos) = protos;
 static const int __CONCAT(x,y) = x ## y;
 static const int __STRING(x) = #x;
@@ -371,13 +276,6 @@ static const int __DARWIN_WCHAR_MAX = __WCHAR_MAX__;
 static const int __DARWIN_WCHAR_MIN = (-0x7fffffff - 1);
 static const int __DARWIN_WEOF = ((__darwin_wint_t)-1);
 static const int _FORTIFY_SOURCE = 2;
-typedef enum {
- P_ALL,
- P_PID,
- P_PGID
-} idtype_t;
-typedef __darwin_pid_t pid_t;
-typedef __darwin_id_t id_t;
 static const int __DARWIN_NSIG = 32;
 static const int NSIG = __DARWIN_NSIG;
 static const int _I386_SIGNAL_H_ = 1;
@@ -799,6 +697,7 @@ struct __darwin_ucontext
 typedef struct __darwin_sigaltstack stack_t;
 #undef __need_ucontext_t
 typedef struct __darwin_ucontext ucontext_t;
+typedef __darwin_pid_t pid_t;
 typedef __darwin_pthread_attr_t pthread_attr_t;
 typedef __darwin_sigset_t sigset_t;
 typedef __darwin_size_t size_t;
@@ -929,357 +828,44 @@ struct sigstack {
 static const int sigmask(m) = (1 << ((m)-1));
 static const int BADSIG = SIG_ERR;
 void (*signal(int, void (*)(int)))(int);
-#undef __need_struct_timeval
-static const int _STRUCT_TIMEVAL = struct timeval;
-struct timeval
+typedef __darwin_pthread_t pthread_t;
+extern const char *const sys_signame[32];
+extern const char *const sys_siglist[32];
+int raise(int);
+void (*bsd_signal(int, void (*)(int)))(int);
+int kill(pid_t, int) __asm("_" "kill" );
+int killpg(pid_t, int) __asm("_" "killpg" );
+int pthread_kill(pthread_t, int);
+int pthread_sigmask(int, const sigset_t *, sigset_t *) __asm("_" "pthread_sigmask" );
+int sigaction(int, const struct sigaction * ,
+     struct sigaction * );
+int sigaddset(sigset_t *, int);
+int sigaltstack(const stack_t * , stack_t * ) __asm("_" "sigaltstack" );
+int sigdelset(sigset_t *, int);
+int sigemptyset(sigset_t *);
+int sigfillset(sigset_t *);
+int sighold(int);
+int sigignore(int);
+int siginterrupt(int, int);
+int sigismember(const sigset_t *, int);
+int sigpause(int) __asm("_" "sigpause" );
+int sigpending(sigset_t *);
+int sigprocmask(int, const sigset_t * , sigset_t * );
+int sigrelse(int);
+void (*sigset(int, void (*)(int)))(int);
+int sigsuspend(const sigset_t *) __asm("_" "sigsuspend" );
+int sigwait(const sigset_t * , int * ) __asm("_" "sigwait" );
+void psignal(unsigned int, const char *);
+int sigblock(int);
+int sigsetmask(int);
+int sigvec(int, struct sigvec *, struct sigvec *);
+static __inline int
+__sigbits(int __signo)
 {
- __darwin_time_t tv_sec;
- __darwin_suseconds_t tv_usec;
-};
-typedef __uint64_t rlim_t;
-static const int PRIO_PROCESS = 0;
-static const int PRIO_PGRP = 1;
-static const int PRIO_USER = 2;
-static const int PRIO_DARWIN_THREAD = 3;
-static const int PRIO_DARWIN_PROCESS = 4;
-static const int PRIO_MIN = -20;
-static const int PRIO_MAX = 20;
-static const int PRIO_DARWIN_BG = 0x1000;
-static const int PRIO_DARWIN_NONUI = 0x1001;
-static const int RUSAGE_SELF = 0;
-static const int RUSAGE_CHILDREN = -1;
-struct rusage {
- struct timeval ru_utime;
- struct timeval ru_stime;
- long ru_maxrss;
-static const int ru_first = ru_ixrss;
- long ru_ixrss;
- long ru_idrss;
- long ru_isrss;
- long ru_minflt;
- long ru_majflt;
- long ru_nswap;
- long ru_inblock;
- long ru_oublock;
- long ru_msgsnd;
- long ru_msgrcv;
- long ru_nsignals;
- long ru_nvcsw;
- long ru_nivcsw;
-static const int ru_last = ru_nivcsw;
-};
-static const int RLIM_INFINITY = (((__uint64_t)1 << 63) - 1);
-static const int RLIM_SAVED_MAX = RLIM_INFINITY;
-static const int RLIM_SAVED_CUR = RLIM_INFINITY;
-static const int RLIMIT_CPU = 0;
-static const int RLIMIT_FSIZE = 1;
-static const int RLIMIT_DATA = 2;
-static const int RLIMIT_STACK = 3;
-static const int RLIMIT_CORE = 4;
-static const int RLIMIT_AS = 5;
-static const int RLIMIT_RSS = RLIMIT_AS;
-static const int RLIMIT_MEMLOCK = 6;
-static const int RLIMIT_NPROC = 7;
-static const int RLIMIT_NOFILE = 8;
-static const int RLIM_NLIMITS = 9;
-static const int _RLIMIT_POSIX_FLAG = 0x1000;
-struct rlimit {
- rlim_t rlim_cur;
- rlim_t rlim_max;
-};
-static const int IOPOL_TYPE_DISK = 0;
-static const int IOPOL_SCOPE_PROCESS = 0;
-static const int IOPOL_SCOPE_THREAD = 1;
-static const int IOPOL_DEFAULT = 0;
-static const int IOPOL_NORMAL = 1;
-static const int IOPOL_PASSIVE = 2;
-static const int IOPOL_THROTTLE = 3;
-static const int IOPOL_UTILITY = 4;
-int getpriority(int, id_t);
-int getiopolicy_np(int, int) __attribute__((visibility("default")));
-int getrlimit(int, struct rlimit *) __asm("_" "getrlimit" );
-int getrusage(int, struct rusage *);
-int setpriority(int, id_t, int);
-int setiopolicy_np(int, int, int) __attribute__((visibility("default")));
-int setrlimit(int, const struct rlimit *) __asm("_" "setrlimit" );
-static const int WNOHANG = 0x00000001;
-static const int WUNTRACED = 0x00000002;
-static const int _W_INT(w) = (*(int *)&(w));
-static const int WCOREFLAG = 0200;
-static const int _WSTATUS(x) = (_W_INT(x) & 0177);
-static const int _WSTOPPED = 0177;
-static const int WEXITSTATUS(x) = ((_W_INT(x) >> 8) & 0x000000ff);
-static const int WSTOPSIG(x) = (_W_INT(x) >> 8);
-static const int WIFCONTINUED(x) = (_WSTATUS(x) == _WSTOPPED && WSTOPSIG(x) == 0x13);
-static const int WIFSTOPPED(x) = (_WSTATUS(x) == _WSTOPPED && WSTOPSIG(x) != 0x13);
-static const int WIFEXITED(x) = (_WSTATUS(x) == 0);
-static const int WIFSIGNALED(x) = (_WSTATUS(x) != _WSTOPPED && _WSTATUS(x) != 0);
-static const int WTERMSIG(x) = (_WSTATUS(x));
-static const int WCOREDUMP(x) = (_W_INT(x) & WCOREFLAG);
-static const int W_EXITCODE(ret,sig) = ((ret) << 8 | (sig));
-static const int W_STOPCODE(sig) = ((sig) << 8 | _WSTOPPED);
-static const int WEXITED = 0x00000004;
-static const int WSTOPPED = 0x00000008;
-static const int WCONTINUED = 0x00000010;
-static const int WNOWAIT = 0x00000020;
-static const int WAIT_ANY = (-1);
-static const int WAIT_MYPGRP = 0;
-static const int _QUAD_HIGHWORD = 1;
-static const int _QUAD_LOWWORD = 0;
-static const int __DARWIN_LITTLE_ENDIAN = 1234;
-static const int __DARWIN_BIG_ENDIAN = 4321;
-static const int __DARWIN_PDP_ENDIAN = 3412;
-static const int __DARWIN_BYTE_ORDER = __DARWIN_LITTLE_ENDIAN;
-static const int LITTLE_ENDIAN = __DARWIN_LITTLE_ENDIAN;
-static const int BIG_ENDIAN = __DARWIN_BIG_ENDIAN;
-static const int PDP_ENDIAN = __DARWIN_PDP_ENDIAN;
-static const int BYTE_ORDER = __DARWIN_BYTE_ORDER;
-static const int __DARWIN_OSSwapConstInt16(x) = ((__uint16_t)((((__uint16_t)(x) & 0xff00) >> 8) | (((__uint16_t)(x) & 0x00ff) << 8)));
-static const int __DARWIN_OSSwapConstInt32(x) = ((__uint32_t)((((__uint32_t)(x) & 0xff000000) >> 24) | (((__uint32_t)(x) & 0x00ff0000) >> 8) | (((__uint32_t)(x) & 0x0000ff00) << 8) | (((__uint32_t)(x) & 0x000000ff) << 24)));
-static const int __DARWIN_OSSwapConstInt64(x) = ((__uint64_t)((((__uint64_t)(x) & 0xff00000000000000ULL) >> 56) | (((__uint64_t)(x) & 0x00ff000000000000ULL) >> 40) | (((__uint64_t)(x) & 0x0000ff0000000000ULL) >> 24) | (((__uint64_t)(x) & 0x000000ff00000000ULL) >> 8) | (((__uint64_t)(x) & 0x00000000ff000000ULL) << 8) | (((__uint64_t)(x) & 0x0000000000ff0000ULL) << 24) | (((__uint64_t)(x) & 0x000000000000ff00ULL) << 40) | (((__uint64_t)(x) & 0x00000000000000ffULL) << 56)));
-static const int __DARWIN_OS_INLINE = static __inline__;
-static __inline__
-__uint16_t
-_OSSwapInt16(
-    __uint16_t _data
-)
-{
-    return ((_data << 8) | (_data >> 8));
+    return __signo > 32 ? 0 : (1 << (__signo - 1));
 }
-static __inline__
-__uint32_t
-_OSSwapInt32(
-    __uint32_t _data
-)
-{
-    return __builtin_bswap32(_data);
-}
-static __inline__
-__uint64_t
-_OSSwapInt64(
-    __uint64_t _data
-)
-{
-    return __builtin_bswap64(_data);
-}
-static const int __DARWIN_OSSwapInt16(x) = ((__uint16_t)(__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt16(x) : _OSSwapInt16(x)));
-static const int __DARWIN_OSSwapInt32(x) = (__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt32(x) : _OSSwapInt32(x));
-static const int __DARWIN_OSSwapInt64(x) = (__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt64(x) : _OSSwapInt64(x));
-static const int ntohs(x) = __DARWIN_OSSwapInt16(x);
-static const int htons(x) = __DARWIN_OSSwapInt16(x);
-static const int ntohl(x) = __DARWIN_OSSwapInt32(x);
-static const int htonl(x) = __DARWIN_OSSwapInt32(x);
-static const int NTOHL(x) = (x) = ntohl((__uint32_t)x);
-static const int NTOHS(x) = (x) = ntohs((__uint16_t)x);
-static const int HTONL(x) = (x) = htonl((__uint32_t)x);
-static const int HTONS(x) = (x) = htons((__uint16_t)x);
-union wait {
- int w_status;
- struct {
-  unsigned int w_Termsig:7,
-    w_Coredump:1,
-    w_Retcode:8,
-    w_Filler:16;
- } w_T;
- struct {
-  unsigned int w_Stopval:8,
-    w_Stopsig:8,
-    w_Filler:16;
- } w_S;
-};
-static const int w_termsig = w_T.w_Termsig;
-static const int w_coredump = w_T.w_Coredump;
-static const int w_retcode = w_T.w_Retcode;
-static const int w_stopval = w_S.w_Stopval;
-static const int w_stopsig = w_S.w_Stopsig;
-pid_t wait(int *) __asm("_" "wait" );
-pid_t waitpid(pid_t, int *, int) __asm("_" "waitpid" );
-int waitid(idtype_t, id_t, siginfo_t *, int) __asm("_" "waitid" );
-pid_t wait3(int *, int, struct rusage *);
-pid_t wait4(pid_t, int *, int, struct rusage *);
-void *alloca(size_t);
-#undef alloca
-#undef __alloca
-static const int alloca(size) = __alloca(size);
-static const int __alloca(size) = __builtin_alloca(size);
-typedef __darwin_ct_rune_t ct_rune_t;
-typedef __darwin_rune_t rune_t;
-typedef __darwin_wchar_t wchar_t;
-typedef struct {
- int quot;
- int rem;
-} div_t;
-typedef struct {
- long quot;
- long rem;
-} ldiv_t;
-typedef struct {
- long long quot;
- long long rem;
-} lldiv_t;
-static const int NULL = __DARWIN_NULL;
-static const int EXIT_FAILURE = 1;
-static const int EXIT_SUCCESS = 0;
-static const int RAND_MAX = 0x7fffffff;
-extern int __mb_cur_max;
-static const int MB_CUR_MAX = __mb_cur_max;
-void abort(void) __attribute__((noreturn));
-int abs(int) __attribute__((const));
-int atexit(void (*)(void));
-double atof(const char *);
-int atoi(const char *);
-long atol(const char *);
-long long
-  atoll(const char *);
-void *bsearch(const void *, const void *, size_t,
-     size_t, int (*)(const void *, const void *));
-void *calloc(size_t, size_t);
-div_t div(int, int) __attribute__((const));
-void exit(int) __attribute__((noreturn));
-void free(void *);
-char *getenv(const char *);
-long labs(long) __attribute__((const));
-ldiv_t ldiv(long, long) __attribute__((const));
-long long
-  llabs(long long);
-lldiv_t lldiv(long long, long long);
-void *malloc(size_t);
-int mblen(const char *, size_t);
-size_t mbstowcs(wchar_t * , const char * , size_t);
-int mbtowc(wchar_t * , const char * , size_t);
-int posix_memalign(void **, size_t, size_t) __attribute__((visibility("default")));
-void qsort(void *, size_t, size_t,
-     int (*)(const void *, const void *));
-int rand(void);
-void *realloc(void *, size_t);
-void srand(unsigned);
-double strtod(const char *, char **) __asm("_" "strtod" );
-float strtof(const char *, char **) __asm("_" "strtof" );
-long strtol(const char *, char **, int);
-long double
-  strtold(const char *, char **);
-long long
-  strtoll(const char *, char **, int);
-unsigned long
-  strtoul(const char *, char **, int);
-unsigned long long
-  strtoull(const char *, char **, int);
-int system(const char *) __asm("_" "system" );
-size_t wcstombs(char * , const wchar_t * , size_t);
-int wctomb(char *, wchar_t);
-void _Exit(int) __attribute__((noreturn));
-long a64l(const char *);
-double drand48(void);
-char *ecvt(double, int, int *, int *);
-double erand48(unsigned short[3]);
-char *fcvt(double, int, int *, int *);
-char *gcvt(double, int, char *);
-int getsubopt(char **, char * const *, char **);
-int grantpt(int);
-char *initstate(unsigned, char *, size_t);
-long jrand48(unsigned short[3]);
-char *l64a(long);
-void lcong48(unsigned short[7]);
-long lrand48(void);
-char *mktemp(char *);
-int mkstemp(char *);
-long mrand48(void);
-long nrand48(unsigned short[3]);
-int posix_openpt(int);
-char *ptsname(int);
-int putenv(char *) __asm("_" "putenv" );
-long random(void);
-int rand_r(unsigned *);
-char *realpath(const char * , char * ) __asm("_" "realpath" "$DARWIN_EXTSN");
-unsigned short
- *seed48(unsigned short[3]);
-int setenv(const char *, const char *, int) __asm("_" "setenv" );
-void setkey(const char *) __asm("_" "setkey" );
-char *setstate(const char *);
-void srand48(long);
-void srandom(unsigned);
-int unlockpt(int);
-int unsetenv(const char *) __asm("_" "unsetenv" );
-typedef signed char int8_t;
-typedef unsigned char u_int8_t;
-typedef short int16_t;
-typedef unsigned short u_int16_t;
-typedef int int32_t;
-typedef unsigned int u_int32_t;
-typedef long long int64_t;
-typedef unsigned long long u_int64_t;
-typedef int64_t register_t;
-typedef __darwin_intptr_t intptr_t;
-typedef unsigned long uintptr_t;
-typedef u_int64_t user_addr_t;
-typedef u_int64_t user_size_t;
-typedef int64_t user_ssize_t;
-typedef int64_t user_long_t;
-typedef u_int64_t user_ulong_t;
-typedef int64_t user_time_t;
-typedef int64_t user_off_t;
-static const int USER_ADDR_NULL = ((user_addr_t) 0);
-static const int CAST_USER_ADDR_T(a_ptr) = ((user_addr_t)((uintptr_t)(a_ptr)));
-typedef u_int64_t syscall_arg_t;
-static const int __offsetof(type,field) = ((size_t)(&((type *)0)->field));
-typedef __darwin_dev_t dev_t;
-typedef __darwin_mode_t mode_t;
-u_int32_t
-  arc4random(void);
-void arc4random_addrandom(unsigned char * , int );
-void arc4random_buf(void * , size_t ) __attribute__((visibility("default")));
-void arc4random_stir(void);
-u_int32_t
-  arc4random_uniform(u_int32_t ) __attribute__((visibility("default")));
-int atexit_b(void (^)(void)) __attribute__((visibility("default")));
-void *bsearch_b(const void *, const void *, size_t,
-     size_t, int (^)(const void *, const void *)) __attribute__((visibility("default")));
-char *cgetcap(char *, const char *, int);
-int cgetclose(void);
-int cgetent(char **, char **, const char *);
-int cgetfirst(char **, char **);
-int cgetmatch(const char *, const char *);
-int cgetnext(char **, char **);
-int cgetnum(char *, const char *, long *);
-int cgetset(const char *);
-int cgetstr(char *, const char *, char **);
-int cgetustr(char *, const char *, char **);
-int daemon(int, int) __asm("_" "daemon" "$1050") __attribute__((deprecated,visibility("default")));
-char *devname(dev_t, mode_t);
-char *devname_r(dev_t, mode_t, char *buf, int len);
-char *getbsize(int *, long *);
-int getloadavg(double [], int);
-const char
- *getprogname(void);
-int heapsort(void *, size_t, size_t,
-     int (*)(const void *, const void *));
-int heapsort_b(void *, size_t, size_t,
-     int (^)(const void *, const void *)) __attribute__((visibility("default")));
-int mergesort(void *, size_t, size_t,
-     int (*)(const void *, const void *));
-int mergesort_b(void *, size_t, size_t,
-     int (^)(const void *, const void *)) __attribute__((visibility("default")));
-void psort(void *, size_t, size_t,
-     int (*)(const void *, const void *)) __attribute__((visibility("default")));
-void psort_b(void *, size_t, size_t,
-     int (^)(const void *, const void *)) __attribute__((visibility("default")));
-void psort_r(void *, size_t, size_t, void *,
-     int (*)(void *, const void *, const void *)) __attribute__((visibility("default")));
-void qsort_b(void *, size_t, size_t,
-     int (^)(const void *, const void *)) __attribute__((visibility("default")));
-void qsort_r(void *, size_t, size_t, void *,
-     int (*)(void *, const void *, const void *));
-int radixsort(const unsigned char **, int, const unsigned char *,
-     unsigned);
-void setprogname(const char *);
-int sradixsort(const unsigned char **, int, const unsigned char *,
-     unsigned);
-void sranddev(void);
-void srandomdev(void);
-void *reallocf(void *, size_t);
-long long
-  strtoq(const char *, char **, int);
-unsigned long long
-  strtouq(const char *, char **, int);
-extern char *suboptarg;
-void *valloc(size_t);
+static const int sigaddset(set,signo) = (*(set) |= __sigbits(signo), 0);
+static const int sigdelset(set,signo) = (*(set) &= ~__sigbits(signo), 0);
+static const int sigismember(set,signo) = ((*(set) & __sigbits(signo)) != 0);
+static const int sigemptyset(set) = (*(set) = 0, 0);
+static const int sigfillset(set) = (*(set) = ~(sigset_t)0, 0);

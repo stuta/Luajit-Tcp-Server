@@ -118,28 +118,6 @@ static const int __weak = __attribute__((objc_gc(weak)));
 static const int __block = __attribute__((__blocks__(byref)));
 static const int OBJC_NEW_PROPERTIES = 1;
 static const int __DYNAMIC__ = 1;
-static const int POLLIN = 0x0001;
-static const int POLLPRI = 0x0002;
-static const int POLLOUT = 0x0004;
-static const int POLLRDNORM = 0x0040;
-static const int POLLWRNORM = POLLOUT;
-static const int POLLRDBAND = 0x0080;
-static const int POLLWRBAND = 0x0100;
-static const int POLLEXTEND = 0x0200;
-static const int POLLATTRIB = 0x0400;
-static const int POLLNLINK = 0x0800;
-static const int POLLWRITE = 0x1000;
-static const int POLLERR = 0x0008;
-static const int POLLHUP = 0x0010;
-static const int POLLNVAL = 0x0020;
-static const int POLLSTANDARD = (POLLIN|POLLPRI|POLLOUT|POLLRDNORM|POLLRDBAND| POLLWRBAND|POLLERR|POLLHUP|POLLNVAL);
-struct pollfd
-{
- int fd;
- short events;
- short revents;
-};
-typedef unsigned int nfds_t;
 static const int __P(protos) = protos;
 static const int __CONCAT(x,y) = x ## y;
 static const int __STRING(x) = #x;
@@ -199,4 +177,150 @@ static const int _DARWIN_FEATURE_64_BIT_INODE = 1;
 static const int _DARWIN_FEATURE_ONLY_UNIX_CONFORMANCE = 1;
 static const int _DARWIN_FEATURE_UNIX_CONFORMANCE = 3;
 static const int __CAST_AWAY_QUALIFIER(variable,qualifier,type) = (type) (long)(variable);
-extern int poll (struct pollfd *, nfds_t, int) __asm("_" "poll" );
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef short __int16_t;
+typedef unsigned short __uint16_t;
+typedef int __int32_t;
+typedef unsigned int __uint32_t;
+typedef long long __int64_t;
+typedef unsigned long long __uint64_t;
+typedef long __darwin_intptr_t;
+typedef unsigned int __darwin_natural_t;
+typedef int __darwin_ct_rune_t;
+typedef union {
+ char __mbstate8[128];
+ long long _mbstateL;
+} __mbstate_t;
+typedef __mbstate_t __darwin_mbstate_t;
+typedef long int __darwin_ptrdiff_t;
+typedef long unsigned int __darwin_size_t;
+typedef __builtin_va_list __darwin_va_list;
+typedef int __darwin_wchar_t;
+typedef __darwin_wchar_t __darwin_rune_t;
+typedef int __darwin_wint_t;
+typedef unsigned long __darwin_clock_t;
+typedef __uint32_t __darwin_socklen_t;
+typedef long __darwin_ssize_t;
+typedef long __darwin_time_t;
+static const int __PTHREAD_SIZE__ = 1168;
+static const int __PTHREAD_ATTR_SIZE__ = 56;
+static const int __PTHREAD_MUTEXATTR_SIZE__ = 8;
+static const int __PTHREAD_MUTEX_SIZE__ = 56;
+static const int __PTHREAD_CONDATTR_SIZE__ = 8;
+static const int __PTHREAD_COND_SIZE__ = 40;
+static const int __PTHREAD_ONCE_SIZE__ = 8;
+static const int __PTHREAD_RWLOCK_SIZE__ = 192;
+static const int __PTHREAD_RWLOCKATTR_SIZE__ = 16;
+struct __darwin_pthread_handler_rec
+{
+ void (*__routine)(void *);
+ void *__arg;
+ struct __darwin_pthread_handler_rec *__next;
+};
+struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
+struct _opaque_pthread_cond_t { long __sig; char __opaque[40]; };
+struct _opaque_pthread_condattr_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_mutex_t { long __sig; char __opaque[56]; };
+struct _opaque_pthread_mutexattr_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_once_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
+struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
+struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
+static const int __DARWIN_NULL = ((void *)0);
+typedef __int64_t __darwin_blkcnt_t;
+typedef __int32_t __darwin_blksize_t;
+typedef __int32_t __darwin_dev_t;
+typedef unsigned int __darwin_fsblkcnt_t;
+typedef unsigned int __darwin_fsfilcnt_t;
+typedef __uint32_t __darwin_gid_t;
+typedef __uint32_t __darwin_id_t;
+typedef __uint64_t __darwin_ino64_t;
+typedef __darwin_ino64_t __darwin_ino_t;
+typedef __darwin_natural_t __darwin_mach_port_name_t;
+typedef __darwin_mach_port_name_t __darwin_mach_port_t;
+typedef __uint16_t __darwin_mode_t;
+typedef __int64_t __darwin_off_t;
+typedef __int32_t __darwin_pid_t;
+typedef struct _opaque_pthread_attr_t
+   __darwin_pthread_attr_t;
+typedef struct _opaque_pthread_cond_t
+   __darwin_pthread_cond_t;
+typedef struct _opaque_pthread_condattr_t
+   __darwin_pthread_condattr_t;
+typedef unsigned long __darwin_pthread_key_t;
+typedef struct _opaque_pthread_mutex_t
+   __darwin_pthread_mutex_t;
+typedef struct _opaque_pthread_mutexattr_t
+   __darwin_pthread_mutexattr_t;
+typedef struct _opaque_pthread_once_t
+   __darwin_pthread_once_t;
+typedef struct _opaque_pthread_rwlock_t
+   __darwin_pthread_rwlock_t;
+typedef struct _opaque_pthread_rwlockattr_t
+   __darwin_pthread_rwlockattr_t;
+typedef struct _opaque_pthread_t
+   *__darwin_pthread_t;
+typedef __uint32_t __darwin_sigset_t;
+typedef __int32_t __darwin_suseconds_t;
+typedef __uint32_t __darwin_uid_t;
+typedef __uint32_t __darwin_useconds_t;
+typedef unsigned char __darwin_uuid_t[16];
+typedef char __darwin_uuid_string_t[37];
+typedef __darwin_uid_t uid_t;
+typedef __darwin_gid_t gid_t;
+typedef __darwin_mode_t mode_t;
+typedef __int32_t key_t;
+#pragma pack(4)
+struct ipc_perm
+{
+ uid_t uid;
+ gid_t gid;
+ uid_t cuid;
+ gid_t cgid;
+ mode_t mode;
+ unsigned short _seq;
+ key_t _key;
+};
+static const int __ipc_perm_new = ipc_perm;
+#pragma pack()
+static const int IPC_CREAT = 001000;
+static const int IPC_EXCL = 002000;
+static const int IPC_NOWAIT = 004000;
+static const int IPC_PRIVATE = ((key_t)0);
+static const int IPC_RMID = 0;
+static const int IPC_SET = 1;
+static const int IPC_STAT = 2;
+static const int IPC_R = 000400;
+static const int IPC_W = 000200;
+static const int IPC_M = 010000;
+key_t ftok(const char *, int);
+typedef __darwin_pid_t pid_t;
+typedef __darwin_time_t time_t;
+typedef __darwin_size_t size_t;
+typedef unsigned short shmatt_t;
+static const int SHM_RDONLY = 010000;
+static const int SHM_RND = 020000;
+static const int SHMLBA = 4096;
+static const int SHM_R = (IPC_R);
+static const int SHM_W = (IPC_W);
+#pragma pack(4)
+static const int shmid_ds = __shmid_ds_new;
+struct __shmid_ds_new
+{
+ struct ipc_perm shm_perm;
+ size_t shm_segsz;
+ pid_t shm_lpid;
+ pid_t shm_cpid;
+ shmatt_t shm_nattch;
+ time_t shm_atime;
+ time_t shm_dtime;
+ time_t shm_ctime;
+ void *shm_internal;
+};
+#pragma pack()
+int shmsys(int, ...);
+void *shmat (int, const void *, int);
+int shmctl(int, int, struct __shmid_ds_new *) __asm("_" "shmctl" );
+int shmdt(const void *);
+int shmget(key_t, size_t, int);

@@ -3,7 +3,7 @@ module(..., package.seeall)
 
 local ffi = require "ffi"
 local C = ffi.C
-require "bit"
+local bit = require "bit"
 
 -- global utility
 isWin = (ffi.os == "Windows")
@@ -165,6 +165,20 @@ end
 
 function string_ends(String, End)
    return End=="" or string.sub(String,-string.len(End))==End
+end
+
+function last_part(txt, search_string)
+	local lastPos -- nil
+	local pos = string.find(txt, search_string)
+	while pos do
+		lastPos = pos
+		pos = string.find(txt, search_string, pos + 1)
+	end
+  if lastPos then
+    return string.sub(txt,lastPos+1,string.len(txt))
+  else
+    return ""
+  end
 end
 
 function toHexString(num)

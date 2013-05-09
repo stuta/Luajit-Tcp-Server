@@ -267,93 +267,6 @@ typedef __uint32_t __darwin_uid_t;
 typedef __uint32_t __darwin_useconds_t;
 typedef unsigned char __darwin_uuid_t[16];
 typedef char __darwin_uuid_string_t[37];
-static const int __strfmonlike(fmtarg,firstvararg) = __attribute__((__format__ (__strfmon__, fmtarg, firstvararg)));
-static const int __strftimelike(fmtarg) = __attribute__((__format__ (__strftime__, fmtarg, 0)));
-typedef int __darwin_nl_item;
-typedef int __darwin_wctrans_t;
-typedef __uint32_t __darwin_wctype_t;
-static const int __DARWIN_WCHAR_MAX = __WCHAR_MAX__;
-static const int __DARWIN_WCHAR_MIN = (-0x7fffffff - 1);
-static const int __DARWIN_WEOF = ((__darwin_wint_t)-1);
-static const int _FORTIFY_SOURCE = 2;
-static const int _PTHREAD_MUTEX_SIG_init = 0x32AAABA7;
-static const int _PTHREAD_ERRORCHECK_MUTEX_SIG_init = 0x32AAABA1;
-static const int _PTHREAD_RECURSIVE_MUTEX_SIG_init = 0x32AAABA2;
-static const int _PTHREAD_FIRSTFIT_MUTEX_SIG_init = 0x32AAABA3;
-static const int _PTHREAD_COND_SIG_init = 0x3CB0B1BB;
-static const int _PTHREAD_ONCE_SIG_init = 0x30B1BCBA;
-static const int _PTHREAD_RWLOCK_SIG_init = 0x2DA8B3B4;
-static const int SCHED_OTHER = 1;
-static const int SCHED_FIFO = 4;
-static const int SCHED_RR = 2;
-static const int __SCHED_PARAM_SIZE__ = 4;
-struct sched_param { int sched_priority; char __opaque[4]; };
-extern int sched_yield(void);
-extern int sched_get_priority_min(int);
-extern int sched_get_priority_max(int);
-#undef __need_struct_timespec
-static const int _STRUCT_TIMESPEC = struct timespec;
-struct timespec
-{
- __darwin_time_t tv_sec;
- long tv_nsec;
-};
-static const int NULL = __DARWIN_NULL;
-typedef __darwin_clock_t clock_t;
-typedef __darwin_size_t size_t;
-typedef __darwin_time_t time_t;
-struct tm {
- int tm_sec;
- int tm_min;
- int tm_hour;
- int tm_mday;
- int tm_mon;
- int tm_year;
- int tm_wday;
- int tm_yday;
- int tm_isdst;
- long tm_gmtoff;
- char *tm_zone;
-};
-static const int CLOCKS_PER_SEC = 1000000;
-extern char *tzname[];
-extern int getdate_err;
-extern long timezone __asm("_" "timezone" );
-extern int daylight;
-char *asctime(const struct tm *);
-clock_t clock(void) __asm("_" "clock" );
-char *ctime(const time_t *);
-double difftime(time_t, time_t);
-struct tm *getdate(const char *);
-struct tm *gmtime(const time_t *);
-struct tm *localtime(const time_t *);
-time_t mktime(struct tm *) __asm("_" "mktime" );
-size_t strftime(char * , size_t, const char * , const struct tm * ) __asm("_" "strftime" );
-char *strptime(const char * , const char * , struct tm * ) __asm("_" "strptime" );
-time_t time(time_t *);
-void tzset(void);
-char *asctime_r(const struct tm * , char * );
-char *ctime_r(const time_t *, char *);
-struct tm *gmtime_r(const time_t * , struct tm * );
-struct tm *localtime_r(const time_t * , struct tm * );
-time_t posix2time(time_t);
-void tzsetwall(void);
-time_t time2posix(time_t);
-time_t timelocal(struct tm * const);
-time_t timegm(struct tm * const);
-int nanosleep(const struct timespec *, struct timespec *) __asm("_" "nanosleep" );
-typedef __darwin_pthread_attr_t pthread_attr_t;
-typedef __darwin_pthread_cond_t pthread_cond_t;
-typedef __darwin_pthread_condattr_t pthread_condattr_t;
-typedef __darwin_pthread_key_t pthread_key_t;
-typedef __darwin_pthread_mutex_t pthread_mutex_t;
-typedef __darwin_pthread_mutexattr_t pthread_mutexattr_t;
-typedef __darwin_pthread_once_t pthread_once_t;
-typedef __darwin_pthread_rwlock_t pthread_rwlock_t;
-typedef __darwin_pthread_rwlockattr_t pthread_rwlockattr_t;
-typedef __darwin_pthread_t pthread_t;
-typedef __darwin_mach_port_t mach_port_t;
-typedef __darwin_sigset_t sigset_t;
 static const int __MAC_10_0 = 1000;
 static const int __MAC_10_1 = 1010;
 static const int __MAC_10_2 = 1020;
@@ -449,167 +362,142 @@ static const int __AVAILABILITY_INTERNAL__MAC_10_8_DEP__MAC_NA = __AVAILABILITY_
 static const int __AVAILABILITY_INTERNAL__MAC_NA_DEP__MAC_NA = __AVAILABILITY_INTERNAL_UNAVAILABLE;
 static const int __OSX_AVAILABLE_STARTING(_osx,_ios) = __AVAILABILITY_INTERNAL ##_osx;
 static const int __OSX_AVAILABLE_BUT_DEPRECATED(_osxIntro,_osxDep,_iosIntro,_iosDep) = __AVAILABILITY_INTERNAL ##_osxIntro ##_DEP ##_osxDep;
-static const int pthread_cleanup_push(func,val) = { struct __darwin_pthread_handler_rec __handler; pthread_t __self = pthread_self(); __handler.__routine = func; __handler.__arg = val; __handler.__next = __self->__cleanup_stack; __self->__cleanup_stack = &__handler;;
-static const int pthread_cleanup_pop(execute) = __self->__cleanup_stack = __handler.__next; if (execute) (__handler.__routine)(__handler.__arg); };
-static const int PTHREAD_CREATE_JOINABLE = 1;
-static const int PTHREAD_CREATE_DETACHED = 2;
-static const int PTHREAD_INHERIT_SCHED = 1;
-static const int PTHREAD_EXPLICIT_SCHED = 2;
-static const int PTHREAD_CANCEL_ENABLE = 0x01;
-static const int PTHREAD_CANCEL_DISABLE = 0x00;
-static const int PTHREAD_CANCEL_DEFERRED = 0x02;
-static const int PTHREAD_CANCEL_ASYNCHRONOUS = 0x00;
-static const int PTHREAD_CANCELED = ((void *) 1);
-static const int PTHREAD_SCOPE_SYSTEM = 1;
-static const int PTHREAD_SCOPE_PROCESS = 2;
-static const int PTHREAD_PROCESS_SHARED = 1;
-static const int PTHREAD_PROCESS_PRIVATE = 2;
-static const int PTHREAD_PRIO_NONE = 0;
-static const int PTHREAD_PRIO_INHERIT = 1;
-static const int PTHREAD_PRIO_PROTECT = 2;
-static const int PTHREAD_MUTEX_NORMAL = 0;
-static const int PTHREAD_MUTEX_ERRORCHECK = 1;
-static const int PTHREAD_MUTEX_RECURSIVE = 2;
-static const int PTHREAD_MUTEX_DEFAULT = PTHREAD_MUTEX_NORMAL;
-static const int PTHREAD_RWLOCK_INITIALIZER = {_PTHREAD_RWLOCK_SIG_init, {0}};
-static const int PTHREAD_MUTEX_INITIALIZER = {_PTHREAD_MUTEX_SIG_init, {0}};
-static const int PTHREAD_ERRORCHECK_MUTEX_INITIALIZER = {_PTHREAD_ERRORCHECK_MUTEX_SIG_init, {0}};
-static const int PTHREAD_RECURSIVE_MUTEX_INITIALIZER = {_PTHREAD_RECURSIVE_MUTEX_SIG_init, {0}};
-static const int PTHREAD_COND_INITIALIZER = {_PTHREAD_COND_SIG_init, {0}};
-static const int PTHREAD_ONCE_INIT = {_PTHREAD_ONCE_SIG_init, {0}};
-int pthread_atfork(void (*)(void), void (*)(void),
-                      void (*)(void));
-int pthread_attr_destroy(pthread_attr_t *);
-int pthread_attr_getdetachstate(const pthread_attr_t *,
-          int *);
-int pthread_attr_getguardsize(const pthread_attr_t * ,
-                                      size_t * );
-int pthread_attr_getinheritsched(const pthread_attr_t * ,
-           int * );
-int pthread_attr_getschedparam(const pthread_attr_t * ,
-                                     struct sched_param * );
-int pthread_attr_getschedpolicy(const pthread_attr_t * ,
-          int * );
-int pthread_attr_getscope(const pthread_attr_t * , int * );
-int pthread_attr_getstack(const pthread_attr_t * ,
-                                      void ** , size_t * );
-int pthread_attr_getstackaddr(const pthread_attr_t * ,
-                                      void ** );
-int pthread_attr_getstacksize(const pthread_attr_t * ,
-                                      size_t * );
-int pthread_attr_init(pthread_attr_t *);
-int pthread_attr_setdetachstate(pthread_attr_t *,
-          int );
-int pthread_attr_setguardsize(pthread_attr_t *, size_t );
-int pthread_attr_setinheritsched(pthread_attr_t *,
-           int );
-int pthread_attr_setschedparam(pthread_attr_t * ,
-                                     const struct sched_param * );
-int pthread_attr_setschedpolicy(pthread_attr_t *,
-          int );
-int pthread_attr_setscope(pthread_attr_t *, int);
-int pthread_attr_setstack(pthread_attr_t *,
-                                      void *, size_t );
-int pthread_attr_setstackaddr(pthread_attr_t *,
-                                      void *);
-int pthread_attr_setstacksize(pthread_attr_t *, size_t );
-int pthread_cancel(pthread_t ) __asm("_" "pthread_cancel" );
-int pthread_cond_broadcast(pthread_cond_t *);
-int pthread_cond_destroy(pthread_cond_t *);
-int pthread_cond_init(pthread_cond_t * ,
-                            const pthread_condattr_t * ) __asm("_" "pthread_cond_init" );
-int pthread_cond_signal(pthread_cond_t *);
-int pthread_cond_timedwait(pthread_cond_t * ,
-     pthread_mutex_t * ,
-     const struct timespec * ) __asm("_" "pthread_cond_timedwait" );
-int pthread_cond_wait(pthread_cond_t * ,
-       pthread_mutex_t * ) __asm("_" "pthread_cond_wait" );
-int pthread_condattr_destroy(pthread_condattr_t *);
-int pthread_condattr_init(pthread_condattr_t *);
-int pthread_condattr_getpshared(const pthread_condattr_t * ,
-   int * );
-int pthread_condattr_setpshared(pthread_condattr_t *,
-   int );
-int pthread_create(pthread_t * ,
-                         const pthread_attr_t * ,
-                         void *(*)(void *),
-                         void * );
-int pthread_detach(pthread_t );
-int pthread_equal(pthread_t ,
-   pthread_t );
-void pthread_exit(void *) __attribute__((noreturn));
-int pthread_getconcurrency(void);
-int pthread_getschedparam(pthread_t , int * , struct sched_param * );
-void *pthread_getspecific(pthread_key_t );
-int pthread_join(pthread_t , void **) __asm("_" "pthread_join" );
-int pthread_key_create(pthread_key_t *, void (*)(void *));
-int pthread_key_delete(pthread_key_t );
-int pthread_mutex_destroy(pthread_mutex_t *);
-int pthread_mutex_getprioceiling(const pthread_mutex_t * , int * );
-int pthread_mutex_init(pthread_mutex_t * , const pthread_mutexattr_t * );
-int pthread_mutex_lock(pthread_mutex_t *);
-int pthread_mutex_setprioceiling(pthread_mutex_t * , int, int * );
-int pthread_mutex_trylock(pthread_mutex_t *);
-int pthread_mutex_unlock(pthread_mutex_t *);
-int pthread_mutexattr_destroy(pthread_mutexattr_t *) __asm("_" "pthread_mutexattr_destroy" );
-int pthread_mutexattr_getprioceiling(const pthread_mutexattr_t * , int * );
-int pthread_mutexattr_getprotocol(const pthread_mutexattr_t * , int * );
-int pthread_mutexattr_getpshared(const pthread_mutexattr_t * , int * );
-int pthread_mutexattr_gettype(const pthread_mutexattr_t * , int * );
-int pthread_mutexattr_init(pthread_mutexattr_t *);
-int pthread_mutexattr_setprioceiling(pthread_mutexattr_t *, int);
-int pthread_mutexattr_setprotocol(pthread_mutexattr_t *, int);
-int pthread_mutexattr_setpshared(pthread_mutexattr_t *, int );
-int pthread_mutexattr_settype(pthread_mutexattr_t *, int);
-int pthread_once(pthread_once_t *, void (*)(void));
-int pthread_rwlock_destroy(pthread_rwlock_t * ) __asm("_" "pthread_rwlock_destroy" );
-int pthread_rwlock_init(pthread_rwlock_t * , const pthread_rwlockattr_t * ) __asm("_" "pthread_rwlock_init" );
-int pthread_rwlock_rdlock(pthread_rwlock_t *) __asm("_" "pthread_rwlock_rdlock" );
-int pthread_rwlock_tryrdlock(pthread_rwlock_t *) __asm("_" "pthread_rwlock_tryrdlock" );
-int pthread_rwlock_trywrlock(pthread_rwlock_t *) __asm("_" "pthread_rwlock_trywrlock" );
-int pthread_rwlock_wrlock(pthread_rwlock_t *) __asm("_" "pthread_rwlock_wrlock" );
-int pthread_rwlock_unlock(pthread_rwlock_t *) __asm("_" "pthread_rwlock_unlock" );
-int pthread_rwlockattr_destroy(pthread_rwlockattr_t *);
-int pthread_rwlockattr_getpshared(const pthread_rwlockattr_t * ,
-   int * );
-int pthread_rwlockattr_init(pthread_rwlockattr_t *);
-int pthread_rwlockattr_setpshared(pthread_rwlockattr_t *,
-   int );
-pthread_t pthread_self(void);
-int pthread_setcancelstate(int , int *) __asm("_" "pthread_setcancelstate" );
-int pthread_setcanceltype(int , int *) __asm("_" "pthread_setcanceltype" );
-int pthread_setconcurrency(int);
-int pthread_setschedparam(pthread_t ,
-    int ,
-                                const struct sched_param *);
-int pthread_setspecific(pthread_key_t ,
-         const void *);
-void pthread_testcancel(void) __asm("_" "pthread_testcancel" );
-int pthread_is_threaded_np(void);
-int pthread_threadid_np(pthread_t,__uint64_t*) __attribute__((visibility("default")));
-int pthread_rwlock_longrdlock_np(pthread_rwlock_t *) __attribute__((visibility("default")));
-int pthread_rwlock_yieldwrlock_np(pthread_rwlock_t *) __attribute__((visibility("default")));
-int pthread_rwlock_downgrade_np(pthread_rwlock_t *);
-int pthread_rwlock_upgrade_np(pthread_rwlock_t *);
-int pthread_rwlock_tryupgrade_np(pthread_rwlock_t *);
-int pthread_rwlock_held_np(pthread_rwlock_t *);
-int pthread_rwlock_rdheld_np(pthread_rwlock_t *);
-int pthread_rwlock_wrheld_np(pthread_rwlock_t *);
-int pthread_getname_np(pthread_t,char*,size_t) __attribute__((visibility("default")));
-int pthread_setname_np(const char*) __attribute__((visibility("default")));
-int pthread_main_np(void);
-mach_port_t pthread_mach_thread_np(pthread_t);
-size_t pthread_get_stacksize_np(pthread_t);
-void * pthread_get_stackaddr_np(pthread_t);
-int pthread_cond_signal_thread_np(pthread_cond_t *, pthread_t);
-int pthread_cond_timedwait_relative_np(pthread_cond_t *,
-     pthread_mutex_t *,
-     const struct timespec *);
-int pthread_create_suspended_np(pthread_t *,
-                         const pthread_attr_t *,
-                         void *(*)(void *),
-                         void *);
-int pthread_kill(pthread_t, int);
-pthread_t pthread_from_mach_thread_np(mach_port_t) __attribute__((visibility("default")));
-int pthread_sigmask(int, const sigset_t *, sigset_t *) __asm("_" "pthread_sigmask" );
-void pthread_yield_np(void);
+#undef __need_struct_timespec
+static const int _STRUCT_TIMESPEC = struct timespec;
+struct timespec
+{
+ __darwin_time_t tv_sec;
+ long tv_nsec;
+};
+#undef __need_struct_timeval
+static const int _STRUCT_TIMEVAL = struct timeval;
+struct timeval
+{
+ __darwin_time_t tv_sec;
+ __darwin_suseconds_t tv_usec;
+};
+#undef __need_fd_set
+static const int __DARWIN_FD_SETSIZE = 1024;
+static const int __DARWIN_NBBY = 8;
+static const int __DARWIN_NFDBITS = (sizeof(__int32_t) * __DARWIN_NBBY);
+static const int __DARWIN_howmany(x,y) = ((((x) % (y)) == 0) ? ((x) / (y)) : (((x) / (y)) + 1));
+typedef struct fd_set {
+ __int32_t fds_bits[((((1024) % ((sizeof(__int32_t) * 8))) == 0) ? ((1024) / ((sizeof(__int32_t) * 8))) : (((1024) / ((sizeof(__int32_t) * 8))) + 1))];
+} fd_set;
+static __inline int
+__darwin_fd_isset(int _n, const struct fd_set *_p)
+{
+ return (_p->fds_bits[_n/(sizeof(__int32_t) * 8)] & (1<<(_n % (sizeof(__int32_t) * 8))));
+}
+static const int __DARWIN_FD_SET(n,p) = do { int __fd = (n); ((p)->fds_bits[__fd/__DARWIN_NFDBITS] |= (1<<(__fd % __DARWIN_NFDBITS))); } while(0);
+static const int __DARWIN_FD_CLR(n,p) = do { int __fd = (n); ((p)->fds_bits[__fd/__DARWIN_NFDBITS] &= ~(1<<(__fd % __DARWIN_NFDBITS))); } while(0);
+static const int __DARWIN_FD_ISSET(n,p) = __darwin_fd_isset((n), (p));
+static const int __DARWIN_FD_ZERO(p) = __builtin_bzero(p, sizeof(*(p)));
+static const int __DARWIN_FD_COPY(f,t) = bcopy(f, t, sizeof(*(f)));
+typedef __darwin_time_t time_t;
+typedef __darwin_suseconds_t suseconds_t;
+struct itimerval {
+ struct timeval it_interval;
+ struct timeval it_value;
+};
+static const int ITIMER_REAL = 0;
+static const int ITIMER_VIRTUAL = 1;
+static const int ITIMER_PROF = 2;
+static const int FD_SETSIZE = __DARWIN_FD_SETSIZE;
+static const int FD_SET(n,p) = __DARWIN_FD_SET(n, p);
+static const int FD_CLR(n,p) = __DARWIN_FD_CLR(n, p);
+static const int FD_ISSET(n,p) = __DARWIN_FD_ISSET(n, p);
+static const int FD_ZERO(p) = __DARWIN_FD_ZERO(p);
+static const int FD_COPY(f,t) = __DARWIN_FD_COPY(f, t);
+static const int TIMEVAL_TO_TIMESPEC(tv,ts) = { (ts)->tv_sec = (tv)->tv_sec; (ts)->tv_nsec = (tv)->tv_usec * 1000; };
+static const int TIMESPEC_TO_TIMEVAL(tv,ts) = { (tv)->tv_sec = (ts)->tv_sec; (tv)->tv_usec = (ts)->tv_nsec / 1000; };
+struct timezone {
+ int tz_minuteswest;
+ int tz_dsttime;
+};
+static const int DST_NONE = 0;
+static const int DST_USA = 1;
+static const int DST_AUST = 2;
+static const int DST_WET = 3;
+static const int DST_MET = 4;
+static const int DST_EET = 5;
+static const int DST_CAN = 6;
+static const int timerclear(tvp) = (tvp)->tv_sec = (tvp)->tv_usec = 0;
+static const int timerisset(tvp) = ((tvp)->tv_sec || (tvp)->tv_usec);
+static const int timercmp(tvp,uvp,cmp) = (((tvp)->tv_sec == (uvp)->tv_sec) ? ((tvp)->tv_usec cmp (uvp)->tv_usec) : ((tvp)->tv_sec cmp (uvp)->tv_sec));
+static const int timeradd(tvp,uvp,vvp) = do { (vvp)->tv_sec = (tvp)->tv_sec + (uvp)->tv_sec; (vvp)->tv_usec = (tvp)->tv_usec + (uvp)->tv_usec; if ((vvp)->tv_usec >= 1000000) { (vvp)->tv_sec++; (vvp)->tv_usec -= 1000000; } } while (0);
+static const int timersub(tvp,uvp,vvp) = do { (vvp)->tv_sec = (tvp)->tv_sec - (uvp)->tv_sec; (vvp)->tv_usec = (tvp)->tv_usec - (uvp)->tv_usec; if ((vvp)->tv_usec < 0) { (vvp)->tv_sec--; (vvp)->tv_usec += 1000000; } } while (0);
+static const int timevalcmp(l,r,cmp) = timercmp(l, r, cmp);
+struct clockinfo {
+ int hz;
+ int tick;
+ int tickadj;
+ int stathz;
+ int profhz;
+};
+static const int __strfmonlike(fmtarg,firstvararg) = __attribute__((__format__ (__strfmon__, fmtarg, firstvararg)));
+static const int __strftimelike(fmtarg) = __attribute__((__format__ (__strftime__, fmtarg, 0)));
+typedef int __darwin_nl_item;
+typedef int __darwin_wctrans_t;
+typedef __uint32_t __darwin_wctype_t;
+static const int __DARWIN_WCHAR_MAX = __WCHAR_MAX__;
+static const int __DARWIN_WCHAR_MIN = (-0x7fffffff - 1);
+static const int __DARWIN_WEOF = ((__darwin_wint_t)-1);
+static const int _FORTIFY_SOURCE = 2;
+#undef __need_struct_timespec
+static const int NULL = __DARWIN_NULL;
+typedef __darwin_clock_t clock_t;
+typedef __darwin_size_t size_t;
+struct tm {
+ int tm_sec;
+ int tm_min;
+ int tm_hour;
+ int tm_mday;
+ int tm_mon;
+ int tm_year;
+ int tm_wday;
+ int tm_yday;
+ int tm_isdst;
+ long tm_gmtoff;
+ char *tm_zone;
+};
+static const int CLOCKS_PER_SEC = 1000000;
+extern char *tzname[];
+extern int getdate_err;
+extern long timezone __asm("_" "timezone" );
+extern int daylight;
+char *asctime(const struct tm *);
+clock_t clock(void) __asm("_" "clock" );
+char *ctime(const time_t *);
+double difftime(time_t, time_t);
+struct tm *getdate(const char *);
+struct tm *gmtime(const time_t *);
+struct tm *localtime(const time_t *);
+time_t mktime(struct tm *) __asm("_" "mktime" );
+size_t strftime(char * , size_t, const char * , const struct tm * ) __asm("_" "strftime" );
+char *strptime(const char * , const char * , struct tm * ) __asm("_" "strptime" );
+time_t time(time_t *);
+void tzset(void);
+char *asctime_r(const struct tm * , char * );
+char *ctime_r(const time_t *, char *);
+struct tm *gmtime_r(const time_t * , struct tm * );
+struct tm *localtime_r(const time_t * , struct tm * );
+time_t posix2time(time_t);
+void tzsetwall(void);
+time_t time2posix(time_t);
+time_t timelocal(struct tm * const);
+time_t timegm(struct tm * const);
+int nanosleep(const struct timespec *, struct timespec *) __asm("_" "nanosleep" );
+int adjtime(const struct timeval *, struct timeval *);
+int futimes(int, const struct timeval *);
+int lutimes(const char *, const struct timeval *) __attribute__((visibility("default")));
+int settimeofday(const struct timeval *, const struct timezone *);
+int getitimer(int, struct itimerval *);
+int gettimeofday(struct timeval * , void * );
+int select(int, fd_set * , fd_set * ,
+  fd_set * , struct timeval * )
+  __asm("_" "select" "$1050")
+  ;
+int setitimer(int, const struct itimerval * ,
+  struct itimerval * );
+int utimes(const char *, const struct timeval *);

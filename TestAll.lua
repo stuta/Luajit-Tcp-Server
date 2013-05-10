@@ -4,12 +4,12 @@ print()
 print(" -- TestAll.lua start -- ")
 -- print(" -- You MUST have linked osx/linux luajit to 'lj', see jl.sh -- ")
 
-dofile "lib_util.lua"
 local arg = {...}
+local util = require("lib_util")
 local ffi = require("ffi")
 local C = ffi.C
 
-local dir = directory_files("")
+local dir = util.directory_files("")
 for i=1,#dir do
 	local file=dir[i]
 	if file ~= "TestAll.lua" and  string.find(file, "Test%a*.lua") then

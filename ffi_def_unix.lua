@@ -7,6 +7,31 @@ local isMac = (ffi.os == "OSX")
 local isLinux = (ffi.os == "Linux")
 INVALID_SOCKET = -1
 
+-- Lua state - creating a new Lua state to a new thread
+ffi.cdef[[
+	static const int LUA_GCSTOP		= 0;
+	static const int LUA_GCRESTART		= 1;
+	static const int LUA_GCCOLLECT		= 2;
+	static const int LUA_GCCOUNT		= 3;
+	static const int LUA_GCCOUNTB		= 4;
+	static const int LUA_GCSTEP		= 5;
+	static const int LUA_GCSETPAUSE		= 6;
+	static const int LUA_GCSETSTEPMUL	= 7;
+	static const int LUA_GLOBALSINDEX = -10002;
+	
+	typedef struct lua_State lua_State;
+
+	int (lua_gc) (lua_State *L, int what, int data);
+	lua_State *luaL_newstate(void);
+	void luaL_openlibs(lua_State *L);
+	void lua_close(lua_State *L);
+	int luaL_loadstring(lua_State *L, const char *s);
+	int lua_pcall(lua_State *L, int nargs, int nresults, int errfunc);
+	void lua_getfield(lua_State *L, int index, const char *k);
+	ptrdiff_t lua_tointeger(lua_State *L, int index);
+	void lua_settop(lua_State *L, int index);
+]]
+
 ffi.cdef[[
 	// OSX basic data types
 	typedef int64_t	off_t;

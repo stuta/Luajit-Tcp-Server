@@ -1,20 +1,22 @@
 {
-              "basic_types": [ "void", "short", "int", "long", "double", "char", "__int8", "__int16", "__int32", "__int64", "int8_t", "int16_t", "int32_t", "int64_t", "uint8_t", "uint16_t", "uint32_t", "uint64_t", "intptr_t", "uintptr_t", "ptrdiff_t", "size_t", "wchar_t", "va_list", "__builtin_va_list", "__gnuc_va_list" ],
-           "c_call_pattern": "C%.([_%w]*)",
+              "basic_types": [ "void", "short", "int", "long", "double", "char", "__int8", "__int16", "__int32", "__int64", "int8_t", "int16_t", "int32_t", "int64_t", "uint8_t", "uint16_t", "uint32_t", "uint64_t", "__int8_t", "__int16_t", "__int32_t", "__int64_t", "__uint8_t", "__uint16_t", "__uint32_t", "__uint64_t", "intptr_t", "uintptr_t", "ptrdiff_t", "size_t", "wchar_t", "va_list", "__builtin_va_list", "__gnuc_va_list" ],
+          "c_call_patterns": [ "C%.([_%w]*)", "s%.([_%w]*)" ],
+          "c_type_patterns": [ "ffi.new%(%'(.-)%'", "ffi.new%(%\"(.-)%\"", "ffi.cast%(%'(.-)'", "ffi.cast%(%\"(.-)\"" ],
           "generated_start": "-- generated code start --",
                "headerfile": "c_include/_system_/ffi_types.h",
            "name_separator": "[^_%w]",
           "replace_pattern": {
-                                                    " __asm(.*);": ";",
+                                                    " __asm(.-);": ";",
                                  " __attribute__%(%(noreturn%)%)": "",
-                                                      "__routine": ""
+                                                      "__routine": "",
+                                            "pthread_cleanup_pop": "delete"
                              },
     "replace_pattern_param": {
-                                         " __asm(.*);": ";",
-                                 " __attribute__(.*);": ";",
+                                         " __asm(.-);": ";",
+                                 " __attribute__(.-);": ";",
                                            "__routine": "",
                                                "const": ""
                              },
-              "sourcefiles": [ "lib_date_time.lua", "lib_http.lua", "lib_kqueue.lua", "lib_poll.lua", "lib_shared_memory.lua", "lib_signal.lua", "lib_socket.lua", "lib_tcp.lua", "lib_thread.lua", "lib_util.lua" ],
+              "sourcefiles": [ "lib_date_time.lua", "lib_http.lua", "lib_kqueue.lua", "lib_poll.lua", "lib_shared_memory.lua", "lib_signal.lua", "lib_socket.lua", "lib_tcp.lua", "lib_thread.lua", "lib_util.lua", "TestAddrinfo.lua", "TestAll.lua", "TestKqueue.lua", "TestLinux.lua", "TestSharedMemory.lua", "TestSignal.lua", "TestSignal_bad.lua", "TestSocket.lua", "TestThread.lua" ],
           "target_ffi_file": "ffi_def__system_.lua"
 }

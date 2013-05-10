@@ -13,44 +13,16 @@ is64bit = ffi.abi("64bit")
 is32bit = ffi.abi("32bit")
 
 if isWin then
-	require "ffi_def_win"
+	require "ffi_def_windows"
 elseif isMac then
-	require "ffi_def_unix"
-else
-	-- Linux
+	require "ffi_def_unix" -- ffi_def_osx
+else -- Linux
 	require "ffi_def_unix"
 end
 
 -- common win + osx + linux: C-functions
 ffi.cdef([[
 	char * strerror ( int errnum );
-]])
-
--- Lua state - creating a new Lua state to a new thread
-ffi.cdef([[
-	/* garbage-collection function and options */
-	static const int LUA_GCSTOP		= 0;
-	static const int LUA_GCRESTART		= 1;
-	static const int LUA_GCCOLLECT		= 2;
-	static const int LUA_GCCOUNT		= 3;
-	static const int LUA_GCCOUNTB		= 4;
-	static const int LUA_GCSTEP		= 5;
-	static const int LUA_GCSETPAUSE		= 6;
-	static const int LUA_GCSETSTEPMUL	= 7;
-
-	static const int LUA_GLOBALSINDEX = -10002;
-	typedef struct lua_State lua_State;
-
-	int (lua_gc) (lua_State *L, int what, int data);
-	lua_State *luaL_newstate(void);
-	void luaL_openlibs(lua_State *L);
-	void lua_close(lua_State *L);
-	int luaL_loadstring(lua_State *L, const char *s);
-	int lua_pcall(lua_State *L, int nargs, int nresults, int errfunc);
-
-	void lua_getfield(lua_State *L, int index, const char *k);
-	ptrdiff_t lua_tointeger(lua_State *L, int index);
-	void lua_settop(lua_State *L, int index);
 ]])
 
 if isWin then

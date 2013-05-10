@@ -3,7 +3,7 @@ print()
 print(" -- TestKqueue.lua start -- ")
 print()
 
-dofile "lib_kqueue.lua"
+local kqueue = require("lib_kqueue")
 local util = require("lib_util")
 local arg = {...}
 local ffi = require("ffi")
@@ -49,8 +49,8 @@ else
 	end
 	local flags = bor(C.EV_ADD, C.EV_ENABLE, C.EV_ONESHOT)
 	local fflags = bor(C.NOTE_DELETE, C.NOTE_EXTEND, C.NOTE_WRITE, C.NOTE_ATTRIB)
-	local change = keventGet(fd, C.EVFILT_VNODE, flags, fflags, 0, 0)
-	local event  = keventGet() --ffi.new('struct kevent[1]')
+	local change = kqueue.kevent_get(fd, C.EVFILT_VNODE, flags, fflags, 0, 0)
+	local event  = kqueue.kevent_get() --ffi.new('struct kevent[1]')
 
 	while true do
 		local flags

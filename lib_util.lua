@@ -15,9 +15,9 @@ is32bit = ffi.abi("32bit")
 if isWin then
 	require "ffi_def_windows"
 elseif isMac then
-	require "ffi_def_unix" -- ffi_def_osx
+	require "ffi_def_osx" 	-- ffi_def_osx -- ffi_def_linux
 else -- Linux
-	require "ffi_def_unix"
+	require "ffi_def_linux" -- ffi_def_unix -- ffi_def_linux
 end
 
 -- common win + osx + linux: C-functions

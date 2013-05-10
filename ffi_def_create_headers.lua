@@ -1,4 +1,4 @@
---  ffi_def_create.lua
+--  ffi_def_create_headers.lua
 
 print()
 print(" -- ffi_def_create_headers.lua start -- ")

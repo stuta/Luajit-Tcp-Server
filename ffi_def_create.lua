@@ -6,7 +6,7 @@ print()
 
 local arg = {...}
 local util = require "lib_util"
-local JSON = require "JSON"
+local json = require "dkjson"
 local osname
 if true then -- keep ffi valid only inside if to make ZeroBrane debugger work
 	local ffi = require("ffi")
@@ -113,7 +113,7 @@ local pref = {
 }
 
 if not util.file_exists(prfFileName) then
-	local jsonTxt = JSON:encode_pretty(pref)
+	local jsonTxt = json.encode(pref, { indent = true })
 	io.output(prfFileName)
 	io.write(jsonTxt)
 	io.output():close()
@@ -121,7 +121,7 @@ else
 	io.input(prfFileName)
 	local jsonTxt = io.read("*all")
 	io.input():close()
-	local pref = JSON:decode(jsonTxt)
+	local pref = json.decode(jsonTxt)
 	if pref.basic_types then basic_types = pref.basic_types end
 	if pref.name_separator then name_separator = pref.name_separator end
 	if pref.c_call_patterns then c_call_patterns = pref.c_call_patterns end
@@ -193,6 +193,7 @@ local function validType(def)
 	end
 	return def
 end			
+
 local function stringBetweenPosition(str, startpos, endpos, startstr, endstr)
 	-- loop startpos backwards to startstr
 	local findlen = startstr:len() - 1
@@ -277,425 +278,455 @@ end
 local not_found_calls = {}
 -- main loop, go through all files
 for _,sourcefile in pairs(sourcefiles) do
-	local file,err = io.input(sourcefile)
-	if err then
-		print(sourcefile.." does not exist, error: "..err)
-		os.exit()
-	end
-	local source = io.read("*all")
-	io.input():close() 
+	
+	local source
+	-- create source text
+	local function createSourceText()
+		local fil	e,err = io.input(sourcefile)
+		if err then
+			print(sourcefile.." does not exist, error: "..err)
+			os.exit()
+		end
+		source = io.read("*all")
+		io.input():close() 
 
-	print()
-	print("*** "..sourcefile.." size: "..#source.." bytes")
-	-- Lua pattern for matching Lua multi-line comment.
-	source = source:gsub("(%-%-%[(=*)%[.-%]%2%])", "") -- remove block comments
-	
-	-- Lua pattern for matching Lua single line comment.
-	source = source:gsub("(%-%-[^\n]*)", "")-- remove single line comments
-	
-	for _,patt in pairs(c_type_patterns) do
-		for params in source:gmatch(patt) do
-			s = params:find("%[")
-			if s then
-				params = params:sub(1, s - 1)
-			end
-			paramsAdd(params, ",")
+		print()
+		print("*** "..sourcefile.." size: "..#source.." bytes")
+		-- Lua pattern for matching Lua multi-line comment.
+		source = source:gsub("(%-%-%[(=*)%[.-%]%2%])", "") -- remove block comments
+		
+		-- Lua pattern for matching Lua single line comment.
+		source = source:gsub("(%-%-[^\n]*)", "")-- remove single line comments
+	end
+	createSourceText()
+
+	-- add ffi.new and ffi.cast type parameters
+	local function addCTypeParameters()
+		for _,patt in pairs(c_type_patterns) do
+			for params in source:gmatch(patt) do
+				s = params:find("%[")
+				if s then
+					params = params:sub(1, s - 1)
+				end
+				paramsAdd(params, ",")
+			end				
 		end
 	end
+	addCTypeParameters()
 	
 	local calls = {}
-	local count = 0
-	for _,patt in pairs(c_call_patterns) do
-		for call in source:gmatch(patt) do
-			if call ~= "" and not calls[call] then
-				count = count + 1
-				calls[call] = count
+	local function addCalls()
+		local count = 0
+		for _,patt in pairs(c_call_patterns) do
+			for call in source:gmatch(patt) do
+				if call ~= "" and not calls[call] then
+					count = count + 1
+					calls[call] = count
+				end
 			end
 		end
+
+		calls = util.table_invert(calls)
+		table.sort(calls, function(a,b) -- case-insensitive sort
+				return a:lower() < b:lower() 
+			end
+		)
+		print(util.table_show(calls, "calls"))
 	end
+	addCalls()
 
-	calls = util.table_invert(calls)
-	table.sort(calls, function(a,b) -- case-insensitive sort
-			return a:lower() < b:lower() 
-		end
-	)
-	print(util.table_show(calls, "calls"))
-
-	-- create not-found new definitions table "new_calls"
 	local new_calls = {}
-	for i=1,#calls do
-		local call = calls[i]
-		local pattern = name_separator..call..name_separator
-		if call == "recv" then -- for trace
-			call = "recv"
-		end
-		local posStart,posEnd = code:find(pattern)
-		
-		-- check if function was already defined as struct
-		if posStart then
-			local code_call = code:sub(posStart - 7, posEnd) -- 7 = #("struct ")
-			if code_call:find("struct "..call) then
-				posStart = nil -- add function
+	-- create not-found new definitions table "new_calls"
+	local function createNotFoundNewDefinitions()
+		for i=1,#calls do
+			local call = calls[i]
+			local pattern = name_separator..call..name_separator
+			if call == "sa_family" then -- for trace
+				call = "sa_family"
 			end
-		end 
-		
-		if not posStart then
-			table.insert(new_calls, call) --code:sub(posStart, posEnd))
+			local posStart,posEnd = code:find(pattern)
+			
+			-- check if function was already defined as struct
+			if posStart then
+				local code_call = code:sub(posStart - 7, posEnd) -- 7 = #("struct ")
+				if code_call:find("struct "..call) then
+					posStart = nil -- add function
+				end
+			end 
+			
+			if not posStart then
+				table.insert(new_calls, call) --code:sub(posStart, posEnd))
+			end
 		end
+		print("new calls found: "..#new_calls)
 	end
+	createNotFoundNewDefinitions()
 	
-	print("new calls found: "..#new_calls)
-	-- create missing definitions from header file
 	local function_lines = {}
 	local static_const_lines = {}
-	for i=1,#new_calls do
-		local findpos = 1
-		local findcall = new_calls[i]
-		if findcall:find("recv") then -- for trace
-			findcall = findcall .. ""
-		end
-		local pattern = name_separator..findcall..name_separator --"%f[%a]"..findcall.."%f[%A]"
-		local startpos,endpos = header:find(pattern, findpos)
-		while startpos do
-			local line_start,line_end = stringBetweenPosition(header, startpos, endpos, ";", ";")
-			local pragma_pack
-			if line_start then
-				local line = header:sub(line_start + 1, line_end)
-				
-				-- skip comment lines
-				repeat
-					local s,e = line:find("\n//")
-					if e then
-						local s2,e2 = line:find("\n", e + 1)
-						if s2 then
-							line_start = line_start + s2 - 1
-							line = header:sub(line_start + 1, line_end)
+	-- create missing definitions from header file
+	local function createMissingDefinitionsFromHeader()
+		for i=1,#new_calls do
+			local findpos = 1
+			local findcall = new_calls[i]
+			if findcall:find("sa_family") then -- for trace
+				findcall = findcall .. ""
+			end
+			local pattern = name_separator..findcall..name_separator --"%f[%a]"..findcall.."%f[%A]"
+			local startpos,endpos = header:find(pattern, findpos)
+			while startpos do
+				local line_start,line_end = stringBetweenPosition(header, startpos, endpos, ";", ";")
+				local pragma_pack
+				if line_start then
+					local line = header:sub(line_start + 1, line_end)
+					
+					-- skip comment lines
+					repeat
+						local s,e = line:find("\n//")
+						if e then
+							local s2,e2 = line:find("\n", e + 1)
+							if s2 then
+								line_start = line_start + s2 - 1
+								line = header:sub(line_start + 1, line_end)
+							end
+						end
+					until not e
+					
+					-- skip wrong finds
+					local s,e = line:find(pattern) -- re-find after removing comments
+					if not s then
+						line_start = nil -- wrong -> find next
+						findpos = endpos + 1  -- set next find pos
+					end
+					
+					if line_start then
+						-- function name is same struct name (osx kevent and struct kevent)
+						local pos_struct = line:find("%Wstruct "..findcall.."%W")
+						if pos_struct then
+							local pos_call = line:find(findcall.."%W")
+							if pos_call > pos_struct then
+								line_start = nil -- wrong -> find next
+								findpos = endpos + 1  -- set next find pos
+							end
 						end
 					end
-				until not e
-				
-				-- skip wrong finds
-				local s,e = line:find(pattern) -- re-find after removing comments
-				if not s then
-					line_start = nil -- wrong -> find next
-					findpos = endpos + 1  -- set next find pos
-				end
-				
-				if line_start then
-					-- function name is same struct name (osx kevent and struct kevent)
-					local pos_struct = line:find("%Wstruct "..findcall.."%W")
-					if pos_struct then
-						local pos_call = line:find(findcall.."%W")
-						if pos_call > pos_struct then
+					
+					 -- function on the right side of "=" fix (osx pthread_self)
+					if line_start then
+						local s,e = line:find("= "..findcall)
+						if s then
 							line_start = nil -- wrong -> find next
 							findpos = endpos + 1  -- set next find pos
 						end
 					end
-				end
-				
-				 -- function on the right side of "=" fix (osx pthread_self)
-				if line_start then
-					local s,e = line:find("= "..findcall)
-					if s then
-						line_start = nil -- wrong -> find next
-						findpos = endpos + 1  -- set next find pos
-					end
-				end
-					
-				if line_start then
-					 -- pragma pack fix
-					local s,e = line:find("pragma pack")
-					if e then
-						local s = line:find("\n", e)
-						pragma_pack = header:sub(line_start + 2, line_start + s - 1)
-						line_start = line_start + s - 1
-						local s2,e2 = header:find("pragma pack%(%)", line_start + e)
-						line_end = e2
-						line = header:sub(line_start, line_end)
-					end
-				end
-			end
-					
-			if line_start then
-				line_start = line_start + 1 -- remove next "\n"
-				local line = header:sub(line_start + 1, line_end)
-				findpos = line_end + 1  -- set next find pos
-				-- remove front linefeeds
-				while line:sub(1, 1) == "\n" do 
-					line = line:sub(2)
-				end
-					
-				-- replace not-wanted parts. __asm, __attribute__, ...
-				line = replaceLine(line)
-				
-				new_calls[i] = "" -- mark as used
-				if line ~= "" then
-					local def = header:sub(line_start + 1, startpos - 1)
-					repeat
-						while def:sub(-1) == " " do -- remove trailing spaces
-							def = def:sub(1, def:len() - 1)
-						end
-						local posStart,posEnd = def:find(name_separator)
-						if posStart then
-							def = def:sub(posStart)
-						end
-					until posStart == nil or posStart == 1
 						
-					if pragma_pack then
-						line = pragma_pack.."\n"..line
-						line = line:gsub("\n", "\n\t")
-						line = line:gsub("#pragma pack", "// #pragma pack")
+					if line_start then
+						 -- pragma pack fix
+						local s,e = line:find("pragma pack")
+						if e then
+							local s = line:find("\n", e)
+							pragma_pack = header:sub(line_start + 2, line_start + s - 1)
+							line_start = line_start + s - 1
+							local s2,e2 = header:find("pragma pack%(%)", line_start + e)
+							line_end = e2
+							line = header:sub(line_start, line_end)
+						end
 					end
-					print("  "..line)
-					local static_const = line:find("static const ")
-					if static_const == 1 then
-						table.insert(static_const_lines, line)
-					else
-						table.insert(function_lines, line)
-					
-						def = def:gsub("const ", "")
-						def = def:gsub("^%s+", "")
-						def = def:gsub("\n", "")
-						def = validType(def)
+				end
 						
-						if def ~= "" and not basic_types[def] and not type_done[def] then			
-							if line:find("enum") == 1 then
-								def = def..""  -- for trace
-							else
-								print("    type added: '"..def.."'")
-								type_defines[def] = 0
+				if line_start then
+					line_start = line_start + 1 -- remove next "\n"
+					local line = header:sub(line_start + 1, line_end)
+					findpos = line_end + 1  -- set next find pos
+					-- remove front linefeeds
+					while line:sub(1, 1) == "\n" do 
+						line = line:sub(2)
+					end
+						
+					-- replace not-wanted parts. __asm, __attribute__, ...
+					line = replaceLine(line)
+					
+					new_calls[i] = "" -- mark as used
+					if line ~= "" then
+						local def = header:sub(line_start + 1, startpos - 1)
+						repeat
+							while def:sub(-1) == " " do -- remove trailing spaces
+								def = def:sub(1, def:len() - 1)
 							end
+							local posStart,posEnd = def:find(name_separator)
+							if posStart then
+								def = def:sub(posStart)
+							end
+						until posStart == nil or posStart == 1
+							
+						if pragma_pack then
+							line = pragma_pack.."\n"..line
+							line = line:gsub("\n", "\n\t")
+							line = line:gsub("#pragma pack", "// #pragma pack")
 						end
-						
-						local param_delim
-						local param_start, param_end = line:find("%{.-%}") -- struct params
-						if param_start then
-							param_delim = ";"
+						print("  "..line)
+						local static_const = line:find("static const ")
+						if static_const == 1 then
+							table.insert(static_const_lines, line)
 						else
-							param_start, param_end = line:find("%(.-%)") -- function params
-							param_delim = ","
-						end
-						if param_start then
-							if line:find("enum") == 1 then
-								param_delim = "" -- for trace
+							table.insert(function_lines, line)
+						
+							def = def:gsub("const ", "")
+							def = def:gsub("^%s+", "")
+							def = def:gsub("\n", "")
+							def = validType(def)
+							
+							if def ~= "" and not basic_types[def] and not type_done[def] then			
+								if line:find("enum") == 1 then
+									def = def..""  -- for trace
+								else
+									print("    type added: '"..def.."'")
+									type_defines[def] = 0
+								end
+							end
+							
+							local param_delim
+							local param_start, param_end = line:find("%{.-%}") -- struct params
+							if param_start then
+								param_delim = ";"
 							else
-								local params = line:sub(param_start + 1, param_end - 1)
-								paramsAdd(params, param_delim)
+								param_start, param_end = line:find("%(.-%)") -- function params
+								param_delim = ","
+							end
+							if param_start then
+								if line:find("enum") == 1 then
+									param_delim = "" -- for trace
+								else
+									local params = line:sub(param_start + 1, param_end - 1)
+									paramsAdd(params, param_delim)
+								end
 							end
 						end
-					end
-				end -- if line ~= "" then
-				
-				break -- break out of inner loop
+					end -- if line ~= "" then
+					
+					break -- break out of inner loop
+				end
+				startpos,endpos = header:find(pattern, findpos)
 			end
-			startpos,endpos = header:find(pattern, findpos)
 		end
-	end
+	end 
+	createMissingDefinitionsFromHeader()
+	
 	
 	-- collect not found calls
-	table.insert(not_found_calls, "--- "..sourcefile.." ---")
-	for i=1,#new_calls do
-		if new_calls[i] ~= "" then
-			table.insert(not_found_calls, new_calls[i])
+	local function collectNotFoundCalls()
+		table.insert(not_found_calls, "--- "..sourcefile.." ---")
+		for i=1,#new_calls do
+			if new_calls[i] ~= "" then
+				table.insert(not_found_calls, new_calls[i])
+			end
 		end
 	end
+	collectNotFoundCalls()
 	
-	-- convert types to basic types
+	
 	local type_lines = {}
 	local struct_lines = {}
 	local type_lines_content = {}
 	local type_not_found = {}
-	local loopCount = 0
-	while next(type_defines) do
-		print()
-		loopCount = loopCount + 1 
-		print(loopCount..". convert types to basic types:")
-		for type_str,_ in pairs(type_defines) do
-			if type_done[type_str] then
-				type_defines[type_str] = nil 
-			else
-				print("  '"..type_str.."'")
-				
-				if type_str:find("recv") then -- for trace
-					type_str = type_str .. ""
-				end
-		
-				-- find type from target ffi.cdef file
-				local pattern = name_separator..type_str..name_separator
-				local posStart, posEnd = code:find(pattern)
-				if posStart then
-					print("  previous type found: "..pattern, code:sub(posStart-20, posEnd+20))
-					type_defines[type_str] = nil  -- was already in target ffi.cdef file
+	-- convert types to basic types
+	local function convertTypesToBasicTypes()
+		local loopCount = 0
+		while next(type_defines) do
+			print()
+			loopCount = loopCount + 1 
+			print(loopCount..". convert types to basic types:")
+			for type_str,_ in pairs(type_defines) do
+				if type_done[type_str] then
+					type_defines[type_str] = nil 
 				else
-					if type_not_found[type_str] then			
-						print("    type_not_found: '"..type_str.."'")
-						type_defines[type_str] = nil
-						basic_types[type_str] = 0 -- add to basic types
-						table.insert(not_found_basic_types, type_str)
-						break
-					else
-						
-						type_not_found[type_str] = 0
-						local findpos = 1
-						local startpos,endpos = header:find(pattern, findpos)
-						while startpos do
-							local line_start,line_end = stringBetweenPosition(header, startpos, endpos, ";", ";")
-							if line_start then
-								line_start = line_start + 1 -- remove next "\n"
-								local line = header:sub(line_start + 1, line_end)
-								
-								local line_pos = line:find(type_str)
-								local curly_end = line:find("}")
-								if curly_end and curly_end < line_pos then
-									-- find previous "typedef union" or "typedef struct", use later found
-									local s,e = stringBetweenPosition(header, startpos, endpos, "typedef union", ";")
-									line_start,line_end = stringBetweenPosition(header, startpos, endpos, "typedef struct", ";")
-									if s > line_start then
-										line_start,line_end = s,e
-									end
-									line = header:sub(line_start , line_end)
-								else
-									local curly_start = line:find("{")
-									if curly_start then
-										curly_start = curly_start + line_start
-										local curly_end= header:find("};", curly_start)
-										if curly_end then
-											line_end = curly_end + 2 -- "};" is 2 chars
-										end
-										line = header:sub(line_start + 1, line_end)
-									end
-								end
-							
-								findpos = line_end + 1  -- set next find pos
-								local line_orig = line
-								line_orig = line_orig:gsub("\n", "\n\t")
-								
-								line = replaceLine(line) 
-								line = line:gsub("\n", "")
-								while line:find("  ") do -- remove double spaces
-									line = line:gsub("  ", " ")
-								end
-								
-								local posStart,posEnd
-								if line:find("static const(.-)"..type_str..";") then
-									posStart = nil -- part of some other static const
-									-- continue and find next
-								else
-									posStart,posEnd = line:find(pattern)
-								end
-								
-								-- part of another definition on the right side of statement
-								if line:find("%("..type_str) then -- Linux __sighandler_t
-									posStart = nil -- part of some other static const
-									-- continue and find next
-								end
-									
-								if posStart then
-									local def = line:sub(1, posStart - 1)
-									repeat
-										while def:sub(-1) == " " do -- remove trailing spaces
-											def = def:sub(1, def:len() - 1)
-										end
-										local posStart,posEnd = def:find(name_separator)
-										if posStart then
-											def = def:sub(posStart + 1)
-										end
-									until posStart == nil or posStart == 1
-										
-									def = def:match( "^%s*(.-)%s*$" ) -- remove leading and trailing whitespace
-									if not type_lines_content[line] then
-										type_lines_content[line] = 1
-										if def:find("pragma pack(.-)struct") then
-											def = ""
-											if not line_orig:find("pragma pack%(%)") then
-												line_orig = line_orig.."\n\t#pragma pack()"
-												line_orig = line_orig:gsub("#pragma pack", "// #pragma pack")
-											end
-										end
-										
-										def = validType(def)
-										if def == "" then
-											type_done[type_str] = 0
-										elseif not basic_types[def] and not type_done[def] then	
-											print("    new type found: '"..def.."'") --, line)
-											type_defines[def] = 0
-										else
-											type_done[type_str] = 0
-										end
-										
-										
-										-- replace not-wanted parts. __asm, __attribute__, ...
-										line_orig = replaceLine(line_orig)
-										--if line_orig:find("typedef ") == 1 then
-											table.insert(type_lines, 1, line_orig) -- add to start
-										--else
-										--	table.insert(struct_lines, 1, line_orig) -- add to start
-										--end
-										
-										local static_const = line:find("static const ")
-										if static_const == 1 then
-											static_const = 1
-										else
-											local param_start, param_end = line:find("%{.-%}")
-											if param_start then
-												local params = line:sub(param_start + 1, param_end - 1)
-												paramsAdd(params, ";")
-											end
-										end
-									end
-																			
-									type_defines[type_str] = nil --table.remove(type_defines, i)
-									type_not_found[type_str] = nil
-									startpos = nil -- break out of inner loop
-								else
-									startpos,endpos = header:find(pattern, findpos)
-								end
-							end
-						end -- while
-						
+					print("  '"..type_str.."'")
+					
+					if type_str:find("sa_family_t") then -- for trace
+						type_str = type_str .. ""
 					end
+			
+					-- find type from target ffi.cdef file
+					local pattern = name_separator..type_str..name_separator
+					local posStart, posEnd = code:find(pattern)
+					if posStart then
+						print("  previous type found: "..pattern, code:sub(posStart-20, posEnd+20))
+						type_defines[type_str] = nil  -- was already in target ffi.cdef file
+					else
+						if type_not_found[type_str] then			
+							print("    type_not_found: '"..type_str.."'")
+							type_defines[type_str] = nil
+							basic_types[type_str] = 0 -- add to basic types
+							table.insert(not_found_basic_types, type_str)
+							break
+						else
+							
+							type_not_found[type_str] = 0
+							local findpos = 1
+							local startpos,endpos = header:find(pattern, findpos)
+							while startpos do
+								local line_start,line_end = stringBetweenPosition(header, startpos, endpos, ";", ";")
+								if line_start then
+									line_start = line_start + 1 -- remove next "\n"
+									local line = header:sub(line_start + 1, line_end)
+									
+									local line_pos = line:find(type_str)
+									local curly_end = line:find("}")
+									if curly_end and curly_end < line_pos then
+										-- find previous "typedef union" or "typedef struct", use later found
+										local s,e = stringBetweenPosition(header, startpos, endpos, "typedef union", ";")
+										line_start,line_end = stringBetweenPosition(header, startpos, endpos, "typedef struct", ";")
+										if s > line_start then
+											line_start,line_end = s,e
+										end
+										line = header:sub(line_start , line_end)
+									else
+										local curly_start = line:find("{")
+										if curly_start then
+											curly_start = curly_start + line_start
+											local curly_end= header:find("};", curly_start)
+											if curly_end then
+												line_end = curly_end + 2 -- "};" is 2 chars
+											end
+											line = header:sub(line_start + 1, line_end)
+										end
+									end
+								
+									findpos = line_end + 1  -- set next find pos
+									local line_orig = line
+									line_orig = line_orig:gsub("\n", "\n\t")
+									
+									line = replaceLine(line) 
+									line = line:gsub("\n", "")
+									while line:find("  ") do -- remove double spaces
+										line = line:gsub("  ", " ")
+									end
+									
+									local posStart,posEnd
+									if line:find("static const(.-)"..type_str..";") then
+										posStart = nil -- part of some other static const
+										-- continue and find next
+									else
+										posStart,posEnd = line:find(pattern)
+									end
+									
+									-- part of another definition on the right side of statement
+									if line:find("%("..type_str) then -- Linux __sighandler_t
+										posStart = nil -- part of some other static const
+										-- continue and find next
+									end
+										
+									if posStart then
+										local def = line:sub(1, posStart - 1)
+										repeat
+											while def:sub(-1) == " " do -- remove trailing spaces
+												def = def:sub(1, def:len() - 1)
+											end
+											local posStart,posEnd = def:find(name_separator)
+											if posStart then
+												def = def:sub(posStart + 1)
+											end
+										until posStart == nil or posStart == 1
+											
+										def = def:match( "^%s*(.-)%s*$" ) -- remove leading and trailing whitespace
+										if not type_lines_content[line] then
+											type_lines_content[line] = 1
+											if def:find("pragma pack(.-)struct") then
+												def = ""
+												if not line_orig:find("pragma pack%(%)") then
+													line_orig = line_orig.."\n\t#pragma pack()"
+													line_orig = line_orig:gsub("#pragma pack", "// #pragma pack")
+												end
+											end
+											
+											def = validType(def)
+											if def == "" then
+												type_done[type_str] = 0
+											elseif not basic_types[def] and not type_done[def] then	
+												print("    new type found: '"..def.."'") --, line)
+												type_defines[def] = 0
+											else
+												type_done[type_str] = 0
+											end
+											
+											
+											-- replace not-wanted parts. __asm, __attribute__, ...
+											line_orig = replaceLine(line_orig)
+											--if line_orig:find("typedef ") == 1 then
+												table.insert(type_lines, 1, line_orig) -- add to start
+											--else
+											--	table.insert(struct_lines, 1, line_orig) -- add to start
+											--end
+											
+											local static_const = line:find("static const ")
+											if static_const == 1 then
+												static_const = 1
+											else
+												local param_start, param_end = line:find("%{.-%}")
+												if param_start then
+													local params = line:sub(param_start + 1, param_end - 1)
+													paramsAdd(params, ";")
+												end
+											end
+										end
+																				
+										type_defines[type_str] = nil --table.remove(type_defines, i)
+										type_not_found[type_str] = nil
+										startpos = nil -- break out of inner loop
+									else
+										startpos,endpos = header:find(pattern, findpos)
+									end
+								end
+							end -- while
+							
+						end
+					end
+				end
+				
+			end -- for
+		end -- while next(type_defines) do
+	end
+	convertTypesToBasicTypes()
+	
+	-- add new definitions to target ffi.cdef file 
+	local function addNewDefinitionsToTargetCdefFile()
+		code = code.."\n--[[ "..sourcefile.." ]]"
+		if #static_const_lines > 0 or #type_lines > 0 or #struct_lines > 0 or #function_lines > 0 then
+			code = code.."\nffi.cdef[[\n\t"
+			
+			if #static_const_lines > 0 then
+				-- code = code.."\t// defines"
+				code = code..table.concat(static_const_lines, "\n\t")
+				if #type_lines > 0 or #struct_lines > 0 or #function_lines > 0 then
+					code = code.."\n\t\n\t" -- .."\t// types"
 				end
 			end
 			
-		end -- for
-	end -- while next(type_defines) do
-	
-	-- add new definitions to target ffi.cdef file 
-	code = code.."\n--[[ "..sourcefile.." ]]"
-	if #static_const_lines > 0 or #type_lines > 0 or #struct_lines > 0 or #function_lines > 0 then
-		code = code.."\nffi.cdef[[\n\t"
-		
-		if #static_const_lines > 0 then
-			-- code = code.."\t// defines"
-			code = code..table.concat(static_const_lines, "\n\t")
-			if #type_lines > 0 or #struct_lines > 0 or #function_lines > 0 then
-				code = code.."\n\t\n\t" -- .."\t// types"
+			if #type_lines > 0 then
+				code = code..table.concat(type_lines, "\n\t")
+				if #struct_lines > 0 or #function_lines > 0 then
+					code = code.."\n\t\n\t" -- .."\t// methods"
+				end
 			end
-		end
-		
-		if #type_lines > 0 then
-			code = code..table.concat(type_lines, "\n\t")
-			if #struct_lines > 0 or #function_lines > 0 then
-				code = code.."\n\t\n\t" -- .."\t// methods"
+			
+			if #struct_lines > 0 then
+				code = code..table.concat(struct_lines, "\n\t")
+				if #function_lines > 0 then
+					code = code.."\n\t\n\t" -- .."\t// methods"
+				end
 			end
-		end
-		
-		if #struct_lines > 0 then
-			code = code..table.concat(struct_lines, "\n\t")
+			
 			if #function_lines > 0 then
-				code = code.."\n\t\n\t" -- .."\t// methods"
+				code = code..table.concat(function_lines, "\n\t")
 			end
+			code = code.."\n]]\n"
 		end
 		
-		if #function_lines > 0 then
-			code = code..table.concat(function_lines, "\n\t")
-		end
-		code = code.."\n]]\n"
+		file = io.output(target_ffi_file)
+		io.write(code)
+		io.output():close()
 	end
-	
-	file = io.output(target_ffi_file)
-	io.write(code)
-	io.output():close()
+	addNewDefinitionsToTargetCdefFile()
 		
 end
 	

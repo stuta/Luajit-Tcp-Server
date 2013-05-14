@@ -1,9 +1,4 @@
 {
-          "c_call_patterns": [ "%WC%.([_%w]*)", "%Ws%.([_%w]*)" ],
-          "c_type_patterns": [ "ffi.new%(%'(.-)%'", "ffi.new%(%\"(.-)%\"", "ffi.cast%(%'(.-)'", "ffi.cast%(%\"(.-)\"" ],
-          "generated_start": "-- generated code start --",
-               "headerfile": "c_include/_system_/ffi_types.h",
-           "name_separator": "[^_%w]",
-              "sourcefiles": [ "lib_date_time.lua", "lib_http.lua", "lib_kqueue.lua", "lib_poll.lua", "lib_shared_memory.lua", "lib_signal.lua", "lib_socket.lua", "lib_tcp.lua", "lib_thread.lua", "lib_util.lua", "TestAddrinfo.lua", "TestAll.lua", "TestKqueue.lua", "TestLinux.lua", "TestSharedMemory.lua", "TestSignal.lua", "TestSignal_bad.lua", "TestSocket.lua", "TestThread.lua" ],
-          "target_ffi_file": "ffi_def__system_.lua"
+"sourcefiles":["lib_date_time.lua","lib_http.lua","lib_kqueue.lua","lib_poll.lua","lib_shared_memory.lua","lib_signal.lua","lib_socket.lua","lib_tcp.lua","lib_thread.lua","lib_util.lua","TestAddrinfo.lua","TestAll.lua","TestKqueue.lua","TestLinux.lua","TestSharedMemory.lua","TestSignal.lua","TestSignal_bad.lua","TestSocket.lua","TestThread.lua"],
+  "generated_start":"-- generated code start --",
 }

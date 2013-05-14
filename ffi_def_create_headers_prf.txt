@@ -14,28 +14,27 @@ sourcefiles = {
 ]],
 
 	["osx"] = [[
-#include <sys/types.h>
-#include <sys/event.h>
 #include <unistd.h>
-#include <sys/mman.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <sys/time.h>
-#include <unistd.h>
-#include <sys/socket.h>
 #include <errno.h>
-#include <netinet/in.h>
-#include <netdb.h>
-#include <arpa/inet.h>
-#include <poll.h>
-#include <netinet/tcp.h>
+#include <sys/types.h>
+#include <sys/event.h>
+// event.h is osx only kevent
+#include <sys/mman.h>
+#include <sys/socket.h>
 #include <sys/ipc.h>
 #include <sys/shm.h>
+#include <sys/time.h>
+#include <poll.h>
+#include <time.h>
+#include <netinet/in.h>
+#include <netinet/tcp.h>
+#include <arpa/inet.h>
+#include <netdb.h>
 #include <pthread.h>
 #include <signal.h>
-#include <time.h>
-#include <stdio.h>
 #include <string.h>
 // /Users/pasi/asennetut_paketit/Lua/lua-5.1.5/src/install_bin/include/lua.h
 ]],
@@ -43,21 +42,27 @@ sourcefiles = {
 	["linux"] = [[
 // #include <c++/4.7/iostream>
 
-#include <i386-linux-gnu/sys/types.h>
-#include <i386-linux-gnu/sys/mman.h>
-#include <i386-linux-gnu/sys/socket.h>
-#include <i386-linux-gnu/sys/ipc.h>
-#include <i386-linux-gnu/sys/shm.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include <sys/time.h>
-#include <unistd.h>
 #include <errno.h>
+#include <i386-linux-gnu/sys/types.h>
+// event.h is osx only kevent
+#include <i386-linux-gnu/sys/mman.h>
+#include <i386-linux-gnu/sys/socket.h>
+#include <i386-linux-gnu/sys/ipc.h>
+#include <i386-linux-gnu/sys/shm.h>
+#include <i386-linux-gnu/sys/time.h>
+#include <i386-linux-gnu/sys/poll.h>
+#include <time.h>
 #include <netinet/in.h>
-#include <netdb.h>
+#include <netinet/tcp.h>
 #include <arpa/inet.h>
-#include <c++/4.7/string>
+#include <netdb.h>
+#include <pthread.h>
+#include <signal.h>
+#include <string.h>
+// #include <c++/4.7/string>
 ]],
 }

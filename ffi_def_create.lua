@@ -12,6 +12,7 @@ if true then -- keep ffi valid only inside if to make ZeroBrane debugger work
 	local ffi = require("ffi")
 	osname = string.lower(ffi.os)
 end
+-- osname = "linux" -- if you want to create linux with osx
 
 local timeUsed = util.seconds()
 
@@ -22,7 +23,9 @@ if arg[1] then
 end
 local prfFileName = "ffi_def_create_prf.json"
 local basic_types = {
-	"void", "short", "int", "long", "double", "char",
+	"void", "...", "double", "char",
+	"short", "int", "long", "long int", "long long", 
+	"unsigned", --"unsigned short int", "unsigned int", "unsigned long", "unsigned long int", "unsigned long long", 
 	"__int8", "__int16", "__int32", "__int64",
 	"int8_t", "int16_t", "int32_t", "int64_t", 
 	"uint8_t", "uint16_t", "uint32_t", "uint64_t",
@@ -36,22 +39,32 @@ local not_found_basic_types = {}
 
 local replace_pattern = {
 	[" __asm(.-);"] = ";",
-	[" __attribute__%(%(noreturn%)%)"] = "",
-  ["__routine"] = "",
-  ["pthread_cleanup_pop"] = "delete", -- "delete" = delete whole line
+	[" __attribute__(.-);"] = ";",
+	["%*__restrict "] = "*",
+  ["__restrict"] = "",
+  ["extern "] = "",
+  ["__extension__ "] = "",
+  ["__extension__"] = "",
+  ["__const"] = "const",
 }
 local replace_pattern_param = {
+}
+--[[
   ["const"] = "",
 	[" __asm(.-);"] = ";",
 	[" __attribute__(.-);"] = ";",
+	["%*__restrict "] = "*",
+  ["__restrict"] = "",
+  ["extern "] = "",
   ["__routine"] = "",
-}
+}]]
 
 -- name_separator, separating chars before and after function or definition name
 local name_separator = "[^_%w]" 
 local c_call_patterns = {
-	"C%.([_%w]*)",
-	"s%.([_%w]*)",
+	"%WC%.([_%w]*)",
+	--"%Ws%.([_%w]*)",
+	--"%Wwin32%.([_%w]*)",
 }
 local c_type_patterns = {
 	"ffi.new%(%'(.-)%'", 
@@ -109,7 +122,7 @@ else
 	local jsonTxt = io.read("*all")
 	io.input():close()
 	local pref = JSON:decode(jsonTxt)
-	basic_types = pref.basic_types
+	if pref.basic_types then basic_types = pref.basic_types end
 	if pref.name_separator then name_separator = pref.name_separator end
 	if pref.c_call_patterns then c_call_patterns = pref.c_call_patterns end
 	if pref.c_type_patterns then c_type_patterns = pref.c_type_patterns end
@@ -156,26 +169,52 @@ else
 	code = ""
 end
 	
-local function stringBetweenPosition(str, startpos, endpos, startchar, endchar)
-	-- loop startpos backwards to startchar
+local function replaceLine(line)
+	-- replace not-wanted parts. __asm, __attribute__, ...
+	for pat,repl in pairs(replace_pattern) do
+		if repl ~= "delete" then
+			line = line:gsub(pat, repl)
+		elseif line:find(pat) then
+			line = ""
+			break
+		end
+	end
+	return line
+end
+			
+local function validType(def)
+	local s = def:find(" ")
+	if s then  -- define must not contain space
+		def = def:sub(1, s - 1) -- return part before space
+	end
+	local first_char = def:sub(1, 1)
+	if first_char == "(" or first_char == "[" or first_char == "{" or first_char == "*" then
+	  return ""
+	end
+	return def
+end			
+local function stringBetweenPosition(str, startpos, endpos, startstr, endstr)
+	-- loop startpos backwards to startstr
+	local findlen = startstr:len() - 1
 	while startpos > 0 do
-		local ch = str:sub(startpos, startpos)
-		if ch == startchar then
+		local str = str:sub(startpos, startpos + findlen)
+		if str == startstr then
 			break
 		else
 			startpos = startpos - 1
 		end
 	end
-	-- find endchar in forward direction, set endpos
-	local s,e = str:find(endchar, endpos)
+	-- find endstr in forward direction, set endpos
+	local s,e = str:find(endstr, endpos)
 	if e then 
 		endpos = e
 	end
 	return startpos, endpos
 end
 
-local function paramsAdd(params, sep)
+local function paramsAdd(params_orig, sep)
 	local findpos = 1
+	local params = params_orig
 	while #params > 0 do
 		local def
 		local s,e = params:find(sep, findpos, true)
@@ -201,12 +240,13 @@ local function paramsAdd(params, sep)
 				def = def:gsub("%*", "")
 				def = def:gsub("%(%)", " ")
 				repeat
-					while def:sub(1, 1) == " " do -- remove before spaces
+					--[[while def:sub(1, 1) == " " do -- remove leading spaces
 						def = def:sub(2)
 					end
 					while def:sub(-1) == " " do -- remove trailing spaces
 						def = def:sub(1, def:len() - 1)
-					end
+					end]]
+					def = def:match( "^%s*(.-)%s*$" ) -- http://rosettacode.org/wiki/Strip_whitespace_from_a_string/Top_and_tail#Lua
 					local posStart,posEnd = def:find(name_separator)
 					if posStart then
 						basetype = def:sub(1, posStart - 1)
@@ -219,13 +259,12 @@ local function paramsAdd(params, sep)
 				def = def:gsub("%(void %)", "")
 				def = def:gsub("%(void%)", "")
 				def = def:gsub("%(%)", "")
+				def = def:match( "^%s*(.-)%s*$" ) -- remove leading and trailin whitespace
+				def = validType(def)
 				if def ~= "" and not basic_types[def] and not type_defines[def] then
 					if not basic_types[basetype] then -- def is just a name
-						local first_char = def:sub(1, 1)
-						if first_char ~= "(" and first_char ~= "[" then
-							print("    parameter type added: '"..def.."'")
-							type_defines[def] = 0
-						end
+						print("    parameter type added: '"..def.."'")
+						type_defines[def] = 0
 					end
 				end
 			end
@@ -268,7 +307,7 @@ for _,sourcefile in pairs(sourcefiles) do
 	local count = 0
 	for _,patt in pairs(c_call_patterns) do
 		for call in source:gmatch(patt) do
-			if not calls[call] then
+			if call ~= "" and not calls[call] then
 				count = count + 1
 				calls[call] = count
 			end
@@ -287,8 +326,8 @@ for _,sourcefile in pairs(sourcefiles) do
 	for i=1,#calls do
 		local call = calls[i]
 		local pattern = name_separator..call..name_separator
-		if call == "kevent" then -- for trace
-			call = "kevent"
+		if call == "recv" then -- for trace
+			call = "recv"
 		end
 		local posStart,posEnd = code:find(pattern)
 		
@@ -312,8 +351,8 @@ for _,sourcefile in pairs(sourcefiles) do
 	for i=1,#new_calls do
 		local findpos = 1
 		local findcall = new_calls[i]
-		if findcall == "kevent" then -- for trace
-			findcall = "kevent"
+		if findcall:find("recv") then -- for trace
+			findcall = findcall .. ""
 		end
 		local pattern = name_separator..findcall..name_separator --"%f[%a]"..findcall.."%f[%A]"
 		local startpos,endpos = header:find(pattern, findpos)
@@ -343,7 +382,7 @@ for _,sourcefile in pairs(sourcefiles) do
 				end
 				
 				if line_start then
-					-- function name as same struct name (kevent)
+					-- function name is same struct name (osx kevent and struct kevent)
 					local pos_struct = line:find("%Wstruct "..findcall.."%W")
 					if pos_struct then
 						local pos_call = line:find(findcall.."%W")
@@ -354,7 +393,7 @@ for _,sourcefile in pairs(sourcefiles) do
 					end
 				end
 				
-				 -- function on the right side of "=" fix (pthread_self)
+				 -- function on the right side of "=" fix (osx pthread_self)
 				if line_start then
 					local s,e = line:find("= "..findcall)
 					if s then
@@ -386,15 +425,8 @@ for _,sourcefile in pairs(sourcefiles) do
 					line = line:sub(2)
 				end
 					
-				-- replase not-wanted parts. __asm, __attribute__, ...
-				for pat,repl in pairs(replace_pattern) do
-					if repl ~= "delete" then
-						line = line:gsub(pat, repl)
-					elseif line:find(pat) then
-						line = ""
-						break
-					end
-				end
+				-- replace not-wanted parts. __asm, __attribute__, ...
+				line = replaceLine(line)
 				
 				new_calls[i] = "" -- mark as used
 				if line ~= "" then
@@ -424,9 +456,12 @@ for _,sourcefile in pairs(sourcefiles) do
 						def = def:gsub("const ", "")
 						def = def:gsub("^%s+", "")
 						def = def:gsub("\n", "")
+						def = validType(def)
+						
 						if def ~= "" and not basic_types[def] and not type_done[def] then			
-							local first_char = def:sub(1, 1)
-							if first_char ~= "(" and first_char ~= "[" and first_char ~= "*" then
+							if line:find("enum") == 1 then
+								def = def..""  -- for trace
+							else
 								print("    type added: '"..def.."'")
 								type_defines[def] = 0
 							end
@@ -441,8 +476,12 @@ for _,sourcefile in pairs(sourcefiles) do
 							param_delim = ","
 						end
 						if param_start then
-							local params = line:sub(param_start + 1, param_end - 1)
-							paramsAdd(params, param_delim)
+							if line:find("enum") == 1 then
+								param_delim = "" -- for trace
+							else
+								local params = line:sub(param_start + 1, param_end - 1)
+								paramsAdd(params, param_delim)
+							end
 						end
 					end
 				end -- if line ~= "" then
@@ -476,6 +515,11 @@ for _,sourcefile in pairs(sourcefiles) do
 				type_defines[type_str] = nil 
 			else
 				print("  '"..type_str.."'")
+				
+				if type_str:find("recv") then -- for trace
+					type_str = type_str .. ""
+				end
+		
 				-- find type from target ffi.cdef file
 				local pattern = name_separator..type_str..name_separator
 				local posStart, posEnd = code:find(pattern)
@@ -499,19 +543,34 @@ for _,sourcefile in pairs(sourcefiles) do
 							if line_start then
 								line_start = line_start + 1 -- remove next "\n"
 								local line = header:sub(line_start + 1, line_end)
-								local curly_start = line:find("{")
-								if curly_start then
-									curly_start = curly_start + line_start
-									local curly_end= header:find("};", curly_start)
-									if curly_end then
-										line_end = curly_end + 2 -- "};" is 2 chars
+								
+								local line_pos = line:find(type_str)
+								local curly_end = line:find("}")
+								if curly_end and curly_end < line_pos then
+									-- find previous "typedef union" or "typedef struct", use later found
+									local s,e = stringBetweenPosition(header, startpos, endpos, "typedef union", ";")
+									line_start,line_end = stringBetweenPosition(header, startpos, endpos, "typedef struct", ";")
+									if s > line_start then
+										line_start,line_end = s,e
 									end
-									line = header:sub(line_start + 1, line_end)
+									line = header:sub(line_start , line_end)
+								else
+									local curly_start = line:find("{")
+									if curly_start then
+										curly_start = curly_start + line_start
+										local curly_end= header:find("};", curly_start)
+										if curly_end then
+											line_end = curly_end + 2 -- "};" is 2 chars
+										end
+										line = header:sub(line_start + 1, line_end)
+									end
 								end
 							
 								findpos = line_end + 1  -- set next find pos
 								local line_orig = line
 								line_orig = line_orig:gsub("\n", "\n\t")
+								
+								line = replaceLine(line) 
 								line = line:gsub("\n", "")
 								while line:find("  ") do -- remove double spaces
 									line = line:gsub("  ", " ")
@@ -523,6 +582,12 @@ for _,sourcefile in pairs(sourcefiles) do
 									-- continue and find next
 								else
 									posStart,posEnd = line:find(pattern)
+								end
+								
+								-- part of another definition on the right side of statement
+								if line:find("%("..type_str) then -- Linux __sighandler_t
+									posStart = nil -- part of some other static const
+									-- continue and find next
 								end
 									
 								if posStart then
@@ -537,7 +602,9 @@ for _,sourcefile in pairs(sourcefiles) do
 										end
 									until posStart == nil or posStart == 1
 										
+									def = def:match( "^%s*(.-)%s*$" ) -- remove leading and trailing whitespace
 									if not type_lines_content[line] then
+										type_lines_content[line] = 1
 										if def:find("pragma pack(.-)struct") then
 											def = ""
 											if not line_orig:find("pragma pack%(%)") then
@@ -545,20 +612,25 @@ for _,sourcefile in pairs(sourcefiles) do
 												line_orig = line_orig:gsub("#pragma pack", "// #pragma pack")
 											end
 										end
-										if def ~= "" and not basic_types[def] and not type_done[def] then	
-											print("    new type found: '"..def.."'", line)
+										
+										def = validType(def)
+										if def == "" then
+											type_done[type_str] = 0
+										elseif not basic_types[def] and not type_done[def] then	
+											print("    new type found: '"..def.."'") --, line)
 											type_defines[def] = 0
 										else
 											type_done[type_str] = 0
 										end
 										
-										--[[if line:find("typedef ") == 1 then
+										
+										-- replace not-wanted parts. __asm, __attribute__, ...
+										line_orig = replaceLine(line_orig)
+										--if line_orig:find("typedef ") == 1 then
 											table.insert(type_lines, 1, line_orig) -- add to start
-										else
-											table.insert(struct_lines, 1, line_orig) -- add to start
-										end]]
-										table.insert(type_lines, 1, line_orig) -- add to start
-										type_lines_content[line] = 1
+										--else
+										--	table.insert(struct_lines, 1, line_orig) -- add to start
+										--end
 										
 										local static_const = line:find("static const ")
 										if static_const == 1 then
@@ -608,14 +680,12 @@ for _,sourcefile in pairs(sourcefiles) do
 			end
 		end
 		
-		--[[
 		if #struct_lines > 0 then
 			code = code..table.concat(struct_lines, "\n\t")
 			if #function_lines > 0 then
 				code = code.."\n\t\n\t" -- .."\t// methods"
 			end
 		end
-		]]
 		
 		if #function_lines > 0 then
 			code = code..table.concat(function_lines, "\n\t")

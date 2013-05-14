@@ -13,7 +13,7 @@ local dir = util.directory_files("")
 for i=1,#dir do
 	local file=dir[i]
 	if file ~= "TestAll.lua" and  string.find(file, "Test%a*.lua") then
-		io.write(" **********  file: "..file, ", press 's' tos skip and 'q' to quit: ")
+		io.write(" **********  file: "..file, ", press 's' to skip and 'q' to quit: ")
 		local ans = string.lower(io.read("*line"))
 		if ans == "q" then os.exit() end
 		if ans ~= "s" then

@@ -220,33 +220,8 @@ static const int __unix__ = 1;
 static const int unix = 1;
 static const int __ELF__ = 1;
 static const int __DECIMAL_BID_FORMAT__ = 1;
-static const int _SYS_POLL_H = 1;
+static const int _SYS_TIME_H = 1;
 static const int _FEATURES_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
 static const int __USE_ANSI = 1;
 static const int __GNUC_PREREQ(maj,min) = ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min));
 static const int _BSD_SOURCE = 1;
@@ -259,12 +234,9 @@ static const int __USE_POSIX2 = 1;
 static const int __USE_POSIX199309 = 1;
 static const int __USE_POSIX199506 = 1;
 static const int __USE_XOPEN2K = 1;
-#undef __USE_ISOC95
 static const int __USE_ISOC95 = 1;
-#undef __USE_ISOC99
 static const int __USE_ISOC99 = 1;
 static const int __USE_XOPEN2K8 = 1;
-#undef _ATFILE_SOURCE
 static const int _ATFILE_SOURCE = 1;
 static const int __USE_MISC = 1;
 static const int __USE_BSD = 1;
@@ -274,15 +246,12 @@ static const int __USE_FORTIFY_LEVEL = 0;
 static const int __STDC_IEC_559__ = 1;
 static const int __STDC_IEC_559_COMPLEX__ = 1;
 static const long __STDC_ISO_10646__ = 200009L;
-#undef __GNU_LIBRARY__
 static const int __GNU_LIBRARY__ = 6;
 static const int __GLIBC__ = 2;
 static const int __GLIBC_MINOR__ = 15;
 static const int __GLIBC_PREREQ(maj,min) = ((__GLIBC__ << 16) + __GLIBC_MINOR__ >= ((maj) << 16) + (min));
 static const int __GLIBC_HAVE_LONG_LONG = 1;
 static const int _SYS_CDEFS_H = 1;
-#undef __P
-#undef __PMT
 static const int __LEAF = , __leaf__;
 static const int __LEAF_ATTR = __attribute__ ((__leaf__));
 static const int __THROW = __attribute__ ((__nothrow__ __LEAF));
@@ -329,21 +298,199 @@ static const int __LDBL_REDIR_NTH(name,proto) = name proto __THROW;
 static const int __REDIRECT_LDBL(name,proto,alias) = __REDIRECT (name, proto, alias);
 static const int __REDIRECT_NTH_LDBL(name,proto,alias) = __REDIRECT_NTH (name, proto, alias);
 static const int __WORDSIZE = 32;
-static const int POLLIN = 0x001;
-static const int POLLPRI = 0x002;
-static const int POLLOUT = 0x004;
-static const int POLLRDNORM = 0x040;
-static const int POLLRDBAND = 0x080;
-static const int POLLWRNORM = 0x100;
-static const int POLLWRBAND = 0x200;
-static const int POLLERR = 0x008;
-static const int POLLHUP = 0x010;
-static const int POLLNVAL = 0x020;
-typedef unsigned long int nfds_t;
-struct pollfd
+static const int _BITS_TYPES_H = 1;
+static const int __WORDSIZE = 32;
+typedef unsigned char __u_char;
+typedef unsigned short int __u_short;
+typedef unsigned int __u_int;
+typedef unsigned long int __u_long;
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef signed short int __int16_t;
+typedef unsigned short int __uint16_t;
+typedef signed int __int32_t;
+typedef unsigned int __uint32_t;
+__extension__ typedef signed long long int __int64_t;
+__extension__ typedef unsigned long long int __uint64_t;
+__extension__ typedef long long int __quad_t;
+__extension__ typedef unsigned long long int __u_quad_t;
+static const int __S16_TYPE = short int;
+static const int __U16_TYPE = unsigned short int;
+static const int __S32_TYPE = int;
+static const int __U32_TYPE = unsigned int;
+static const int __SLONGWORD_TYPE = long int;
+static const int __ULONGWORD_TYPE = unsigned long int;
+static const int __SQUAD_TYPE = __quad_t;
+static const int __UQUAD_TYPE = __u_quad_t;
+static const int __SWORD_TYPE = int;
+static const int __UWORD_TYPE = unsigned int;
+static const int __SLONG32_TYPE = long int;
+static const int __ULONG32_TYPE = unsigned long int;
+static const int __S64_TYPE = __quad_t;
+static const int __U64_TYPE = __u_quad_t;
+static const int __STD_TYPE = __extension__ typedef;
+static const int _BITS_TYPESIZES_H = 1;
+static const int __DEV_T_TYPE = __UQUAD_TYPE;
+static const int __UID_T_TYPE = __U32_TYPE;
+static const int __GID_T_TYPE = __U32_TYPE;
+static const int __INO_T_TYPE = __ULONGWORD_TYPE;
+static const int __INO64_T_TYPE = __UQUAD_TYPE;
+static const int __MODE_T_TYPE = __U32_TYPE;
+static const int __NLINK_T_TYPE = __UWORD_TYPE;
+static const int __OFF_T_TYPE = __SLONGWORD_TYPE;
+static const int __OFF64_T_TYPE = __SQUAD_TYPE;
+static const int __PID_T_TYPE = __S32_TYPE;
+static const int __RLIM_T_TYPE = __ULONGWORD_TYPE;
+static const int __RLIM64_T_TYPE = __UQUAD_TYPE;
+static const int __BLKCNT_T_TYPE = __SLONGWORD_TYPE;
+static const int __BLKCNT64_T_TYPE = __SQUAD_TYPE;
+static const int __FSBLKCNT_T_TYPE = __ULONGWORD_TYPE;
+static const int __FSBLKCNT64_T_TYPE = __UQUAD_TYPE;
+static const int __FSFILCNT_T_TYPE = __ULONGWORD_TYPE;
+static const int __FSFILCNT64_T_TYPE = __UQUAD_TYPE;
+static const int __ID_T_TYPE = __U32_TYPE;
+static const int __CLOCK_T_TYPE = __SLONGWORD_TYPE;
+static const int __TIME_T_TYPE = __SLONGWORD_TYPE;
+static const int __USECONDS_T_TYPE = __U32_TYPE;
+static const int __SUSECONDS_T_TYPE = __SLONGWORD_TYPE;
+static const int __DADDR_T_TYPE = __S32_TYPE;
+static const int __SWBLK_T_TYPE = __SLONGWORD_TYPE;
+static const int __KEY_T_TYPE = __S32_TYPE;
+static const int __CLOCKID_T_TYPE = __S32_TYPE;
+static const int __TIMER_T_TYPE = void *;
+static const int __BLKSIZE_T_TYPE = __SLONGWORD_TYPE;
+static const int __FSID_T_TYPE = struct { int __val[2]; };
+static const int __SSIZE_T_TYPE = __SWORD_TYPE;
+static const int __FD_SETSIZE = 1024;
+__extension__ typedef __u_quad_t __dev_t;
+__extension__ typedef unsigned int __uid_t;
+__extension__ typedef unsigned int __gid_t;
+__extension__ typedef unsigned long int __ino_t;
+__extension__ typedef __u_quad_t __ino64_t;
+__extension__ typedef unsigned int __mode_t;
+__extension__ typedef unsigned int __nlink_t;
+__extension__ typedef long int __off_t;
+__extension__ typedef __quad_t __off64_t;
+__extension__ typedef int __pid_t;
+__extension__ typedef struct { int __val[2]; } __fsid_t;
+__extension__ typedef long int __clock_t;
+__extension__ typedef unsigned long int __rlim_t;
+__extension__ typedef __u_quad_t __rlim64_t;
+__extension__ typedef unsigned int __id_t;
+__extension__ typedef long int __time_t;
+__extension__ typedef unsigned int __useconds_t;
+__extension__ typedef long int __suseconds_t;
+__extension__ typedef int __daddr_t;
+__extension__ typedef long int __swblk_t;
+__extension__ typedef int __key_t;
+__extension__ typedef int __clockid_t;
+__extension__ typedef void * __timer_t;
+__extension__ typedef long int __blksize_t;
+__extension__ typedef long int __blkcnt_t;
+__extension__ typedef __quad_t __blkcnt64_t;
+__extension__ typedef unsigned long int __fsblkcnt_t;
+__extension__ typedef __u_quad_t __fsblkcnt64_t;
+__extension__ typedef unsigned long int __fsfilcnt_t;
+__extension__ typedef __u_quad_t __fsfilcnt64_t;
+__extension__ typedef int __ssize_t;
+typedef __off64_t __loff_t;
+typedef __quad_t *__qaddr_t;
+typedef char *__caddr_t;
+__extension__ typedef int __intptr_t;
+__extension__ typedef unsigned int __socklen_t;
+static const int __time_t_defined = 1;
+typedef __time_t time_t;
+static const int _STRUCT_TIMEVAL = 1;
+struct timeval
   {
-    int fd;
-    short int events;
-    short int revents;
+    __time_t tv_sec;
+    __suseconds_t tv_usec;
   };
-extern int poll (struct pollfd *__fds, nfds_t __nfds, int __timeout);
+static const int _SYS_SELECT_H = 1;
+static const int __FD_ZERO(fdsp) = do { int __d0, __d1; __asm__ __volatile__ ("cld; rep; stosl" : "=c" (__d0), "=D" (__d1) : "a" (0), "0" (sizeof (fd_set) / sizeof (__fd_mask)), "1" (&__FDS_BITS (fdsp)[0]) : "memory"); } while (0);
+static const int __FD_SET(d,set) = ((void) (__FDS_BITS (set)[__FD_ELT (d)] |= __FD_MASK (d)));
+static const int __FD_CLR(d,set) = ((void) (__FDS_BITS (set)[__FD_ELT (d)] &= ~__FD_MASK (d)));
+static const int __FD_ISSET(d,set) = ((__FDS_BITS (set)[__FD_ELT (d)] & __FD_MASK (d)) != 0);
+static const int _SIGSET_H_types = 1;
+typedef int __sig_atomic_t;
+static const int _SIGSET_NWORDS = (1024 / (8 * sizeof (unsigned long int)));
+typedef struct
+  {
+    unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
+  } __sigset_t;
+typedef __sigset_t sigset_t;
+static const int __timespec_defined = 1;
+struct timespec
+  {
+    __time_t tv_sec;
+    long int tv_nsec;
+  };
+typedef __suseconds_t suseconds_t;
+typedef long int __fd_mask;
+static const int __NFDBITS = (8 * (int) sizeof (__fd_mask));
+static const int __FD_ELT(d) = ((d) / __NFDBITS);
+static const int __FD_MASK(d) = ((__fd_mask) 1 << ((d) % __NFDBITS));
+typedef struct
+  {
+    __fd_mask __fds_bits[1024 / (8 * (int) sizeof (__fd_mask))];
+static const int __FDS_BITS(set) = ((set)->__fds_bits);
+  } fd_set;
+static const int FD_SETSIZE = __FD_SETSIZE;
+typedef __fd_mask fd_mask;
+static const int NFDBITS = __NFDBITS;
+static const int FD_SET(fd,fdsetp) = __FD_SET (fd, fdsetp);
+static const int FD_CLR(fd,fdsetp) = __FD_CLR (fd, fdsetp);
+static const int FD_ISSET(fd,fdsetp) = __FD_ISSET (fd, fdsetp);
+static const int FD_ZERO(fdsetp) = __FD_ZERO (fdsetp);
+extern int select (int __nfds, fd_set *__restrict __readfds,
+     fd_set *__restrict __writefds,
+     fd_set *__restrict __exceptfds,
+     struct timeval *__restrict __timeout);
+extern int pselect (int __nfds, fd_set *__restrict __readfds,
+      fd_set *__restrict __writefds,
+      fd_set *__restrict __exceptfds,
+      const struct timespec *__restrict __timeout,
+      const __sigset_t *__restrict __sigmask);
+struct timezone
+  {
+    int tz_minuteswest;
+    int tz_dsttime;
+  };
+typedef struct timezone *__restrict __timezone_ptr_t;
+extern int gettimeofday (struct timeval *__restrict __tv,
+    __timezone_ptr_t __tz) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int settimeofday (__const struct timeval *__tv,
+    __const struct timezone *__tz)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int adjtime (__const struct timeval *__delta,
+      struct timeval *__olddelta) __attribute__ ((__nothrow__ , __leaf__));
+enum __itimer_which
+  {
+    ITIMER_REAL = 0,
+static const int ITIMER_REAL = ITIMER_REAL;
+    ITIMER_VIRTUAL = 1,
+static const int ITIMER_VIRTUAL = ITIMER_VIRTUAL;
+    ITIMER_PROF = 2
+static const int ITIMER_PROF = ITIMER_PROF;
+  };
+struct itimerval
+  {
+    struct timeval it_interval;
+    struct timeval it_value;
+  };
+typedef int __itimer_which_t;
+extern int getitimer (__itimer_which_t __which,
+        struct itimerval *__value) __attribute__ ((__nothrow__ , __leaf__));
+extern int setitimer (__itimer_which_t __which,
+        __const struct itimerval *__restrict __new,
+        struct itimerval *__restrict __old) __attribute__ ((__nothrow__ , __leaf__));
+extern int utimes (__const char *__file, __const struct timeval __tvp[2])
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int lutimes (__const char *__file, __const struct timeval __tvp[2])
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int futimes (int __fd, __const struct timeval __tvp[2]) __attribute__ ((__nothrow__ , __leaf__));
+static const int timerisset(tvp) = ((tvp)->tv_sec || (tvp)->tv_usec);
+static const int timerclear(tvp) = ((tvp)->tv_sec = (tvp)->tv_usec = 0);
+static const int timercmp(a,b,CMP) = (((a)->tv_sec == (b)->tv_sec) ? ((a)->tv_usec CMP (b)->tv_usec) : ((a)->tv_sec CMP (b)->tv_sec));
+static const int timeradd(a,b,result) = do { (result)->tv_sec = (a)->tv_sec + (b)->tv_sec; (result)->tv_usec = (a)->tv_usec + (b)->tv_usec; if ((result)->tv_usec >= 1000000) { ++(result)->tv_sec; (result)->tv_usec -= 1000000; } } while (0);
+static const int timersub(a,b,result) = do { (result)->tv_sec = (a)->tv_sec - (b)->tv_sec; (result)->tv_usec = (a)->tv_usec - (b)->tv_usec; if ((result)->tv_usec < 0) { --(result)->tv_sec; (result)->tv_usec += 1000000; } } while (0);

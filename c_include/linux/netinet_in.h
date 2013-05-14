@@ -220,33 +220,8 @@ static const int __unix__ = 1;
 static const int unix = 1;
 static const int __ELF__ = 1;
 static const int __DECIMAL_BID_FORMAT__ = 1;
-static const int _NETINET_TCP_H = 1;
+static const int _NETINET_IN_H = 1;
 static const int _FEATURES_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
 static const int __USE_ANSI = 1;
 static const int __GNUC_PREREQ(maj,min) = ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min));
 static const int _BSD_SOURCE = 1;
@@ -259,12 +234,9 @@ static const int __USE_POSIX2 = 1;
 static const int __USE_POSIX199309 = 1;
 static const int __USE_POSIX199506 = 1;
 static const int __USE_XOPEN2K = 1;
-#undef __USE_ISOC95
 static const int __USE_ISOC95 = 1;
-#undef __USE_ISOC99
 static const int __USE_ISOC99 = 1;
 static const int __USE_XOPEN2K8 = 1;
-#undef _ATFILE_SOURCE
 static const int _ATFILE_SOURCE = 1;
 static const int __USE_MISC = 1;
 static const int __USE_BSD = 1;
@@ -274,15 +246,12 @@ static const int __USE_FORTIFY_LEVEL = 0;
 static const int __STDC_IEC_559__ = 1;
 static const int __STDC_IEC_559_COMPLEX__ = 1;
 static const long __STDC_ISO_10646__ = 200009L;
-#undef __GNU_LIBRARY__
 static const int __GNU_LIBRARY__ = 6;
 static const int __GLIBC__ = 2;
 static const int __GLIBC_MINOR__ = 15;
 static const int __GLIBC_PREREQ(maj,min) = ((__GLIBC__ << 16) + __GLIBC_MINOR__ >= ((maj) << 16) + (min));
 static const int __GLIBC_HAVE_LONG_LONG = 1;
 static const int _SYS_CDEFS_H = 1;
-#undef __P
-#undef __PMT
 static const int __LEAF = , __leaf__;
 static const int __LEAF_ATTR = __attribute__ ((__leaf__));
 static const int __THROW = __attribute__ ((__nothrow__ __LEAF));
@@ -329,20 +298,112 @@ static const int __LDBL_REDIR_NTH(name,proto) = name proto __THROW;
 static const int __REDIRECT_LDBL(name,proto,alias) = __REDIRECT (name, proto, alias);
 static const int __REDIRECT_NTH_LDBL(name,proto,alias) = __REDIRECT_NTH (name, proto, alias);
 static const int __WORDSIZE = 32;
-static const int TCP_NODELAY = 1;
-static const int TCP_MAXSEG = 2;
-static const int TCP_CORK = 3;
-static const int TCP_KEEPIDLE = 4;
-static const int TCP_KEEPINTVL = 5;
-static const int TCP_KEEPCNT = 6;
-static const int TCP_SYNCNT = 7;
-static const int TCP_LINGER2 = 8;
-static const int TCP_DEFER_ACCEPT = 9;
-static const int TCP_WINDOW_CLAMP = 10;
-static const int TCP_INFO = 11;
-static const int TCP_QUICKACK = 12;
-static const int TCP_CONGESTION = 13;
-static const int TCP_MD5SIG = 14;
+static const int _STDINT_H = 1;
+static const int _BITS_WCHAR_H = 1;
+static const int __WCHAR_MIN = (-2147483647l - 1l);
+static const int __WCHAR_MAX = (2147483647l);
+static const int __WORDSIZE = 32;
+typedef signed char int8_t;
+typedef short int int16_t;
+typedef int int32_t;
+__extension__
+typedef long long int int64_t;
+typedef unsigned char uint8_t;
+typedef unsigned short int uint16_t;
+typedef unsigned int uint32_t;
+__extension__
+typedef unsigned long long int uint64_t;
+typedef signed char int_least8_t;
+typedef short int int_least16_t;
+typedef int int_least32_t;
+__extension__
+typedef long long int int_least64_t;
+typedef unsigned char uint_least8_t;
+typedef unsigned short int uint_least16_t;
+typedef unsigned int uint_least32_t;
+__extension__
+typedef unsigned long long int uint_least64_t;
+typedef signed char int_fast8_t;
+typedef int int_fast16_t;
+typedef int int_fast32_t;
+__extension__
+typedef long long int int_fast64_t;
+typedef unsigned char uint_fast8_t;
+typedef unsigned int uint_fast16_t;
+typedef unsigned int uint_fast32_t;
+__extension__
+typedef unsigned long long int uint_fast64_t;
+typedef int intptr_t;
+typedef unsigned int uintptr_t;
+__extension__
+typedef long long int intmax_t;
+__extension__
+typedef unsigned long long int uintmax_t;
+static const int __INT64_C(c) = c ## LL;
+static const int __UINT64_C(c) = c ## ULL;
+static const int INT8_MIN = (-128);
+static const int INT16_MIN = (-32767-1);
+static const int INT32_MIN = (-2147483647-1);
+static const int INT64_MIN = (-__INT64_C(9223372036854775807)-1);
+static const int INT8_MAX = (127);
+static const int INT16_MAX = (32767);
+static const int INT32_MAX = (2147483647);
+static const int INT64_MAX = (__INT64_C(9223372036854775807));
+static const int UINT8_MAX = (255);
+static const int UINT16_MAX = (65535);
+static const int UINT32_MAX = (4294967295U);
+static const int UINT64_MAX = (__UINT64_C(18446744073709551615));
+static const int INT_LEAST8_MIN = (-128);
+static const int INT_LEAST16_MIN = (-32767-1);
+static const int INT_LEAST32_MIN = (-2147483647-1);
+static const int INT_LEAST64_MIN = (-__INT64_C(9223372036854775807)-1);
+static const int INT_LEAST8_MAX = (127);
+static const int INT_LEAST16_MAX = (32767);
+static const int INT_LEAST32_MAX = (2147483647);
+static const int INT_LEAST64_MAX = (__INT64_C(9223372036854775807));
+static const int UINT_LEAST8_MAX = (255);
+static const int UINT_LEAST16_MAX = (65535);
+static const int UINT_LEAST32_MAX = (4294967295U);
+static const int UINT_LEAST64_MAX = (__UINT64_C(18446744073709551615));
+static const int INT_FAST8_MIN = (-128);
+static const int INT_FAST16_MIN = (-2147483647-1);
+static const int INT_FAST32_MIN = (-2147483647-1);
+static const int INT_FAST64_MIN = (-__INT64_C(9223372036854775807)-1);
+static const int INT_FAST8_MAX = (127);
+static const int INT_FAST16_MAX = (2147483647);
+static const int INT_FAST32_MAX = (2147483647);
+static const int INT_FAST64_MAX = (__INT64_C(9223372036854775807));
+static const int UINT_FAST8_MAX = (255);
+static const int UINT_FAST16_MAX = (4294967295U);
+static const int UINT_FAST32_MAX = (4294967295U);
+static const int UINT_FAST64_MAX = (__UINT64_C(18446744073709551615));
+static const int INTPTR_MIN = (-2147483647-1);
+static const int INTPTR_MAX = (2147483647);
+static const int UINTPTR_MAX = (4294967295U);
+static const int INTMAX_MIN = (-__INT64_C(9223372036854775807)-1);
+static const int INTMAX_MAX = (__INT64_C(9223372036854775807));
+static const int UINTMAX_MAX = (__UINT64_C(18446744073709551615));
+static const int PTRDIFF_MIN = (-2147483647-1);
+static const int PTRDIFF_MAX = (2147483647);
+static const int SIG_ATOMIC_MIN = (-2147483647-1);
+static const int SIG_ATOMIC_MAX = (2147483647);
+static const int SIZE_MAX = (4294967295U);
+static const int WCHAR_MIN = __WCHAR_MIN;
+static const int WCHAR_MAX = __WCHAR_MAX;
+static const int WINT_MIN = (0u);
+static const int WINT_MAX = (4294967295u);
+static const int INT8_C(c) = c;
+static const int INT16_C(c) = c;
+static const int INT32_C(c) = c;
+static const int INT64_C(c) = c ## LL;
+static const int UINT8_C(c) = c;
+static const int UINT16_C(c) = c;
+static const int UINT32_C(c) = c ## U;
+static const int UINT64_C(c) = c ## ULL;
+static const int INTMAX_C(c) = c ## LL;
+static const int UINTMAX_C(c) = c ## ULL;
+static const int _SYS_SOCKET_H = 1;
+static const int _SYS_UIO_H = 1;
 static const int _SYS_TYPES_H = 1;
 static const int _BITS_TYPES_H = 1;
 static const int __WORDSIZE = 32;
@@ -444,7 +505,6 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 __extension__ typedef int __intptr_t;
 __extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
 typedef __u_char u_char;
 typedef __u_short u_short;
 typedef __u_int u_int;
@@ -468,29 +528,18 @@ typedef __caddr_t caddr_t;
 typedef __key_t key_t;
 static const int __clock_t_defined = 1;
 typedef __clock_t clock_t;
-#undef __need_clock_t
 static const int __time_t_defined = 1;
 typedef __time_t time_t;
-#undef __need_time_t
 static const int __clockid_t_defined = 1;
 typedef __clockid_t clockid_t;
-#undef __clockid_time_t
 static const int __timer_t_defined = 1;
 typedef __timer_t timer_t;
-#undef __need_timer_t
-#undef __need_timespec
 typedef unsigned int size_t;
-#undef __need_size_t
-#undef __need_NULL
 typedef unsigned long int ulong;
 typedef unsigned short int ushort;
 typedef unsigned int uint;
 static const int __intN_t(N,MODE) = typedef int int ##N ##_t __attribute__ ((__mode__ (MODE)));
 static const int __u_intN_t(N,MODE) = typedef unsigned int u_int ##N ##_t __attribute__ ((__mode__ (MODE)));
-typedef int int8_t __attribute__ ((__mode__ (__QI__)));
-typedef int int16_t __attribute__ ((__mode__ (__HI__)));
-typedef int int32_t __attribute__ ((__mode__ (__SI__)));
-typedef int int64_t __attribute__ ((__mode__ (__DI__)));
 typedef unsigned int u_int8_t __attribute__ ((__mode__ (__QI__)));
 typedef unsigned int u_int16_t __attribute__ ((__mode__ (__HI__)));
 typedef unsigned int u_int32_t __attribute__ ((__mode__ (__SI__)));
@@ -540,27 +589,20 @@ typedef struct
     unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
   } __sigset_t;
 typedef __sigset_t sigset_t;
-#undef __need_clock_t
-#undef __need_time_t
-#undef __clockid_time_t
-#undef __need_timer_t
 static const int __timespec_defined = 1;
 struct timespec
   {
     __time_t tv_sec;
     long int tv_nsec;
   };
-#undef __need_timespec
 static const int _STRUCT_TIMEVAL = 1;
 struct timeval
   {
     __time_t tv_sec;
     __suseconds_t tv_usec;
   };
-#undef __need_timeval
 typedef __suseconds_t suseconds_t;
 typedef long int __fd_mask;
-#undef __NFDBITS
 static const int __NFDBITS = (8 * (int) sizeof (__fd_mask));
 static const int __FD_ELT(d) = ((d) / __NFDBITS);
 static const int __FD_MASK(d) = ((__fd_mask) 1 << ((d) % __NFDBITS));
@@ -706,8 +748,6 @@ typedef union
   int __align;
 } pthread_barrierattr_t;
 static const int __cleanup_fct_attribute = __attribute__ ((__regparm__ (1)));
-static const int _SYS_SOCKET_H = 1;
-static const int _SYS_UIO_H = 1;
 static const int _BITS_UIO_H = 1;
 static const int UIO_MAXIOV = 1024;
 struct iovec
@@ -736,10 +776,6 @@ extern ssize_t preadv (int __fd, __const struct iovec *__iovec, int __count,
          __off_t __offset) ;
 extern ssize_t pwritev (int __fd, __const struct iovec *__iovec, int __count,
    __off_t __offset) ;
-#undef __need_size_t
-#undef __need_NULL
-#undef __need_size_t
-#undef __need_NULL
 typedef __socklen_t socklen_t;
 enum __socket_type
 {
@@ -1053,108 +1089,352 @@ extern int accept (int __fd, struct sockaddr *__restrict __addr,
 extern int shutdown (int __fd, int __how) __attribute__ ((__nothrow__ , __leaf__));
 extern int sockatmark (int __fd) __attribute__ ((__nothrow__ , __leaf__));
 extern int isfdtype (int __fd, int __fdtype) __attribute__ ((__nothrow__ , __leaf__));
-struct tcphdr
-  {
-    u_int16_t source;
-    u_int16_t dest;
-    u_int32_t seq;
-    u_int32_t ack_seq;
-    u_int16_t res1:4;
-    u_int16_t doff:4;
-    u_int16_t fin:1;
-    u_int16_t syn:1;
-    u_int16_t rst:1;
-    u_int16_t psh:1;
-    u_int16_t ack:1;
-    u_int16_t urg:1;
-    u_int16_t res2:2;
-    u_int16_t window;
-    u_int16_t check;
-    u_int16_t urg_ptr;
-};
 enum
-{
-  TCP_ESTABLISHED = 1,
-  TCP_SYN_SENT,
-  TCP_SYN_RECV,
-  TCP_FIN_WAIT1,
-  TCP_FIN_WAIT2,
-  TCP_TIME_WAIT,
-  TCP_CLOSE,
-  TCP_CLOSE_WAIT,
-  TCP_LAST_ACK,
-  TCP_LISTEN,
-  TCP_CLOSING
+  {
+    IPPROTO_IP = 0,
+static const int IPPROTO_IP = IPPROTO_IP;
+    IPPROTO_HOPOPTS = 0,
+static const int IPPROTO_HOPOPTS = IPPROTO_HOPOPTS;
+    IPPROTO_ICMP = 1,
+static const int IPPROTO_ICMP = IPPROTO_ICMP;
+    IPPROTO_IGMP = 2,
+static const int IPPROTO_IGMP = IPPROTO_IGMP;
+    IPPROTO_IPIP = 4,
+static const int IPPROTO_IPIP = IPPROTO_IPIP;
+    IPPROTO_TCP = 6,
+static const int IPPROTO_TCP = IPPROTO_TCP;
+    IPPROTO_EGP = 8,
+static const int IPPROTO_EGP = IPPROTO_EGP;
+    IPPROTO_PUP = 12,
+static const int IPPROTO_PUP = IPPROTO_PUP;
+    IPPROTO_UDP = 17,
+static const int IPPROTO_UDP = IPPROTO_UDP;
+    IPPROTO_IDP = 22,
+static const int IPPROTO_IDP = IPPROTO_IDP;
+    IPPROTO_TP = 29,
+static const int IPPROTO_TP = IPPROTO_TP;
+    IPPROTO_DCCP = 33,
+static const int IPPROTO_DCCP = IPPROTO_DCCP;
+    IPPROTO_IPV6 = 41,
+static const int IPPROTO_IPV6 = IPPROTO_IPV6;
+    IPPROTO_ROUTING = 43,
+static const int IPPROTO_ROUTING = IPPROTO_ROUTING;
+    IPPROTO_FRAGMENT = 44,
+static const int IPPROTO_FRAGMENT = IPPROTO_FRAGMENT;
+    IPPROTO_RSVP = 46,
+static const int IPPROTO_RSVP = IPPROTO_RSVP;
+    IPPROTO_GRE = 47,
+static const int IPPROTO_GRE = IPPROTO_GRE;
+    IPPROTO_ESP = 50,
+static const int IPPROTO_ESP = IPPROTO_ESP;
+    IPPROTO_AH = 51,
+static const int IPPROTO_AH = IPPROTO_AH;
+    IPPROTO_ICMPV6 = 58,
+static const int IPPROTO_ICMPV6 = IPPROTO_ICMPV6;
+    IPPROTO_NONE = 59,
+static const int IPPROTO_NONE = IPPROTO_NONE;
+    IPPROTO_DSTOPTS = 60,
+static const int IPPROTO_DSTOPTS = IPPROTO_DSTOPTS;
+    IPPROTO_MTP = 92,
+static const int IPPROTO_MTP = IPPROTO_MTP;
+    IPPROTO_ENCAP = 98,
+static const int IPPROTO_ENCAP = IPPROTO_ENCAP;
+    IPPROTO_PIM = 103,
+static const int IPPROTO_PIM = IPPROTO_PIM;
+    IPPROTO_COMP = 108,
+static const int IPPROTO_COMP = IPPROTO_COMP;
+    IPPROTO_SCTP = 132,
+static const int IPPROTO_SCTP = IPPROTO_SCTP;
+    IPPROTO_UDPLITE = 136,
+static const int IPPROTO_UDPLITE = IPPROTO_UDPLITE;
+    IPPROTO_RAW = 255,
+static const int IPPROTO_RAW = IPPROTO_RAW;
+    IPPROTO_MAX
+  };
+typedef uint16_t in_port_t;
+enum
+  {
+    IPPORT_ECHO = 7,
+    IPPORT_DISCARD = 9,
+    IPPORT_SYSTAT = 11,
+    IPPORT_DAYTIME = 13,
+    IPPORT_NETSTAT = 15,
+    IPPORT_FTP = 21,
+    IPPORT_TELNET = 23,
+    IPPORT_SMTP = 25,
+    IPPORT_TIMESERVER = 37,
+    IPPORT_NAMESERVER = 42,
+    IPPORT_WHOIS = 43,
+    IPPORT_MTP = 57,
+    IPPORT_TFTP = 69,
+    IPPORT_RJE = 77,
+    IPPORT_FINGER = 79,
+    IPPORT_TTYLINK = 87,
+    IPPORT_SUPDUP = 95,
+    IPPORT_EXECSERVER = 512,
+    IPPORT_LOGINSERVER = 513,
+    IPPORT_CMDSERVER = 514,
+    IPPORT_EFSSERVER = 520,
+    IPPORT_BIFFUDP = 512,
+    IPPORT_WHOSERVER = 513,
+    IPPORT_ROUTESERVER = 520,
+    IPPORT_RESERVED = 1024,
+    IPPORT_USERRESERVED = 5000
+  };
+typedef uint32_t in_addr_t;
+struct in_addr
+  {
+    in_addr_t s_addr;
+  };
+static const int IN_CLASSA(a) = ((((in_addr_t)(a)) & 0x80000000) == 0);
+static const int IN_CLASSA_NET = 0xff000000;
+static const int IN_CLASSA_NSHIFT = 24;
+static const int IN_CLASSA_HOST = (0xffffffff & ~IN_CLASSA_NET);
+static const int IN_CLASSA_MAX = 128;
+static const int IN_CLASSB(a) = ((((in_addr_t)(a)) & 0xc0000000) == 0x80000000);
+static const int IN_CLASSB_NET = 0xffff0000;
+static const int IN_CLASSB_NSHIFT = 16;
+static const int IN_CLASSB_HOST = (0xffffffff & ~IN_CLASSB_NET);
+static const int IN_CLASSB_MAX = 65536;
+static const int IN_CLASSC(a) = ((((in_addr_t)(a)) & 0xe0000000) == 0xc0000000);
+static const int IN_CLASSC_NET = 0xffffff00;
+static const int IN_CLASSC_NSHIFT = 8;
+static const int IN_CLASSC_HOST = (0xffffffff & ~IN_CLASSC_NET);
+static const int IN_CLASSD(a) = ((((in_addr_t)(a)) & 0xf0000000) == 0xe0000000);
+static const int IN_MULTICAST(a) = IN_CLASSD(a);
+static const int IN_EXPERIMENTAL(a) = ((((in_addr_t)(a)) & 0xe0000000) == 0xe0000000);
+static const int IN_BADCLASS(a) = ((((in_addr_t)(a)) & 0xf0000000) == 0xf0000000);
+static const int INADDR_ANY = ((in_addr_t) 0x00000000);
+static const int INADDR_BROADCAST = ((in_addr_t) 0xffffffff);
+static const int INADDR_NONE = ((in_addr_t) 0xffffffff);
+static const int IN_LOOPBACKNET = 127;
+static const int INADDR_LOOPBACK = ((in_addr_t) 0x7f000001);
+static const int INADDR_UNSPEC_GROUP = ((in_addr_t) 0xe0000000);
+static const int INADDR_ALLHOSTS_GROUP = ((in_addr_t) 0xe0000001);
+static const int INADDR_ALLRTRS_GROUP = ((in_addr_t) 0xe0000002);
+static const int INADDR_MAX_LOCAL_GROUP = ((in_addr_t) 0xe00000ff);
+struct in6_addr
+  {
+    union
+      {
+ uint8_t __u6_addr8[16];
+ uint16_t __u6_addr16[8];
+ uint32_t __u6_addr32[4];
+      } __in6_u;
+static const int s6_addr = __in6_u.__u6_addr8;
+static const int s6_addr16 = __in6_u.__u6_addr16;
+static const int s6_addr32 = __in6_u.__u6_addr32;
+  };
+extern const struct in6_addr in6addr_any;
+extern const struct in6_addr in6addr_loopback;
+static const int IN6ADDR_ANY_INIT = { { { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0 } } };
+static const int IN6ADDR_LOOPBACK_INIT = { { { 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1 } } };
+static const int INET_ADDRSTRLEN = 16;
+static const int INET6_ADDRSTRLEN = 46;
+struct sockaddr_in
+  {
+    sa_family_t sin_family;
+    in_port_t sin_port;
+    struct in_addr sin_addr;
+    unsigned char sin_zero[sizeof (struct sockaddr) -
+      (sizeof (unsigned short int)) -
+      sizeof (in_port_t) -
+      sizeof (struct in_addr)];
+  };
+struct sockaddr_in6
+  {
+    sa_family_t sin6_family;
+    in_port_t sin6_port;
+    uint32_t sin6_flowinfo;
+    struct in6_addr sin6_addr;
+    uint32_t sin6_scope_id;
+  };
+struct ip_mreq
+  {
+    struct in_addr imr_multiaddr;
+    struct in_addr imr_interface;
+  };
+struct ip_mreq_source
+  {
+    struct in_addr imr_multiaddr;
+    struct in_addr imr_interface;
+    struct in_addr imr_sourceaddr;
+  };
+struct ipv6_mreq
+  {
+    struct in6_addr ipv6mr_multiaddr;
+    unsigned int ipv6mr_interface;
+  };
+struct group_req
+  {
+    uint32_t gr_interface;
+    struct sockaddr_storage gr_group;
+  };
+struct group_source_req
+  {
+    uint32_t gsr_interface;
+    struct sockaddr_storage gsr_group;
+    struct sockaddr_storage gsr_source;
+  };
+struct ip_msfilter
+  {
+    struct in_addr imsf_multiaddr;
+    struct in_addr imsf_interface;
+    uint32_t imsf_fmode;
+    uint32_t imsf_numsrc;
+    struct in_addr imsf_slist[1];
+  };
+static const int IP_MSFILTER_SIZE(numsrc) = (sizeof (struct ip_msfilter) - sizeof (struct in_addr) + (numsrc) * sizeof (struct in_addr));
+struct group_filter
+  {
+    uint32_t gf_interface;
+    struct sockaddr_storage gf_group;
+    uint32_t gf_fmode;
+    uint32_t gf_numsrc;
+    struct sockaddr_storage gf_slist[1];
 };
-static const int TCPOPT_EOL = 0;
-static const int TCPOPT_NOP = 1;
-static const int TCPOPT_MAXSEG = 2;
-static const int TCPOLEN_MAXSEG = 4;
-static const int TCPOPT_WINDOW = 3;
-static const int TCPOLEN_WINDOW = 3;
-static const int TCPOPT_SACK_PERMITTED = 4;
-static const int TCPOLEN_SACK_PERMITTED = 2;
-static const int TCPOPT_SACK = 5;
-static const int TCPOPT_TIMESTAMP = 8;
-static const int TCPOLEN_TIMESTAMP = 10;
-static const int TCPOLEN_TSTAMP_APPA = (TCPOLEN_TIMESTAMP+2);
-static const int TCPOPT_TSTAMP_HDR = (TCPOPT_NOP<<24|TCPOPT_NOP<<16|TCPOPT_TIMESTAMP<<8|TCPOLEN_TIMESTAMP);
-static const int TCP_MSS = 512;
-static const int TCP_MAXWIN = 65535;
-static const int TCP_MAX_WINSHIFT = 14;
-static const int SOL_TCP = 6;
-static const int TCPI_OPT_TIMESTAMPS = 1;
-static const int TCPI_OPT_SACK = 2;
-static const int TCPI_OPT_WSCALE = 4;
-static const int TCPI_OPT_ECN = 8;
-enum tcp_ca_state
-{
-  TCP_CA_Open = 0,
-  TCP_CA_Disorder = 1,
-  TCP_CA_CWR = 2,
-  TCP_CA_Recovery = 3,
-  TCP_CA_Loss = 4
-};
-struct tcp_info
-{
-  u_int8_t tcpi_state;
-  u_int8_t tcpi_ca_state;
-  u_int8_t tcpi_retransmits;
-  u_int8_t tcpi_probes;
-  u_int8_t tcpi_backoff;
-  u_int8_t tcpi_options;
-  u_int8_t tcpi_snd_wscale : 4, tcpi_rcv_wscale : 4;
-  u_int32_t tcpi_rto;
-  u_int32_t tcpi_ato;
-  u_int32_t tcpi_snd_mss;
-  u_int32_t tcpi_rcv_mss;
-  u_int32_t tcpi_unacked;
-  u_int32_t tcpi_sacked;
-  u_int32_t tcpi_lost;
-  u_int32_t tcpi_retrans;
-  u_int32_t tcpi_fackets;
-  u_int32_t tcpi_last_data_sent;
-  u_int32_t tcpi_last_ack_sent;
-  u_int32_t tcpi_last_data_recv;
-  u_int32_t tcpi_last_ack_recv;
-  u_int32_t tcpi_pmtu;
-  u_int32_t tcpi_rcv_ssthresh;
-  u_int32_t tcpi_rtt;
-  u_int32_t tcpi_rttvar;
-  u_int32_t tcpi_snd_ssthresh;
-  u_int32_t tcpi_snd_cwnd;
-  u_int32_t tcpi_advmss;
-  u_int32_t tcpi_reordering;
-  u_int32_t tcpi_rcv_rtt;
-  u_int32_t tcpi_rcv_space;
-  u_int32_t tcpi_total_retrans;
-};
-static const int TCP_MD5SIG_MAXKEYLEN = 80;
-struct tcp_md5sig
-{
-  struct sockaddr_storage tcpm_addr;
-  u_int16_t __tcpm_pad1;
-  u_int16_t tcpm_keylen;
-  u_int32_t __tcpm_pad2;
-  u_int8_t tcpm_key[80];
-};
+static const int GROUP_FILTER_SIZE(numsrc) = (sizeof (struct group_filter) - sizeof (struct sockaddr_storage) + ((numsrc) * sizeof (struct sockaddr_storage)));
+static const int IP_OPTIONS = 4;
+static const int IP_HDRINCL = 3;
+static const int IP_TOS = 1;
+static const int IP_TTL = 2;
+static const int IP_RECVOPTS = 6;
+static const int IP_RECVRETOPTS = IP_RETOPTS;
+static const int IP_RETOPTS = 7;
+static const int IP_MULTICAST_IF = 32;
+static const int IP_MULTICAST_TTL = 33;
+static const int IP_MULTICAST_LOOP = 34;
+static const int IP_ADD_MEMBERSHIP = 35;
+static const int IP_DROP_MEMBERSHIP = 36;
+static const int IP_UNBLOCK_SOURCE = 37;
+static const int IP_BLOCK_SOURCE = 38;
+static const int IP_ADD_SOURCE_MEMBERSHIP = 39;
+static const int IP_DROP_SOURCE_MEMBERSHIP = 40;
+static const int IP_MSFILTER = 41;
+static const int MCAST_JOIN_GROUP = 42;
+static const int MCAST_BLOCK_SOURCE = 43;
+static const int MCAST_UNBLOCK_SOURCE = 44;
+static const int MCAST_LEAVE_GROUP = 45;
+static const int MCAST_JOIN_SOURCE_GROUP = 46;
+static const int MCAST_LEAVE_SOURCE_GROUP = 47;
+static const int MCAST_MSFILTER = 48;
+static const int MCAST_EXCLUDE = 0;
+static const int MCAST_INCLUDE = 1;
+static const int IP_ROUTER_ALERT = 5;
+static const int IP_PKTINFO = 8;
+static const int IP_PKTOPTIONS = 9;
+static const int IP_PMTUDISC = 10;
+static const int IP_MTU_DISCOVER = 10;
+static const int IP_RECVERR = 11;
+static const int IP_RECVTTL = 12;
+static const int IP_RECVTOS = 13;
+static const int IP_MTU = 14;
+static const int IP_FREEBIND = 15;
+static const int IP_IPSEC_POLICY = 16;
+static const int IP_XFRM_POLICY = 17;
+static const int IP_PASSSEC = 18;
+static const int IP_TRANSPARENT = 19;
+static const int IP_MULTICAST_ALL = 49;
+static const int IP_ORIGDSTADDR = 20;
+static const int IP_RECVORIGDSTADDR = IP_ORIGDSTADDR;
+static const int IP_MINTTL = 21;
+static const int IP_PMTUDISC_DONT = 0;
+static const int IP_PMTUDISC_WANT = 1;
+static const int IP_PMTUDISC_DO = 2;
+static const int IP_PMTUDISC_PROBE = 3;
+static const int SOL_IP = 0;
+static const int IP_DEFAULT_MULTICAST_TTL = 1;
+static const int IP_DEFAULT_MULTICAST_LOOP = 1;
+static const int IP_MAX_MEMBERSHIPS = 20;
+struct ip_opts
+  {
+    struct in_addr ip_dst;
+    char ip_opts[40];
+  };
+struct ip_mreqn
+  {
+    struct in_addr imr_multiaddr;
+    struct in_addr imr_address;
+    int imr_ifindex;
+  };
+struct in_pktinfo
+  {
+    int ipi_ifindex;
+    struct in_addr ipi_spec_dst;
+    struct in_addr ipi_addr;
+  };
+static const int IPV6_ADDRFORM = 1;
+static const int IPV6_2292PKTINFO = 2;
+static const int IPV6_2292HOPOPTS = 3;
+static const int IPV6_2292DSTOPTS = 4;
+static const int IPV6_2292RTHDR = 5;
+static const int IPV6_2292PKTOPTIONS = 6;
+static const int IPV6_CHECKSUM = 7;
+static const int IPV6_2292HOPLIMIT = 8;
+static const int SCM_SRCRT = IPV6_RXSRCRT;
+static const int IPV6_NEXTHOP = 9;
+static const int IPV6_AUTHHDR = 10;
+static const int IPV6_UNICAST_HOPS = 16;
+static const int IPV6_MULTICAST_IF = 17;
+static const int IPV6_MULTICAST_HOPS = 18;
+static const int IPV6_MULTICAST_LOOP = 19;
+static const int IPV6_JOIN_GROUP = 20;
+static const int IPV6_LEAVE_GROUP = 21;
+static const int IPV6_ROUTER_ALERT = 22;
+static const int IPV6_MTU_DISCOVER = 23;
+static const int IPV6_MTU = 24;
+static const int IPV6_RECVERR = 25;
+static const int IPV6_V6ONLY = 26;
+static const int IPV6_JOIN_ANYCAST = 27;
+static const int IPV6_LEAVE_ANYCAST = 28;
+static const int IPV6_IPSEC_POLICY = 34;
+static const int IPV6_XFRM_POLICY = 35;
+static const int IPV6_RECVPKTINFO = 49;
+static const int IPV6_PKTINFO = 50;
+static const int IPV6_RECVHOPLIMIT = 51;
+static const int IPV6_HOPLIMIT = 52;
+static const int IPV6_RECVHOPOPTS = 53;
+static const int IPV6_HOPOPTS = 54;
+static const int IPV6_RTHDRDSTOPTS = 55;
+static const int IPV6_RECVRTHDR = 56;
+static const int IPV6_RTHDR = 57;
+static const int IPV6_RECVDSTOPTS = 58;
+static const int IPV6_DSTOPTS = 59;
+static const int IPV6_RECVTCLASS = 66;
+static const int IPV6_TCLASS = 67;
+static const int IPV6_ADD_MEMBERSHIP = IPV6_JOIN_GROUP;
+static const int IPV6_DROP_MEMBERSHIP = IPV6_LEAVE_GROUP;
+static const int IPV6_RXHOPOPTS = IPV6_HOPOPTS;
+static const int IPV6_RXDSTOPTS = IPV6_DSTOPTS;
+static const int IPV6_PMTUDISC_DONT = 0;
+static const int IPV6_PMTUDISC_WANT = 1;
+static const int IPV6_PMTUDISC_DO = 2;
+static const int IPV6_PMTUDISC_PROBE = 3;
+static const int SOL_IPV6 = 41;
+static const int SOL_ICMPV6 = 58;
+static const int IPV6_RTHDR_LOOSE = 0;
+static const int IPV6_RTHDR_STRICT = 1;
+static const int IPV6_RTHDR_TYPE_0 = 0;
+extern uint32_t ntohl (uint32_t __netlong) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+extern uint16_t ntohs (uint16_t __netshort)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+extern uint32_t htonl (uint32_t __hostlong)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+extern uint16_t htons (uint16_t __hostshort)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+static const int IN6_IS_ADDR_UNSPECIFIED(a) = (__extension__ ({ __const struct in6_addr *__a = (__const struct in6_addr *) (a); __a->s6_addr32[0] == 0 && __a->s6_addr32[1] == 0 && __a->s6_addr32[2] == 0 && __a->s6_addr32[3] == 0; }));
+static const int IN6_IS_ADDR_LOOPBACK(a) = (__extension__ ({ __const struct in6_addr *__a = (__const struct in6_addr *) (a); __a->s6_addr32[0] == 0 && __a->s6_addr32[1] == 0 && __a->s6_addr32[2] == 0 && __a->s6_addr32[3] == htonl (1); }));
+static const int IN6_IS_ADDR_LINKLOCAL(a) = (__extension__ ({ __const struct in6_addr *__a = (__const struct in6_addr *) (a); (__a->s6_addr32[0] & htonl (0xffc00000)) == htonl (0xfe800000); }));
+static const int IN6_IS_ADDR_SITELOCAL(a) = (__extension__ ({ __const struct in6_addr *__a = (__const struct in6_addr *) (a); (__a->s6_addr32[0] & htonl (0xffc00000)) == htonl (0xfec00000); }));
+static const int IN6_IS_ADDR_V4MAPPED(a) = (__extension__ ({ __const struct in6_addr *__a = (__const struct in6_addr *) (a); __a->s6_addr32[0] == 0 && __a->s6_addr32[1] == 0 && __a->s6_addr32[2] == htonl (0xffff); }));
+static const int IN6_IS_ADDR_V4COMPAT(a) = (__extension__ ({ __const struct in6_addr *__a = (__const struct in6_addr *) (a); __a->s6_addr32[0] == 0 && __a->s6_addr32[1] == 0 && __a->s6_addr32[2] == 0 && ntohl (__a->s6_addr32[3]) > 1; }));
+static const int IN6_ARE_ADDR_EQUAL(a,b) = (__extension__ ({ __const struct in6_addr *__a = (__const struct in6_addr *) (a); __const struct in6_addr *__b = (__const struct in6_addr *) (b); __a->s6_addr32[0] == __b->s6_addr32[0] && __a->s6_addr32[1] == __b->s6_addr32[1] && __a->s6_addr32[2] == __b->s6_addr32[2] && __a->s6_addr32[3] == __b->s6_addr32[3]; }));
+static const int IN6_IS_ADDR_MULTICAST(a) = (((__const uint8_t *) (a))[0] == 0xff);
+extern int bindresvport (int __sockfd, struct sockaddr_in *__sock_in) __attribute__ ((__nothrow__ , __leaf__));
+extern int bindresvport6 (int __sockfd, struct sockaddr_in6 *__sock_in)
+     __attribute__ ((__nothrow__ , __leaf__));
+static const int IN6_IS_ADDR_MC_NODELOCAL(a) = (IN6_IS_ADDR_MULTICAST(a) && ((((__const uint8_t *) (a))[1] & 0xf) == 0x1));
+static const int IN6_IS_ADDR_MC_LINKLOCAL(a) = (IN6_IS_ADDR_MULTICAST(a) && ((((__const uint8_t *) (a))[1] & 0xf) == 0x2));
+static const int IN6_IS_ADDR_MC_SITELOCAL(a) = (IN6_IS_ADDR_MULTICAST(a) && ((((__const uint8_t *) (a))[1] & 0xf) == 0x5));
+static const int IN6_IS_ADDR_MC_ORGLOCAL(a) = (IN6_IS_ADDR_MULTICAST(a) && ((((__const uint8_t *) (a))[1] & 0xf) == 0x8));
+static const int IN6_IS_ADDR_MC_GLOBAL(a) = (IN6_IS_ADDR_MULTICAST(a) && ((((__const uint8_t *) (a))[1] & 0xf) == 0xe));

@@ -220,7 +220,7 @@ static const int __unix__ = 1;
 static const int unix = 1;
 static const int __ELF__ = 1;
 static const int __DECIMAL_BID_FORMAT__ = 1;
-static const int _FCNTL_H = 1;
+static const int _NETINET_TCP_H = 1;
 static const int _FEATURES_H = 1;
 static const int __USE_ANSI = 1;
 static const int __GNUC_PREREQ(maj,min) = ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min));
@@ -298,6 +298,20 @@ static const int __LDBL_REDIR_NTH(name,proto) = name proto __THROW;
 static const int __REDIRECT_LDBL(name,proto,alias) = __REDIRECT (name, proto, alias);
 static const int __REDIRECT_NTH_LDBL(name,proto,alias) = __REDIRECT_NTH (name, proto, alias);
 static const int __WORDSIZE = 32;
+static const int TCP_NODELAY = 1;
+static const int TCP_MAXSEG = 2;
+static const int TCP_CORK = 3;
+static const int TCP_KEEPIDLE = 4;
+static const int TCP_KEEPINTVL = 5;
+static const int TCP_KEEPCNT = 6;
+static const int TCP_SYNCNT = 7;
+static const int TCP_LINGER2 = 8;
+static const int TCP_DEFER_ACCEPT = 9;
+static const int TCP_WINDOW_CLAMP = 10;
+static const int TCP_INFO = 11;
+static const int TCP_QUICKACK = 12;
+static const int TCP_CONGESTION = 13;
+static const int TCP_MD5SIG = 14;
 static const int _SYS_TYPES_H = 1;
 static const int _BITS_TYPES_H = 1;
 static const int __WORDSIZE = 32;
@@ -646,166 +660,451 @@ typedef union
   int __align;
 } pthread_barrierattr_t;
 static const int __cleanup_fct_attribute = __attribute__ ((__regparm__ (1)));
-static const int O_ACCMODE = 0003;
-static const int O_RDONLY = 00;
-static const int O_WRONLY = 01;
-static const int O_RDWR = 02;
-static const int O_CREAT = 0100;
-static const int O_EXCL = 0200;
-static const int O_NOCTTY = 0400;
-static const int O_TRUNC = 01000;
-static const int O_APPEND = 02000;
-static const int O_NONBLOCK = 04000;
-static const int O_NDELAY = O_NONBLOCK;
-static const int O_SYNC = 04010000;
-static const int O_FSYNC = O_SYNC;
-static const int O_ASYNC = 020000;
-static const int O_DIRECTORY = 0200000;
-static const int O_NOFOLLOW = 0400000;
-static const int O_CLOEXEC = 02000000;
-static const int O_DSYNC = 010000;
-static const int O_RSYNC = O_SYNC;
-static const int F_DUPFD = 0;
-static const int F_GETFD = 1;
-static const int F_SETFD = 2;
-static const int F_GETFL = 3;
-static const int F_SETFL = 4;
-static const int F_GETLK = 5;
-static const int F_SETLK = 6;
-static const int F_SETLKW = 7;
-static const int F_GETLK64 = 12;
-static const int F_SETLK64 = 13;
-static const int F_SETLKW64 = 14;
-static const int F_SETOWN = 8;
-static const int F_GETOWN = 9;
-static const int F_DUPFD_CLOEXEC = 1030;
-static const int FD_CLOEXEC = 1;
-static const int F_RDLCK = 0;
-static const int F_WRLCK = 1;
-static const int F_UNLCK = 2;
-static const int F_EXLCK = 4;
-static const int F_SHLCK = 8;
-static const int LOCK_SH = 1;
-static const int LOCK_EX = 2;
-static const int LOCK_NB = 4;
-static const int LOCK_UN = 8;
-struct flock
+static const int _SYS_SOCKET_H = 1;
+static const int _SYS_UIO_H = 1;
+static const int _BITS_UIO_H = 1;
+static const int UIO_MAXIOV = 1024;
+struct iovec
   {
-    short int l_type;
-    short int l_whence;
-    __off_t l_start;
-    __off_t l_len;
-    __pid_t l_pid;
+    void *iov_base;
+    size_t iov_len;
   };
-static const int FAPPEND = O_APPEND;
-static const int FFSYNC = O_FSYNC;
-static const int FASYNC = O_ASYNC;
-static const int FNONBLOCK = O_NONBLOCK;
-static const int FNDELAY = O_NDELAY;
-static const int POSIX_FADV_NORMAL = 0;
-static const int POSIX_FADV_RANDOM = 1;
-static const int POSIX_FADV_SEQUENTIAL = 2;
-static const int POSIX_FADV_WILLNEED = 3;
-static const int POSIX_FADV_DONTNEED = 4;
-static const int POSIX_FADV_NOREUSE = 5;
-static const int AT_FDCWD = -100;
-static const int AT_SYMLINK_NOFOLLOW = 0x100;
-static const int AT_REMOVEDIR = 0x200;
-static const int AT_SYMLINK_FOLLOW = 0x400;
-static const int AT_NO_AUTOMOUNT = 0x800;
-static const int AT_EMPTY_PATH = 0x1000;
-static const int AT_EACCESS = 0x200;
-static const int _BITS_STAT_H = 1;
-static const int _STAT_VER_LINUX_OLD = 1;
-static const int _STAT_VER_KERNEL = 1;
-static const int _STAT_VER_SVR4 = 2;
-static const int _STAT_VER_LINUX = 3;
-static const int _STAT_VER = _STAT_VER_LINUX;
-static const int _MKNOD_VER_LINUX = 1;
-static const int _MKNOD_VER_SVR4 = 2;
-static const int _MKNOD_VER = _MKNOD_VER_LINUX;
-struct stat
+static const int _BITS_UIO_H_FOR_SYS_UIO_H = 1;
+extern ssize_t process_vm_readv (pid_t __pid, __const struct iovec *__lvec,
+     unsigned long int __liovcnt,
+     __const struct iovec *__rvec,
+     unsigned long int __riovcnt,
+     unsigned long int __flags)
+  __attribute__ ((__nothrow__ , __leaf__));
+extern ssize_t process_vm_writev (pid_t __pid, __const struct iovec *__lvec,
+      unsigned long int __liovcnt,
+      __const struct iovec *__rvec,
+      unsigned long int __riovcnt,
+      unsigned long int __flags)
+  __attribute__ ((__nothrow__ , __leaf__));
+extern ssize_t readv (int __fd, __const struct iovec *__iovec, int __count)
+  ;
+extern ssize_t writev (int __fd, __const struct iovec *__iovec, int __count)
+  ;
+extern ssize_t preadv (int __fd, __const struct iovec *__iovec, int __count,
+         __off_t __offset) ;
+extern ssize_t pwritev (int __fd, __const struct iovec *__iovec, int __count,
+   __off_t __offset) ;
+typedef __socklen_t socklen_t;
+enum __socket_type
+{
+  SOCK_STREAM = 1,
+static const int SOCK_STREAM = SOCK_STREAM;
+  SOCK_DGRAM = 2,
+static const int SOCK_DGRAM = SOCK_DGRAM;
+  SOCK_RAW = 3,
+static const int SOCK_RAW = SOCK_RAW;
+  SOCK_RDM = 4,
+static const int SOCK_RDM = SOCK_RDM;
+  SOCK_SEQPACKET = 5,
+static const int SOCK_SEQPACKET = SOCK_SEQPACKET;
+  SOCK_DCCP = 6,
+static const int SOCK_DCCP = SOCK_DCCP;
+  SOCK_PACKET = 10,
+static const int SOCK_PACKET = SOCK_PACKET;
+  SOCK_CLOEXEC = 02000000,
+static const int SOCK_CLOEXEC = SOCK_CLOEXEC;
+  SOCK_NONBLOCK = 04000
+static const int SOCK_NONBLOCK = SOCK_NONBLOCK;
+};
+static const int PF_UNSPEC = 0;
+static const int PF_LOCAL = 1;
+static const int PF_UNIX = PF_LOCAL;
+static const int PF_FILE = PF_LOCAL;
+static const int PF_INET = 2;
+static const int PF_AX25 = 3;
+static const int PF_IPX = 4;
+static const int PF_APPLETALK = 5;
+static const int PF_NETROM = 6;
+static const int PF_BRIDGE = 7;
+static const int PF_ATMPVC = 8;
+static const int PF_X25 = 9;
+static const int PF_INET6 = 10;
+static const int PF_ROSE = 11;
+static const int PF_DECnet = 12;
+static const int PF_NETBEUI = 13;
+static const int PF_SECURITY = 14;
+static const int PF_KEY = 15;
+static const int PF_NETLINK = 16;
+static const int PF_ROUTE = PF_NETLINK;
+static const int PF_PACKET = 17;
+static const int PF_ASH = 18;
+static const int PF_ECONET = 19;
+static const int PF_ATMSVC = 20;
+static const int PF_RDS = 21;
+static const int PF_SNA = 22;
+static const int PF_IRDA = 23;
+static const int PF_PPPOX = 24;
+static const int PF_WANPIPE = 25;
+static const int PF_LLC = 26;
+static const int PF_CAN = 29;
+static const int PF_TIPC = 30;
+static const int PF_BLUETOOTH = 31;
+static const int PF_IUCV = 32;
+static const int PF_RXRPC = 33;
+static const int PF_ISDN = 34;
+static const int PF_PHONET = 35;
+static const int PF_IEEE802154 = 36;
+static const int PF_CAIF = 37;
+static const int PF_ALG = 38;
+static const int PF_NFC = 39;
+static const int PF_MAX = 40;
+static const int AF_UNSPEC = PF_UNSPEC;
+static const int AF_LOCAL = PF_LOCAL;
+static const int AF_UNIX = PF_UNIX;
+static const int AF_FILE = PF_FILE;
+static const int AF_INET = PF_INET;
+static const int AF_AX25 = PF_AX25;
+static const int AF_IPX = PF_IPX;
+static const int AF_APPLETALK = PF_APPLETALK;
+static const int AF_NETROM = PF_NETROM;
+static const int AF_BRIDGE = PF_BRIDGE;
+static const int AF_ATMPVC = PF_ATMPVC;
+static const int AF_X25 = PF_X25;
+static const int AF_INET6 = PF_INET6;
+static const int AF_ROSE = PF_ROSE;
+static const int AF_DECnet = PF_DECnet;
+static const int AF_NETBEUI = PF_NETBEUI;
+static const int AF_SECURITY = PF_SECURITY;
+static const int AF_KEY = PF_KEY;
+static const int AF_NETLINK = PF_NETLINK;
+static const int AF_ROUTE = PF_ROUTE;
+static const int AF_PACKET = PF_PACKET;
+static const int AF_ASH = PF_ASH;
+static const int AF_ECONET = PF_ECONET;
+static const int AF_ATMSVC = PF_ATMSVC;
+static const int AF_RDS = PF_RDS;
+static const int AF_SNA = PF_SNA;
+static const int AF_IRDA = PF_IRDA;
+static const int AF_PPPOX = PF_PPPOX;
+static const int AF_WANPIPE = PF_WANPIPE;
+static const int AF_LLC = PF_LLC;
+static const int AF_CAN = PF_CAN;
+static const int AF_TIPC = PF_TIPC;
+static const int AF_BLUETOOTH = PF_BLUETOOTH;
+static const int AF_IUCV = PF_IUCV;
+static const int AF_RXRPC = PF_RXRPC;
+static const int AF_ISDN = PF_ISDN;
+static const int AF_PHONET = PF_PHONET;
+static const int AF_IEEE802154 = PF_IEEE802154;
+static const int AF_CAIF = PF_CAIF;
+static const int AF_ALG = PF_ALG;
+static const int AF_NFC = PF_NFC;
+static const int AF_MAX = PF_MAX;
+static const int SOL_RAW = 255;
+static const int SOL_DECNET = 261;
+static const int SOL_X25 = 262;
+static const int SOL_PACKET = 263;
+static const int SOL_ATM = 264;
+static const int SOL_AAL = 265;
+static const int SOL_IRDA = 266;
+static const int SOMAXCONN = 128;
+static const int _BITS_SOCKADDR_H = 1;
+typedef unsigned short int sa_family_t;
+static const int __SOCKADDR_COMMON(sa_prefix) = sa_family_t sa_prefix ##family;
+static const int __SOCKADDR_COMMON_SIZE = (sizeof (unsigned short int));
+struct sockaddr
   {
-    __dev_t st_dev;
-    unsigned short int __pad1;
-    __ino_t st_ino;
-    __mode_t st_mode;
-    __nlink_t st_nlink;
-    __uid_t st_uid;
-    __gid_t st_gid;
-    __dev_t st_rdev;
-    unsigned short int __pad2;
-    __off_t st_size;
-    __blksize_t st_blksize;
-    __blkcnt_t st_blocks;
-    struct timespec st_atim;
-    struct timespec st_mtim;
-    struct timespec st_ctim;
-static const int st_atime = st_atim.tv_sec;
-static const int st_mtime = st_mtim.tv_sec;
-static const int st_ctime = st_ctim.tv_sec;
-    unsigned long int __unused4;
-    unsigned long int __unused5;
+    sa_family_t sa_family;
+    char sa_data[14];
   };
-static const int __S_IFMT = 0170000;
-static const int __S_IFDIR = 0040000;
-static const int __S_IFCHR = 0020000;
-static const int __S_IFBLK = 0060000;
-static const int __S_IFREG = 0100000;
-static const int __S_IFIFO = 0010000;
-static const int __S_IFLNK = 0120000;
-static const int __S_IFSOCK = 0140000;
-static const int __S_TYPEISMQ(buf) = ((buf)->st_mode - (buf)->st_mode);
-static const int __S_TYPEISSEM(buf) = ((buf)->st_mode - (buf)->st_mode);
-static const int __S_TYPEISSHM(buf) = ((buf)->st_mode - (buf)->st_mode);
-static const int __S_ISUID = 04000;
-static const int __S_ISGID = 02000;
-static const int __S_ISVTX = 01000;
-static const int __S_IREAD = 0400;
-static const int __S_IWRITE = 0200;
-static const int __S_IEXEC = 0100;
-static const int UTIME_NOW = ((1l << 30) - 1l);
-static const int UTIME_OMIT = ((1l << 30) - 2l);
-static const int S_IFMT = __S_IFMT;
-static const int S_IFDIR = __S_IFDIR;
-static const int S_IFCHR = __S_IFCHR;
-static const int S_IFBLK = __S_IFBLK;
-static const int S_IFREG = __S_IFREG;
-static const int S_IFIFO = __S_IFIFO;
-static const int S_IFLNK = __S_IFLNK;
-static const int S_IFSOCK = __S_IFSOCK;
-static const int S_ISUID = __S_ISUID;
-static const int S_ISGID = __S_ISGID;
-static const int S_ISVTX = __S_ISVTX;
-static const int S_IRUSR = __S_IREAD;
-static const int S_IWUSR = __S_IWRITE;
-static const int S_IXUSR = __S_IEXEC;
-static const int S_IRWXU = (__S_IREAD|__S_IWRITE|__S_IEXEC);
-static const int S_IRGRP = (S_IRUSR >> 3);
-static const int S_IWGRP = (S_IWUSR >> 3);
-static const int S_IXGRP = (S_IXUSR >> 3);
-static const int S_IRWXG = (S_IRWXU >> 3);
-static const int S_IROTH = (S_IRGRP >> 3);
-static const int S_IWOTH = (S_IWGRP >> 3);
-static const int S_IXOTH = (S_IXGRP >> 3);
-static const int S_IRWXO = (S_IRWXG >> 3);
-static const int R_OK = 4;
-static const int W_OK = 2;
-static const int X_OK = 1;
-static const int F_OK = 0;
-static const int SEEK_SET = 0;
-static const int SEEK_CUR = 1;
-static const int SEEK_END = 2;
-extern int fcntl (int __fd, int __cmd, ...);
-extern int open (__const char *__file, int __oflag, ...) __attribute__ ((__nonnull__ (1)));
-extern int openat (int __fd, __const char *__file, int __oflag, ...)
-     __attribute__ ((__nonnull__ (2)));
-extern int creat (__const char *__file, __mode_t __mode) __attribute__ ((__nonnull__ (1)));
-static const int F_ULOCK = 0;
-static const int F_LOCK = 1;
-static const int F_TLOCK = 2;
-static const int F_TEST = 3;
-extern int lockf (int __fd, int __cmd, __off_t __len);
-extern int posix_fadvise (int __fd, __off_t __offset, __off_t __len,
-     int __advise) __attribute__ ((__nothrow__ , __leaf__));
-extern int posix_fallocate (int __fd, __off_t __offset, __off_t __len);
+static const int __ss_aligntype = unsigned long int;
+static const int _SS_SIZE = 128;
+static const int _SS_PADSIZE = (_SS_SIZE - (2 * sizeof (__ss_aligntype)));
+struct sockaddr_storage
+  {
+    sa_family_t ss_family;
+    unsigned long int __ss_align;
+    char __ss_padding[(128 - (2 * sizeof (unsigned long int)))];
+  };
+enum
+  {
+    MSG_OOB = 0x01,
+static const int MSG_OOB = MSG_OOB;
+    MSG_PEEK = 0x02,
+static const int MSG_PEEK = MSG_PEEK;
+    MSG_DONTROUTE = 0x04,
+static const int MSG_DONTROUTE = MSG_DONTROUTE;
+    MSG_CTRUNC = 0x08,
+static const int MSG_CTRUNC = MSG_CTRUNC;
+    MSG_PROXY = 0x10,
+static const int MSG_PROXY = MSG_PROXY;
+    MSG_TRUNC = 0x20,
+static const int MSG_TRUNC = MSG_TRUNC;
+    MSG_DONTWAIT = 0x40,
+static const int MSG_DONTWAIT = MSG_DONTWAIT;
+    MSG_EOR = 0x80,
+static const int MSG_EOR = MSG_EOR;
+    MSG_WAITALL = 0x100,
+static const int MSG_WAITALL = MSG_WAITALL;
+    MSG_FIN = 0x200,
+static const int MSG_FIN = MSG_FIN;
+    MSG_SYN = 0x400,
+static const int MSG_SYN = MSG_SYN;
+    MSG_CONFIRM = 0x800,
+static const int MSG_CONFIRM = MSG_CONFIRM;
+    MSG_RST = 0x1000,
+static const int MSG_RST = MSG_RST;
+    MSG_ERRQUEUE = 0x2000,
+static const int MSG_ERRQUEUE = MSG_ERRQUEUE;
+    MSG_NOSIGNAL = 0x4000,
+static const int MSG_NOSIGNAL = MSG_NOSIGNAL;
+    MSG_MORE = 0x8000,
+static const int MSG_MORE = MSG_MORE;
+    MSG_WAITFORONE = 0x10000,
+static const int MSG_WAITFORONE = MSG_WAITFORONE;
+    MSG_CMSG_CLOEXEC = 0x40000000
+static const int MSG_CMSG_CLOEXEC = MSG_CMSG_CLOEXEC;
+  };
+struct msghdr
+  {
+    void *msg_name;
+    socklen_t msg_namelen;
+    struct iovec *msg_iov;
+    size_t msg_iovlen;
+    void *msg_control;
+    size_t msg_controllen;
+    int msg_flags;
+  };
+struct cmsghdr
+  {
+    size_t cmsg_len;
+    int cmsg_level;
+    int cmsg_type;
+    __extension__ unsigned char __cmsg_data [];
+  };
+static const int CMSG_DATA(cmsg) = ((cmsg)->__cmsg_data);
+static const int CMSG_NXTHDR(mhdr,cmsg) = __cmsg_nxthdr (mhdr, cmsg);
+static const int CMSG_FIRSTHDR(mhdr) = ((size_t) (mhdr)->msg_controllen >= sizeof (struct cmsghdr) ? (struct cmsghdr *) (mhdr)->msg_control : (struct cmsghdr *) 0);
+static const int CMSG_ALIGN(len) = (((len) + sizeof (size_t) - 1) & (size_t) ~(sizeof (size_t) - 1));
+static const int CMSG_SPACE(len) = (CMSG_ALIGN (len) + CMSG_ALIGN (sizeof (struct cmsghdr)));
+static const int CMSG_LEN(len) = (CMSG_ALIGN (sizeof (struct cmsghdr)) + (len));
+extern struct cmsghdr *__cmsg_nxthdr (struct msghdr *__mhdr,
+          struct cmsghdr *__cmsg) __attribute__ ((__nothrow__ , __leaf__));
+enum
+  {
+    SCM_RIGHTS = 0x01
+static const int SCM_RIGHTS = SCM_RIGHTS;
+  };
+static const int FIOSETOWN = 0x8901;
+static const int SIOCSPGRP = 0x8902;
+static const int FIOGETOWN = 0x8903;
+static const int SIOCGPGRP = 0x8904;
+static const int SIOCATMARK = 0x8905;
+static const int SIOCGSTAMP = 0x8906;
+static const int SIOCGSTAMPNS = 0x8907;
+static const int SOL_SOCKET = 1;
+static const int SO_DEBUG = 1;
+static const int SO_REUSEADDR = 2;
+static const int SO_TYPE = 3;
+static const int SO_ERROR = 4;
+static const int SO_DONTROUTE = 5;
+static const int SO_BROADCAST = 6;
+static const int SO_SNDBUF = 7;
+static const int SO_RCVBUF = 8;
+static const int SO_SNDBUFFORCE = 32;
+static const int SO_RCVBUFFORCE = 33;
+static const int SO_KEEPALIVE = 9;
+static const int SO_OOBINLINE = 10;
+static const int SO_NO_CHECK = 11;
+static const int SO_PRIORITY = 12;
+static const int SO_LINGER = 13;
+static const int SO_BSDCOMPAT = 14;
+static const int SO_PASSCRED = 16;
+static const int SO_PEERCRED = 17;
+static const int SO_RCVLOWAT = 18;
+static const int SO_SNDLOWAT = 19;
+static const int SO_RCVTIMEO = 20;
+static const int SO_SNDTIMEO = 21;
+static const int SO_SECURITY_AUTHENTICATION = 22;
+static const int SO_SECURITY_ENCRYPTION_TRANSPORT = 23;
+static const int SO_SECURITY_ENCRYPTION_NETWORK = 24;
+static const int SO_BINDTODEVICE = 25;
+static const int SO_ATTACH_FILTER = 26;
+static const int SO_DETACH_FILTER = 27;
+static const int SO_PEERNAME = 28;
+static const int SO_TIMESTAMP = 29;
+static const int SCM_TIMESTAMP = SO_TIMESTAMP;
+static const int SO_ACCEPTCONN = 30;
+static const int SO_PEERSEC = 31;
+static const int SO_PASSSEC = 34;
+static const int SO_TIMESTAMPNS = 35;
+static const int SCM_TIMESTAMPNS = SO_TIMESTAMPNS;
+static const int SO_MARK = 36;
+static const int SO_TIMESTAMPING = 37;
+static const int SCM_TIMESTAMPING = SO_TIMESTAMPING;
+static const int SO_PROTOCOL = 38;
+static const int SO_DOMAIN = 39;
+static const int SO_RXQ_OVFL = 40;
+static const int SO_WIFI_STATUS = 41;
+static const int SCM_WIFI_STATUS = SO_WIFI_STATUS;
+static const int SO_PEEK_OFF = 42;
+static const int SO_NOFCS = 43;
+struct linger
+  {
+    int l_onoff;
+    int l_linger;
+  };
+extern int recvmmsg (int __fd, struct mmsghdr *__vmessages,
+       unsigned int __vlen, int __flags,
+       __const struct timespec *__tmo);
+extern int sendmmsg (int __fd, struct mmsghdr *__vmessages,
+       unsigned int __vlen, int __flags);
+struct osockaddr
+  {
+    unsigned short int sa_family;
+    unsigned char sa_data[14];
+  };
+enum
+{
+  SHUT_RD = 0,
+static const int SHUT_RD = SHUT_RD;
+  SHUT_WR,
+static const int SHUT_WR = SHUT_WR;
+  SHUT_RDWR
+static const int SHUT_RDWR = SHUT_RDWR;
+};
+static const int __SOCKADDR_ARG = struct sockaddr *__restrict;
+static const int __CONST_SOCKADDR_ARG = __const struct sockaddr *;
+extern int socket (int __domain, int __type, int __protocol) __attribute__ ((__nothrow__ , __leaf__));
+extern int socketpair (int __domain, int __type, int __protocol,
+         int __fds[2]) __attribute__ ((__nothrow__ , __leaf__));
+extern int bind (int __fd, __const struct sockaddr * __addr, socklen_t __len)
+     __attribute__ ((__nothrow__ , __leaf__));
+extern int getsockname (int __fd, struct sockaddr *__restrict __addr,
+   socklen_t *__restrict __len) __attribute__ ((__nothrow__ , __leaf__));
+extern int connect (int __fd, __const struct sockaddr * __addr, socklen_t __len);
+extern int getpeername (int __fd, struct sockaddr *__restrict __addr,
+   socklen_t *__restrict __len) __attribute__ ((__nothrow__ , __leaf__));
+extern ssize_t send (int __fd, __const void *__buf, size_t __n, int __flags);
+extern ssize_t recv (int __fd, void *__buf, size_t __n, int __flags);
+extern ssize_t sendto (int __fd, __const void *__buf, size_t __n,
+         int __flags, __const struct sockaddr * __addr,
+         socklen_t __addr_len);
+extern ssize_t recvfrom (int __fd, void *__restrict __buf, size_t __n,
+    int __flags, struct sockaddr *__restrict __addr,
+    socklen_t *__restrict __addr_len);
+extern ssize_t sendmsg (int __fd, __const struct msghdr *__message,
+   int __flags);
+extern ssize_t recvmsg (int __fd, struct msghdr *__message, int __flags);
+extern int getsockopt (int __fd, int __level, int __optname,
+         void *__restrict __optval,
+         socklen_t *__restrict __optlen) __attribute__ ((__nothrow__ , __leaf__));
+extern int setsockopt (int __fd, int __level, int __optname,
+         __const void *__optval, socklen_t __optlen) __attribute__ ((__nothrow__ , __leaf__));
+extern int listen (int __fd, int __n) __attribute__ ((__nothrow__ , __leaf__));
+extern int accept (int __fd, struct sockaddr *__restrict __addr,
+     socklen_t *__restrict __addr_len);
+extern int shutdown (int __fd, int __how) __attribute__ ((__nothrow__ , __leaf__));
+extern int sockatmark (int __fd) __attribute__ ((__nothrow__ , __leaf__));
+extern int isfdtype (int __fd, int __fdtype) __attribute__ ((__nothrow__ , __leaf__));
+struct tcphdr
+  {
+    u_int16_t source;
+    u_int16_t dest;
+    u_int32_t seq;
+    u_int32_t ack_seq;
+    u_int16_t res1:4;
+    u_int16_t doff:4;
+    u_int16_t fin:1;
+    u_int16_t syn:1;
+    u_int16_t rst:1;
+    u_int16_t psh:1;
+    u_int16_t ack:1;
+    u_int16_t urg:1;
+    u_int16_t res2:2;
+    u_int16_t window;
+    u_int16_t check;
+    u_int16_t urg_ptr;
+};
+enum
+{
+  TCP_ESTABLISHED = 1,
+  TCP_SYN_SENT,
+  TCP_SYN_RECV,
+  TCP_FIN_WAIT1,
+  TCP_FIN_WAIT2,
+  TCP_TIME_WAIT,
+  TCP_CLOSE,
+  TCP_CLOSE_WAIT,
+  TCP_LAST_ACK,
+  TCP_LISTEN,
+  TCP_CLOSING
+};
+static const int TCPOPT_EOL = 0;
+static const int TCPOPT_NOP = 1;
+static const int TCPOPT_MAXSEG = 2;
+static const int TCPOLEN_MAXSEG = 4;
+static const int TCPOPT_WINDOW = 3;
+static const int TCPOLEN_WINDOW = 3;
+static const int TCPOPT_SACK_PERMITTED = 4;
+static const int TCPOLEN_SACK_PERMITTED = 2;
+static const int TCPOPT_SACK = 5;
+static const int TCPOPT_TIMESTAMP = 8;
+static const int TCPOLEN_TIMESTAMP = 10;
+static const int TCPOLEN_TSTAMP_APPA = (TCPOLEN_TIMESTAMP+2);
+static const int TCPOPT_TSTAMP_HDR = (TCPOPT_NOP<<24|TCPOPT_NOP<<16|TCPOPT_TIMESTAMP<<8|TCPOLEN_TIMESTAMP);
+static const int TCP_MSS = 512;
+static const int TCP_MAXWIN = 65535;
+static const int TCP_MAX_WINSHIFT = 14;
+static const int SOL_TCP = 6;
+static const int TCPI_OPT_TIMESTAMPS = 1;
+static const int TCPI_OPT_SACK = 2;
+static const int TCPI_OPT_WSCALE = 4;
+static const int TCPI_OPT_ECN = 8;
+enum tcp_ca_state
+{
+  TCP_CA_Open = 0,
+  TCP_CA_Disorder = 1,
+  TCP_CA_CWR = 2,
+  TCP_CA_Recovery = 3,
+  TCP_CA_Loss = 4
+};
+struct tcp_info
+{
+  u_int8_t tcpi_state;
+  u_int8_t tcpi_ca_state;
+  u_int8_t tcpi_retransmits;
+  u_int8_t tcpi_probes;
+  u_int8_t tcpi_backoff;
+  u_int8_t tcpi_options;
+  u_int8_t tcpi_snd_wscale : 4, tcpi_rcv_wscale : 4;
+  u_int32_t tcpi_rto;
+  u_int32_t tcpi_ato;
+  u_int32_t tcpi_snd_mss;
+  u_int32_t tcpi_rcv_mss;
+  u_int32_t tcpi_unacked;
+  u_int32_t tcpi_sacked;
+  u_int32_t tcpi_lost;
+  u_int32_t tcpi_retrans;
+  u_int32_t tcpi_fackets;
+  u_int32_t tcpi_last_data_sent;
+  u_int32_t tcpi_last_ack_sent;
+  u_int32_t tcpi_last_data_recv;
+  u_int32_t tcpi_last_ack_recv;
+  u_int32_t tcpi_pmtu;
+  u_int32_t tcpi_rcv_ssthresh;
+  u_int32_t tcpi_rtt;
+  u_int32_t tcpi_rttvar;
+  u_int32_t tcpi_snd_ssthresh;
+  u_int32_t tcpi_snd_cwnd;
+  u_int32_t tcpi_advmss;
+  u_int32_t tcpi_reordering;
+  u_int32_t tcpi_rcv_rtt;
+  u_int32_t tcpi_rcv_space;
+  u_int32_t tcpi_total_retrans;
+};
+static const int TCP_MD5SIG_MAXKEYLEN = 80;
+struct tcp_md5sig
+{
+  struct sockaddr_storage tcpm_addr;
+  u_int16_t __tcpm_pad1;
+  u_int16_t tcpm_keylen;
+  u_int32_t __tcpm_pad2;
+  u_int8_t tcpm_key[80];
+};

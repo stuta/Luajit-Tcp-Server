@@ -549,14 +549,9 @@ static const int feof_unlocked(p) = __sfeof(p);
 static const int ferror_unlocked(p) = __sferror(p);
 static const int clearerr_unlocked(p) = __sclearerr(p);
 static const int fileno_unlocked(p) = __sfileno(p);
-#undef _USE_FORTIFY_LEVEL
 static const int _USE_FORTIFY_LEVEL = 2;
 static const int __darwin_obsz0(object) = __builtin_object_size (object, 0);
 static const int __darwin_obsz(object) = __builtin_object_size (object, _USE_FORTIFY_LEVEL > 1);
-#undef sprintf
-#undef vsprintf
-#undef snprintf
-#undef vsnprintf
 extern int __sprintf_chk (char * , int, size_t,
      const char * , ...);
 static const int sprintf(str,...) = __builtin___sprintf_chk (str, 0, __darwin_obsz(str), __VA_ARGS__);

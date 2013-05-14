@@ -790,21 +790,18 @@ ssize_t readlink(const char * , char * , size_t);
 int setegid(gid_t);
 int seteuid(uid_t);
 int symlink(const char *, const char *);
-#undef __need_struct_timespec
 static const int _STRUCT_TIMESPEC = struct timespec;
 struct timespec
 {
  __darwin_time_t tv_sec;
  long tv_nsec;
 };
-#undef __need_struct_timeval
 static const int _STRUCT_TIMEVAL = struct timeval;
 struct timeval
 {
  __darwin_time_t tv_sec;
  __darwin_suseconds_t tv_usec;
 };
-#undef __need_fd_set
 static const int __DARWIN_FD_SETSIZE = 1024;
 static const int __DARWIN_NBBY = 8;
 static const int __DARWIN_NFDBITS = (sizeof(__int32_t) * __DARWIN_NBBY);

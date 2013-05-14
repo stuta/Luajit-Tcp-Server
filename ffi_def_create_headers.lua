@@ -20,7 +20,7 @@ local preprocessor_commad = "gcc -E -P -dD "  --  -C = leave comments
 local copy_commad = "cp "
 local target_path = "c_include/"..osname.."/"
 local sourcepaths = {
-	["windows"] = "/usr/include/",
+	["windows"] = "C:/Program Files/Microsoft SDKs/Windows/v7.0A/Include/",
 	["osx"] = "/usr/include/",
 	["linux"] = "/usr/include/",
 }
@@ -34,7 +34,6 @@ sourcefiles = {
 
 	["osx"] = [[
 #include <sys/types.h>
-// /Users/pasi/asennetut_paketit/Lua/lua-5.1.5/src/install_bin/include/lua.h
 ]],
 
 	["linux"] = [[
@@ -59,9 +58,10 @@ local code_define = {}
 local codeall = ""
 for file in sourcefile:gmatch("[^\r\n]+") do
 	if file ~= "" and not util.string_starts(file, "//") then -- not empty and not commented lines
-		local destfile = util.last_part(file, "/")
-		if destfile == "" then destfile = file end
+		--local destfile = util.last_part(file, "/")
+		--if destfile == "" then destfile = file end
 		
+		local destfile = file:gsub("/", "_")
 		local copypath = target_path.."original/"..destfile
 		if not util.file_exists(copypath) then
 			local cmd
@@ -124,7 +124,7 @@ for file in sourcefile:gmatch("[^\r\n]+") do
 					end
 				end
 				
-				if line ~= "" then
+				if line ~= "" and line:find("#undef") ~= 1 then
 					codeout = codeout..line.."\n"
 					if is_define then
 						if not code_define[line] then

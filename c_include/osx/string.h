@@ -427,19 +427,9 @@ int strncasecmp(const char *, const char *, size_t);
 int ffsl(long) __attribute__((visibility("default")));
 int fls(int) __attribute__((visibility("default")));
 int flsl(long) __attribute__((visibility("default")));
-#undef _USE_FORTIFY_LEVEL
 static const int _USE_FORTIFY_LEVEL = 2;
 static const int __darwin_obsz0(object) = __builtin_object_size (object, 0);
 static const int __darwin_obsz(object) = __builtin_object_size (object, _USE_FORTIFY_LEVEL > 1);
-#undef memcpy
-#undef memmove
-#undef memset
-#undef strcpy
-#undef stpcpy
-#undef stpncpy
-#undef strncpy
-#undef strcat
-#undef strncat
 static const int memcpy(dest,src,len) = ((__darwin_obsz0 (dest) != (size_t) -1) ? __builtin___memcpy_chk (dest, src, len, __darwin_obsz0 (dest)) : __inline_memcpy_chk (dest, src, len));
 static __inline void *
 __inline_memcpy_chk (void *__dest, const void *__src, size_t __len)

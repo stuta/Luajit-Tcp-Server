@@ -366,6 +366,55 @@ static const int UINT32_C(v) = (v ## U);
 static const int UINT64_C(v) = (v ## ULL);
 static const int INTMAX_C(v) = (v ## LL);
 static const int UINTMAX_C(v) = (v ## ULL);
+static const int _QUAD_HIGHWORD = 1;
+static const int _QUAD_LOWWORD = 0;
+static const int __DARWIN_LITTLE_ENDIAN = 1234;
+static const int __DARWIN_BIG_ENDIAN = 4321;
+static const int __DARWIN_PDP_ENDIAN = 3412;
+static const int __DARWIN_BYTE_ORDER = __DARWIN_LITTLE_ENDIAN;
+static const int LITTLE_ENDIAN = __DARWIN_LITTLE_ENDIAN;
+static const int BIG_ENDIAN = __DARWIN_BIG_ENDIAN;
+static const int PDP_ENDIAN = __DARWIN_PDP_ENDIAN;
+static const int BYTE_ORDER = __DARWIN_BYTE_ORDER;
+static const int __DARWIN_OSSwapConstInt16(x) = ((__uint16_t)((((__uint16_t)(x) & 0xff00) >> 8) | (((__uint16_t)(x) & 0x00ff) << 8)));
+static const int __DARWIN_OSSwapConstInt32(x) = ((__uint32_t)((((__uint32_t)(x) & 0xff000000) >> 24) | (((__uint32_t)(x) & 0x00ff0000) >> 8) | (((__uint32_t)(x) & 0x0000ff00) << 8) | (((__uint32_t)(x) & 0x000000ff) << 24)));
+static const int __DARWIN_OSSwapConstInt64(x) = ((__uint64_t)((((__uint64_t)(x) & 0xff00000000000000ULL) >> 56) | (((__uint64_t)(x) & 0x00ff000000000000ULL) >> 40) | (((__uint64_t)(x) & 0x0000ff0000000000ULL) >> 24) | (((__uint64_t)(x) & 0x000000ff00000000ULL) >> 8) | (((__uint64_t)(x) & 0x00000000ff000000ULL) << 8) | (((__uint64_t)(x) & 0x0000000000ff0000ULL) << 24) | (((__uint64_t)(x) & 0x000000000000ff00ULL) << 40) | (((__uint64_t)(x) & 0x00000000000000ffULL) << 56)));
+static const int __DARWIN_OS_INLINE = static __inline__;
+static __inline__
+__uint16_t
+_OSSwapInt16(
+    __uint16_t _data
+)
+{
+    return ((_data << 8) | (_data >> 8));
+}
+static __inline__
+__uint32_t
+_OSSwapInt32(
+    __uint32_t _data
+)
+{
+    return __builtin_bswap32(_data);
+}
+static __inline__
+__uint64_t
+_OSSwapInt64(
+    __uint64_t _data
+)
+{
+    return __builtin_bswap64(_data);
+}
+static const int __DARWIN_OSSwapInt16(x) = ((__uint16_t)(__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt16(x) : _OSSwapInt16(x)));
+static const int __DARWIN_OSSwapInt32(x) = (__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt32(x) : _OSSwapInt32(x));
+static const int __DARWIN_OSSwapInt64(x) = (__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt64(x) : _OSSwapInt64(x));
+static const int ntohs(x) = __DARWIN_OSSwapInt16(x);
+static const int htons(x) = __DARWIN_OSSwapInt16(x);
+static const int ntohl(x) = __DARWIN_OSSwapInt32(x);
+static const int htonl(x) = __DARWIN_OSSwapInt32(x);
+static const int NTOHL(x) = (x) = ntohl((__uint32_t)x);
+static const int NTOHS(x) = (x) = ntohs((__uint16_t)x);
+static const int HTONL(x) = (x) = htonl((__uint32_t)x);
+static const int HTONS(x) = (x) = htons((__uint16_t)x);
 static const int __MAC_10_0 = 1000;
 static const int __MAC_10_1 = 1010;
 static const int __MAC_10_2 = 1020;
@@ -479,55 +528,6 @@ static const int USER_ADDR_NULL = ((user_addr_t) 0);
 static const int CAST_USER_ADDR_T(a_ptr) = ((user_addr_t)((uintptr_t)(a_ptr)));
 typedef u_int64_t syscall_arg_t;
 static const int __offsetof(type,field) = ((size_t)(&((type *)0)->field));
-static const int _QUAD_HIGHWORD = 1;
-static const int _QUAD_LOWWORD = 0;
-static const int __DARWIN_LITTLE_ENDIAN = 1234;
-static const int __DARWIN_BIG_ENDIAN = 4321;
-static const int __DARWIN_PDP_ENDIAN = 3412;
-static const int __DARWIN_BYTE_ORDER = __DARWIN_LITTLE_ENDIAN;
-static const int LITTLE_ENDIAN = __DARWIN_LITTLE_ENDIAN;
-static const int BIG_ENDIAN = __DARWIN_BIG_ENDIAN;
-static const int PDP_ENDIAN = __DARWIN_PDP_ENDIAN;
-static const int BYTE_ORDER = __DARWIN_BYTE_ORDER;
-static const int __DARWIN_OSSwapConstInt16(x) = ((__uint16_t)((((__uint16_t)(x) & 0xff00) >> 8) | (((__uint16_t)(x) & 0x00ff) << 8)));
-static const int __DARWIN_OSSwapConstInt32(x) = ((__uint32_t)((((__uint32_t)(x) & 0xff000000) >> 24) | (((__uint32_t)(x) & 0x00ff0000) >> 8) | (((__uint32_t)(x) & 0x0000ff00) << 8) | (((__uint32_t)(x) & 0x000000ff) << 24)));
-static const int __DARWIN_OSSwapConstInt64(x) = ((__uint64_t)((((__uint64_t)(x) & 0xff00000000000000ULL) >> 56) | (((__uint64_t)(x) & 0x00ff000000000000ULL) >> 40) | (((__uint64_t)(x) & 0x0000ff0000000000ULL) >> 24) | (((__uint64_t)(x) & 0x000000ff00000000ULL) >> 8) | (((__uint64_t)(x) & 0x00000000ff000000ULL) << 8) | (((__uint64_t)(x) & 0x0000000000ff0000ULL) << 24) | (((__uint64_t)(x) & 0x000000000000ff00ULL) << 40) | (((__uint64_t)(x) & 0x00000000000000ffULL) << 56)));
-static const int __DARWIN_OS_INLINE = static __inline__;
-static __inline__
-__uint16_t
-_OSSwapInt16(
-    __uint16_t _data
-)
-{
-    return ((_data << 8) | (_data >> 8));
-}
-static __inline__
-__uint32_t
-_OSSwapInt32(
-    __uint32_t _data
-)
-{
-    return __builtin_bswap32(_data);
-}
-static __inline__
-__uint64_t
-_OSSwapInt64(
-    __uint64_t _data
-)
-{
-    return __builtin_bswap64(_data);
-}
-static const int __DARWIN_OSSwapInt16(x) = ((__uint16_t)(__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt16(x) : _OSSwapInt16(x)));
-static const int __DARWIN_OSSwapInt32(x) = (__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt32(x) : _OSSwapInt32(x));
-static const int __DARWIN_OSSwapInt64(x) = (__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt64(x) : _OSSwapInt64(x));
-static const int ntohs(x) = __DARWIN_OSSwapInt16(x);
-static const int htons(x) = __DARWIN_OSSwapInt16(x);
-static const int ntohl(x) = __DARWIN_OSSwapInt32(x);
-static const int htonl(x) = __DARWIN_OSSwapInt32(x);
-static const int NTOHL(x) = (x) = ntohl((__uint32_t)x);
-static const int NTOHS(x) = (x) = ntohs((__uint16_t)x);
-static const int HTONL(x) = (x) = htonl((__uint32_t)x);
-static const int HTONS(x) = (x) = htons((__uint16_t)x);
 typedef unsigned char u_char;
 typedef unsigned short u_short;
 typedef unsigned int u_int;
@@ -1348,133 +1348,19 @@ extern void addrsel_policy_init(void);
 int bindresvport(int, struct sockaddr_in *);
 struct sockaddr;
 int bindresvport_sa(int, struct sockaddr *);
-static const char _PATH_HEQUIV = "/etc/hosts.equiv";
-static const char _PATH_HOSTS = "/etc/hosts";
-static const char _PATH_NETWORKS = "/etc/networks";
-static const char _PATH_PROTOCOLS = "/etc/protocols";
-static const char _PATH_SERVICES = "/etc/services";
-extern int h_errno;
-struct hostent {
- char *h_name;
- char **h_aliases;
- int h_addrtype;
- int h_length;
- char **h_addr_list;
-static const int h_addr = h_addr_list[0];
-};
-struct netent {
- char *n_name;
- char **n_aliases;
- int n_addrtype;
- uint32_t n_net;
-};
-struct servent {
- char *s_name;
- char **s_aliases;
- int s_port;
- char *s_proto;
-};
-struct protoent {
- char *p_name;
- char **p_aliases;
- int p_proto;
-};
-struct addrinfo {
- int ai_flags;
- int ai_family;
- int ai_socktype;
- int ai_protocol;
- socklen_t ai_addrlen;
- char *ai_canonname;
- struct sockaddr *ai_addr;
- struct addrinfo *ai_next;
-};
-struct rpcent {
-        char *r_name;
-        char **r_aliases;
-        int r_number;
-};
-static const int NETDB_INTERNAL = -1;
-static const int NETDB_SUCCESS = 0;
-static const int HOST_NOT_FOUND = 1;
-static const int TRY_AGAIN = 2;
-static const int NO_RECOVERY = 3;
-static const int NO_DATA = 4;
-static const int NO_ADDRESS = NO_DATA;
-static const int EAI_ADDRFAMILY = 1;
-static const int EAI_AGAIN = 2;
-static const int EAI_BADFLAGS = 3;
-static const int EAI_FAIL = 4;
-static const int EAI_FAMILY = 5;
-static const int EAI_MEMORY = 6;
-static const int EAI_NODATA = 7;
-static const int EAI_NONAME = 8;
-static const int EAI_SERVICE = 9;
-static const int EAI_SOCKTYPE = 10;
-static const int EAI_SYSTEM = 11;
-static const int EAI_BADHINTS = 12;
-static const int EAI_PROTOCOL = 13;
-static const int EAI_OVERFLOW = 14;
-static const int EAI_MAX = 15;
-static const int AI_PASSIVE = 0x00000001;
-static const int AI_CANONNAME = 0x00000002;
-static const int AI_NUMERICHOST = 0x00000004;
-static const int AI_NUMERICSERV = 0x00001000;
-static const int AI_MASK = (AI_PASSIVE | AI_CANONNAME | AI_NUMERICHOST | AI_NUMERICSERV | AI_ADDRCONFIG);
-static const int AI_ALL = 0x00000100;
-static const int AI_V4MAPPED_CFG = 0x00000200;
-static const int AI_ADDRCONFIG = 0x00000400;
-static const int AI_V4MAPPED = 0x00000800;
-static const int AI_DEFAULT = (AI_V4MAPPED_CFG | AI_ADDRCONFIG);
-static const int NI_MAXHOST = 1025;
-static const int NI_MAXSERV = 32;
-static const int NI_NOFQDN = 0x00000001;
-static const int NI_NUMERICHOST = 0x00000002;
-static const int NI_NAMEREQD = 0x00000004;
-static const int NI_NUMERICSERV = 0x00000008;
-static const int NI_DGRAM = 0x00000010;
-static const int NI_WITHSCOPEID = 0x00000020;
-static const int SCOPE_DELIMITER = '%';
-void endhostent(void);
-void endnetent(void);
-void endprotoent(void);
-void endservent(void);
-void freeaddrinfo(struct addrinfo *);
-const char *gai_strerror(int);
-int getaddrinfo(const char * , const char * ,
-       const struct addrinfo * ,
-       struct addrinfo ** );
-struct hostent *gethostbyaddr(const void *, socklen_t, int);
-struct hostent *gethostbyname(const char *);
-struct hostent *gethostent(void);
-int getnameinfo(const struct sockaddr * , socklen_t,
-         char * , socklen_t, char * ,
-         socklen_t, int);
-struct netent *getnetbyaddr(uint32_t, int);
-struct netent *getnetbyname(const char *);
-struct netent *getnetent(void);
-struct protoent *getprotobyname(const char *);
-struct protoent *getprotobynumber(int);
-struct protoent *getprotoent(void);
-struct servent *getservbyname(const char *, const char *);
-struct servent *getservbyport(int, const char *);
-struct servent *getservent(void);
-void sethostent(int);
-void setnetent(int);
-void setprotoent(int);
-void setservent(int);
-void freehostent(struct hostent *);
-struct hostent *gethostbyname2(const char *, int);
-struct hostent *getipnodebyaddr(const void *, size_t, int, int *);
-struct hostent *getipnodebyname(const char *, int, int, int *);
-struct rpcent *getrpcbyname(const char *name);
-struct rpcent *getrpcbynumber(int number);
-struct rpcent *getrpcent(void);
-void setrpcent(int stayopen);
-void endrpcent(void);
-void herror(const char *);
-const char *hstrerror(int);
-int innetgr(const char *, const char *, const char *, const char *);
-int getnetgrent(char **, char **, char **);
-void endnetgrent(void);
-void setnetgrent(const char *);
+in_addr_t inet_addr(const char *);
+char *inet_ntoa(struct in_addr);
+const char *inet_ntop(int, const void *, char *, socklen_t);
+int inet_pton(int, const char *, void *);
+int ascii2addr(int, const char *, void *);
+char *addr2ascii(int, const void *, int, char *);
+int inet_aton(const char *, struct in_addr *);
+in_addr_t inet_lnaof(struct in_addr);
+struct in_addr inet_makeaddr(in_addr_t, in_addr_t);
+in_addr_t inet_netof(struct in_addr);
+in_addr_t inet_network(const char *);
+char *inet_net_ntop(int, const void *, int, char *, __darwin_size_t);
+int inet_net_pton(int, const char *, void *, __darwin_size_t);
+char *inet_neta(in_addr_t, char *, __darwin_size_t);
+unsigned int inet_nsap_addr(const char *, unsigned char *, int maxlen);
+char *inet_nsap_ntoa(int, const unsigned char *, char *ascii);

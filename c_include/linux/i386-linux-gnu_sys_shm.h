@@ -220,33 +220,8 @@ static const int __unix__ = 1;
 static const int unix = 1;
 static const int __ELF__ = 1;
 static const int __DECIMAL_BID_FORMAT__ = 1;
-static const int _SYS_IPC_H = 1;
+static const int _SYS_SHM_H = 1;
 static const int _FEATURES_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
 static const int __USE_ANSI = 1;
 static const int __GNUC_PREREQ(maj,min) = ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min));
 static const int _BSD_SOURCE = 1;
@@ -259,12 +234,9 @@ static const int __USE_POSIX2 = 1;
 static const int __USE_POSIX199309 = 1;
 static const int __USE_POSIX199506 = 1;
 static const int __USE_XOPEN2K = 1;
-#undef __USE_ISOC95
 static const int __USE_ISOC95 = 1;
-#undef __USE_ISOC99
 static const int __USE_ISOC99 = 1;
 static const int __USE_XOPEN2K8 = 1;
-#undef _ATFILE_SOURCE
 static const int _ATFILE_SOURCE = 1;
 static const int __USE_MISC = 1;
 static const int __USE_BSD = 1;
@@ -274,15 +246,12 @@ static const int __USE_FORTIFY_LEVEL = 0;
 static const int __STDC_IEC_559__ = 1;
 static const int __STDC_IEC_559_COMPLEX__ = 1;
 static const long __STDC_ISO_10646__ = 200009L;
-#undef __GNU_LIBRARY__
 static const int __GNU_LIBRARY__ = 6;
 static const int __GLIBC__ = 2;
 static const int __GLIBC_MINOR__ = 15;
 static const int __GLIBC_PREREQ(maj,min) = ((__GLIBC__ << 16) + __GLIBC_MINOR__ >= ((maj) << 16) + (min));
 static const int __GLIBC_HAVE_LONG_LONG = 1;
 static const int _SYS_CDEFS_H = 1;
-#undef __P
-#undef __PMT
 static const int __LEAF = , __leaf__;
 static const int __LEAF_ATTR = __attribute__ ((__leaf__));
 static const int __THROW = __attribute__ ((__nothrow__ __LEAF));
@@ -329,6 +298,8 @@ static const int __LDBL_REDIR_NTH(name,proto) = name proto __THROW;
 static const int __REDIRECT_LDBL(name,proto,alias) = __REDIRECT (name, proto, alias);
 static const int __REDIRECT_NTH_LDBL(name,proto,alias) = __REDIRECT_NTH (name, proto, alias);
 static const int __WORDSIZE = 32;
+typedef unsigned int size_t;
+static const int _SYS_IPC_H = 1;
 static const int _BITS_IPCTYPES_H = 1;
 static const int _BITS_TYPES_H = 1;
 static const int __WORDSIZE = 32;
@@ -430,7 +401,6 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 __extension__ typedef int __intptr_t;
 __extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
 typedef unsigned short int __ipc_pid_t;
 static const int IPC_CREAT = 01000;
 static const int IPC_EXCL = 02000;
@@ -458,3 +428,64 @@ typedef __gid_t gid_t;
 typedef __mode_t mode_t;
 typedef __key_t key_t;
 extern key_t ftok (__const char *__pathname, int __proj_id) __attribute__ ((__nothrow__ , __leaf__));
+static const int SHM_R = 0400;
+static const int SHM_W = 0200;
+static const int SHM_RDONLY = 010000;
+static const int SHM_RND = 020000;
+static const int SHM_REMAP = 040000;
+static const int SHM_EXEC = 0100000;
+static const int SHM_LOCK = 11;
+static const int SHM_UNLOCK = 12;
+static const int SHMLBA = (__getpagesize ());
+extern int __getpagesize (void) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+typedef unsigned long int shmatt_t;
+struct shmid_ds
+  {
+    struct ipc_perm shm_perm;
+    size_t shm_segsz;
+    __time_t shm_atime;
+    unsigned long int __unused1;
+    __time_t shm_dtime;
+    unsigned long int __unused2;
+    __time_t shm_ctime;
+    unsigned long int __unused3;
+    __pid_t shm_cpid;
+    __pid_t shm_lpid;
+    shmatt_t shm_nattch;
+    unsigned long int __unused4;
+    unsigned long int __unused5;
+  };
+static const int SHM_STAT = 13;
+static const int SHM_INFO = 14;
+static const int SHM_DEST = 01000;
+static const int SHM_LOCKED = 02000;
+static const int SHM_HUGETLB = 04000;
+static const int SHM_NORESERVE = 010000;
+struct shminfo
+  {
+    unsigned long int shmmax;
+    unsigned long int shmmin;
+    unsigned long int shmmni;
+    unsigned long int shmseg;
+    unsigned long int shmall;
+    unsigned long int __unused1;
+    unsigned long int __unused2;
+    unsigned long int __unused3;
+    unsigned long int __unused4;
+  };
+struct shm_info
+  {
+    int used_ids;
+    unsigned long int shm_tot;
+    unsigned long int shm_rss;
+    unsigned long int shm_swp;
+    unsigned long int swap_attempts;
+    unsigned long int swap_successes;
+  };
+static const int __time_t_defined = 1;
+typedef __time_t time_t;
+extern int shmctl (int __shmid, int __cmd, struct shmid_ds *__buf) __attribute__ ((__nothrow__ , __leaf__));
+extern int shmget (key_t __key, size_t __size, int __shmflg) __attribute__ ((__nothrow__ , __leaf__));
+extern void *shmat (int __shmid, __const void *__shmaddr, int __shmflg)
+     __attribute__ ((__nothrow__ , __leaf__));
+extern int shmdt (__const void *__shmaddr) __attribute__ ((__nothrow__ , __leaf__));

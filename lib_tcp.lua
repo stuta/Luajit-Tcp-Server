@@ -78,7 +78,7 @@ function listen(port)
 	end
 
 	-- SO_USELOOPBACK, use always loopback when possible
-	if not util.isWin then -- SO_USELOOPBACK is not supported by windows
+	if not util.isLinux then -- SO_USELOOPBACK is not supported by Linux
 		result = socket.setsockopt(listen_socket, C.SOL_SOCKET, C.SO_USELOOPBACK, 1)
 		if result ~= 0 then
 			socket.cleanup(listen_socket, result, "socket.setsockopt SO_USELOOPBACK failed with error: ")
@@ -98,9 +98,12 @@ function listen(port)
 	end
 
 	-- TCP_NODELAY, tcp-nodelay to 1
-	result = socket.setsockopt(listen_socket, C.SOL_SOCKET, C.TCP_NODELAY, tcpNoDelay)
-	if result ~= 0 then
-		socket.cleanup(listen_socket, result, "socket.setsockopt TCP_NODELAY failed with error: ")
+	print("tcpNoDelay: "..tcpNoDelay)
+	if not util.isLinux then
+		result = socket.setsockopt(listen_socket, C.SOL_SOCKET, C.TCP_NODELAY, tcpNoDelay)
+		if result ~= 0 then
+			socket.cleanup(listen_socket, result, "socket.setsockopt TCP_NODELAY failed with error: ")
+		end
 	end
 
 	-- bind

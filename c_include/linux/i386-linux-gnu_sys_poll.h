@@ -220,33 +220,8 @@ static const int __unix__ = 1;
 static const int unix = 1;
 static const int __ELF__ = 1;
 static const int __DECIMAL_BID_FORMAT__ = 1;
-static const int _SYS_SHM_H = 1;
+static const int _SYS_POLL_H = 1;
 static const int _FEATURES_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
 static const int __USE_ANSI = 1;
 static const int __GNUC_PREREQ(maj,min) = ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min));
 static const int _BSD_SOURCE = 1;
@@ -259,12 +234,9 @@ static const int __USE_POSIX2 = 1;
 static const int __USE_POSIX199309 = 1;
 static const int __USE_POSIX199506 = 1;
 static const int __USE_XOPEN2K = 1;
-#undef __USE_ISOC95
 static const int __USE_ISOC95 = 1;
-#undef __USE_ISOC99
 static const int __USE_ISOC99 = 1;
 static const int __USE_XOPEN2K8 = 1;
-#undef _ATFILE_SOURCE
 static const int _ATFILE_SOURCE = 1;
 static const int __USE_MISC = 1;
 static const int __USE_BSD = 1;
@@ -274,15 +246,12 @@ static const int __USE_FORTIFY_LEVEL = 0;
 static const int __STDC_IEC_559__ = 1;
 static const int __STDC_IEC_559_COMPLEX__ = 1;
 static const long __STDC_ISO_10646__ = 200009L;
-#undef __GNU_LIBRARY__
 static const int __GNU_LIBRARY__ = 6;
 static const int __GLIBC__ = 2;
 static const int __GLIBC_MINOR__ = 15;
 static const int __GLIBC_PREREQ(maj,min) = ((__GLIBC__ << 16) + __GLIBC_MINOR__ >= ((maj) << 16) + (min));
 static const int __GLIBC_HAVE_LONG_LONG = 1;
 static const int _SYS_CDEFS_H = 1;
-#undef __P
-#undef __PMT
 static const int __LEAF = , __leaf__;
 static const int __LEAF_ATTR = __attribute__ ((__leaf__));
 static const int __THROW = __attribute__ ((__nothrow__ __LEAF));
@@ -329,202 +298,21 @@ static const int __LDBL_REDIR_NTH(name,proto) = name proto __THROW;
 static const int __REDIRECT_LDBL(name,proto,alias) = __REDIRECT (name, proto, alias);
 static const int __REDIRECT_NTH_LDBL(name,proto,alias) = __REDIRECT_NTH (name, proto, alias);
 static const int __WORDSIZE = 32;
-typedef unsigned int size_t;
-#undef __need_size_t
-#undef __need_NULL
-static const int _SYS_IPC_H = 1;
-static const int _BITS_IPCTYPES_H = 1;
-static const int _BITS_TYPES_H = 1;
-static const int __WORDSIZE = 32;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-__extension__ typedef signed long long int __int64_t;
-__extension__ typedef unsigned long long int __uint64_t;
-__extension__ typedef long long int __quad_t;
-__extension__ typedef unsigned long long int __u_quad_t;
-static const int __S16_TYPE = short int;
-static const int __U16_TYPE = unsigned short int;
-static const int __S32_TYPE = int;
-static const int __U32_TYPE = unsigned int;
-static const int __SLONGWORD_TYPE = long int;
-static const int __ULONGWORD_TYPE = unsigned long int;
-static const int __SQUAD_TYPE = __quad_t;
-static const int __UQUAD_TYPE = __u_quad_t;
-static const int __SWORD_TYPE = int;
-static const int __UWORD_TYPE = unsigned int;
-static const int __SLONG32_TYPE = long int;
-static const int __ULONG32_TYPE = unsigned long int;
-static const int __S64_TYPE = __quad_t;
-static const int __U64_TYPE = __u_quad_t;
-static const int __STD_TYPE = __extension__ typedef;
-static const int _BITS_TYPESIZES_H = 1;
-static const int __DEV_T_TYPE = __UQUAD_TYPE;
-static const int __UID_T_TYPE = __U32_TYPE;
-static const int __GID_T_TYPE = __U32_TYPE;
-static const int __INO_T_TYPE = __ULONGWORD_TYPE;
-static const int __INO64_T_TYPE = __UQUAD_TYPE;
-static const int __MODE_T_TYPE = __U32_TYPE;
-static const int __NLINK_T_TYPE = __UWORD_TYPE;
-static const int __OFF_T_TYPE = __SLONGWORD_TYPE;
-static const int __OFF64_T_TYPE = __SQUAD_TYPE;
-static const int __PID_T_TYPE = __S32_TYPE;
-static const int __RLIM_T_TYPE = __ULONGWORD_TYPE;
-static const int __RLIM64_T_TYPE = __UQUAD_TYPE;
-static const int __BLKCNT_T_TYPE = __SLONGWORD_TYPE;
-static const int __BLKCNT64_T_TYPE = __SQUAD_TYPE;
-static const int __FSBLKCNT_T_TYPE = __ULONGWORD_TYPE;
-static const int __FSBLKCNT64_T_TYPE = __UQUAD_TYPE;
-static const int __FSFILCNT_T_TYPE = __ULONGWORD_TYPE;
-static const int __FSFILCNT64_T_TYPE = __UQUAD_TYPE;
-static const int __ID_T_TYPE = __U32_TYPE;
-static const int __CLOCK_T_TYPE = __SLONGWORD_TYPE;
-static const int __TIME_T_TYPE = __SLONGWORD_TYPE;
-static const int __USECONDS_T_TYPE = __U32_TYPE;
-static const int __SUSECONDS_T_TYPE = __SLONGWORD_TYPE;
-static const int __DADDR_T_TYPE = __S32_TYPE;
-static const int __SWBLK_T_TYPE = __SLONGWORD_TYPE;
-static const int __KEY_T_TYPE = __S32_TYPE;
-static const int __CLOCKID_T_TYPE = __S32_TYPE;
-static const int __TIMER_T_TYPE = void *;
-static const int __BLKSIZE_T_TYPE = __SLONGWORD_TYPE;
-static const int __FSID_T_TYPE = struct { int __val[2]; };
-static const int __SSIZE_T_TYPE = __SWORD_TYPE;
-static const int __FD_SETSIZE = 1024;
-__extension__ typedef __u_quad_t __dev_t;
-__extension__ typedef unsigned int __uid_t;
-__extension__ typedef unsigned int __gid_t;
-__extension__ typedef unsigned long int __ino_t;
-__extension__ typedef __u_quad_t __ino64_t;
-__extension__ typedef unsigned int __mode_t;
-__extension__ typedef unsigned int __nlink_t;
-__extension__ typedef long int __off_t;
-__extension__ typedef __quad_t __off64_t;
-__extension__ typedef int __pid_t;
-__extension__ typedef struct { int __val[2]; } __fsid_t;
-__extension__ typedef long int __clock_t;
-__extension__ typedef unsigned long int __rlim_t;
-__extension__ typedef __u_quad_t __rlim64_t;
-__extension__ typedef unsigned int __id_t;
-__extension__ typedef long int __time_t;
-__extension__ typedef unsigned int __useconds_t;
-__extension__ typedef long int __suseconds_t;
-__extension__ typedef int __daddr_t;
-__extension__ typedef long int __swblk_t;
-__extension__ typedef int __key_t;
-__extension__ typedef int __clockid_t;
-__extension__ typedef void * __timer_t;
-__extension__ typedef long int __blksize_t;
-__extension__ typedef long int __blkcnt_t;
-__extension__ typedef __quad_t __blkcnt64_t;
-__extension__ typedef unsigned long int __fsblkcnt_t;
-__extension__ typedef __u_quad_t __fsblkcnt64_t;
-__extension__ typedef unsigned long int __fsfilcnt_t;
-__extension__ typedef __u_quad_t __fsfilcnt64_t;
-__extension__ typedef int __ssize_t;
-typedef __off64_t __loff_t;
-typedef __quad_t *__qaddr_t;
-typedef char *__caddr_t;
-__extension__ typedef int __intptr_t;
-__extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
-typedef unsigned short int __ipc_pid_t;
-static const int IPC_CREAT = 01000;
-static const int IPC_EXCL = 02000;
-static const int IPC_NOWAIT = 04000;
-static const int IPC_RMID = 0;
-static const int IPC_SET = 1;
-static const int IPC_STAT = 2;
-static const int IPC_PRIVATE = ((__key_t) 0);
-struct ipc_perm
+static const int POLLIN = 0x001;
+static const int POLLPRI = 0x002;
+static const int POLLOUT = 0x004;
+static const int POLLRDNORM = 0x040;
+static const int POLLRDBAND = 0x080;
+static const int POLLWRNORM = 0x100;
+static const int POLLWRBAND = 0x200;
+static const int POLLERR = 0x008;
+static const int POLLHUP = 0x010;
+static const int POLLNVAL = 0x020;
+typedef unsigned long int nfds_t;
+struct pollfd
   {
-    __key_t __key;
-    __uid_t uid;
-    __gid_t gid;
-    __uid_t cuid;
-    __gid_t cgid;
-    unsigned short int mode;
-    unsigned short int __pad1;
-    unsigned short int __seq;
-    unsigned short int __pad2;
-    unsigned long int __unused1;
-    unsigned long int __unused2;
+    int fd;
+    short int events;
+    short int revents;
   };
-typedef __uid_t uid_t;
-typedef __gid_t gid_t;
-typedef __mode_t mode_t;
-typedef __key_t key_t;
-extern key_t ftok (__const char *__pathname, int __proj_id) __attribute__ ((__nothrow__ , __leaf__));
-static const int SHM_R = 0400;
-static const int SHM_W = 0200;
-static const int SHM_RDONLY = 010000;
-static const int SHM_RND = 020000;
-static const int SHM_REMAP = 040000;
-static const int SHM_EXEC = 0100000;
-static const int SHM_LOCK = 11;
-static const int SHM_UNLOCK = 12;
-static const int SHMLBA = (__getpagesize ());
-extern int __getpagesize (void) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-typedef unsigned long int shmatt_t;
-struct shmid_ds
-  {
-    struct ipc_perm shm_perm;
-    size_t shm_segsz;
-    __time_t shm_atime;
-    unsigned long int __unused1;
-    __time_t shm_dtime;
-    unsigned long int __unused2;
-    __time_t shm_ctime;
-    unsigned long int __unused3;
-    __pid_t shm_cpid;
-    __pid_t shm_lpid;
-    shmatt_t shm_nattch;
-    unsigned long int __unused4;
-    unsigned long int __unused5;
-  };
-static const int SHM_STAT = 13;
-static const int SHM_INFO = 14;
-static const int SHM_DEST = 01000;
-static const int SHM_LOCKED = 02000;
-static const int SHM_HUGETLB = 04000;
-static const int SHM_NORESERVE = 010000;
-struct shminfo
-  {
-    unsigned long int shmmax;
-    unsigned long int shmmin;
-    unsigned long int shmmni;
-    unsigned long int shmseg;
-    unsigned long int shmall;
-    unsigned long int __unused1;
-    unsigned long int __unused2;
-    unsigned long int __unused3;
-    unsigned long int __unused4;
-  };
-struct shm_info
-  {
-    int used_ids;
-    unsigned long int shm_tot;
-    unsigned long int shm_rss;
-    unsigned long int shm_swp;
-    unsigned long int swap_attempts;
-    unsigned long int swap_successes;
-  };
-#undef __need_clock_t
-static const int __time_t_defined = 1;
-typedef __time_t time_t;
-#undef __need_time_t
-#undef __clockid_time_t
-#undef __need_timer_t
-#undef __need_timespec
-extern int shmctl (int __shmid, int __cmd, struct shmid_ds *__buf) __attribute__ ((__nothrow__ , __leaf__));
-extern int shmget (key_t __key, size_t __size, int __shmflg) __attribute__ ((__nothrow__ , __leaf__));
-extern void *shmat (int __shmid, __const void *__shmaddr, int __shmflg)
-     __attribute__ ((__nothrow__ , __leaf__));
-extern int shmdt (__const void *__shmaddr) __attribute__ ((__nothrow__ , __leaf__));
+extern int poll (struct pollfd *__fds, nfds_t __nfds, int __timeout);

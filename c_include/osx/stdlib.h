@@ -744,7 +744,6 @@ struct __darwin_x86_debug_state64
  __uint64_t __dr6;
  __uint64_t __dr7;
 };
-#undef __need_struct_mcontext
 static const int _STRUCT_MCONTEXT32 = struct __darwin_mcontext32;
 struct __darwin_mcontext32
 {
@@ -773,10 +772,8 @@ struct __darwin_mcontext_avx64
  struct __darwin_x86_thread_state64 __ss;
  struct __darwin_x86_avx_state64 __fs;
 };
-#undef __need_mcontext_t
 typedef struct __darwin_mcontext64 *mcontext_t;
 static const int _STRUCT_MCONTEXT = _STRUCT_MCONTEXT64;
-#undef __need_struct_sigaltstack
 static const int _STRUCT_SIGALTSTACK = struct __darwin_sigaltstack;
 struct __darwin_sigaltstack
 {
@@ -784,7 +781,6 @@ struct __darwin_sigaltstack
  __darwin_size_t ss_size;
  int ss_flags;
 };
-#undef __need_struct_ucontext
 static const int _STRUCT_UCONTEXT = struct __darwin_ucontext;
 struct __darwin_ucontext
 {
@@ -795,9 +791,7 @@ struct __darwin_ucontext
  __darwin_size_t uc_mcsize;
  struct __darwin_mcontext64 *uc_mcontext;
 };
-#undef __need_stack_t
 typedef struct __darwin_sigaltstack stack_t;
-#undef __need_ucontext_t
 typedef struct __darwin_ucontext ucontext_t;
 typedef __darwin_pthread_attr_t pthread_attr_t;
 typedef __darwin_sigset_t sigset_t;
@@ -929,7 +923,6 @@ struct sigstack {
 static const int sigmask(m) = (1 << ((m)-1));
 static const int BADSIG = SIG_ERR;
 void (*signal(int, void (*)(int)))(int);
-#undef __need_struct_timeval
 static const int _STRUCT_TIMEVAL = struct timeval;
 struct timeval
 {
@@ -1098,8 +1091,6 @@ int waitid(idtype_t, id_t, siginfo_t *, int) __asm("_" "waitid" );
 pid_t wait3(int *, int, struct rusage *);
 pid_t wait4(pid_t, int *, int, struct rusage *);
 void *alloca(size_t);
-#undef alloca
-#undef __alloca
 static const int alloca(size) = __alloca(size);
 static const int __alloca(size) = __builtin_alloca(size);
 typedef __darwin_ct_rune_t ct_rune_t;

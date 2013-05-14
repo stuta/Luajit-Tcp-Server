@@ -222,31 +222,6 @@ static const int __ELF__ = 1;
 static const int __DECIMAL_BID_FORMAT__ = 1;
 static const int _STDIO_H = 1;
 static const int _FEATURES_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
 static const int __USE_ANSI = 1;
 static const int __GNUC_PREREQ(maj,min) = ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min));
 static const int _BSD_SOURCE = 1;
@@ -259,12 +234,9 @@ static const int __USE_POSIX2 = 1;
 static const int __USE_POSIX199309 = 1;
 static const int __USE_POSIX199506 = 1;
 static const int __USE_XOPEN2K = 1;
-#undef __USE_ISOC95
 static const int __USE_ISOC95 = 1;
-#undef __USE_ISOC99
 static const int __USE_ISOC99 = 1;
 static const int __USE_XOPEN2K8 = 1;
-#undef _ATFILE_SOURCE
 static const int _ATFILE_SOURCE = 1;
 static const int __USE_MISC = 1;
 static const int __USE_BSD = 1;
@@ -274,15 +246,12 @@ static const int __USE_FORTIFY_LEVEL = 0;
 static const int __STDC_IEC_559__ = 1;
 static const int __STDC_IEC_559_COMPLEX__ = 1;
 static const long __STDC_ISO_10646__ = 200009L;
-#undef __GNU_LIBRARY__
 static const int __GNU_LIBRARY__ = 6;
 static const int __GLIBC__ = 2;
 static const int __GLIBC_MINOR__ = 15;
 static const int __GLIBC_PREREQ(maj,min) = ((__GLIBC__ << 16) + __GLIBC_MINOR__ >= ((maj) << 16) + (min));
 static const int __GLIBC_HAVE_LONG_LONG = 1;
 static const int _SYS_CDEFS_H = 1;
-#undef __P
-#undef __PMT
 static const int __LEAF = , __leaf__;
 static const int __LEAF_ATTR = __attribute__ ((__leaf__));
 static const int __THROW = __attribute__ ((__nothrow__ __LEAF));
@@ -330,10 +299,7 @@ static const int __REDIRECT_LDBL(name,proto,alias) = __REDIRECT (name, proto, al
 static const int __REDIRECT_NTH_LDBL(name,proto,alias) = __REDIRECT_NTH (name, proto, alias);
 static const int __WORDSIZE = 32;
 typedef unsigned int size_t;
-#undef __need_size_t
-#undef NULL
 static const int NULL = ((void *)0);
-#undef __need_NULL
 static const int _BITS_TYPES_H = 1;
 static const int __WORDSIZE = 32;
 typedef unsigned char __u_char;
@@ -434,19 +400,13 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 __extension__ typedef int __intptr_t;
 __extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
 struct _IO_FILE;
 typedef struct _IO_FILE FILE;
 static const int __FILE_defined = 1;
-#undef __need_FILE
 typedef struct _IO_FILE __FILE;
 static const int ____FILE_defined = 1;
-#undef __need___FILE
 static const int _G_config_h = 1;
-#undef __need_size_t
-#undef NULL
 static const int NULL = ((void *)0);
-#undef __need_NULL
 static const int __mbstate_t_defined = 1;
 typedef struct
 {
@@ -457,9 +417,6 @@ typedef struct
     char __wchb[4];
   } __value;
 } __mbstate_t;
-#undef __need_mbstate_t
-#undef __need_mbstate_t
-#undef __need_wint_t
 static const int _G_size_t = size_t;
 typedef struct
 {
@@ -523,9 +480,7 @@ static const int _IO_HAVE_ST_BLKSIZE = _G_HAVE_ST_BLKSIZE;
 static const int _IO_BUFSIZ = _G_BUFSIZ;
 static const int _IO_va_list = _G_va_list;
 static const int _IO_wint_t = _G_wint_t;
-#undef __need___va_list
 typedef __builtin_va_list __gnuc_va_list;
-#undef _IO_va_list
 static const int _IO_va_list = __gnuc_va_list;
 static const int _PARAMS(protos) = __P(protos);
 static const int _IO_UNIFIED_JUMPTABLES = 1;
@@ -680,7 +635,6 @@ static const int L_tmpnam = 20;
 static const int TMP_MAX = 238328;
 static const int FILENAME_MAX = 4096;
 static const int L_ctermid = 9;
-#undef FOPEN_MAX
 static const int FOPEN_MAX = 16;
 extern struct _IO_FILE *stdin;
 extern struct _IO_FILE *stdout;

@@ -29,8 +29,9 @@ ffi.cdef[[
 	void lua_settop(lua_State *L, int index);
 ]]
 
--- handmade basic types
 ffi.cdef[[
+	// handmade basic types
+
 	// these are in sys/types.h, but is this safe universal way?
 	typedef int8_t __int8_t;
 	typedef int16_t __int16_t;
@@ -41,26 +42,17 @@ ffi.cdef[[
 	typedef uint16_t __uint16_t;
 	typedef uint32_t __uint32_t;
 	typedef uint64_t __uint64_t;
-
-	// sys/types.h
-	typedef long unsigned int __SIZE_TYPE__;
-	typedef long int __PTRDIFF_TYPE__;
-	typedef int __WCHAR_TYPE__;
-	typedef int __WINT_TYPE__;
-	typedef long int __INTMAX_TYPE__;
-	typedef long unsigned int __UINTMAX_TYPE__;
 ]]
 
 ffi.cdef[[
-	// bad define macros, done by hand
+	// bad on ugly define macros, done by hand
 	uint32_t htonl(uint32_t hostlong);
 	uint16_t htons(uint16_t hostshort);
 	uint32_t ntohl(uint32_t netlong);
 	uint16_t ntohs(uint16_t netshort);
 
 	// bad order of generated calls
-	typedef __uint32_t __darwin_socklen_t;
-	typedef __darwin_socklen_t socklen_t;
+	
 ]]
 
 
@@ -126,7 +118,6 @@ ffi.cdef[[
 	typedef __darwin_off_t off_t;
 	
 	int close(int);
-	void exit(int);
 	int ftruncate(int, off_t);
 	void * mmap(void *, size_t, int, int, int, off_t);
 	int munmap(void *, size_t);
@@ -156,10 +147,10 @@ ffi.cdef[[
 	static const int F_SETFL = 4;
 	static const int O_NONBLOCK = 0x0004;
 	
-	typedef unsigned int nfds_t;
+	typedef __uint32_t in_addr_t;
 	typedef long __darwin_ssize_t;
 	typedef __uint8_t sa_family_t;
-	typedef __uint32_t in_addr_t;
+	typedef unsigned int nfds_t;
 	struct sockaddr {
 	 __uint8_t sa_len;
 	 sa_family_t sa_family;
@@ -167,10 +158,12 @@ ffi.cdef[[
 	};
 	
 	typedef __darwin_ssize_t ssize_t;
+	typedef __uint32_t __darwin_socklen_t;
 	struct in_addr {
 	 in_addr_t s_addr;
 	};
 	
+	typedef __darwin_socklen_t socklen_t;
 	typedef __uint16_t in_port_t;
 	struct sockaddr_in {
 	 __uint8_t sin_len;
@@ -209,7 +202,7 @@ ffi.cdef[[
 	int getsockopt(int, int, int, void * , socklen_t * );
 	const char *inet_ntop(int, const void *, char *, socklen_t);
 	int listen(int, int);
-	extern int poll (struct pollfd *, nfds_t, int);
+	int poll (struct pollfd *, nfds_t, int);
 	ssize_t recv(int, void *, size_t, int);
 	ssize_t send(int, const void *, size_t, int);
 	int setsockopt(int, int, int, const void *, socklen_t);
@@ -234,21 +227,20 @@ ffi.cdef[[
 	static const int SOMAXCONN = 128;
 	static const int TCP_NODELAY = 0x01;
 	
-	 struct in6_addr sin6_addr;
-	struct in6_addr {
-	 union {
-	  __uint8_t __u6_addr8[16];
-	  __uint16_t __u6_addr16[8];
-	  __uint32_t __u6_addr32[4];
-	 } __u6_addr;
-	};
-	
 	struct sockaddr_storage {
 	 __uint8_t ss_len;
 	 sa_family_t ss_family;
 	 char __ss_pad1[((sizeof(__int64_t)) - sizeof(__uint8_t) - sizeof(sa_family_t))];
 	 __int64_t __ss_align;
 	 char __ss_pad2[(128 - sizeof(__uint8_t) - sizeof(sa_family_t) - ((sizeof(__int64_t)) - sizeof(__uint8_t) - sizeof(sa_family_t)) - (sizeof(__int64_t)))];
+	};
+	
+	struct in6_addr {
+	 union {
+	  __uint8_t __u6_addr8[16];
+	  __uint16_t __u6_addr16[8];
+	  __uint32_t __u6_addr32[4];
+	 } __u6_addr;
 	};
 	
 	struct sockaddr_in6 {
@@ -267,10 +259,6 @@ ffi.cdef[[
 
 --[[ lib_thread.lua ]]
 ffi.cdef[[
-	struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
-	
-	typedef struct _opaque_pthread_attr_t
-	   __darwin_pthread_attr_t;
 	struct __darwin_pthread_handler_rec
 	{
 	 void (*__routine)(void *);
@@ -278,10 +266,14 @@ ffi.cdef[[
 	 struct __darwin_pthread_handler_rec *__next;
 	};
 	
+	struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
+	
 	struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
 	
 	typedef struct _opaque_pthread_t
 	   *__darwin_pthread_t;
+	typedef struct _opaque_pthread_attr_t
+	   __darwin_pthread_attr_t;
 	typedef __darwin_pthread_attr_t pthread_attr_t;
 	typedef __darwin_pthread_t pthread_t;
 	
@@ -299,9 +291,14 @@ ffi.cdef[[
 	static const int _SC_NPROCESSORS_CONF = 57;
 	static const int _SC_NPROCESSORS_ONLN = 58;
 	
-	typedef __int32_t __darwin_suseconds_t;
-	struct timespec;
+	struct timespec
+	{
+	 __darwin_time_t tv_sec;
+	 long tv_nsec;
+	};
+	
 	typedef __uint32_t __darwin_useconds_t;
+	typedef __int32_t __darwin_suseconds_t;
 	struct timeval
 	{
 	 __darwin_time_t tv_sec;
@@ -312,7 +309,7 @@ ffi.cdef[[
 	
 	int gettimeofday(struct timeval * , void * );
 	int nanosleep(const struct timespec *, struct timespec *);
-	extern int sched_yield(void);
+	int sched_yield(void);
 	char *strerror(int);
 	long sysconf(int);
 	int usleep(useconds_t);
@@ -366,57 +363,56 @@ ffi.cdef[[
 --[[
 not found calls = {
    [1] = "--- lib_date_time.lua ---";
-   [2] = "date";
-   [3] = "--- lib_http.lua ---";
-   [4] = "--- lib_kqueue.lua ---";
-   [5] = "--- lib_poll.lua ---";
-   [6] = "--- lib_shared_memory.lua ---";
-   [7] = "CloseHandle";
-   [8] = "CreateFileMappingA";
-   [9] = "GetLastError";
-   [10] = "MapViewOfFile";
-   [11] = "OpenFileMappingA";
-   [12] = "UnmapViewOfFile";
-   [13] = "--- lib_signal.lua ---";
-   [14] = "--- lib_socket.lua ---";
-   [15] = "closesocket";
-   [16] = "ioctlsocket";
-   [17] = "WSAAddressToStringA";
-   [18] = "WSACleanup";
-   [19] = "WSAGetLastError";
-   [20] = "WSAPoll";
-   [21] = "WSAStartup";
-   [22] = "--- lib_tcp.lua ---";
-   [23] = "--- lib_thread.lua ---";
-   [24] = "CreateThread";
-   [25] = "GetCurrentThreadId";
-   [26] = "INFINITE";
-   [27] = "WaitForSingleObject";
-   [28] = "--- lib_util.lua ---";
-   [29] = "ENABLE_ECHO_INPUT";
-   [30] = "ENABLE_LINE_INPUT";
-   [31] = "FORMAT_MESSAGE_FROM_SYSTEM";
-   [32] = "FORMAT_MESSAGE_IGNORE_INSERTS";
-   [33] = "GetConsoleMode";
-   [34] = "GetStdHandle";
-   [35] = "GetSystemInfo";
-   [36] = "QueryPerformanceCounter";
-   [37] = "QueryPerformanceFrequency";
-   [38] = "ReadConsoleA";
-   [39] = "SetConsoleMode";
-   [40] = "Sleep";
-   [41] = "STD_INPUT_HANDLE";
-   [42] = "SwitchToThread";
-   [43] = "--- TestAddrinfo.lua ---";
-   [44] = "--- TestAll.lua ---";
-   [45] = "--- TestKqueue.lua ---";
-   [46] = "INFINITE";
-   [47] = "--- TestLinux.lua ---";
-   [48] = "--- TestSharedMemory.lua ---";
-   [49] = "--- TestSignal.lua ---";
-   [50] = "--- TestSignal_bad.lua ---";
-   [51] = "--- TestSocket.lua ---";
-   [52] = "SD_SEND";
-   [53] = "--- TestThread.lua ---";
+   [2] = "--- lib_http.lua ---";
+   [3] = "--- lib_kqueue.lua ---";
+   [4] = "--- lib_poll.lua ---";
+   [5] = "--- lib_shared_memory.lua ---";
+   [6] = "CloseHandle";
+   [7] = "CreateFileMappingA";
+   [8] = "GetLastError";
+   [9] = "MapViewOfFile";
+   [10] = "OpenFileMappingA";
+   [11] = "UnmapViewOfFile";
+   [12] = "--- lib_signal.lua ---";
+   [13] = "--- lib_socket.lua ---";
+   [14] = "closesocket";
+   [15] = "ioctlsocket";
+   [16] = "WSAAddressToStringA";
+   [17] = "WSACleanup";
+   [18] = "WSAGetLastError";
+   [19] = "WSAPoll";
+   [20] = "WSAStartup";
+   [21] = "--- lib_tcp.lua ---";
+   [22] = "--- lib_thread.lua ---";
+   [23] = "CreateThread";
+   [24] = "GetCurrentThreadId";
+   [25] = "INFINITE";
+   [26] = "WaitForSingleObject";
+   [27] = "--- lib_util.lua ---";
+   [28] = "ENABLE_ECHO_INPUT";
+   [29] = "ENABLE_LINE_INPUT";
+   [30] = "FORMAT_MESSAGE_FROM_SYSTEM";
+   [31] = "FORMAT_MESSAGE_IGNORE_INSERTS";
+   [32] = "GetConsoleMode";
+   [33] = "GetStdHandle";
+   [34] = "GetSystemInfo";
+   [35] = "QueryPerformanceCounter";
+   [36] = "QueryPerformanceFrequency";
+   [37] = "ReadConsoleA";
+   [38] = "SetConsoleMode";
+   [39] = "Sleep";
+   [40] = "STD_INPUT_HANDLE";
+   [41] = "SwitchToThread";
+   [42] = "--- TestAddrinfo.lua ---";
+   [43] = "--- TestAll.lua ---";
+   [44] = "--- TestKqueue.lua ---";
+   [45] = "INFINITE";
+   [46] = "--- TestLinux.lua ---";
+   [47] = "--- TestSharedMemory.lua ---";
+   [48] = "--- TestSignal.lua ---";
+   [49] = "--- TestSignal_bad.lua ---";
+   [50] = "--- TestSocket.lua ---";
+   [51] = "SD_SEND";
+   [52] = "--- TestThread.lua ---";
 };
 ]]

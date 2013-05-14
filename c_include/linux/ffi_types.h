@@ -1,6 +1,6 @@
 
 
-// *** 1. i386-linux-gnu/sys/types.h ***
+// *** 1. unistd.h ***
 static const int __STDC__ = 1;
 static const int __STDC_HOSTED__ = 1;
 static const int __GNUC__ = 4;
@@ -223,33 +223,8 @@ static const int __unix__ = 1;
 static const int unix = 1;
 static const int __ELF__ = 1;
 static const int __DECIMAL_BID_FORMAT__ = 1;
-static const int _SYS_TYPES_H = 1;
+static const int _UNISTD_H = 1;
 static const int _FEATURES_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
 static const int __USE_ANSI = 1;
 static const int __GNUC_PREREQ(maj,min) = ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min));
 static const int _BSD_SOURCE = 1;
@@ -262,12 +237,9 @@ static const int __USE_POSIX2 = 1;
 static const int __USE_POSIX199309 = 1;
 static const int __USE_POSIX199506 = 1;
 static const int __USE_XOPEN2K = 1;
-#undef __USE_ISOC95
 static const int __USE_ISOC95 = 1;
-#undef __USE_ISOC99
 static const int __USE_ISOC99 = 1;
 static const int __USE_XOPEN2K8 = 1;
-#undef _ATFILE_SOURCE
 static const int _ATFILE_SOURCE = 1;
 static const int __USE_MISC = 1;
 static const int __USE_BSD = 1;
@@ -277,15 +249,12 @@ static const int __USE_FORTIFY_LEVEL = 0;
 static const int __STDC_IEC_559__ = 1;
 static const int __STDC_IEC_559_COMPLEX__ = 1;
 static const long __STDC_ISO_10646__ = 200009L;
-#undef __GNU_LIBRARY__
 static const int __GNU_LIBRARY__ = 6;
 static const int __GLIBC__ = 2;
 static const int __GLIBC_MINOR__ = 15;
 static const int __GLIBC_PREREQ(maj,min) = ((__GLIBC__ << 16) + __GLIBC_MINOR__ >= ((maj) << 16) + (min));
 static const int __GLIBC_HAVE_LONG_LONG = 1;
 static const int _SYS_CDEFS_H = 1;
-#undef __P
-#undef __PMT
 static const int __LEAF = , __leaf__;
 static const int __LEAF_ATTR = __attribute__ ((__leaf__));
 static const int __THROW = __attribute__ ((__nothrow__ __LEAF));
@@ -331,6 +300,99 @@ static const int __LDBL_REDIR1_NTH(name,proto,alias) = name proto __THROW;
 static const int __LDBL_REDIR_NTH(name,proto) = name proto __THROW;
 static const int __REDIRECT_LDBL(name,proto,alias) = __REDIRECT (name, proto, alias);
 static const int __REDIRECT_NTH_LDBL(name,proto,alias) = __REDIRECT_NTH (name, proto, alias);
+static const long _POSIX_VERSION = 200809L;
+static const long __POSIX2_THIS_VERSION = 200809L;
+static const int _POSIX2_VERSION = __POSIX2_THIS_VERSION;
+static const int _POSIX2_C_BIND = __POSIX2_THIS_VERSION;
+static const int _POSIX2_C_DEV = __POSIX2_THIS_VERSION;
+static const int _POSIX2_SW_DEV = __POSIX2_THIS_VERSION;
+static const int _POSIX2_LOCALEDEF = __POSIX2_THIS_VERSION;
+static const int _XOPEN_VERSION = 700;
+static const int _XOPEN_XCU_VERSION = 4;
+static const int _XOPEN_XPG2 = 1;
+static const int _XOPEN_XPG3 = 1;
+static const int _XOPEN_XPG4 = 1;
+static const int _XOPEN_UNIX = 1;
+static const int _XOPEN_CRYPT = 1;
+static const int _XOPEN_ENH_I18N = 1;
+static const int _XOPEN_LEGACY = 1;
+static const int _BITS_POSIX_OPT_H = 1;
+static const int _POSIX_JOB_CONTROL = 1;
+static const int _POSIX_SAVED_IDS = 1;
+static const long _POSIX_PRIORITY_SCHEDULING = 200809L;
+static const long _POSIX_SYNCHRONIZED_IO = 200809L;
+static const long _POSIX_FSYNC = 200809L;
+static const long _POSIX_MAPPED_FILES = 200809L;
+static const long _POSIX_MEMLOCK = 200809L;
+static const long _POSIX_MEMLOCK_RANGE = 200809L;
+static const long _POSIX_MEMORY_PROTECTION = 200809L;
+static const int _POSIX_CHOWN_RESTRICTED = 0;
+static const int _POSIX_VDISABLE = '\0';
+static const int _POSIX_NO_TRUNC = 1;
+static const int _XOPEN_REALTIME = 1;
+static const int _XOPEN_REALTIME_THREADS = 1;
+static const int _XOPEN_SHM = 1;
+static const long _POSIX_THREADS = 200809L;
+static const int _POSIX_REENTRANT_FUNCTIONS = 1;
+static const long _POSIX_THREAD_SAFE_FUNCTIONS = 200809L;
+static const long _POSIX_THREAD_PRIORITY_SCHEDULING = 200809L;
+static const long _POSIX_THREAD_ATTR_STACKSIZE = 200809L;
+static const long _POSIX_THREAD_ATTR_STACKADDR = 200809L;
+static const long _POSIX_THREAD_PRIO_INHERIT = 200809L;
+static const long _POSIX_THREAD_PRIO_PROTECT = 200809L;
+static const long _POSIX_THREAD_ROBUST_PRIO_INHERIT = 200809L;
+static const int _POSIX_THREAD_ROBUST_PRIO_PROTECT = -1;
+static const long _POSIX_SEMAPHORES = 200809L;
+static const long _POSIX_REALTIME_SIGNALS = 200809L;
+static const long _POSIX_ASYNCHRONOUS_IO = 200809L;
+static const int _POSIX_ASYNC_IO = 1;
+static const int _LFS_ASYNCHRONOUS_IO = 1;
+static const long _POSIX_PRIORITIZED_IO = 200809L;
+static const int _LFS64_ASYNCHRONOUS_IO = 1;
+static const int _LFS_LARGEFILE = 1;
+static const int _LFS64_LARGEFILE = 1;
+static const int _LFS64_STDIO = 1;
+static const long _POSIX_SHARED_MEMORY_OBJECTS = 200809L;
+static const int _POSIX_CPUTIME = 0;
+static const int _POSIX_THREAD_CPUTIME = 0;
+static const int _POSIX_REGEXP = 1;
+static const long _POSIX_READER_WRITER_LOCKS = 200809L;
+static const int _POSIX_SHELL = 1;
+static const long _POSIX_TIMEOUTS = 200809L;
+static const long _POSIX_SPIN_LOCKS = 200809L;
+static const long _POSIX_SPAWN = 200809L;
+static const long _POSIX_TIMERS = 200809L;
+static const long _POSIX_BARRIERS = 200809L;
+static const long _POSIX_MESSAGE_PASSING = 200809L;
+static const long _POSIX_THREAD_PROCESS_SHARED = 200809L;
+static const int _POSIX_MONOTONIC_CLOCK = 0;
+static const long _POSIX_CLOCK_SELECTION = 200809L;
+static const long _POSIX_ADVISORY_INFO = 200809L;
+static const long _POSIX_IPV6 = 200809L;
+static const long _POSIX_RAW_SOCKETS = 200809L;
+static const long _POSIX2_CHAR_TERM = 200809L;
+static const int _POSIX_SPORADIC_SERVER = -1;
+static const int _POSIX_THREAD_SPORADIC_SERVER = -1;
+static const int _POSIX_TRACE = -1;
+static const int _POSIX_TRACE_EVENT_FILTER = -1;
+static const int _POSIX_TRACE_INHERIT = -1;
+static const int _POSIX_TRACE_LOG = -1;
+static const int _POSIX_TYPED_MEMORY_OBJECTS = -1;
+static const int _POSIX_V7_ILP32_OFF32 = 1;
+static const int _POSIX_V7_ILP32_OFFBIG = 1;
+static const int _POSIX_V6_ILP32_OFF32 = 1;
+static const int _POSIX_V6_ILP32_OFFBIG = 1;
+static const int _XBS5_ILP32_OFF32 = 1;
+static const int _XBS5_ILP32_OFFBIG = 1;
+static const char __ILP32_OFF32_CFLAGS = "-m32";
+static const char __ILP32_OFFBIG_CFLAGS = "-m32 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64";
+static const char __ILP32_OFF32_LDFLAGS = "-m32";
+static const char __ILP32_OFFBIG_LDFLAGS = "-m32";
+static const char __LP64_OFF64_CFLAGS = "-m64";
+static const char __LP64_OFF64_LDFLAGS = "-m64";
+static const int STDIN_FILENO = 0;
+static const int STDOUT_FILENO = 1;
+static const int STDERR_FILENO = 2;
 static const int _BITS_TYPES_H = 1;
 typedef unsigned char __u_char;
 typedef unsigned short int __u_short;
@@ -430,1514 +492,9 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 __extension__ typedef int __intptr_t;
 __extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
-typedef __u_char u_char;
-typedef __u_short u_short;
-typedef __u_int u_int;
-typedef __u_long u_long;
-typedef __quad_t quad_t;
-typedef __u_quad_t u_quad_t;
-typedef __fsid_t fsid_t;
-typedef __loff_t loff_t;
-typedef __ino_t ino_t;
-typedef __dev_t dev_t;
-typedef __gid_t gid_t;
-typedef __mode_t mode_t;
-typedef __nlink_t nlink_t;
-typedef __uid_t uid_t;
-typedef __off_t off_t;
-typedef __pid_t pid_t;
-typedef __id_t id_t;
-typedef __ssize_t ssize_t;
-typedef __daddr_t daddr_t;
-typedef __caddr_t caddr_t;
-typedef __key_t key_t;
-static const int __clock_t_defined = 1;
-typedef __clock_t clock_t;
-#undef __need_clock_t
-static const int __time_t_defined = 1;
-typedef __time_t time_t;
-#undef __need_time_t
-static const int __clockid_t_defined = 1;
-typedef __clockid_t clockid_t;
-#undef __clockid_time_t
-static const int __timer_t_defined = 1;
-typedef __timer_t timer_t;
-#undef __need_timer_t
-#undef __need_timespec
-typedef unsigned int size_t;
-#undef __need_size_t
-#undef __need_NULL
-typedef unsigned long int ulong;
-typedef unsigned short int ushort;
-typedef unsigned int uint;
-static const int __intN_t(N,MODE) = typedef int int ##N ##_t __attribute__ ((__mode__ (MODE)));
-static const int __u_intN_t(N,MODE) = typedef unsigned int u_int ##N ##_t __attribute__ ((__mode__ (MODE)));
-typedef int int8_t __attribute__ ((__mode__ (__QI__)));
-typedef int int16_t __attribute__ ((__mode__ (__HI__)));
-typedef int int32_t __attribute__ ((__mode__ (__SI__)));
-typedef int int64_t __attribute__ ((__mode__ (__DI__)));
-typedef unsigned int u_int8_t __attribute__ ((__mode__ (__QI__)));
-typedef unsigned int u_int16_t __attribute__ ((__mode__ (__HI__)));
-typedef unsigned int u_int32_t __attribute__ ((__mode__ (__SI__)));
-typedef unsigned int u_int64_t __attribute__ ((__mode__ (__DI__)));
-typedef int register_t __attribute__ ((__mode__ (__word__)));
-static const int __BIT_TYPES_DEFINED__ = 1;
-static const int _ENDIAN_H = 1;
-static const int __LITTLE_ENDIAN = 1234;
-static const int __BIG_ENDIAN = 4321;
-static const int __PDP_ENDIAN = 3412;
-static const int __BYTE_ORDER = __LITTLE_ENDIAN;
-static const int __FLOAT_WORD_ORDER = __BYTE_ORDER;
-static const int LITTLE_ENDIAN = __LITTLE_ENDIAN;
-static const int BIG_ENDIAN = __BIG_ENDIAN;
-static const int PDP_ENDIAN = __PDP_ENDIAN;
-static const int BYTE_ORDER = __BYTE_ORDER;
-static const int __LONG_LONG_PAIR(HI,LO) = LO, HI;
-static const int _BITS_BYTESWAP_H = 1;
-static const int __bswap_constant_16(x) = ((unsigned short int) ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8)));
-static const int __bswap_16(x) = (__extension__ ({ register unsigned short int __v, __x = (unsigned short int) (x); if (__builtin_constant_p (__x)) __v = __bswap_constant_16 (__x); else __asm__ ("rorw $8, %w0" : "=r" (__v) : "0" (__x) : "cc"); __v; }));
-static const int __bswap_constant_32(x) = ((((x) & 0xff000000) >> 24) | (((x) & 0x00ff0000) >> 8) | (((x) & 0x0000ff00) << 8) | (((x) & 0x000000ff) << 24));
-static const int __bswap_32(x) = (__extension__ ({ register unsigned int __v, __x = (x); if (__builtin_constant_p (__x)) __v = __bswap_constant_32 (__x); else __asm__ ("bswap %0" : "=r" (__v) : "0" (__x)); __v; }));
-static const int __bswap_constant_64(x) = (__extension__ ((((x) & 0xff00000000000000ull) >> 56) | (((x) & 0x00ff000000000000ull) >> 40) | (((x) & 0x0000ff0000000000ull) >> 24) | (((x) & 0x000000ff00000000ull) >> 8) | (((x) & 0x00000000ff000000ull) << 8) | (((x) & 0x0000000000ff0000ull) << 24) | (((x) & 0x000000000000ff00ull) << 40) | (((x) & 0x00000000000000ffull) << 56)));
-static const int __bswap_64(x) = (__extension__ ({ union { __extension__ unsigned long long int __ll; unsigned long int __l[2]; } __w, __r; if (__builtin_constant_p (x)) __r.__ll = __bswap_constant_64 (x); else { __w.__ll = (x); __r.__l[0] = __bswap_32 (__w.__l[1]); __r.__l[1] = __bswap_32 (__w.__l[0]); } __r.__ll; }));
-static const int htobe16(x) = __bswap_16 (x);
-static const int htole16(x) = (x);
-static const int be16toh(x) = __bswap_16 (x);
-static const int le16toh(x) = (x);
-static const int htobe32(x) = __bswap_32 (x);
-static const int htole32(x) = (x);
-static const int be32toh(x) = __bswap_32 (x);
-static const int le32toh(x) = (x);
-static const int htobe64(x) = __bswap_64 (x);
-static const int htole64(x) = (x);
-static const int be64toh(x) = __bswap_64 (x);
-static const int le64toh(x) = (x);
-static const int _SYS_SELECT_H = 1;
-static const int __FD_ZERO(fdsp) = do { int __d0, __d1; __asm__ __volatile__ ("cld; rep; stosl" : "=c" (__d0), "=D" (__d1) : "a" (0), "0" (sizeof (fd_set) / sizeof (__fd_mask)), "1" (&__FDS_BITS (fdsp)[0]) : "memory"); } while (0);
-static const int __FD_SET(d,set) = ((void) (__FDS_BITS (set)[__FD_ELT (d)] |= __FD_MASK (d)));
-static const int __FD_CLR(d,set) = ((void) (__FDS_BITS (set)[__FD_ELT (d)] &= ~__FD_MASK (d)));
-static const int __FD_ISSET(d,set) = ((__FDS_BITS (set)[__FD_ELT (d)] & __FD_MASK (d)) != 0);
-static const int _SIGSET_H_types = 1;
-typedef int __sig_atomic_t;
-static const int _SIGSET_NWORDS = (1024 / (8 * sizeof (unsigned long int)));
-typedef struct
-  {
-    unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
-  } __sigset_t;
-typedef __sigset_t sigset_t;
-#undef __need_clock_t
-#undef __need_time_t
-#undef __clockid_time_t
-#undef __need_timer_t
-static const int __timespec_defined = 1;
-struct timespec
-  {
-    __time_t tv_sec;
-    long int tv_nsec;
-  };
-#undef __need_timespec
-static const int _STRUCT_TIMEVAL = 1;
-struct timeval
-  {
-    __time_t tv_sec;
-    __suseconds_t tv_usec;
-  };
-#undef __need_timeval
-typedef __suseconds_t suseconds_t;
-typedef long int __fd_mask;
-#undef __NFDBITS
-static const int __NFDBITS = (8 * (int) sizeof (__fd_mask));
-static const int __FD_ELT(d) = ((d) / __NFDBITS);
-static const int __FD_MASK(d) = ((__fd_mask) 1 << ((d) % __NFDBITS));
-typedef struct
-  {
-    __fd_mask __fds_bits[1024 / (8 * (int) sizeof (__fd_mask))];
-static const int __FDS_BITS(set) = ((set)->__fds_bits);
-  } fd_set;
-static const int FD_SETSIZE = __FD_SETSIZE;
-typedef __fd_mask fd_mask;
-static const int NFDBITS = __NFDBITS;
-static const int FD_SET(fd,fdsetp) = __FD_SET (fd, fdsetp);
-static const int FD_CLR(fd,fdsetp) = __FD_CLR (fd, fdsetp);
-static const int FD_ISSET(fd,fdsetp) = __FD_ISSET (fd, fdsetp);
-static const int FD_ZERO(fdsetp) = __FD_ZERO (fdsetp);
-extern int select (int __nfds, fd_set *__restrict __readfds,
-     fd_set *__restrict __writefds,
-     fd_set *__restrict __exceptfds,
-     struct timeval *__restrict __timeout);
-extern int pselect (int __nfds, fd_set *__restrict __readfds,
-      fd_set *__restrict __writefds,
-      fd_set *__restrict __exceptfds,
-      const struct timespec *__restrict __timeout,
-      const __sigset_t *__restrict __sigmask);
-static const int _SYS_SYSMACROS_H = 1;
-__extension__
-extern unsigned int gnu_dev_major (unsigned long long int __dev)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-__extension__
-extern unsigned int gnu_dev_minor (unsigned long long int __dev)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-__extension__
-extern unsigned long long int gnu_dev_makedev (unsigned int __major,
-            unsigned int __minor)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-static const int major(dev) = gnu_dev_major (dev);
-static const int minor(dev) = gnu_dev_minor (dev);
-static const int makedev(maj,min) = gnu_dev_makedev (maj, min);
-typedef __blksize_t blksize_t;
-typedef __blkcnt_t blkcnt_t;
-typedef __fsblkcnt_t fsblkcnt_t;
-typedef __fsfilcnt_t fsfilcnt_t;
-static const int _BITS_PTHREADTYPES_H = 1;
-static const int __SIZEOF_PTHREAD_ATTR_T = 36;
-static const int __SIZEOF_PTHREAD_MUTEX_T = 24;
-static const int __SIZEOF_PTHREAD_MUTEXATTR_T = 4;
-static const int __SIZEOF_PTHREAD_COND_T = 48;
-static const int __SIZEOF_PTHREAD_COND_COMPAT_T = 12;
-static const int __SIZEOF_PTHREAD_CONDATTR_T = 4;
-static const int __SIZEOF_PTHREAD_RWLOCK_T = 32;
-static const int __SIZEOF_PTHREAD_RWLOCKATTR_T = 8;
-static const int __SIZEOF_PTHREAD_BARRIER_T = 20;
-static const int __SIZEOF_PTHREAD_BARRIERATTR_T = 4;
-typedef unsigned long int pthread_t;
-typedef union
-{
-  char __size[36];
-  long int __align;
-} pthread_attr_t;
-typedef struct __pthread_internal_slist
-{
-  struct __pthread_internal_slist *__next;
-} __pthread_slist_t;
-typedef union
-{
-  struct __pthread_mutex_s
-  {
-    int __lock;
-    unsigned int __count;
-    int __owner;
-    int __kind;
-    unsigned int __nusers;
-    __extension__ union
-    {
-      int __spins;
-      __pthread_slist_t __list;
-    };
-  } __data;
-  char __size[24];
-  long int __align;
-} pthread_mutex_t;
-typedef union
-{
-  char __size[4];
-  long int __align;
-} pthread_mutexattr_t;
-typedef union
-{
-  struct
-  {
-    int __lock;
-    unsigned int __futex;
-    __extension__ unsigned long long int __total_seq;
-    __extension__ unsigned long long int __wakeup_seq;
-    __extension__ unsigned long long int __woken_seq;
-    void *__mutex;
-    unsigned int __nwaiters;
-    unsigned int __broadcast_seq;
-  } __data;
-  char __size[48];
-  __extension__ long long int __align;
-} pthread_cond_t;
-typedef union
-{
-  char __size[4];
-  long int __align;
-} pthread_condattr_t;
-typedef unsigned int pthread_key_t;
-typedef int pthread_once_t;
-typedef union
-{
-  struct
-  {
-    int __lock;
-    unsigned int __nr_readers;
-    unsigned int __readers_wakeup;
-    unsigned int __writer_wakeup;
-    unsigned int __nr_readers_queued;
-    unsigned int __nr_writers_queued;
-    unsigned char __flags;
-    unsigned char __shared;
-    unsigned char __pad1;
-    unsigned char __pad2;
-    int __writer;
-  } __data;
-  char __size[32];
-  long int __align;
-} pthread_rwlock_t;
-typedef union
-{
-  char __size[8];
-  long int __align;
-} pthread_rwlockattr_t;
-typedef volatile int pthread_spinlock_t;
-typedef union
-{
-  char __size[20];
-  long int __align;
-} pthread_barrier_t;
-typedef union
-{
-  char __size[4];
-  int __align;
-} pthread_barrierattr_t;
-static const int __cleanup_fct_attribute = __attribute__ ((__regparm__ (1)));
-
-
-// *** 2. i386-linux-gnu/sys/mman.h ***
-static const int _SYS_MMAN_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
-#undef __USE_ISOC95
-#undef __USE_ISOC99
-#undef _ATFILE_SOURCE
-#undef __GNU_LIBRARY__
-#undef __P
-#undef __PMT
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-__extension__ typedef signed long long int __int64_t;
-__extension__ typedef unsigned long long int __uint64_t;
-__extension__ typedef long long int __quad_t;
-__extension__ typedef unsigned long long int __u_quad_t;
-__extension__ typedef __u_quad_t __dev_t;
-__extension__ typedef unsigned int __uid_t;
-__extension__ typedef unsigned int __gid_t;
-__extension__ typedef unsigned long int __ino_t;
-__extension__ typedef __u_quad_t __ino64_t;
-__extension__ typedef unsigned int __mode_t;
-__extension__ typedef unsigned int __nlink_t;
-__extension__ typedef long int __off_t;
-__extension__ typedef __quad_t __off64_t;
-__extension__ typedef int __pid_t;
-__extension__ typedef struct { int __val[2]; } __fsid_t;
-__extension__ typedef long int __clock_t;
-__extension__ typedef unsigned long int __rlim_t;
-__extension__ typedef __u_quad_t __rlim64_t;
-__extension__ typedef unsigned int __id_t;
-__extension__ typedef long int __time_t;
-__extension__ typedef unsigned int __useconds_t;
-__extension__ typedef long int __suseconds_t;
-__extension__ typedef int __daddr_t;
-__extension__ typedef long int __swblk_t;
-__extension__ typedef int __key_t;
-__extension__ typedef int __clockid_t;
-__extension__ typedef void * __timer_t;
-__extension__ typedef long int __blksize_t;
-__extension__ typedef long int __blkcnt_t;
-__extension__ typedef __quad_t __blkcnt64_t;
-__extension__ typedef unsigned long int __fsblkcnt_t;
-__extension__ typedef __u_quad_t __fsblkcnt64_t;
-__extension__ typedef unsigned long int __fsfilcnt_t;
-__extension__ typedef __u_quad_t __fsfilcnt64_t;
-__extension__ typedef int __ssize_t;
-typedef __off64_t __loff_t;
-typedef __quad_t *__qaddr_t;
-typedef char *__caddr_t;
-__extension__ typedef int __intptr_t;
-__extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
-typedef unsigned int size_t;
-#undef __need_size_t
-#undef __need_NULL
-typedef __off_t off_t;
-typedef __mode_t mode_t;
-static const int PROT_READ = 0x1;
-static const int PROT_WRITE = 0x2;
-static const int PROT_EXEC = 0x4;
-static const int PROT_NONE = 0x0;
-static const int PROT_GROWSDOWN = 0x01000000;
-static const int PROT_GROWSUP = 0x02000000;
-static const int MAP_SHARED = 0x01;
-static const int MAP_PRIVATE = 0x02;
-static const int MAP_TYPE = 0x0f;
-static const int MAP_FIXED = 0x10;
-static const int MAP_FILE = 0;
-static const int MAP_ANONYMOUS = 0x20;
-static const int MAP_ANON = MAP_ANONYMOUS;
-static const int MAP_GROWSDOWN = 0x00100;
-static const int MAP_DENYWRITE = 0x00800;
-static const int MAP_EXECUTABLE = 0x01000;
-static const int MAP_LOCKED = 0x02000;
-static const int MAP_NORESERVE = 0x04000;
-static const int MAP_POPULATE = 0x08000;
-static const int MAP_NONBLOCK = 0x10000;
-static const int MAP_STACK = 0x20000;
-static const int MAP_HUGETLB = 0x40000;
-static const int MS_ASYNC = 1;
-static const int MS_SYNC = 4;
-static const int MS_INVALIDATE = 2;
-static const int MCL_CURRENT = 1;
-static const int MCL_FUTURE = 2;
-static const int MADV_NORMAL = 0;
-static const int MADV_RANDOM = 1;
-static const int MADV_SEQUENTIAL = 2;
-static const int MADV_WILLNEED = 3;
-static const int MADV_DONTNEED = 4;
-static const int MADV_REMOVE = 9;
-static const int MADV_DONTFORK = 10;
-static const int MADV_DOFORK = 11;
-static const int MADV_MERGEABLE = 12;
-static const int MADV_UNMERGEABLE = 13;
-static const int MADV_HUGEPAGE = 14;
-static const int MADV_NOHUGEPAGE = 15;
-static const int MADV_HWPOISON = 100;
-static const int POSIX_MADV_NORMAL = 0;
-static const int POSIX_MADV_RANDOM = 1;
-static const int POSIX_MADV_SEQUENTIAL = 2;
-static const int POSIX_MADV_WILLNEED = 3;
-static const int POSIX_MADV_DONTNEED = 4;
-static const int MAP_FAILED = ((void *) -1);
-extern void *mmap (void *__addr, size_t __len, int __prot,
-     int __flags, int __fd, __off_t __offset) __attribute__ ((__nothrow__ , __leaf__));
-extern int munmap (void *__addr, size_t __len) __attribute__ ((__nothrow__ , __leaf__));
-extern int mprotect (void *__addr, size_t __len, int __prot) __attribute__ ((__nothrow__ , __leaf__));
-extern int msync (void *__addr, size_t __len, int __flags);
-extern int madvise (void *__addr, size_t __len, int __advice) __attribute__ ((__nothrow__ , __leaf__));
-extern int posix_madvise (void *__addr, size_t __len, int __advice) __attribute__ ((__nothrow__ , __leaf__));
-extern int mlock (__const void *__addr, size_t __len) __attribute__ ((__nothrow__ , __leaf__));
-extern int munlock (__const void *__addr, size_t __len) __attribute__ ((__nothrow__ , __leaf__));
-extern int mlockall (int __flags) __attribute__ ((__nothrow__ , __leaf__));
-extern int munlockall (void) __attribute__ ((__nothrow__ , __leaf__));
-extern int mincore (void *__start, size_t __len, unsigned char *__vec)
-     __attribute__ ((__nothrow__ , __leaf__));
-extern int shm_open (__const char *__name, int __oflag, mode_t __mode);
-extern int shm_unlink (__const char *__name);
-
-
-// *** 3. i386-linux-gnu/sys/socket.h ***
-static const int _SYS_SOCKET_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
-#undef __USE_ISOC95
-#undef __USE_ISOC99
-#undef _ATFILE_SOURCE
-#undef __GNU_LIBRARY__
-#undef __P
-#undef __PMT
-static const int _SYS_UIO_H = 1;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-__extension__ typedef signed long long int __int64_t;
-__extension__ typedef unsigned long long int __uint64_t;
-__extension__ typedef long long int __quad_t;
-__extension__ typedef unsigned long long int __u_quad_t;
-__extension__ typedef __u_quad_t __dev_t;
-__extension__ typedef unsigned int __uid_t;
-__extension__ typedef unsigned int __gid_t;
-__extension__ typedef unsigned long int __ino_t;
-__extension__ typedef __u_quad_t __ino64_t;
-__extension__ typedef unsigned int __mode_t;
-__extension__ typedef unsigned int __nlink_t;
-__extension__ typedef long int __off_t;
-__extension__ typedef __quad_t __off64_t;
-__extension__ typedef int __pid_t;
-__extension__ typedef struct { int __val[2]; } __fsid_t;
-__extension__ typedef long int __clock_t;
-__extension__ typedef unsigned long int __rlim_t;
-__extension__ typedef __u_quad_t __rlim64_t;
-__extension__ typedef unsigned int __id_t;
-__extension__ typedef long int __time_t;
-__extension__ typedef unsigned int __useconds_t;
-__extension__ typedef long int __suseconds_t;
-__extension__ typedef int __daddr_t;
-__extension__ typedef long int __swblk_t;
-__extension__ typedef int __key_t;
-__extension__ typedef int __clockid_t;
-__extension__ typedef void * __timer_t;
-__extension__ typedef long int __blksize_t;
-__extension__ typedef long int __blkcnt_t;
-__extension__ typedef __quad_t __blkcnt64_t;
-__extension__ typedef unsigned long int __fsblkcnt_t;
-__extension__ typedef __u_quad_t __fsblkcnt64_t;
-__extension__ typedef unsigned long int __fsfilcnt_t;
-__extension__ typedef __u_quad_t __fsfilcnt64_t;
-__extension__ typedef int __ssize_t;
-typedef __off64_t __loff_t;
-typedef __quad_t *__qaddr_t;
-typedef char *__caddr_t;
-__extension__ typedef int __intptr_t;
-__extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
-typedef __u_char u_char;
-typedef __u_short u_short;
-typedef __u_int u_int;
-typedef __u_long u_long;
-typedef __quad_t quad_t;
-typedef __u_quad_t u_quad_t;
-typedef __fsid_t fsid_t;
-typedef __loff_t loff_t;
-typedef __ino_t ino_t;
-typedef __dev_t dev_t;
-typedef __gid_t gid_t;
-typedef __mode_t mode_t;
-typedef __nlink_t nlink_t;
-typedef __uid_t uid_t;
-typedef __off_t off_t;
-typedef __pid_t pid_t;
-typedef __id_t id_t;
-typedef __ssize_t ssize_t;
-typedef __daddr_t daddr_t;
-typedef __caddr_t caddr_t;
-typedef __key_t key_t;
-typedef __clock_t clock_t;
-#undef __need_clock_t
-typedef __time_t time_t;
-#undef __need_time_t
-typedef __clockid_t clockid_t;
-#undef __clockid_time_t
-typedef __timer_t timer_t;
-#undef __need_timer_t
-#undef __need_timespec
-typedef unsigned int size_t;
-#undef __need_size_t
-#undef __need_NULL
-typedef unsigned long int ulong;
-typedef unsigned short int ushort;
-typedef unsigned int uint;
-typedef int int8_t __attribute__ ((__mode__ (__QI__)));
-typedef int int16_t __attribute__ ((__mode__ (__HI__)));
-typedef int int32_t __attribute__ ((__mode__ (__SI__)));
-typedef int int64_t __attribute__ ((__mode__ (__DI__)));
-typedef unsigned int u_int8_t __attribute__ ((__mode__ (__QI__)));
-typedef unsigned int u_int16_t __attribute__ ((__mode__ (__HI__)));
-typedef unsigned int u_int32_t __attribute__ ((__mode__ (__SI__)));
-typedef unsigned int u_int64_t __attribute__ ((__mode__ (__DI__)));
-typedef int register_t __attribute__ ((__mode__ (__word__)));
-typedef int __sig_atomic_t;
-typedef struct
-  {
-    unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
-  } __sigset_t;
-typedef __sigset_t sigset_t;
-#undef __need_clock_t
-#undef __need_time_t
-#undef __clockid_time_t
-#undef __need_timer_t
-struct timespec
-  {
-    __time_t tv_sec;
-    long int tv_nsec;
-  };
-#undef __need_timespec
-struct timeval
-  {
-    __time_t tv_sec;
-    __suseconds_t tv_usec;
-  };
-#undef __need_timeval
-typedef __suseconds_t suseconds_t;
-typedef long int __fd_mask;
-#undef __NFDBITS
-typedef struct
-  {
-    __fd_mask __fds_bits[1024 / (8 * (int) sizeof (__fd_mask))];
-  } fd_set;
-typedef __fd_mask fd_mask;
-extern int select (int __nfds, fd_set *__restrict __readfds,
-     fd_set *__restrict __writefds,
-     fd_set *__restrict __exceptfds,
-     struct timeval *__restrict __timeout);
-extern int pselect (int __nfds, fd_set *__restrict __readfds,
-      fd_set *__restrict __writefds,
-      fd_set *__restrict __exceptfds,
-      const struct timespec *__restrict __timeout,
-      const __sigset_t *__restrict __sigmask);
-__extension__
-extern unsigned int gnu_dev_major (unsigned long long int __dev)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-__extension__
-extern unsigned int gnu_dev_minor (unsigned long long int __dev)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-__extension__
-extern unsigned long long int gnu_dev_makedev (unsigned int __major,
-            unsigned int __minor)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-typedef __blksize_t blksize_t;
-typedef __blkcnt_t blkcnt_t;
-typedef __fsblkcnt_t fsblkcnt_t;
-typedef __fsfilcnt_t fsfilcnt_t;
-typedef unsigned long int pthread_t;
-typedef union
-{
-  char __size[36];
-  long int __align;
-} pthread_attr_t;
-typedef struct __pthread_internal_slist
-{
-  struct __pthread_internal_slist *__next;
-} __pthread_slist_t;
-typedef union
-{
-  struct __pthread_mutex_s
-  {
-    int __lock;
-    unsigned int __count;
-    int __owner;
-    int __kind;
-    unsigned int __nusers;
-    __extension__ union
-    {
-      int __spins;
-      __pthread_slist_t __list;
-    };
-  } __data;
-  char __size[24];
-  long int __align;
-} pthread_mutex_t;
-typedef union
-{
-  char __size[4];
-  long int __align;
-} pthread_mutexattr_t;
-typedef union
-{
-  struct
-  {
-    int __lock;
-    unsigned int __futex;
-    __extension__ unsigned long long int __total_seq;
-    __extension__ unsigned long long int __wakeup_seq;
-    __extension__ unsigned long long int __woken_seq;
-    void *__mutex;
-    unsigned int __nwaiters;
-    unsigned int __broadcast_seq;
-  } __data;
-  char __size[48];
-  __extension__ long long int __align;
-} pthread_cond_t;
-typedef union
-{
-  char __size[4];
-  long int __align;
-} pthread_condattr_t;
-typedef unsigned int pthread_key_t;
-typedef int pthread_once_t;
-typedef union
-{
-  struct
-  {
-    int __lock;
-    unsigned int __nr_readers;
-    unsigned int __readers_wakeup;
-    unsigned int __writer_wakeup;
-    unsigned int __nr_readers_queued;
-    unsigned int __nr_writers_queued;
-    unsigned char __flags;
-    unsigned char __shared;
-    unsigned char __pad1;
-    unsigned char __pad2;
-    int __writer;
-  } __data;
-  char __size[32];
-  long int __align;
-} pthread_rwlock_t;
-typedef union
-{
-  char __size[8];
-  long int __align;
-} pthread_rwlockattr_t;
-typedef volatile int pthread_spinlock_t;
-typedef union
-{
-  char __size[20];
-  long int __align;
-} pthread_barrier_t;
-typedef union
-{
-  char __size[4];
-  int __align;
-} pthread_barrierattr_t;
-static const int _BITS_UIO_H = 1;
-static const int UIO_MAXIOV = 1024;
-struct iovec
-  {
-    void *iov_base;
-    size_t iov_len;
-  };
-static const int _BITS_UIO_H_FOR_SYS_UIO_H = 1;
-extern ssize_t process_vm_readv (pid_t __pid, __const struct iovec *__lvec,
-     unsigned long int __liovcnt,
-     __const struct iovec *__rvec,
-     unsigned long int __riovcnt,
-     unsigned long int __flags)
-  __attribute__ ((__nothrow__ , __leaf__));
-extern ssize_t process_vm_writev (pid_t __pid, __const struct iovec *__lvec,
-      unsigned long int __liovcnt,
-      __const struct iovec *__rvec,
-      unsigned long int __riovcnt,
-      unsigned long int __flags)
-  __attribute__ ((__nothrow__ , __leaf__));
-extern ssize_t readv (int __fd, __const struct iovec *__iovec, int __count)
-  ;
-extern ssize_t writev (int __fd, __const struct iovec *__iovec, int __count)
-  ;
-extern ssize_t preadv (int __fd, __const struct iovec *__iovec, int __count,
-         __off_t __offset) ;
-extern ssize_t pwritev (int __fd, __const struct iovec *__iovec, int __count,
-   __off_t __offset) ;
-#undef __need_size_t
-#undef __need_NULL
-#undef __need_size_t
-#undef __need_NULL
-typedef __socklen_t socklen_t;
-enum __socket_type
-{
-  SOCK_STREAM = 1,
-static const int SOCK_STREAM = SOCK_STREAM;
-  SOCK_DGRAM = 2,
-static const int SOCK_DGRAM = SOCK_DGRAM;
-  SOCK_RAW = 3,
-static const int SOCK_RAW = SOCK_RAW;
-  SOCK_RDM = 4,
-static const int SOCK_RDM = SOCK_RDM;
-  SOCK_SEQPACKET = 5,
-static const int SOCK_SEQPACKET = SOCK_SEQPACKET;
-  SOCK_DCCP = 6,
-static const int SOCK_DCCP = SOCK_DCCP;
-  SOCK_PACKET = 10,
-static const int SOCK_PACKET = SOCK_PACKET;
-  SOCK_CLOEXEC = 02000000,
-static const int SOCK_CLOEXEC = SOCK_CLOEXEC;
-  SOCK_NONBLOCK = 04000
-static const int SOCK_NONBLOCK = SOCK_NONBLOCK;
-};
-static const int PF_UNSPEC = 0;
-static const int PF_LOCAL = 1;
-static const int PF_UNIX = PF_LOCAL;
-static const int PF_FILE = PF_LOCAL;
-static const int PF_INET = 2;
-static const int PF_AX25 = 3;
-static const int PF_IPX = 4;
-static const int PF_APPLETALK = 5;
-static const int PF_NETROM = 6;
-static const int PF_BRIDGE = 7;
-static const int PF_ATMPVC = 8;
-static const int PF_X25 = 9;
-static const int PF_INET6 = 10;
-static const int PF_ROSE = 11;
-static const int PF_DECnet = 12;
-static const int PF_NETBEUI = 13;
-static const int PF_SECURITY = 14;
-static const int PF_KEY = 15;
-static const int PF_NETLINK = 16;
-static const int PF_ROUTE = PF_NETLINK;
-static const int PF_PACKET = 17;
-static const int PF_ASH = 18;
-static const int PF_ECONET = 19;
-static const int PF_ATMSVC = 20;
-static const int PF_RDS = 21;
-static const int PF_SNA = 22;
-static const int PF_IRDA = 23;
-static const int PF_PPPOX = 24;
-static const int PF_WANPIPE = 25;
-static const int PF_LLC = 26;
-static const int PF_CAN = 29;
-static const int PF_TIPC = 30;
-static const int PF_BLUETOOTH = 31;
-static const int PF_IUCV = 32;
-static const int PF_RXRPC = 33;
-static const int PF_ISDN = 34;
-static const int PF_PHONET = 35;
-static const int PF_IEEE802154 = 36;
-static const int PF_CAIF = 37;
-static const int PF_ALG = 38;
-static const int PF_NFC = 39;
-static const int PF_MAX = 40;
-static const int AF_UNSPEC = PF_UNSPEC;
-static const int AF_LOCAL = PF_LOCAL;
-static const int AF_UNIX = PF_UNIX;
-static const int AF_FILE = PF_FILE;
-static const int AF_INET = PF_INET;
-static const int AF_AX25 = PF_AX25;
-static const int AF_IPX = PF_IPX;
-static const int AF_APPLETALK = PF_APPLETALK;
-static const int AF_NETROM = PF_NETROM;
-static const int AF_BRIDGE = PF_BRIDGE;
-static const int AF_ATMPVC = PF_ATMPVC;
-static const int AF_X25 = PF_X25;
-static const int AF_INET6 = PF_INET6;
-static const int AF_ROSE = PF_ROSE;
-static const int AF_DECnet = PF_DECnet;
-static const int AF_NETBEUI = PF_NETBEUI;
-static const int AF_SECURITY = PF_SECURITY;
-static const int AF_KEY = PF_KEY;
-static const int AF_NETLINK = PF_NETLINK;
-static const int AF_ROUTE = PF_ROUTE;
-static const int AF_PACKET = PF_PACKET;
-static const int AF_ASH = PF_ASH;
-static const int AF_ECONET = PF_ECONET;
-static const int AF_ATMSVC = PF_ATMSVC;
-static const int AF_RDS = PF_RDS;
-static const int AF_SNA = PF_SNA;
-static const int AF_IRDA = PF_IRDA;
-static const int AF_PPPOX = PF_PPPOX;
-static const int AF_WANPIPE = PF_WANPIPE;
-static const int AF_LLC = PF_LLC;
-static const int AF_CAN = PF_CAN;
-static const int AF_TIPC = PF_TIPC;
-static const int AF_BLUETOOTH = PF_BLUETOOTH;
-static const int AF_IUCV = PF_IUCV;
-static const int AF_RXRPC = PF_RXRPC;
-static const int AF_ISDN = PF_ISDN;
-static const int AF_PHONET = PF_PHONET;
-static const int AF_IEEE802154 = PF_IEEE802154;
-static const int AF_CAIF = PF_CAIF;
-static const int AF_ALG = PF_ALG;
-static const int AF_NFC = PF_NFC;
-static const int AF_MAX = PF_MAX;
-static const int SOL_RAW = 255;
-static const int SOL_DECNET = 261;
-static const int SOL_X25 = 262;
-static const int SOL_PACKET = 263;
-static const int SOL_ATM = 264;
-static const int SOL_AAL = 265;
-static const int SOL_IRDA = 266;
-static const int SOMAXCONN = 128;
-static const int _BITS_SOCKADDR_H = 1;
-typedef unsigned short int sa_family_t;
-static const int __SOCKADDR_COMMON(sa_prefix) = sa_family_t sa_prefix ##family;
-static const int __SOCKADDR_COMMON_SIZE = (sizeof (unsigned short int));
-struct sockaddr
-  {
-    sa_family_t sa_family;
-    char sa_data[14];
-  };
-static const int __ss_aligntype = unsigned long int;
-static const int _SS_SIZE = 128;
-static const int _SS_PADSIZE = (_SS_SIZE - (2 * sizeof (__ss_aligntype)));
-struct sockaddr_storage
-  {
-    sa_family_t ss_family;
-    unsigned long int __ss_align;
-    char __ss_padding[(128 - (2 * sizeof (unsigned long int)))];
-  };
-enum
-  {
-    MSG_OOB = 0x01,
-static const int MSG_OOB = MSG_OOB;
-    MSG_PEEK = 0x02,
-static const int MSG_PEEK = MSG_PEEK;
-    MSG_DONTROUTE = 0x04,
-static const int MSG_DONTROUTE = MSG_DONTROUTE;
-    MSG_CTRUNC = 0x08,
-static const int MSG_CTRUNC = MSG_CTRUNC;
-    MSG_PROXY = 0x10,
-static const int MSG_PROXY = MSG_PROXY;
-    MSG_TRUNC = 0x20,
-static const int MSG_TRUNC = MSG_TRUNC;
-    MSG_DONTWAIT = 0x40,
-static const int MSG_DONTWAIT = MSG_DONTWAIT;
-    MSG_EOR = 0x80,
-static const int MSG_EOR = MSG_EOR;
-    MSG_WAITALL = 0x100,
-static const int MSG_WAITALL = MSG_WAITALL;
-    MSG_FIN = 0x200,
-static const int MSG_FIN = MSG_FIN;
-    MSG_SYN = 0x400,
-static const int MSG_SYN = MSG_SYN;
-    MSG_CONFIRM = 0x800,
-static const int MSG_CONFIRM = MSG_CONFIRM;
-    MSG_RST = 0x1000,
-static const int MSG_RST = MSG_RST;
-    MSG_ERRQUEUE = 0x2000,
-static const int MSG_ERRQUEUE = MSG_ERRQUEUE;
-    MSG_NOSIGNAL = 0x4000,
-static const int MSG_NOSIGNAL = MSG_NOSIGNAL;
-    MSG_MORE = 0x8000,
-static const int MSG_MORE = MSG_MORE;
-    MSG_WAITFORONE = 0x10000,
-static const int MSG_WAITFORONE = MSG_WAITFORONE;
-    MSG_CMSG_CLOEXEC = 0x40000000
-static const int MSG_CMSG_CLOEXEC = MSG_CMSG_CLOEXEC;
-  };
-struct msghdr
-  {
-    void *msg_name;
-    socklen_t msg_namelen;
-    struct iovec *msg_iov;
-    size_t msg_iovlen;
-    void *msg_control;
-    size_t msg_controllen;
-    int msg_flags;
-  };
-struct cmsghdr
-  {
-    size_t cmsg_len;
-    int cmsg_level;
-    int cmsg_type;
-    __extension__ unsigned char __cmsg_data [];
-  };
-static const int CMSG_DATA(cmsg) = ((cmsg)->__cmsg_data);
-static const int CMSG_NXTHDR(mhdr,cmsg) = __cmsg_nxthdr (mhdr, cmsg);
-static const int CMSG_FIRSTHDR(mhdr) = ((size_t) (mhdr)->msg_controllen >= sizeof (struct cmsghdr) ? (struct cmsghdr *) (mhdr)->msg_control : (struct cmsghdr *) 0);
-static const int CMSG_ALIGN(len) = (((len) + sizeof (size_t) - 1) & (size_t) ~(sizeof (size_t) - 1));
-static const int CMSG_SPACE(len) = (CMSG_ALIGN (len) + CMSG_ALIGN (sizeof (struct cmsghdr)));
-static const int CMSG_LEN(len) = (CMSG_ALIGN (sizeof (struct cmsghdr)) + (len));
-extern struct cmsghdr *__cmsg_nxthdr (struct msghdr *__mhdr,
-          struct cmsghdr *__cmsg) __attribute__ ((__nothrow__ , __leaf__));
-enum
-  {
-    SCM_RIGHTS = 0x01
-static const int SCM_RIGHTS = SCM_RIGHTS;
-  };
-static const int FIOSETOWN = 0x8901;
-static const int SIOCSPGRP = 0x8902;
-static const int FIOGETOWN = 0x8903;
-static const int SIOCGPGRP = 0x8904;
-static const int SIOCATMARK = 0x8905;
-static const int SIOCGSTAMP = 0x8906;
-static const int SIOCGSTAMPNS = 0x8907;
-static const int SOL_SOCKET = 1;
-static const int SO_DEBUG = 1;
-static const int SO_REUSEADDR = 2;
-static const int SO_TYPE = 3;
-static const int SO_ERROR = 4;
-static const int SO_DONTROUTE = 5;
-static const int SO_BROADCAST = 6;
-static const int SO_SNDBUF = 7;
-static const int SO_RCVBUF = 8;
-static const int SO_SNDBUFFORCE = 32;
-static const int SO_RCVBUFFORCE = 33;
-static const int SO_KEEPALIVE = 9;
-static const int SO_OOBINLINE = 10;
-static const int SO_NO_CHECK = 11;
-static const int SO_PRIORITY = 12;
-static const int SO_LINGER = 13;
-static const int SO_BSDCOMPAT = 14;
-static const int SO_PASSCRED = 16;
-static const int SO_PEERCRED = 17;
-static const int SO_RCVLOWAT = 18;
-static const int SO_SNDLOWAT = 19;
-static const int SO_RCVTIMEO = 20;
-static const int SO_SNDTIMEO = 21;
-static const int SO_SECURITY_AUTHENTICATION = 22;
-static const int SO_SECURITY_ENCRYPTION_TRANSPORT = 23;
-static const int SO_SECURITY_ENCRYPTION_NETWORK = 24;
-static const int SO_BINDTODEVICE = 25;
-static const int SO_ATTACH_FILTER = 26;
-static const int SO_DETACH_FILTER = 27;
-static const int SO_PEERNAME = 28;
-static const int SO_TIMESTAMP = 29;
-static const int SCM_TIMESTAMP = SO_TIMESTAMP;
-static const int SO_ACCEPTCONN = 30;
-static const int SO_PEERSEC = 31;
-static const int SO_PASSSEC = 34;
-static const int SO_TIMESTAMPNS = 35;
-static const int SCM_TIMESTAMPNS = SO_TIMESTAMPNS;
-static const int SO_MARK = 36;
-static const int SO_TIMESTAMPING = 37;
-static const int SCM_TIMESTAMPING = SO_TIMESTAMPING;
-static const int SO_PROTOCOL = 38;
-static const int SO_DOMAIN = 39;
-static const int SO_RXQ_OVFL = 40;
-static const int SO_WIFI_STATUS = 41;
-static const int SCM_WIFI_STATUS = SO_WIFI_STATUS;
-static const int SO_PEEK_OFF = 42;
-static const int SO_NOFCS = 43;
-struct linger
-  {
-    int l_onoff;
-    int l_linger;
-  };
-extern int recvmmsg (int __fd, struct mmsghdr *__vmessages,
-       unsigned int __vlen, int __flags,
-       __const struct timespec *__tmo);
-extern int sendmmsg (int __fd, struct mmsghdr *__vmessages,
-       unsigned int __vlen, int __flags);
-struct osockaddr
-  {
-    unsigned short int sa_family;
-    unsigned char sa_data[14];
-  };
-enum
-{
-  SHUT_RD = 0,
-static const int SHUT_RD = SHUT_RD;
-  SHUT_WR,
-static const int SHUT_WR = SHUT_WR;
-  SHUT_RDWR
-static const int SHUT_RDWR = SHUT_RDWR;
-};
-static const int __SOCKADDR_ARG = struct sockaddr *__restrict;
-static const int __CONST_SOCKADDR_ARG = __const struct sockaddr *;
-extern int socket (int __domain, int __type, int __protocol) __attribute__ ((__nothrow__ , __leaf__));
-extern int socketpair (int __domain, int __type, int __protocol,
-         int __fds[2]) __attribute__ ((__nothrow__ , __leaf__));
-extern int bind (int __fd, __const struct sockaddr * __addr, socklen_t __len)
-     __attribute__ ((__nothrow__ , __leaf__));
-extern int getsockname (int __fd, struct sockaddr *__restrict __addr,
-   socklen_t *__restrict __len) __attribute__ ((__nothrow__ , __leaf__));
-extern int connect (int __fd, __const struct sockaddr * __addr, socklen_t __len);
-extern int getpeername (int __fd, struct sockaddr *__restrict __addr,
-   socklen_t *__restrict __len) __attribute__ ((__nothrow__ , __leaf__));
-extern ssize_t send (int __fd, __const void *__buf, size_t __n, int __flags);
-extern ssize_t recv (int __fd, void *__buf, size_t __n, int __flags);
-extern ssize_t sendto (int __fd, __const void *__buf, size_t __n,
-         int __flags, __const struct sockaddr * __addr,
-         socklen_t __addr_len);
-extern ssize_t recvfrom (int __fd, void *__restrict __buf, size_t __n,
-    int __flags, struct sockaddr *__restrict __addr,
-    socklen_t *__restrict __addr_len);
-extern ssize_t sendmsg (int __fd, __const struct msghdr *__message,
-   int __flags);
-extern ssize_t recvmsg (int __fd, struct msghdr *__message, int __flags);
-extern int getsockopt (int __fd, int __level, int __optname,
-         void *__restrict __optval,
-         socklen_t *__restrict __optlen) __attribute__ ((__nothrow__ , __leaf__));
-extern int setsockopt (int __fd, int __level, int __optname,
-         __const void *__optval, socklen_t __optlen) __attribute__ ((__nothrow__ , __leaf__));
-extern int listen (int __fd, int __n) __attribute__ ((__nothrow__ , __leaf__));
-extern int accept (int __fd, struct sockaddr *__restrict __addr,
-     socklen_t *__restrict __addr_len);
-extern int shutdown (int __fd, int __how) __attribute__ ((__nothrow__ , __leaf__));
-extern int sockatmark (int __fd) __attribute__ ((__nothrow__ , __leaf__));
-extern int isfdtype (int __fd, int __fdtype) __attribute__ ((__nothrow__ , __leaf__));
-
-
-// *** 4. i386-linux-gnu/sys/ipc.h ***
-static const int _SYS_IPC_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
-#undef __USE_ISOC95
-#undef __USE_ISOC99
-#undef _ATFILE_SOURCE
-#undef __GNU_LIBRARY__
-#undef __P
-#undef __PMT
-static const int _BITS_IPCTYPES_H = 1;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-__extension__ typedef signed long long int __int64_t;
-__extension__ typedef unsigned long long int __uint64_t;
-__extension__ typedef long long int __quad_t;
-__extension__ typedef unsigned long long int __u_quad_t;
-__extension__ typedef __u_quad_t __dev_t;
-__extension__ typedef unsigned int __uid_t;
-__extension__ typedef unsigned int __gid_t;
-__extension__ typedef unsigned long int __ino_t;
-__extension__ typedef __u_quad_t __ino64_t;
-__extension__ typedef unsigned int __mode_t;
-__extension__ typedef unsigned int __nlink_t;
-__extension__ typedef long int __off_t;
-__extension__ typedef __quad_t __off64_t;
-__extension__ typedef int __pid_t;
-__extension__ typedef struct { int __val[2]; } __fsid_t;
-__extension__ typedef long int __clock_t;
-__extension__ typedef unsigned long int __rlim_t;
-__extension__ typedef __u_quad_t __rlim64_t;
-__extension__ typedef unsigned int __id_t;
-__extension__ typedef long int __time_t;
-__extension__ typedef unsigned int __useconds_t;
-__extension__ typedef long int __suseconds_t;
-__extension__ typedef int __daddr_t;
-__extension__ typedef long int __swblk_t;
-__extension__ typedef int __key_t;
-__extension__ typedef int __clockid_t;
-__extension__ typedef void * __timer_t;
-__extension__ typedef long int __blksize_t;
-__extension__ typedef long int __blkcnt_t;
-__extension__ typedef __quad_t __blkcnt64_t;
-__extension__ typedef unsigned long int __fsblkcnt_t;
-__extension__ typedef __u_quad_t __fsblkcnt64_t;
-__extension__ typedef unsigned long int __fsfilcnt_t;
-__extension__ typedef __u_quad_t __fsfilcnt64_t;
-__extension__ typedef int __ssize_t;
-typedef __off64_t __loff_t;
-typedef __quad_t *__qaddr_t;
-typedef char *__caddr_t;
-__extension__ typedef int __intptr_t;
-__extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
-typedef unsigned short int __ipc_pid_t;
-static const int IPC_CREAT = 01000;
-static const int IPC_EXCL = 02000;
-static const int IPC_NOWAIT = 04000;
-static const int IPC_RMID = 0;
-static const int IPC_SET = 1;
-static const int IPC_STAT = 2;
-static const int IPC_PRIVATE = ((__key_t) 0);
-struct ipc_perm
-  {
-    __key_t __key;
-    __uid_t uid;
-    __gid_t gid;
-    __uid_t cuid;
-    __gid_t cgid;
-    unsigned short int mode;
-    unsigned short int __pad1;
-    unsigned short int __seq;
-    unsigned short int __pad2;
-    unsigned long int __unused1;
-    unsigned long int __unused2;
-  };
-typedef __uid_t uid_t;
-typedef __gid_t gid_t;
-typedef __mode_t mode_t;
-typedef __key_t key_t;
-extern key_t ftok (__const char *__pathname, int __proj_id) __attribute__ ((__nothrow__ , __leaf__));
-
-
-// *** 5. i386-linux-gnu/sys/shm.h ***
-static const int _SYS_SHM_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
-#undef __USE_ISOC95
-#undef __USE_ISOC99
-#undef _ATFILE_SOURCE
-#undef __GNU_LIBRARY__
-#undef __P
-#undef __PMT
-typedef unsigned int size_t;
-#undef __need_size_t
-#undef __need_NULL
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-__extension__ typedef signed long long int __int64_t;
-__extension__ typedef unsigned long long int __uint64_t;
-__extension__ typedef long long int __quad_t;
-__extension__ typedef unsigned long long int __u_quad_t;
-__extension__ typedef __u_quad_t __dev_t;
-__extension__ typedef unsigned int __uid_t;
-__extension__ typedef unsigned int __gid_t;
-__extension__ typedef unsigned long int __ino_t;
-__extension__ typedef __u_quad_t __ino64_t;
-__extension__ typedef unsigned int __mode_t;
-__extension__ typedef unsigned int __nlink_t;
-__extension__ typedef long int __off_t;
-__extension__ typedef __quad_t __off64_t;
-__extension__ typedef int __pid_t;
-__extension__ typedef struct { int __val[2]; } __fsid_t;
-__extension__ typedef long int __clock_t;
-__extension__ typedef unsigned long int __rlim_t;
-__extension__ typedef __u_quad_t __rlim64_t;
-__extension__ typedef unsigned int __id_t;
-__extension__ typedef long int __time_t;
-__extension__ typedef unsigned int __useconds_t;
-__extension__ typedef long int __suseconds_t;
-__extension__ typedef int __daddr_t;
-__extension__ typedef long int __swblk_t;
-__extension__ typedef int __key_t;
-__extension__ typedef int __clockid_t;
-__extension__ typedef void * __timer_t;
-__extension__ typedef long int __blksize_t;
-__extension__ typedef long int __blkcnt_t;
-__extension__ typedef __quad_t __blkcnt64_t;
-__extension__ typedef unsigned long int __fsblkcnt_t;
-__extension__ typedef __u_quad_t __fsblkcnt64_t;
-__extension__ typedef unsigned long int __fsfilcnt_t;
-__extension__ typedef __u_quad_t __fsfilcnt64_t;
-__extension__ typedef int __ssize_t;
-typedef __off64_t __loff_t;
-typedef __quad_t *__qaddr_t;
-typedef char *__caddr_t;
-__extension__ typedef int __intptr_t;
-__extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
-typedef unsigned short int __ipc_pid_t;
-struct ipc_perm
-  {
-    __key_t __key;
-    __uid_t uid;
-    __gid_t gid;
-    __uid_t cuid;
-    __gid_t cgid;
-    unsigned short int mode;
-    unsigned short int __pad1;
-    unsigned short int __seq;
-    unsigned short int __pad2;
-    unsigned long int __unused1;
-    unsigned long int __unused2;
-  };
-typedef __uid_t uid_t;
-typedef __gid_t gid_t;
-typedef __mode_t mode_t;
-typedef __key_t key_t;
-extern key_t ftok (__const char *__pathname, int __proj_id) __attribute__ ((__nothrow__ , __leaf__));
-static const int SHM_R = 0400;
-static const int SHM_W = 0200;
-static const int SHM_RDONLY = 010000;
-static const int SHM_RND = 020000;
-static const int SHM_REMAP = 040000;
-static const int SHM_EXEC = 0100000;
-static const int SHM_LOCK = 11;
-static const int SHM_UNLOCK = 12;
-static const int SHMLBA = (__getpagesize ());
-extern int __getpagesize (void) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-typedef unsigned long int shmatt_t;
-struct shmid_ds
-  {
-    struct ipc_perm shm_perm;
-    size_t shm_segsz;
-    __time_t shm_atime;
-    unsigned long int __unused1;
-    __time_t shm_dtime;
-    unsigned long int __unused2;
-    __time_t shm_ctime;
-    unsigned long int __unused3;
-    __pid_t shm_cpid;
-    __pid_t shm_lpid;
-    shmatt_t shm_nattch;
-    unsigned long int __unused4;
-    unsigned long int __unused5;
-  };
-static const int SHM_STAT = 13;
-static const int SHM_INFO = 14;
-static const int SHM_DEST = 01000;
-static const int SHM_LOCKED = 02000;
-static const int SHM_HUGETLB = 04000;
-static const int SHM_NORESERVE = 010000;
-struct shminfo
-  {
-    unsigned long int shmmax;
-    unsigned long int shmmin;
-    unsigned long int shmmni;
-    unsigned long int shmseg;
-    unsigned long int shmall;
-    unsigned long int __unused1;
-    unsigned long int __unused2;
-    unsigned long int __unused3;
-    unsigned long int __unused4;
-  };
-struct shm_info
-  {
-    int used_ids;
-    unsigned long int shm_tot;
-    unsigned long int shm_rss;
-    unsigned long int shm_swp;
-    unsigned long int swap_attempts;
-    unsigned long int swap_successes;
-  };
-#undef __need_clock_t
-typedef __time_t time_t;
-#undef __need_time_t
-#undef __clockid_time_t
-#undef __need_timer_t
-#undef __need_timespec
-extern int shmctl (int __shmid, int __cmd, struct shmid_ds *__buf) __attribute__ ((__nothrow__ , __leaf__));
-extern int shmget (key_t __key, size_t __size, int __shmflg) __attribute__ ((__nothrow__ , __leaf__));
-extern void *shmat (int __shmid, __const void *__shmaddr, int __shmflg)
-     __attribute__ ((__nothrow__ , __leaf__));
-extern int shmdt (__const void *__shmaddr) __attribute__ ((__nothrow__ , __leaf__));
-
-
-// *** 6. unistd.h ***
-static const int _UNISTD_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
-#undef __USE_ISOC95
-#undef __USE_ISOC99
-#undef _ATFILE_SOURCE
-#undef __GNU_LIBRARY__
-#undef __P
-#undef __PMT
-static const long _POSIX_VERSION = 200809L;
-static const long __POSIX2_THIS_VERSION = 200809L;
-static const int _POSIX2_VERSION = __POSIX2_THIS_VERSION;
-static const int _POSIX2_C_BIND = __POSIX2_THIS_VERSION;
-static const int _POSIX2_C_DEV = __POSIX2_THIS_VERSION;
-static const int _POSIX2_SW_DEV = __POSIX2_THIS_VERSION;
-static const int _POSIX2_LOCALEDEF = __POSIX2_THIS_VERSION;
-static const int _XOPEN_VERSION = 700;
-static const int _XOPEN_XCU_VERSION = 4;
-static const int _XOPEN_XPG2 = 1;
-static const int _XOPEN_XPG3 = 1;
-static const int _XOPEN_XPG4 = 1;
-static const int _XOPEN_UNIX = 1;
-static const int _XOPEN_CRYPT = 1;
-static const int _XOPEN_ENH_I18N = 1;
-static const int _XOPEN_LEGACY = 1;
-static const int _BITS_POSIX_OPT_H = 1;
-static const int _POSIX_JOB_CONTROL = 1;
-static const int _POSIX_SAVED_IDS = 1;
-static const long _POSIX_PRIORITY_SCHEDULING = 200809L;
-static const long _POSIX_SYNCHRONIZED_IO = 200809L;
-static const long _POSIX_FSYNC = 200809L;
-static const long _POSIX_MAPPED_FILES = 200809L;
-static const long _POSIX_MEMLOCK = 200809L;
-static const long _POSIX_MEMLOCK_RANGE = 200809L;
-static const long _POSIX_MEMORY_PROTECTION = 200809L;
-static const int _POSIX_CHOWN_RESTRICTED = 0;
-static const int _POSIX_VDISABLE = '\0';
-static const int _POSIX_NO_TRUNC = 1;
-static const int _XOPEN_REALTIME = 1;
-static const int _XOPEN_REALTIME_THREADS = 1;
-static const int _XOPEN_SHM = 1;
-static const long _POSIX_THREADS = 200809L;
-static const int _POSIX_REENTRANT_FUNCTIONS = 1;
-static const long _POSIX_THREAD_SAFE_FUNCTIONS = 200809L;
-static const long _POSIX_THREAD_PRIORITY_SCHEDULING = 200809L;
-static const long _POSIX_THREAD_ATTR_STACKSIZE = 200809L;
-static const long _POSIX_THREAD_ATTR_STACKADDR = 200809L;
-static const long _POSIX_THREAD_PRIO_INHERIT = 200809L;
-static const long _POSIX_THREAD_PRIO_PROTECT = 200809L;
-static const long _POSIX_THREAD_ROBUST_PRIO_INHERIT = 200809L;
-static const int _POSIX_THREAD_ROBUST_PRIO_PROTECT = -1;
-static const long _POSIX_SEMAPHORES = 200809L;
-static const long _POSIX_REALTIME_SIGNALS = 200809L;
-static const long _POSIX_ASYNCHRONOUS_IO = 200809L;
-static const int _POSIX_ASYNC_IO = 1;
-static const int _LFS_ASYNCHRONOUS_IO = 1;
-static const long _POSIX_PRIORITIZED_IO = 200809L;
-static const int _LFS64_ASYNCHRONOUS_IO = 1;
-static const int _LFS_LARGEFILE = 1;
-static const int _LFS64_LARGEFILE = 1;
-static const int _LFS64_STDIO = 1;
-static const long _POSIX_SHARED_MEMORY_OBJECTS = 200809L;
-static const int _POSIX_CPUTIME = 0;
-static const int _POSIX_THREAD_CPUTIME = 0;
-static const int _POSIX_REGEXP = 1;
-static const long _POSIX_READER_WRITER_LOCKS = 200809L;
-static const int _POSIX_SHELL = 1;
-static const long _POSIX_TIMEOUTS = 200809L;
-static const long _POSIX_SPIN_LOCKS = 200809L;
-static const long _POSIX_SPAWN = 200809L;
-static const long _POSIX_TIMERS = 200809L;
-static const long _POSIX_BARRIERS = 200809L;
-static const long _POSIX_MESSAGE_PASSING = 200809L;
-static const long _POSIX_THREAD_PROCESS_SHARED = 200809L;
-static const int _POSIX_MONOTONIC_CLOCK = 0;
-static const long _POSIX_CLOCK_SELECTION = 200809L;
-static const long _POSIX_ADVISORY_INFO = 200809L;
-static const long _POSIX_IPV6 = 200809L;
-static const long _POSIX_RAW_SOCKETS = 200809L;
-static const long _POSIX2_CHAR_TERM = 200809L;
-static const int _POSIX_SPORADIC_SERVER = -1;
-static const int _POSIX_THREAD_SPORADIC_SERVER = -1;
-static const int _POSIX_TRACE = -1;
-static const int _POSIX_TRACE_EVENT_FILTER = -1;
-static const int _POSIX_TRACE_INHERIT = -1;
-static const int _POSIX_TRACE_LOG = -1;
-static const int _POSIX_TYPED_MEMORY_OBJECTS = -1;
-static const int _POSIX_V7_ILP32_OFF32 = 1;
-static const int _POSIX_V7_ILP32_OFFBIG = 1;
-static const int _POSIX_V6_ILP32_OFF32 = 1;
-static const int _POSIX_V6_ILP32_OFFBIG = 1;
-static const int _XBS5_ILP32_OFF32 = 1;
-static const int _XBS5_ILP32_OFFBIG = 1;
-static const char __ILP32_OFF32_CFLAGS = "-m32";
-static const char __ILP32_OFFBIG_CFLAGS = "-m32 -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64";
-static const char __ILP32_OFF32_LDFLAGS = "-m32";
-static const char __ILP32_OFFBIG_LDFLAGS = "-m32";
-static const char __LP64_OFF64_CFLAGS = "-m64";
-static const char __LP64_OFF64_LDFLAGS = "-m64";
-static const int STDIN_FILENO = 0;
-static const int STDOUT_FILENO = 1;
-static const int STDERR_FILENO = 2;
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-__extension__ typedef signed long long int __int64_t;
-__extension__ typedef unsigned long long int __uint64_t;
-__extension__ typedef long long int __quad_t;
-__extension__ typedef unsigned long long int __u_quad_t;
-__extension__ typedef __u_quad_t __dev_t;
-__extension__ typedef unsigned int __uid_t;
-__extension__ typedef unsigned int __gid_t;
-__extension__ typedef unsigned long int __ino_t;
-__extension__ typedef __u_quad_t __ino64_t;
-__extension__ typedef unsigned int __mode_t;
-__extension__ typedef unsigned int __nlink_t;
-__extension__ typedef long int __off_t;
-__extension__ typedef __quad_t __off64_t;
-__extension__ typedef int __pid_t;
-__extension__ typedef struct { int __val[2]; } __fsid_t;
-__extension__ typedef long int __clock_t;
-__extension__ typedef unsigned long int __rlim_t;
-__extension__ typedef __u_quad_t __rlim64_t;
-__extension__ typedef unsigned int __id_t;
-__extension__ typedef long int __time_t;
-__extension__ typedef unsigned int __useconds_t;
-__extension__ typedef long int __suseconds_t;
-__extension__ typedef int __daddr_t;
-__extension__ typedef long int __swblk_t;
-__extension__ typedef int __key_t;
-__extension__ typedef int __clockid_t;
-__extension__ typedef void * __timer_t;
-__extension__ typedef long int __blksize_t;
-__extension__ typedef long int __blkcnt_t;
-__extension__ typedef __quad_t __blkcnt64_t;
-__extension__ typedef unsigned long int __fsblkcnt_t;
-__extension__ typedef __u_quad_t __fsblkcnt64_t;
-__extension__ typedef unsigned long int __fsfilcnt_t;
-__extension__ typedef __u_quad_t __fsfilcnt64_t;
-__extension__ typedef int __ssize_t;
-typedef __off64_t __loff_t;
-typedef __quad_t *__qaddr_t;
-typedef char *__caddr_t;
-__extension__ typedef int __intptr_t;
-__extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
 typedef __ssize_t ssize_t;
 typedef unsigned int size_t;
-#undef __need_size_t
-#undef NULL
 static const int NULL = ((void *)0);
-#undef __need_NULL
 typedef __gid_t gid_t;
 typedef __uid_t uid_t;
 typedef __off_t off_t;
@@ -2680,7 +1237,6 @@ extern int opterr;
 extern int optopt;
 extern int getopt (int ___argc, char *const *___argv, const char *__shortopts)
        __attribute__ ((__nothrow__ , __leaf__));
-#undef __need_getopt
 extern int gethostname (char *__name, size_t __len) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
 extern int sethostname (__const char *__name, size_t __len)
      __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1))) ;
@@ -2721,43 +1277,9 @@ extern int fdatasync (int __fildes);
 extern char *ctermid (char *__s) __attribute__ ((__nothrow__ , __leaf__));
 
 
-// *** 7. stdio.h ***
+// *** 2. stdio.h ***
 static const int _STDIO_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
-#undef __USE_ISOC95
-#undef __USE_ISOC99
-#undef _ATFILE_SOURCE
-#undef __GNU_LIBRARY__
-#undef __P
-#undef __PMT
 typedef unsigned int size_t;
-#undef __need_size_t
-#undef NULL
-#undef __need_NULL
 typedef unsigned char __u_char;
 typedef unsigned short int __u_short;
 typedef unsigned int __u_int;
@@ -2808,18 +1330,12 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 __extension__ typedef int __intptr_t;
 __extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
 struct _IO_FILE;
 typedef struct _IO_FILE FILE;
 static const int __FILE_defined = 1;
-#undef __need_FILE
 typedef struct _IO_FILE __FILE;
 static const int ____FILE_defined = 1;
-#undef __need___FILE
 static const int _G_config_h = 1;
-#undef __need_size_t
-#undef NULL
-#undef __need_NULL
 static const int __mbstate_t_defined = 1;
 typedef struct
 {
@@ -2830,9 +1346,6 @@ typedef struct
     char __wchb[4];
   } __value;
 } __mbstate_t;
-#undef __need_mbstate_t
-#undef __need_mbstate_t
-#undef __need_wint_t
 static const int _G_size_t = size_t;
 typedef struct
 {
@@ -2896,9 +1409,7 @@ static const int _IO_HAVE_ST_BLKSIZE = _G_HAVE_ST_BLKSIZE;
 static const int _IO_BUFSIZ = _G_BUFSIZ;
 static const int _IO_va_list = _G_va_list;
 static const int _IO_wint_t = _G_wint_t;
-#undef __need___va_list
 typedef __builtin_va_list __gnuc_va_list;
-#undef _IO_va_list
 static const int _IO_va_list = __gnuc_va_list;
 static const int _PARAMS(protos) = __P(protos);
 static const int _IO_UNIFIED_JUMPTABLES = 1;
@@ -3050,7 +1561,6 @@ static const int L_tmpnam = 20;
 static const int TMP_MAX = 238328;
 static const int FILENAME_MAX = 4096;
 static const int L_ctermid = 9;
-#undef FOPEN_MAX
 static const int FOPEN_MAX = 16;
 extern struct _IO_FILE *stdin;
 extern struct _IO_FILE *stdout;
@@ -3193,45 +1703,9 @@ extern int ftrylockfile (FILE *__stream) __attribute__ ((__nothrow__ , __leaf__)
 extern void funlockfile (FILE *__stream) __attribute__ ((__nothrow__ , __leaf__));
 
 
-// *** 8. stdlib.h ***
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
-#undef __USE_ISOC95
-#undef __USE_ISOC99
-#undef _ATFILE_SOURCE
-#undef __GNU_LIBRARY__
-#undef __P
-#undef __PMT
+// *** 3. stdlib.h ***
 typedef unsigned int size_t;
-#undef __need_size_t
-#undef _BSD_WCHAR_T_
 typedef int wchar_t;
-#undef __need_wchar_t
-#undef NULL
-#undef __need_NULL
 static const int _STDLIB_H = 1;
 static const int WNOHANG = 1;
 static const int WUNTRACED = 2;
@@ -3254,6 +1728,36 @@ static const int __W_EXITCODE(ret,sig) = ((ret) << 8 | (sig));
 static const int __W_STOPCODE(sig) = ((sig) << 8 | 0x7f);
 static const int __W_CONTINUED = 0xffff;
 static const int __WCOREFLAG = 0x80;
+static const int _ENDIAN_H = 1;
+static const int __LITTLE_ENDIAN = 1234;
+static const int __BIG_ENDIAN = 4321;
+static const int __PDP_ENDIAN = 3412;
+static const int __BYTE_ORDER = __LITTLE_ENDIAN;
+static const int __FLOAT_WORD_ORDER = __BYTE_ORDER;
+static const int LITTLE_ENDIAN = __LITTLE_ENDIAN;
+static const int BIG_ENDIAN = __BIG_ENDIAN;
+static const int PDP_ENDIAN = __PDP_ENDIAN;
+static const int BYTE_ORDER = __BYTE_ORDER;
+static const int __LONG_LONG_PAIR(HI,LO) = LO, HI;
+static const int _BITS_BYTESWAP_H = 1;
+static const int __bswap_constant_16(x) = ((unsigned short int) ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8)));
+static const int __bswap_16(x) = (__extension__ ({ register unsigned short int __v, __x = (unsigned short int) (x); if (__builtin_constant_p (__x)) __v = __bswap_constant_16 (__x); else __asm__ ("rorw $8, %w0" : "=r" (__v) : "0" (__x) : "cc"); __v; }));
+static const int __bswap_constant_32(x) = ((((x) & 0xff000000) >> 24) | (((x) & 0x00ff0000) >> 8) | (((x) & 0x0000ff00) << 8) | (((x) & 0x000000ff) << 24));
+static const int __bswap_32(x) = (__extension__ ({ register unsigned int __v, __x = (x); if (__builtin_constant_p (__x)) __v = __bswap_constant_32 (__x); else __asm__ ("bswap %0" : "=r" (__v) : "0" (__x)); __v; }));
+static const int __bswap_constant_64(x) = (__extension__ ((((x) & 0xff00000000000000ull) >> 56) | (((x) & 0x00ff000000000000ull) >> 40) | (((x) & 0x0000ff0000000000ull) >> 24) | (((x) & 0x000000ff00000000ull) >> 8) | (((x) & 0x00000000ff000000ull) << 8) | (((x) & 0x0000000000ff0000ull) << 24) | (((x) & 0x000000000000ff00ull) << 40) | (((x) & 0x00000000000000ffull) << 56)));
+static const int __bswap_64(x) = (__extension__ ({ union { __extension__ unsigned long long int __ll; unsigned long int __l[2]; } __w, __r; if (__builtin_constant_p (x)) __r.__ll = __bswap_constant_64 (x); else { __w.__ll = (x); __r.__l[0] = __bswap_32 (__w.__l[1]); __r.__l[1] = __bswap_32 (__w.__l[0]); } __r.__ll; }));
+static const int htobe16(x) = __bswap_16 (x);
+static const int htole16(x) = (x);
+static const int be16toh(x) = __bswap_16 (x);
+static const int le16toh(x) = (x);
+static const int htobe32(x) = __bswap_32 (x);
+static const int htole32(x) = (x);
+static const int be32toh(x) = __bswap_32 (x);
+static const int le32toh(x) = (x);
+static const int htobe64(x) = __bswap_64 (x);
+static const int htole64(x) = (x);
+static const int be64toh(x) = __bswap_64 (x);
+static const int le64toh(x) = (x);
 union wait
   {
     int w_status;
@@ -3353,6 +1857,7 @@ extern unsigned long long int strtoull (__const char *__restrict __nptr,
 extern char *l64a (long int __n) __attribute__ ((__nothrow__ , __leaf__)) ;
 extern long int a64l (__const char *__s)
      __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1))) ;
+static const int _SYS_TYPES_H = 1;
 typedef unsigned char __u_char;
 typedef unsigned short int __u_short;
 typedef unsigned int __u_int;
@@ -3403,7 +1908,6 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 __extension__ typedef int __intptr_t;
 __extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
 typedef __u_char u_char;
 typedef __u_short u_short;
 typedef __u_int u_int;
@@ -3425,20 +1929,19 @@ typedef __ssize_t ssize_t;
 typedef __daddr_t daddr_t;
 typedef __caddr_t caddr_t;
 typedef __key_t key_t;
+static const int __clock_t_defined = 1;
 typedef __clock_t clock_t;
-#undef __need_clock_t
+static const int __time_t_defined = 1;
 typedef __time_t time_t;
-#undef __need_time_t
+static const int __clockid_t_defined = 1;
 typedef __clockid_t clockid_t;
-#undef __clockid_time_t
+static const int __timer_t_defined = 1;
 typedef __timer_t timer_t;
-#undef __need_timer_t
-#undef __need_timespec
-#undef __need_size_t
-#undef __need_NULL
 typedef unsigned long int ulong;
 typedef unsigned short int ushort;
 typedef unsigned int uint;
+static const int __intN_t(N,MODE) = typedef int int ##N ##_t __attribute__ ((__mode__ (MODE)));
+static const int __u_intN_t(N,MODE) = typedef unsigned int u_int ##N ##_t __attribute__ ((__mode__ (MODE)));
 typedef int int8_t __attribute__ ((__mode__ (__QI__)));
 typedef int int16_t __attribute__ ((__mode__ (__HI__)));
 typedef int int32_t __attribute__ ((__mode__ (__SI__)));
@@ -3448,36 +1951,49 @@ typedef unsigned int u_int16_t __attribute__ ((__mode__ (__HI__)));
 typedef unsigned int u_int32_t __attribute__ ((__mode__ (__SI__)));
 typedef unsigned int u_int64_t __attribute__ ((__mode__ (__DI__)));
 typedef int register_t __attribute__ ((__mode__ (__word__)));
+static const int __BIT_TYPES_DEFINED__ = 1;
+static const int _SYS_SELECT_H = 1;
+static const int __FD_ZERO(fdsp) = do { int __d0, __d1; __asm__ __volatile__ ("cld; rep; stosl" : "=c" (__d0), "=D" (__d1) : "a" (0), "0" (sizeof (fd_set) / sizeof (__fd_mask)), "1" (&__FDS_BITS (fdsp)[0]) : "memory"); } while (0);
+static const int __FD_SET(d,set) = ((void) (__FDS_BITS (set)[__FD_ELT (d)] |= __FD_MASK (d)));
+static const int __FD_CLR(d,set) = ((void) (__FDS_BITS (set)[__FD_ELT (d)] &= ~__FD_MASK (d)));
+static const int __FD_ISSET(d,set) = ((__FDS_BITS (set)[__FD_ELT (d)] & __FD_MASK (d)) != 0);
+static const int _SIGSET_H_types = 1;
 typedef int __sig_atomic_t;
+static const int _SIGSET_NWORDS = (1024 / (8 * sizeof (unsigned long int)));
 typedef struct
   {
     unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
   } __sigset_t;
 typedef __sigset_t sigset_t;
-#undef __need_clock_t
-#undef __need_time_t
-#undef __clockid_time_t
-#undef __need_timer_t
+static const int __timespec_defined = 1;
 struct timespec
   {
     __time_t tv_sec;
     long int tv_nsec;
   };
-#undef __need_timespec
+static const int _STRUCT_TIMEVAL = 1;
 struct timeval
   {
     __time_t tv_sec;
     __suseconds_t tv_usec;
   };
-#undef __need_timeval
 typedef __suseconds_t suseconds_t;
 typedef long int __fd_mask;
-#undef __NFDBITS
+static const int __NFDBITS = (8 * (int) sizeof (__fd_mask));
+static const int __FD_ELT(d) = ((d) / __NFDBITS);
+static const int __FD_MASK(d) = ((__fd_mask) 1 << ((d) % __NFDBITS));
 typedef struct
   {
     __fd_mask __fds_bits[1024 / (8 * (int) sizeof (__fd_mask))];
+static const int __FDS_BITS(set) = ((set)->__fds_bits);
   } fd_set;
+static const int FD_SETSIZE = __FD_SETSIZE;
 typedef __fd_mask fd_mask;
+static const int NFDBITS = __NFDBITS;
+static const int FD_SET(fd,fdsetp) = __FD_SET (fd, fdsetp);
+static const int FD_CLR(fd,fdsetp) = __FD_CLR (fd, fdsetp);
+static const int FD_ISSET(fd,fdsetp) = __FD_ISSET (fd, fdsetp);
+static const int FD_ZERO(fdsetp) = __FD_ZERO (fdsetp);
 extern int select (int __nfds, fd_set *__restrict __readfds,
      fd_set *__restrict __writefds,
      fd_set *__restrict __exceptfds,
@@ -3487,6 +2003,7 @@ extern int pselect (int __nfds, fd_set *__restrict __readfds,
       fd_set *__restrict __exceptfds,
       const struct timespec *__restrict __timeout,
       const __sigset_t *__restrict __sigmask);
+static const int _SYS_SYSMACROS_H = 1;
 __extension__
 extern unsigned int gnu_dev_major (unsigned long long int __dev)
      __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
@@ -3497,10 +2014,24 @@ __extension__
 extern unsigned long long int gnu_dev_makedev (unsigned int __major,
             unsigned int __minor)
      __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+static const int major(dev) = gnu_dev_major (dev);
+static const int minor(dev) = gnu_dev_minor (dev);
+static const int makedev(maj,min) = gnu_dev_makedev (maj, min);
 typedef __blksize_t blksize_t;
 typedef __blkcnt_t blkcnt_t;
 typedef __fsblkcnt_t fsblkcnt_t;
 typedef __fsfilcnt_t fsfilcnt_t;
+static const int _BITS_PTHREADTYPES_H = 1;
+static const int __SIZEOF_PTHREAD_ATTR_T = 36;
+static const int __SIZEOF_PTHREAD_MUTEX_T = 24;
+static const int __SIZEOF_PTHREAD_MUTEXATTR_T = 4;
+static const int __SIZEOF_PTHREAD_COND_T = 48;
+static const int __SIZEOF_PTHREAD_COND_COMPAT_T = 12;
+static const int __SIZEOF_PTHREAD_CONDATTR_T = 4;
+static const int __SIZEOF_PTHREAD_RWLOCK_T = 32;
+static const int __SIZEOF_PTHREAD_RWLOCKATTR_T = 8;
+static const int __SIZEOF_PTHREAD_BARRIER_T = 20;
+static const int __SIZEOF_PTHREAD_BARRIERATTR_T = 4;
 typedef unsigned long int pthread_t;
 typedef union
 {
@@ -3592,6 +2123,7 @@ typedef union
   char __size[4];
   int __align;
 } pthread_barrierattr_t;
+static const int __cleanup_fct_attribute = __attribute__ ((__regparm__ (1)));
 extern long int random (void) __attribute__ ((__nothrow__ , __leaf__));
 extern void srandom (unsigned int __seed) __attribute__ ((__nothrow__ , __leaf__));
 extern char *initstate (unsigned int __seed, char *__statebuf,
@@ -3675,9 +2207,6 @@ extern void *realloc (void *__ptr, size_t __size)
 extern void free (void *__ptr) __attribute__ ((__nothrow__ , __leaf__));
 extern void cfree (void *__ptr) __attribute__ ((__nothrow__ , __leaf__));
 static const int _ALLOCA_H = 1;
-#undef __need_size_t
-#undef __need_NULL
-#undef alloca
 extern void *alloca (size_t __size) __attribute__ ((__nothrow__ , __leaf__));
 static const int alloca(size) = __builtin_alloca (size);
 extern void *valloc (size_t __size) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__malloc__)) ;
@@ -3765,42 +2294,10 @@ extern int getsubopt (char **__restrict __optionp,
      __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2, 3))) ;
 extern int getloadavg (double __loadavg[], int __nelem)
      __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
-#undef __need_malloc_and_calloc
 
 
-// *** 9. fcntl.h ***
+// *** 4. fcntl.h ***
 static const int _FCNTL_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
-#undef __USE_ISOC95
-#undef __USE_ISOC99
-#undef _ATFILE_SOURCE
-#undef __GNU_LIBRARY__
-#undef __P
-#undef __PMT
 typedef unsigned char __u_char;
 typedef unsigned short int __u_short;
 typedef unsigned int __u_int;
@@ -3851,7 +2348,6 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 __extension__ typedef int __intptr_t;
 __extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
 typedef __u_char u_char;
 typedef __u_short u_short;
 typedef __u_int u_int;
@@ -3874,17 +2370,10 @@ typedef __daddr_t daddr_t;
 typedef __caddr_t caddr_t;
 typedef __key_t key_t;
 typedef __clock_t clock_t;
-#undef __need_clock_t
 typedef __time_t time_t;
-#undef __need_time_t
 typedef __clockid_t clockid_t;
-#undef __clockid_time_t
 typedef __timer_t timer_t;
-#undef __need_timer_t
-#undef __need_timespec
 typedef unsigned int size_t;
-#undef __need_size_t
-#undef __need_NULL
 typedef unsigned long int ulong;
 typedef unsigned short int ushort;
 typedef unsigned int uint;
@@ -3903,25 +2392,18 @@ typedef struct
     unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
   } __sigset_t;
 typedef __sigset_t sigset_t;
-#undef __need_clock_t
-#undef __need_time_t
-#undef __clockid_time_t
-#undef __need_timer_t
 struct timespec
   {
     __time_t tv_sec;
     long int tv_nsec;
   };
-#undef __need_timespec
 struct timeval
   {
     __time_t tv_sec;
     __suseconds_t tv_usec;
   };
-#undef __need_timeval
 typedef __suseconds_t suseconds_t;
 typedef long int __fd_mask;
-#undef __NFDBITS
 typedef struct
   {
     __fd_mask __fds_bits[1024 / (8 * (int) sizeof (__fd_mask))];
@@ -4110,11 +2592,6 @@ static const int AT_SYMLINK_FOLLOW = 0x400;
 static const int AT_NO_AUTOMOUNT = 0x800;
 static const int AT_EMPTY_PATH = 0x1000;
 static const int AT_EACCESS = 0x200;
-#undef __need_clock_t
-#undef __need_time_t
-#undef __clockid_time_t
-#undef __need_timer_t
-#undef __need_timespec
 static const int _BITS_STAT_H = 1;
 static const int _STAT_VER_LINUX_OLD = 1;
 static const int _STAT_VER_KERNEL = 1;
@@ -4200,800 +2677,8 @@ extern int posix_fadvise (int __fd, __off_t __offset, __off_t __len,
 extern int posix_fallocate (int __fd, __off_t __offset, __off_t __len);
 
 
-// *** 10. sys/time.h ***
-static const int _TIME_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
-#undef __USE_ISOC95
-#undef __USE_ISOC99
-#undef _ATFILE_SOURCE
-#undef __GNU_LIBRARY__
-#undef __P
-#undef __PMT
-typedef unsigned int size_t;
-#undef __need_size_t
-#undef NULL
-#undef __need_NULL
-static const int _BITS_TIME_H = 1;
-static const int CLOCKS_PER_SEC = 1000000l;
-static const int CLOCK_REALTIME = 0;
-static const int CLOCK_MONOTONIC = 1;
-static const int CLOCK_PROCESS_CPUTIME_ID = 2;
-static const int CLOCK_THREAD_CPUTIME_ID = 3;
-static const int CLOCK_MONOTONIC_RAW = 4;
-static const int CLOCK_REALTIME_COARSE = 5;
-static const int CLOCK_MONOTONIC_COARSE = 6;
-static const int CLOCK_BOOTTIME = 7;
-static const int CLOCK_REALTIME_ALARM = 8;
-static const int CLOCK_BOOTTIME_ALARM = 9;
-static const int TIMER_ABSTIME = 1;
-#undef __need_timeval
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-__extension__ typedef signed long long int __int64_t;
-__extension__ typedef unsigned long long int __uint64_t;
-__extension__ typedef long long int __quad_t;
-__extension__ typedef unsigned long long int __u_quad_t;
-__extension__ typedef __u_quad_t __dev_t;
-__extension__ typedef unsigned int __uid_t;
-__extension__ typedef unsigned int __gid_t;
-__extension__ typedef unsigned long int __ino_t;
-__extension__ typedef __u_quad_t __ino64_t;
-__extension__ typedef unsigned int __mode_t;
-__extension__ typedef unsigned int __nlink_t;
-__extension__ typedef long int __off_t;
-__extension__ typedef __quad_t __off64_t;
-__extension__ typedef int __pid_t;
-__extension__ typedef struct { int __val[2]; } __fsid_t;
-__extension__ typedef long int __clock_t;
-__extension__ typedef unsigned long int __rlim_t;
-__extension__ typedef __u_quad_t __rlim64_t;
-__extension__ typedef unsigned int __id_t;
-__extension__ typedef long int __time_t;
-__extension__ typedef unsigned int __useconds_t;
-__extension__ typedef long int __suseconds_t;
-__extension__ typedef int __daddr_t;
-__extension__ typedef long int __swblk_t;
-__extension__ typedef int __key_t;
-__extension__ typedef int __clockid_t;
-__extension__ typedef void * __timer_t;
-__extension__ typedef long int __blksize_t;
-__extension__ typedef long int __blkcnt_t;
-__extension__ typedef __quad_t __blkcnt64_t;
-__extension__ typedef unsigned long int __fsblkcnt_t;
-__extension__ typedef __u_quad_t __fsblkcnt64_t;
-__extension__ typedef unsigned long int __fsfilcnt_t;
-__extension__ typedef __u_quad_t __fsfilcnt64_t;
-__extension__ typedef int __ssize_t;
-typedef __off64_t __loff_t;
-typedef __quad_t *__qaddr_t;
-typedef char *__caddr_t;
-__extension__ typedef int __intptr_t;
-__extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
-typedef __clock_t clock_t;
-#undef __need_clock_t
-typedef __time_t time_t;
-#undef __need_time_t
-typedef __clockid_t clockid_t;
-#undef __clockid_time_t
-typedef __timer_t timer_t;
-#undef __need_timer_t
-struct timespec
-  {
-    __time_t tv_sec;
-    long int tv_nsec;
-  };
-#undef __need_timespec
-struct tm
-{
-  int tm_sec;
-  int tm_min;
-  int tm_hour;
-  int tm_mday;
-  int tm_mon;
-  int tm_year;
-  int tm_wday;
-  int tm_yday;
-  int tm_isdst;
-  long int tm_gmtoff;
-  __const char *tm_zone;
-};
-struct itimerspec
-  {
-    struct timespec it_interval;
-    struct timespec it_value;
-  };
-struct sigevent;
-typedef __pid_t pid_t;
-extern clock_t clock (void) __attribute__ ((__nothrow__ , __leaf__));
-extern time_t time (time_t *__timer) __attribute__ ((__nothrow__ , __leaf__));
-extern double difftime (time_t __time1, time_t __time0)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-extern time_t mktime (struct tm *__tp) __attribute__ ((__nothrow__ , __leaf__));
-extern size_t strftime (char *__restrict __s, size_t __maxsize,
-   __const char *__restrict __format,
-   __const struct tm *__restrict __tp) __attribute__ ((__nothrow__ , __leaf__));
-static const int _XLOCALE_H = 1;
-typedef struct __locale_struct
-{
-  struct __locale_data *__locales[13];
-  const unsigned short int *__ctype_b;
-  const int *__ctype_tolower;
-  const int *__ctype_toupper;
-  const char *__names[13];
-} *__locale_t;
-typedef __locale_t locale_t;
-extern size_t strftime_l (char *__restrict __s, size_t __maxsize,
-     __const char *__restrict __format,
-     __const struct tm *__restrict __tp,
-     __locale_t __loc) __attribute__ ((__nothrow__ , __leaf__));
-extern struct tm *gmtime (__const time_t *__timer) __attribute__ ((__nothrow__ , __leaf__));
-extern struct tm *localtime (__const time_t *__timer) __attribute__ ((__nothrow__ , __leaf__));
-extern struct tm *gmtime_r (__const time_t *__restrict __timer,
-       struct tm *__restrict __tp) __attribute__ ((__nothrow__ , __leaf__));
-extern struct tm *localtime_r (__const time_t *__restrict __timer,
-          struct tm *__restrict __tp) __attribute__ ((__nothrow__ , __leaf__));
-extern char *asctime (__const struct tm *__tp) __attribute__ ((__nothrow__ , __leaf__));
-extern char *ctime (__const time_t *__timer) __attribute__ ((__nothrow__ , __leaf__));
-extern char *asctime_r (__const struct tm *__restrict __tp,
-   char *__restrict __buf) __attribute__ ((__nothrow__ , __leaf__));
-extern char *ctime_r (__const time_t *__restrict __timer,
-        char *__restrict __buf) __attribute__ ((__nothrow__ , __leaf__));
-extern char *__tzname[2];
-extern int __daylight;
-extern long int __timezone;
-extern char *tzname[2];
-extern void tzset (void) __attribute__ ((__nothrow__ , __leaf__));
-extern int daylight;
-extern long int timezone;
-extern int stime (__const time_t *__when) __attribute__ ((__nothrow__ , __leaf__));
-static const int __isleap(year) = ((year) % 4 == 0 && ((year) % 100 != 0 || (year) % 400 == 0));
-extern time_t timegm (struct tm *__tp) __attribute__ ((__nothrow__ , __leaf__));
-extern time_t timelocal (struct tm *__tp) __attribute__ ((__nothrow__ , __leaf__));
-extern int dysize (int __year) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-extern int nanosleep (__const struct timespec *__requested_time,
-        struct timespec *__remaining);
-extern int clock_getres (clockid_t __clock_id, struct timespec *__res) __attribute__ ((__nothrow__ , __leaf__));
-extern int clock_gettime (clockid_t __clock_id, struct timespec *__tp) __attribute__ ((__nothrow__ , __leaf__));
-extern int clock_settime (clockid_t __clock_id, __const struct timespec *__tp)
-     __attribute__ ((__nothrow__ , __leaf__));
-extern int clock_nanosleep (clockid_t __clock_id, int __flags,
-       __const struct timespec *__req,
-       struct timespec *__rem);
-extern int clock_getcpuclockid (pid_t __pid, clockid_t *__clock_id) __attribute__ ((__nothrow__ , __leaf__));
-extern int timer_create (clockid_t __clock_id,
-    struct sigevent *__restrict __evp,
-    timer_t *__restrict __timerid) __attribute__ ((__nothrow__ , __leaf__));
-extern int timer_delete (timer_t __timerid) __attribute__ ((__nothrow__ , __leaf__));
-extern int timer_settime (timer_t __timerid, int __flags,
-     __const struct itimerspec *__restrict __value,
-     struct itimerspec *__restrict __ovalue) __attribute__ ((__nothrow__ , __leaf__));
-extern int timer_gettime (timer_t __timerid, struct itimerspec *__value)
-     __attribute__ ((__nothrow__ , __leaf__));
-extern int timer_getoverrun (timer_t __timerid) __attribute__ ((__nothrow__ , __leaf__));
-
-
-// *** 11. unistd.h ***
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
-#undef __USE_ISOC95
-#undef __USE_ISOC99
-#undef _ATFILE_SOURCE
-#undef __GNU_LIBRARY__
-#undef __P
-#undef __PMT
-typedef unsigned char __u_char;
-typedef unsigned short int __u_short;
-typedef unsigned int __u_int;
-typedef unsigned long int __u_long;
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef signed short int __int16_t;
-typedef unsigned short int __uint16_t;
-typedef signed int __int32_t;
-typedef unsigned int __uint32_t;
-__extension__ typedef signed long long int __int64_t;
-__extension__ typedef unsigned long long int __uint64_t;
-__extension__ typedef long long int __quad_t;
-__extension__ typedef unsigned long long int __u_quad_t;
-__extension__ typedef __u_quad_t __dev_t;
-__extension__ typedef unsigned int __uid_t;
-__extension__ typedef unsigned int __gid_t;
-__extension__ typedef unsigned long int __ino_t;
-__extension__ typedef __u_quad_t __ino64_t;
-__extension__ typedef unsigned int __mode_t;
-__extension__ typedef unsigned int __nlink_t;
-__extension__ typedef long int __off_t;
-__extension__ typedef __quad_t __off64_t;
-__extension__ typedef int __pid_t;
-__extension__ typedef struct { int __val[2]; } __fsid_t;
-__extension__ typedef long int __clock_t;
-__extension__ typedef unsigned long int __rlim_t;
-__extension__ typedef __u_quad_t __rlim64_t;
-__extension__ typedef unsigned int __id_t;
-__extension__ typedef long int __time_t;
-__extension__ typedef unsigned int __useconds_t;
-__extension__ typedef long int __suseconds_t;
-__extension__ typedef int __daddr_t;
-__extension__ typedef long int __swblk_t;
-__extension__ typedef int __key_t;
-__extension__ typedef int __clockid_t;
-__extension__ typedef void * __timer_t;
-__extension__ typedef long int __blksize_t;
-__extension__ typedef long int __blkcnt_t;
-__extension__ typedef __quad_t __blkcnt64_t;
-__extension__ typedef unsigned long int __fsblkcnt_t;
-__extension__ typedef __u_quad_t __fsblkcnt64_t;
-__extension__ typedef unsigned long int __fsfilcnt_t;
-__extension__ typedef __u_quad_t __fsfilcnt64_t;
-__extension__ typedef int __ssize_t;
-typedef __off64_t __loff_t;
-typedef __quad_t *__qaddr_t;
-typedef char *__caddr_t;
-__extension__ typedef int __intptr_t;
-__extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
-typedef __ssize_t ssize_t;
-typedef unsigned int size_t;
-#undef __need_size_t
-#undef NULL
-#undef __need_NULL
-typedef __gid_t gid_t;
-typedef __uid_t uid_t;
-typedef __off_t off_t;
-typedef __useconds_t useconds_t;
-typedef __pid_t pid_t;
-typedef __intptr_t intptr_t;
-typedef __socklen_t socklen_t;
-extern int access (__const char *__name, int __type) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
-extern int faccessat (int __fd, __const char *__file, int __type, int __flag)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2))) ;
-extern __off_t lseek (int __fd, __off_t __offset, int __whence) __attribute__ ((__nothrow__ , __leaf__));
-extern int close (int __fd);
-extern ssize_t read (int __fd, void *__buf, size_t __nbytes) ;
-extern ssize_t write (int __fd, __const void *__buf, size_t __n) ;
-extern ssize_t pread (int __fd, void *__buf, size_t __nbytes,
-        __off_t __offset) ;
-extern ssize_t pwrite (int __fd, __const void *__buf, size_t __n,
-         __off_t __offset) ;
-extern int pipe (int __pipedes[2]) __attribute__ ((__nothrow__ , __leaf__)) ;
-extern unsigned int alarm (unsigned int __seconds) __attribute__ ((__nothrow__ , __leaf__));
-extern unsigned int sleep (unsigned int __seconds);
-extern __useconds_t ualarm (__useconds_t __value, __useconds_t __interval)
-     __attribute__ ((__nothrow__ , __leaf__));
-extern int usleep (__useconds_t __useconds);
-extern int pause (void);
-extern int chown (__const char *__file, __uid_t __owner, __gid_t __group)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1))) ;
-extern int fchown (int __fd, __uid_t __owner, __gid_t __group) __attribute__ ((__nothrow__ , __leaf__)) ;
-extern int lchown (__const char *__file, __uid_t __owner, __gid_t __group)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1))) ;
-extern int fchownat (int __fd, __const char *__file, __uid_t __owner,
-       __gid_t __group, int __flag)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2))) ;
-extern int chdir (__const char *__path) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1))) ;
-extern int fchdir (int __fd) __attribute__ ((__nothrow__ , __leaf__)) ;
-extern char *getcwd (char *__buf, size_t __size) __attribute__ ((__nothrow__ , __leaf__)) ;
-extern char *getwd (char *__buf)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1))) __attribute__ ((__deprecated__)) ;
-extern int dup (int __fd) __attribute__ ((__nothrow__ , __leaf__)) ;
-extern int dup2 (int __fd, int __fd2) __attribute__ ((__nothrow__ , __leaf__));
-extern char **__environ;
-extern int execve (__const char *__path, char *__const __argv[],
-     char *__const __envp[]) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-extern int fexecve (int __fd, char *__const __argv[], char *__const __envp[])
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2)));
-extern int execv (__const char *__path, char *__const __argv[])
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-extern int execle (__const char *__path, __const char *__arg, ...)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-extern int execl (__const char *__path, __const char *__arg, ...)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-extern int execvp (__const char *__file, char *__const __argv[])
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-extern int execlp (__const char *__file, __const char *__arg, ...)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
-extern int nice (int __inc) __attribute__ ((__nothrow__ , __leaf__)) ;
-extern void _exit (int __status) __attribute__ ((__noreturn__));
-enum
-  {
-    _PC_LINK_MAX,
-    _PC_MAX_CANON,
-    _PC_MAX_INPUT,
-    _PC_NAME_MAX,
-    _PC_PATH_MAX,
-    _PC_PIPE_BUF,
-    _PC_CHOWN_RESTRICTED,
-    _PC_NO_TRUNC,
-    _PC_VDISABLE,
-    _PC_SYNC_IO,
-    _PC_ASYNC_IO,
-    _PC_PRIO_IO,
-    _PC_SOCK_MAXBUF,
-    _PC_FILESIZEBITS,
-    _PC_REC_INCR_XFER_SIZE,
-    _PC_REC_MAX_XFER_SIZE,
-    _PC_REC_MIN_XFER_SIZE,
-    _PC_REC_XFER_ALIGN,
-    _PC_ALLOC_SIZE_MIN,
-    _PC_SYMLINK_MAX,
-    _PC_2_SYMLINKS
-  };
-enum
-  {
-    _SC_ARG_MAX,
-    _SC_CHILD_MAX,
-    _SC_CLK_TCK,
-    _SC_NGROUPS_MAX,
-    _SC_OPEN_MAX,
-    _SC_STREAM_MAX,
-    _SC_TZNAME_MAX,
-    _SC_JOB_CONTROL,
-    _SC_SAVED_IDS,
-    _SC_REALTIME_SIGNALS,
-    _SC_PRIORITY_SCHEDULING,
-    _SC_TIMERS,
-    _SC_ASYNCHRONOUS_IO,
-    _SC_PRIORITIZED_IO,
-    _SC_SYNCHRONIZED_IO,
-    _SC_FSYNC,
-    _SC_MAPPED_FILES,
-    _SC_MEMLOCK,
-    _SC_MEMLOCK_RANGE,
-    _SC_MEMORY_PROTECTION,
-    _SC_MESSAGE_PASSING,
-    _SC_SEMAPHORES,
-    _SC_SHARED_MEMORY_OBJECTS,
-    _SC_AIO_LISTIO_MAX,
-    _SC_AIO_MAX,
-    _SC_AIO_PRIO_DELTA_MAX,
-    _SC_DELAYTIMER_MAX,
-    _SC_MQ_OPEN_MAX,
-    _SC_MQ_PRIO_MAX,
-    _SC_VERSION,
-    _SC_PAGESIZE,
-    _SC_RTSIG_MAX,
-    _SC_SEM_NSEMS_MAX,
-    _SC_SEM_VALUE_MAX,
-    _SC_SIGQUEUE_MAX,
-    _SC_TIMER_MAX,
-    _SC_BC_BASE_MAX,
-    _SC_BC_DIM_MAX,
-    _SC_BC_SCALE_MAX,
-    _SC_BC_STRING_MAX,
-    _SC_COLL_WEIGHTS_MAX,
-    _SC_EQUIV_CLASS_MAX,
-    _SC_EXPR_NEST_MAX,
-    _SC_LINE_MAX,
-    _SC_RE_DUP_MAX,
-    _SC_CHARCLASS_NAME_MAX,
-    _SC_2_VERSION,
-    _SC_2_C_BIND,
-    _SC_2_C_DEV,
-    _SC_2_FORT_DEV,
-    _SC_2_FORT_RUN,
-    _SC_2_SW_DEV,
-    _SC_2_LOCALEDEF,
-    _SC_PII,
-    _SC_PII_XTI,
-    _SC_PII_SOCKET,
-    _SC_PII_INTERNET,
-    _SC_PII_OSI,
-    _SC_POLL,
-    _SC_SELECT,
-    _SC_UIO_MAXIOV,
-    _SC_IOV_MAX = _SC_UIO_MAXIOV,
-    _SC_PII_INTERNET_STREAM,
-    _SC_PII_INTERNET_DGRAM,
-    _SC_PII_OSI_COTS,
-    _SC_PII_OSI_CLTS,
-    _SC_PII_OSI_M,
-    _SC_T_IOV_MAX,
-    _SC_THREADS,
-    _SC_THREAD_SAFE_FUNCTIONS,
-    _SC_GETGR_R_SIZE_MAX,
-    _SC_GETPW_R_SIZE_MAX,
-    _SC_LOGIN_NAME_MAX,
-    _SC_TTY_NAME_MAX,
-    _SC_THREAD_DESTRUCTOR_ITERATIONS,
-    _SC_THREAD_KEYS_MAX,
-    _SC_THREAD_STACK_MIN,
-    _SC_THREAD_THREADS_MAX,
-    _SC_THREAD_ATTR_STACKADDR,
-    _SC_THREAD_ATTR_STACKSIZE,
-    _SC_THREAD_PRIORITY_SCHEDULING,
-    _SC_THREAD_PRIO_INHERIT,
-    _SC_THREAD_PRIO_PROTECT,
-    _SC_THREAD_PROCESS_SHARED,
-    _SC_NPROCESSORS_CONF,
-    _SC_NPROCESSORS_ONLN,
-    _SC_PHYS_PAGES,
-    _SC_AVPHYS_PAGES,
-    _SC_ATEXIT_MAX,
-    _SC_PASS_MAX,
-    _SC_XOPEN_VERSION,
-    _SC_XOPEN_XCU_VERSION,
-    _SC_XOPEN_UNIX,
-    _SC_XOPEN_CRYPT,
-    _SC_XOPEN_ENH_I18N,
-    _SC_XOPEN_SHM,
-    _SC_2_CHAR_TERM,
-    _SC_2_C_VERSION,
-    _SC_2_UPE,
-    _SC_XOPEN_XPG2,
-    _SC_XOPEN_XPG3,
-    _SC_XOPEN_XPG4,
-    _SC_CHAR_BIT,
-    _SC_CHAR_MAX,
-    _SC_CHAR_MIN,
-    _SC_INT_MAX,
-    _SC_INT_MIN,
-    _SC_LONG_BIT,
-    _SC_WORD_BIT,
-    _SC_MB_LEN_MAX,
-    _SC_NZERO,
-    _SC_SSIZE_MAX,
-    _SC_SCHAR_MAX,
-    _SC_SCHAR_MIN,
-    _SC_SHRT_MAX,
-    _SC_SHRT_MIN,
-    _SC_UCHAR_MAX,
-    _SC_UINT_MAX,
-    _SC_ULONG_MAX,
-    _SC_USHRT_MAX,
-    _SC_NL_ARGMAX,
-    _SC_NL_LANGMAX,
-    _SC_NL_MSGMAX,
-    _SC_NL_NMAX,
-    _SC_NL_SETMAX,
-    _SC_NL_TEXTMAX,
-    _SC_XBS5_ILP32_OFF32,
-    _SC_XBS5_ILP32_OFFBIG,
-    _SC_XBS5_LP64_OFF64,
-    _SC_XBS5_LPBIG_OFFBIG,
-    _SC_XOPEN_LEGACY,
-    _SC_XOPEN_REALTIME,
-    _SC_XOPEN_REALTIME_THREADS,
-    _SC_ADVISORY_INFO,
-    _SC_BARRIERS,
-    _SC_BASE,
-    _SC_C_LANG_SUPPORT,
-    _SC_C_LANG_SUPPORT_R,
-    _SC_CLOCK_SELECTION,
-    _SC_CPUTIME,
-    _SC_THREAD_CPUTIME,
-    _SC_DEVICE_IO,
-    _SC_DEVICE_SPECIFIC,
-    _SC_DEVICE_SPECIFIC_R,
-    _SC_FD_MGMT,
-    _SC_FIFO,
-    _SC_PIPE,
-    _SC_FILE_ATTRIBUTES,
-    _SC_FILE_LOCKING,
-    _SC_FILE_SYSTEM,
-    _SC_MONOTONIC_CLOCK,
-    _SC_MULTI_PROCESS,
-    _SC_SINGLE_PROCESS,
-    _SC_NETWORKING,
-    _SC_READER_WRITER_LOCKS,
-    _SC_SPIN_LOCKS,
-    _SC_REGEXP,
-    _SC_REGEX_VERSION,
-    _SC_SHELL,
-    _SC_SIGNALS,
-    _SC_SPAWN,
-    _SC_SPORADIC_SERVER,
-    _SC_THREAD_SPORADIC_SERVER,
-    _SC_SYSTEM_DATABASE,
-    _SC_SYSTEM_DATABASE_R,
-    _SC_TIMEOUTS,
-    _SC_TYPED_MEMORY_OBJECTS,
-    _SC_USER_GROUPS,
-    _SC_USER_GROUPS_R,
-    _SC_2_PBS,
-    _SC_2_PBS_ACCOUNTING,
-    _SC_2_PBS_LOCATE,
-    _SC_2_PBS_MESSAGE,
-    _SC_2_PBS_TRACK,
-    _SC_SYMLOOP_MAX,
-    _SC_STREAMS,
-    _SC_2_PBS_CHECKPOINT,
-    _SC_V6_ILP32_OFF32,
-    _SC_V6_ILP32_OFFBIG,
-    _SC_V6_LP64_OFF64,
-    _SC_V6_LPBIG_OFFBIG,
-    _SC_HOST_NAME_MAX,
-    _SC_TRACE,
-    _SC_TRACE_EVENT_FILTER,
-    _SC_TRACE_INHERIT,
-    _SC_TRACE_LOG,
-    _SC_LEVEL1_ICACHE_SIZE,
-    _SC_LEVEL1_ICACHE_ASSOC,
-    _SC_LEVEL1_ICACHE_LINESIZE,
-    _SC_LEVEL1_DCACHE_SIZE,
-    _SC_LEVEL1_DCACHE_ASSOC,
-    _SC_LEVEL1_DCACHE_LINESIZE,
-    _SC_LEVEL2_CACHE_SIZE,
-    _SC_LEVEL2_CACHE_ASSOC,
-    _SC_LEVEL2_CACHE_LINESIZE,
-    _SC_LEVEL3_CACHE_SIZE,
-    _SC_LEVEL3_CACHE_ASSOC,
-    _SC_LEVEL3_CACHE_LINESIZE,
-    _SC_LEVEL4_CACHE_SIZE,
-    _SC_LEVEL4_CACHE_ASSOC,
-    _SC_LEVEL4_CACHE_LINESIZE,
-    _SC_IPV6 = _SC_LEVEL1_ICACHE_SIZE + 50,
-    _SC_RAW_SOCKETS,
-    _SC_V7_ILP32_OFF32,
-    _SC_V7_ILP32_OFFBIG,
-    _SC_V7_LP64_OFF64,
-    _SC_V7_LPBIG_OFFBIG,
-    _SC_SS_REPL_MAX,
-    _SC_TRACE_EVENT_NAME_MAX,
-    _SC_TRACE_NAME_MAX,
-    _SC_TRACE_SYS_MAX,
-    _SC_TRACE_USER_EVENT_MAX,
-    _SC_XOPEN_STREAMS,
-    _SC_THREAD_ROBUST_PRIO_INHERIT,
-    _SC_THREAD_ROBUST_PRIO_PROTECT
-  };
-enum
-  {
-    _CS_PATH,
-    _CS_V6_WIDTH_RESTRICTED_ENVS,
-    _CS_GNU_LIBC_VERSION,
-    _CS_GNU_LIBPTHREAD_VERSION,
-    _CS_V5_WIDTH_RESTRICTED_ENVS,
-    _CS_V7_WIDTH_RESTRICTED_ENVS,
-    _CS_LFS_CFLAGS = 1000,
-    _CS_LFS_LDFLAGS,
-    _CS_LFS_LIBS,
-    _CS_LFS_LINTFLAGS,
-    _CS_LFS64_CFLAGS,
-    _CS_LFS64_LDFLAGS,
-    _CS_LFS64_LIBS,
-    _CS_LFS64_LINTFLAGS,
-    _CS_XBS5_ILP32_OFF32_CFLAGS = 1100,
-    _CS_XBS5_ILP32_OFF32_LDFLAGS,
-    _CS_XBS5_ILP32_OFF32_LIBS,
-    _CS_XBS5_ILP32_OFF32_LINTFLAGS,
-    _CS_XBS5_ILP32_OFFBIG_CFLAGS,
-    _CS_XBS5_ILP32_OFFBIG_LDFLAGS,
-    _CS_XBS5_ILP32_OFFBIG_LIBS,
-    _CS_XBS5_ILP32_OFFBIG_LINTFLAGS,
-    _CS_XBS5_LP64_OFF64_CFLAGS,
-    _CS_XBS5_LP64_OFF64_LDFLAGS,
-    _CS_XBS5_LP64_OFF64_LIBS,
-    _CS_XBS5_LP64_OFF64_LINTFLAGS,
-    _CS_XBS5_LPBIG_OFFBIG_CFLAGS,
-    _CS_XBS5_LPBIG_OFFBIG_LDFLAGS,
-    _CS_XBS5_LPBIG_OFFBIG_LIBS,
-    _CS_XBS5_LPBIG_OFFBIG_LINTFLAGS,
-    _CS_POSIX_V6_ILP32_OFF32_CFLAGS,
-    _CS_POSIX_V6_ILP32_OFF32_LDFLAGS,
-    _CS_POSIX_V6_ILP32_OFF32_LIBS,
-    _CS_POSIX_V6_ILP32_OFF32_LINTFLAGS,
-    _CS_POSIX_V6_ILP32_OFFBIG_CFLAGS,
-    _CS_POSIX_V6_ILP32_OFFBIG_LDFLAGS,
-    _CS_POSIX_V6_ILP32_OFFBIG_LIBS,
-    _CS_POSIX_V6_ILP32_OFFBIG_LINTFLAGS,
-    _CS_POSIX_V6_LP64_OFF64_CFLAGS,
-    _CS_POSIX_V6_LP64_OFF64_LDFLAGS,
-    _CS_POSIX_V6_LP64_OFF64_LIBS,
-    _CS_POSIX_V6_LP64_OFF64_LINTFLAGS,
-    _CS_POSIX_V6_LPBIG_OFFBIG_CFLAGS,
-    _CS_POSIX_V6_LPBIG_OFFBIG_LDFLAGS,
-    _CS_POSIX_V6_LPBIG_OFFBIG_LIBS,
-    _CS_POSIX_V6_LPBIG_OFFBIG_LINTFLAGS,
-    _CS_POSIX_V7_ILP32_OFF32_CFLAGS,
-    _CS_POSIX_V7_ILP32_OFF32_LDFLAGS,
-    _CS_POSIX_V7_ILP32_OFF32_LIBS,
-    _CS_POSIX_V7_ILP32_OFF32_LINTFLAGS,
-    _CS_POSIX_V7_ILP32_OFFBIG_CFLAGS,
-    _CS_POSIX_V7_ILP32_OFFBIG_LDFLAGS,
-    _CS_POSIX_V7_ILP32_OFFBIG_LIBS,
-    _CS_POSIX_V7_ILP32_OFFBIG_LINTFLAGS,
-    _CS_POSIX_V7_LP64_OFF64_CFLAGS,
-    _CS_POSIX_V7_LP64_OFF64_LDFLAGS,
-    _CS_POSIX_V7_LP64_OFF64_LIBS,
-    _CS_POSIX_V7_LP64_OFF64_LINTFLAGS,
-    _CS_POSIX_V7_LPBIG_OFFBIG_CFLAGS,
-    _CS_POSIX_V7_LPBIG_OFFBIG_LDFLAGS,
-    _CS_POSIX_V7_LPBIG_OFFBIG_LIBS,
-    _CS_POSIX_V7_LPBIG_OFFBIG_LINTFLAGS,
-    _CS_V6_ENV,
-    _CS_V7_ENV
-  };
-extern long int pathconf (__const char *__path, int __name)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
-extern long int fpathconf (int __fd, int __name) __attribute__ ((__nothrow__ , __leaf__));
-extern long int sysconf (int __name) __attribute__ ((__nothrow__ , __leaf__));
-extern size_t confstr (int __name, char *__buf, size_t __len) __attribute__ ((__nothrow__ , __leaf__));
-extern __pid_t getpid (void) __attribute__ ((__nothrow__ , __leaf__));
-extern __pid_t getppid (void) __attribute__ ((__nothrow__ , __leaf__));
-extern __pid_t getpgrp (void) __attribute__ ((__nothrow__ , __leaf__));
-extern __pid_t __getpgid (__pid_t __pid) __attribute__ ((__nothrow__ , __leaf__));
-extern __pid_t getpgid (__pid_t __pid) __attribute__ ((__nothrow__ , __leaf__));
-extern int setpgid (__pid_t __pid, __pid_t __pgid) __attribute__ ((__nothrow__ , __leaf__));
-extern int setpgrp (void) __attribute__ ((__nothrow__ , __leaf__));
-extern __pid_t setsid (void) __attribute__ ((__nothrow__ , __leaf__));
-extern __pid_t getsid (__pid_t __pid) __attribute__ ((__nothrow__ , __leaf__));
-extern __uid_t getuid (void) __attribute__ ((__nothrow__ , __leaf__));
-extern __uid_t geteuid (void) __attribute__ ((__nothrow__ , __leaf__));
-extern __gid_t getgid (void) __attribute__ ((__nothrow__ , __leaf__));
-extern __gid_t getegid (void) __attribute__ ((__nothrow__ , __leaf__));
-extern int getgroups (int __size, __gid_t __list[]) __attribute__ ((__nothrow__ , __leaf__)) ;
-extern int setuid (__uid_t __uid) __attribute__ ((__nothrow__ , __leaf__));
-extern int setreuid (__uid_t __ruid, __uid_t __euid) __attribute__ ((__nothrow__ , __leaf__));
-extern int seteuid (__uid_t __uid) __attribute__ ((__nothrow__ , __leaf__));
-extern int setgid (__gid_t __gid) __attribute__ ((__nothrow__ , __leaf__));
-extern int setregid (__gid_t __rgid, __gid_t __egid) __attribute__ ((__nothrow__ , __leaf__));
-extern int setegid (__gid_t __gid) __attribute__ ((__nothrow__ , __leaf__));
-extern __pid_t fork (void) __attribute__ ((__nothrow__));
-extern __pid_t vfork (void) __attribute__ ((__nothrow__ , __leaf__));
-extern char *ttyname (int __fd) __attribute__ ((__nothrow__ , __leaf__));
-extern int ttyname_r (int __fd, char *__buf, size_t __buflen)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2))) ;
-extern int isatty (int __fd) __attribute__ ((__nothrow__ , __leaf__));
-extern int ttyslot (void) __attribute__ ((__nothrow__ , __leaf__));
-extern int link (__const char *__from, __const char *__to)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2))) ;
-extern int linkat (int __fromfd, __const char *__from, int __tofd,
-     __const char *__to, int __flags)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2, 4))) ;
-extern int symlink (__const char *__from, __const char *__to)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2))) ;
-extern ssize_t readlink (__const char *__restrict __path,
-    char *__restrict __buf, size_t __len)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2))) ;
-extern int symlinkat (__const char *__from, int __tofd,
-        __const char *__to) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 3))) ;
-extern ssize_t readlinkat (int __fd, __const char *__restrict __path,
-      char *__restrict __buf, size_t __len)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2, 3))) ;
-extern int unlink (__const char *__name) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
-extern int unlinkat (int __fd, __const char *__name, int __flag)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2)));
-extern int rmdir (__const char *__path) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
-extern __pid_t tcgetpgrp (int __fd) __attribute__ ((__nothrow__ , __leaf__));
-extern int tcsetpgrp (int __fd, __pid_t __pgrp_id) __attribute__ ((__nothrow__ , __leaf__));
-extern char *getlogin (void);
-extern int getlogin_r (char *__name, size_t __name_len) __attribute__ ((__nonnull__ (1)));
-extern int setlogin (__const char *__name) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
-extern char *optarg;
-extern int optind;
-extern int opterr;
-extern int optopt;
-extern int getopt (int ___argc, char *const *___argv, const char *__shortopts)
-       __attribute__ ((__nothrow__ , __leaf__));
-#undef __need_getopt
-extern int gethostname (char *__name, size_t __len) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
-extern int sethostname (__const char *__name, size_t __len)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1))) ;
-extern int sethostid (long int __id) __attribute__ ((__nothrow__ , __leaf__)) ;
-extern int getdomainname (char *__name, size_t __len)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1))) ;
-extern int setdomainname (__const char *__name, size_t __len)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1))) ;
-extern int vhangup (void) __attribute__ ((__nothrow__ , __leaf__));
-extern int revoke (__const char *__file) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1))) ;
-extern int profil (unsigned short int *__sample_buffer, size_t __size,
-     size_t __offset, unsigned int __scale)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
-extern int acct (__const char *__name) __attribute__ ((__nothrow__ , __leaf__));
-extern char *getusershell (void) __attribute__ ((__nothrow__ , __leaf__));
-extern void endusershell (void) __attribute__ ((__nothrow__ , __leaf__));
-extern void setusershell (void) __attribute__ ((__nothrow__ , __leaf__));
-extern int daemon (int __nochdir, int __noclose) __attribute__ ((__nothrow__ , __leaf__)) ;
-extern int chroot (__const char *__path) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1))) ;
-extern char *getpass (__const char *__prompt) __attribute__ ((__nonnull__ (1)));
-extern int fsync (int __fd);
-extern long int gethostid (void);
-extern void sync (void) __attribute__ ((__nothrow__ , __leaf__));
-extern int getpagesize (void) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-extern int getdtablesize (void) __attribute__ ((__nothrow__ , __leaf__));
-extern int truncate (__const char *__file, __off_t __length)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1))) ;
-extern int ftruncate (int __fd, __off_t __length) __attribute__ ((__nothrow__ , __leaf__)) ;
-extern int brk (void *__addr) __attribute__ ((__nothrow__ , __leaf__)) ;
-extern void *sbrk (intptr_t __delta) __attribute__ ((__nothrow__ , __leaf__));
-extern long int syscall (long int __sysno, ...) __attribute__ ((__nothrow__ , __leaf__));
-extern int lockf (int __fd, int __cmd, __off_t __len) ;
-extern int fdatasync (int __fildes);
-extern char *ctermid (char *__s) __attribute__ ((__nothrow__ , __leaf__));
-
-
-// *** 12. errno.h ***
+// *** 5. errno.h ***
 static const int _ERRNO_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
-#undef __USE_ISOC95
-#undef __USE_ISOC99
-#undef _ATFILE_SOURCE
-#undef __GNU_LIBRARY__
-#undef __P
-#undef __PMT
-#undef EDOM
-#undef EILSEQ
-#undef ERANGE
 static const int EPERM = 1;
 static const int ENOENT = 2;
 static const int ESRCH = 3;
@@ -5130,42 +2815,1460 @@ static const int EHWPOISON = 133;
 static const int ENOTSUP = EOPNOTSUPP;
 extern int *__errno_location (void) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
 static const int errno = (*__errno_location ());
-#undef __need_Emath
 
 
-// *** 13. netinet/in.h ***
+// *** 6. i386-linux-gnu/sys/types.h ***
+typedef unsigned char __u_char;
+typedef unsigned short int __u_short;
+typedef unsigned int __u_int;
+typedef unsigned long int __u_long;
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef signed short int __int16_t;
+typedef unsigned short int __uint16_t;
+typedef signed int __int32_t;
+typedef unsigned int __uint32_t;
+__extension__ typedef signed long long int __int64_t;
+__extension__ typedef unsigned long long int __uint64_t;
+__extension__ typedef long long int __quad_t;
+__extension__ typedef unsigned long long int __u_quad_t;
+__extension__ typedef __u_quad_t __dev_t;
+__extension__ typedef unsigned int __uid_t;
+__extension__ typedef unsigned int __gid_t;
+__extension__ typedef unsigned long int __ino_t;
+__extension__ typedef __u_quad_t __ino64_t;
+__extension__ typedef unsigned int __mode_t;
+__extension__ typedef unsigned int __nlink_t;
+__extension__ typedef long int __off_t;
+__extension__ typedef __quad_t __off64_t;
+__extension__ typedef int __pid_t;
+__extension__ typedef struct { int __val[2]; } __fsid_t;
+__extension__ typedef long int __clock_t;
+__extension__ typedef unsigned long int __rlim_t;
+__extension__ typedef __u_quad_t __rlim64_t;
+__extension__ typedef unsigned int __id_t;
+__extension__ typedef long int __time_t;
+__extension__ typedef unsigned int __useconds_t;
+__extension__ typedef long int __suseconds_t;
+__extension__ typedef int __daddr_t;
+__extension__ typedef long int __swblk_t;
+__extension__ typedef int __key_t;
+__extension__ typedef int __clockid_t;
+__extension__ typedef void * __timer_t;
+__extension__ typedef long int __blksize_t;
+__extension__ typedef long int __blkcnt_t;
+__extension__ typedef __quad_t __blkcnt64_t;
+__extension__ typedef unsigned long int __fsblkcnt_t;
+__extension__ typedef __u_quad_t __fsblkcnt64_t;
+__extension__ typedef unsigned long int __fsfilcnt_t;
+__extension__ typedef __u_quad_t __fsfilcnt64_t;
+__extension__ typedef int __ssize_t;
+typedef __off64_t __loff_t;
+typedef __quad_t *__qaddr_t;
+typedef char *__caddr_t;
+__extension__ typedef int __intptr_t;
+__extension__ typedef unsigned int __socklen_t;
+typedef __u_char u_char;
+typedef __u_short u_short;
+typedef __u_int u_int;
+typedef __u_long u_long;
+typedef __quad_t quad_t;
+typedef __u_quad_t u_quad_t;
+typedef __fsid_t fsid_t;
+typedef __loff_t loff_t;
+typedef __ino_t ino_t;
+typedef __dev_t dev_t;
+typedef __gid_t gid_t;
+typedef __mode_t mode_t;
+typedef __nlink_t nlink_t;
+typedef __uid_t uid_t;
+typedef __off_t off_t;
+typedef __pid_t pid_t;
+typedef __id_t id_t;
+typedef __ssize_t ssize_t;
+typedef __daddr_t daddr_t;
+typedef __caddr_t caddr_t;
+typedef __key_t key_t;
+typedef __clock_t clock_t;
+typedef __time_t time_t;
+typedef __clockid_t clockid_t;
+typedef __timer_t timer_t;
+typedef unsigned int size_t;
+typedef unsigned long int ulong;
+typedef unsigned short int ushort;
+typedef unsigned int uint;
+typedef int int8_t __attribute__ ((__mode__ (__QI__)));
+typedef int int16_t __attribute__ ((__mode__ (__HI__)));
+typedef int int32_t __attribute__ ((__mode__ (__SI__)));
+typedef int int64_t __attribute__ ((__mode__ (__DI__)));
+typedef unsigned int u_int8_t __attribute__ ((__mode__ (__QI__)));
+typedef unsigned int u_int16_t __attribute__ ((__mode__ (__HI__)));
+typedef unsigned int u_int32_t __attribute__ ((__mode__ (__SI__)));
+typedef unsigned int u_int64_t __attribute__ ((__mode__ (__DI__)));
+typedef int register_t __attribute__ ((__mode__ (__word__)));
+typedef int __sig_atomic_t;
+typedef struct
+  {
+    unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
+  } __sigset_t;
+typedef __sigset_t sigset_t;
+struct timespec
+  {
+    __time_t tv_sec;
+    long int tv_nsec;
+  };
+struct timeval
+  {
+    __time_t tv_sec;
+    __suseconds_t tv_usec;
+  };
+typedef __suseconds_t suseconds_t;
+typedef long int __fd_mask;
+typedef struct
+  {
+    __fd_mask __fds_bits[1024 / (8 * (int) sizeof (__fd_mask))];
+  } fd_set;
+typedef __fd_mask fd_mask;
+extern int select (int __nfds, fd_set *__restrict __readfds,
+     fd_set *__restrict __writefds,
+     fd_set *__restrict __exceptfds,
+     struct timeval *__restrict __timeout);
+extern int pselect (int __nfds, fd_set *__restrict __readfds,
+      fd_set *__restrict __writefds,
+      fd_set *__restrict __exceptfds,
+      const struct timespec *__restrict __timeout,
+      const __sigset_t *__restrict __sigmask);
+__extension__
+extern unsigned int gnu_dev_major (unsigned long long int __dev)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+__extension__
+extern unsigned int gnu_dev_minor (unsigned long long int __dev)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+__extension__
+extern unsigned long long int gnu_dev_makedev (unsigned int __major,
+            unsigned int __minor)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+typedef __blksize_t blksize_t;
+typedef __blkcnt_t blkcnt_t;
+typedef __fsblkcnt_t fsblkcnt_t;
+typedef __fsfilcnt_t fsfilcnt_t;
+typedef unsigned long int pthread_t;
+typedef union
+{
+  char __size[36];
+  long int __align;
+} pthread_attr_t;
+typedef struct __pthread_internal_slist
+{
+  struct __pthread_internal_slist *__next;
+} __pthread_slist_t;
+typedef union
+{
+  struct __pthread_mutex_s
+  {
+    int __lock;
+    unsigned int __count;
+    int __owner;
+    int __kind;
+    unsigned int __nusers;
+    __extension__ union
+    {
+      int __spins;
+      __pthread_slist_t __list;
+    };
+  } __data;
+  char __size[24];
+  long int __align;
+} pthread_mutex_t;
+typedef union
+{
+  char __size[4];
+  long int __align;
+} pthread_mutexattr_t;
+typedef union
+{
+  struct
+  {
+    int __lock;
+    unsigned int __futex;
+    __extension__ unsigned long long int __total_seq;
+    __extension__ unsigned long long int __wakeup_seq;
+    __extension__ unsigned long long int __woken_seq;
+    void *__mutex;
+    unsigned int __nwaiters;
+    unsigned int __broadcast_seq;
+  } __data;
+  char __size[48];
+  __extension__ long long int __align;
+} pthread_cond_t;
+typedef union
+{
+  char __size[4];
+  long int __align;
+} pthread_condattr_t;
+typedef unsigned int pthread_key_t;
+typedef int pthread_once_t;
+typedef union
+{
+  struct
+  {
+    int __lock;
+    unsigned int __nr_readers;
+    unsigned int __readers_wakeup;
+    unsigned int __writer_wakeup;
+    unsigned int __nr_readers_queued;
+    unsigned int __nr_writers_queued;
+    unsigned char __flags;
+    unsigned char __shared;
+    unsigned char __pad1;
+    unsigned char __pad2;
+    int __writer;
+  } __data;
+  char __size[32];
+  long int __align;
+} pthread_rwlock_t;
+typedef union
+{
+  char __size[8];
+  long int __align;
+} pthread_rwlockattr_t;
+typedef volatile int pthread_spinlock_t;
+typedef union
+{
+  char __size[20];
+  long int __align;
+} pthread_barrier_t;
+typedef union
+{
+  char __size[4];
+  int __align;
+} pthread_barrierattr_t;
+
+
+// *** 7. i386-linux-gnu/sys/mman.h ***
+static const int _SYS_MMAN_H = 1;
+typedef unsigned char __u_char;
+typedef unsigned short int __u_short;
+typedef unsigned int __u_int;
+typedef unsigned long int __u_long;
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef signed short int __int16_t;
+typedef unsigned short int __uint16_t;
+typedef signed int __int32_t;
+typedef unsigned int __uint32_t;
+__extension__ typedef signed long long int __int64_t;
+__extension__ typedef unsigned long long int __uint64_t;
+__extension__ typedef long long int __quad_t;
+__extension__ typedef unsigned long long int __u_quad_t;
+__extension__ typedef __u_quad_t __dev_t;
+__extension__ typedef unsigned int __uid_t;
+__extension__ typedef unsigned int __gid_t;
+__extension__ typedef unsigned long int __ino_t;
+__extension__ typedef __u_quad_t __ino64_t;
+__extension__ typedef unsigned int __mode_t;
+__extension__ typedef unsigned int __nlink_t;
+__extension__ typedef long int __off_t;
+__extension__ typedef __quad_t __off64_t;
+__extension__ typedef int __pid_t;
+__extension__ typedef struct { int __val[2]; } __fsid_t;
+__extension__ typedef long int __clock_t;
+__extension__ typedef unsigned long int __rlim_t;
+__extension__ typedef __u_quad_t __rlim64_t;
+__extension__ typedef unsigned int __id_t;
+__extension__ typedef long int __time_t;
+__extension__ typedef unsigned int __useconds_t;
+__extension__ typedef long int __suseconds_t;
+__extension__ typedef int __daddr_t;
+__extension__ typedef long int __swblk_t;
+__extension__ typedef int __key_t;
+__extension__ typedef int __clockid_t;
+__extension__ typedef void * __timer_t;
+__extension__ typedef long int __blksize_t;
+__extension__ typedef long int __blkcnt_t;
+__extension__ typedef __quad_t __blkcnt64_t;
+__extension__ typedef unsigned long int __fsblkcnt_t;
+__extension__ typedef __u_quad_t __fsblkcnt64_t;
+__extension__ typedef unsigned long int __fsfilcnt_t;
+__extension__ typedef __u_quad_t __fsfilcnt64_t;
+__extension__ typedef int __ssize_t;
+typedef __off64_t __loff_t;
+typedef __quad_t *__qaddr_t;
+typedef char *__caddr_t;
+__extension__ typedef int __intptr_t;
+__extension__ typedef unsigned int __socklen_t;
+typedef unsigned int size_t;
+typedef __off_t off_t;
+typedef __mode_t mode_t;
+static const int PROT_READ = 0x1;
+static const int PROT_WRITE = 0x2;
+static const int PROT_EXEC = 0x4;
+static const int PROT_NONE = 0x0;
+static const int PROT_GROWSDOWN = 0x01000000;
+static const int PROT_GROWSUP = 0x02000000;
+static const int MAP_SHARED = 0x01;
+static const int MAP_PRIVATE = 0x02;
+static const int MAP_TYPE = 0x0f;
+static const int MAP_FIXED = 0x10;
+static const int MAP_FILE = 0;
+static const int MAP_ANONYMOUS = 0x20;
+static const int MAP_ANON = MAP_ANONYMOUS;
+static const int MAP_GROWSDOWN = 0x00100;
+static const int MAP_DENYWRITE = 0x00800;
+static const int MAP_EXECUTABLE = 0x01000;
+static const int MAP_LOCKED = 0x02000;
+static const int MAP_NORESERVE = 0x04000;
+static const int MAP_POPULATE = 0x08000;
+static const int MAP_NONBLOCK = 0x10000;
+static const int MAP_STACK = 0x20000;
+static const int MAP_HUGETLB = 0x40000;
+static const int MS_ASYNC = 1;
+static const int MS_SYNC = 4;
+static const int MS_INVALIDATE = 2;
+static const int MCL_CURRENT = 1;
+static const int MCL_FUTURE = 2;
+static const int MADV_NORMAL = 0;
+static const int MADV_RANDOM = 1;
+static const int MADV_SEQUENTIAL = 2;
+static const int MADV_WILLNEED = 3;
+static const int MADV_DONTNEED = 4;
+static const int MADV_REMOVE = 9;
+static const int MADV_DONTFORK = 10;
+static const int MADV_DOFORK = 11;
+static const int MADV_MERGEABLE = 12;
+static const int MADV_UNMERGEABLE = 13;
+static const int MADV_HUGEPAGE = 14;
+static const int MADV_NOHUGEPAGE = 15;
+static const int MADV_HWPOISON = 100;
+static const int POSIX_MADV_NORMAL = 0;
+static const int POSIX_MADV_RANDOM = 1;
+static const int POSIX_MADV_SEQUENTIAL = 2;
+static const int POSIX_MADV_WILLNEED = 3;
+static const int POSIX_MADV_DONTNEED = 4;
+static const int MAP_FAILED = ((void *) -1);
+extern void *mmap (void *__addr, size_t __len, int __prot,
+     int __flags, int __fd, __off_t __offset) __attribute__ ((__nothrow__ , __leaf__));
+extern int munmap (void *__addr, size_t __len) __attribute__ ((__nothrow__ , __leaf__));
+extern int mprotect (void *__addr, size_t __len, int __prot) __attribute__ ((__nothrow__ , __leaf__));
+extern int msync (void *__addr, size_t __len, int __flags);
+extern int madvise (void *__addr, size_t __len, int __advice) __attribute__ ((__nothrow__ , __leaf__));
+extern int posix_madvise (void *__addr, size_t __len, int __advice) __attribute__ ((__nothrow__ , __leaf__));
+extern int mlock (__const void *__addr, size_t __len) __attribute__ ((__nothrow__ , __leaf__));
+extern int munlock (__const void *__addr, size_t __len) __attribute__ ((__nothrow__ , __leaf__));
+extern int mlockall (int __flags) __attribute__ ((__nothrow__ , __leaf__));
+extern int munlockall (void) __attribute__ ((__nothrow__ , __leaf__));
+extern int mincore (void *__start, size_t __len, unsigned char *__vec)
+     __attribute__ ((__nothrow__ , __leaf__));
+extern int shm_open (__const char *__name, int __oflag, mode_t __mode);
+extern int shm_unlink (__const char *__name);
+
+
+// *** 8. i386-linux-gnu/sys/socket.h ***
+static const int _SYS_SOCKET_H = 1;
+static const int _SYS_UIO_H = 1;
+typedef unsigned char __u_char;
+typedef unsigned short int __u_short;
+typedef unsigned int __u_int;
+typedef unsigned long int __u_long;
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef signed short int __int16_t;
+typedef unsigned short int __uint16_t;
+typedef signed int __int32_t;
+typedef unsigned int __uint32_t;
+__extension__ typedef signed long long int __int64_t;
+__extension__ typedef unsigned long long int __uint64_t;
+__extension__ typedef long long int __quad_t;
+__extension__ typedef unsigned long long int __u_quad_t;
+__extension__ typedef __u_quad_t __dev_t;
+__extension__ typedef unsigned int __uid_t;
+__extension__ typedef unsigned int __gid_t;
+__extension__ typedef unsigned long int __ino_t;
+__extension__ typedef __u_quad_t __ino64_t;
+__extension__ typedef unsigned int __mode_t;
+__extension__ typedef unsigned int __nlink_t;
+__extension__ typedef long int __off_t;
+__extension__ typedef __quad_t __off64_t;
+__extension__ typedef int __pid_t;
+__extension__ typedef struct { int __val[2]; } __fsid_t;
+__extension__ typedef long int __clock_t;
+__extension__ typedef unsigned long int __rlim_t;
+__extension__ typedef __u_quad_t __rlim64_t;
+__extension__ typedef unsigned int __id_t;
+__extension__ typedef long int __time_t;
+__extension__ typedef unsigned int __useconds_t;
+__extension__ typedef long int __suseconds_t;
+__extension__ typedef int __daddr_t;
+__extension__ typedef long int __swblk_t;
+__extension__ typedef int __key_t;
+__extension__ typedef int __clockid_t;
+__extension__ typedef void * __timer_t;
+__extension__ typedef long int __blksize_t;
+__extension__ typedef long int __blkcnt_t;
+__extension__ typedef __quad_t __blkcnt64_t;
+__extension__ typedef unsigned long int __fsblkcnt_t;
+__extension__ typedef __u_quad_t __fsblkcnt64_t;
+__extension__ typedef unsigned long int __fsfilcnt_t;
+__extension__ typedef __u_quad_t __fsfilcnt64_t;
+__extension__ typedef int __ssize_t;
+typedef __off64_t __loff_t;
+typedef __quad_t *__qaddr_t;
+typedef char *__caddr_t;
+__extension__ typedef int __intptr_t;
+__extension__ typedef unsigned int __socklen_t;
+typedef __u_char u_char;
+typedef __u_short u_short;
+typedef __u_int u_int;
+typedef __u_long u_long;
+typedef __quad_t quad_t;
+typedef __u_quad_t u_quad_t;
+typedef __fsid_t fsid_t;
+typedef __loff_t loff_t;
+typedef __ino_t ino_t;
+typedef __dev_t dev_t;
+typedef __gid_t gid_t;
+typedef __mode_t mode_t;
+typedef __nlink_t nlink_t;
+typedef __uid_t uid_t;
+typedef __off_t off_t;
+typedef __pid_t pid_t;
+typedef __id_t id_t;
+typedef __ssize_t ssize_t;
+typedef __daddr_t daddr_t;
+typedef __caddr_t caddr_t;
+typedef __key_t key_t;
+typedef __clock_t clock_t;
+typedef __time_t time_t;
+typedef __clockid_t clockid_t;
+typedef __timer_t timer_t;
+typedef unsigned int size_t;
+typedef unsigned long int ulong;
+typedef unsigned short int ushort;
+typedef unsigned int uint;
+typedef int int8_t __attribute__ ((__mode__ (__QI__)));
+typedef int int16_t __attribute__ ((__mode__ (__HI__)));
+typedef int int32_t __attribute__ ((__mode__ (__SI__)));
+typedef int int64_t __attribute__ ((__mode__ (__DI__)));
+typedef unsigned int u_int8_t __attribute__ ((__mode__ (__QI__)));
+typedef unsigned int u_int16_t __attribute__ ((__mode__ (__HI__)));
+typedef unsigned int u_int32_t __attribute__ ((__mode__ (__SI__)));
+typedef unsigned int u_int64_t __attribute__ ((__mode__ (__DI__)));
+typedef int register_t __attribute__ ((__mode__ (__word__)));
+typedef int __sig_atomic_t;
+typedef struct
+  {
+    unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
+  } __sigset_t;
+typedef __sigset_t sigset_t;
+struct timespec
+  {
+    __time_t tv_sec;
+    long int tv_nsec;
+  };
+struct timeval
+  {
+    __time_t tv_sec;
+    __suseconds_t tv_usec;
+  };
+typedef __suseconds_t suseconds_t;
+typedef long int __fd_mask;
+typedef struct
+  {
+    __fd_mask __fds_bits[1024 / (8 * (int) sizeof (__fd_mask))];
+  } fd_set;
+typedef __fd_mask fd_mask;
+extern int select (int __nfds, fd_set *__restrict __readfds,
+     fd_set *__restrict __writefds,
+     fd_set *__restrict __exceptfds,
+     struct timeval *__restrict __timeout);
+extern int pselect (int __nfds, fd_set *__restrict __readfds,
+      fd_set *__restrict __writefds,
+      fd_set *__restrict __exceptfds,
+      const struct timespec *__restrict __timeout,
+      const __sigset_t *__restrict __sigmask);
+__extension__
+extern unsigned int gnu_dev_major (unsigned long long int __dev)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+__extension__
+extern unsigned int gnu_dev_minor (unsigned long long int __dev)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+__extension__
+extern unsigned long long int gnu_dev_makedev (unsigned int __major,
+            unsigned int __minor)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+typedef __blksize_t blksize_t;
+typedef __blkcnt_t blkcnt_t;
+typedef __fsblkcnt_t fsblkcnt_t;
+typedef __fsfilcnt_t fsfilcnt_t;
+typedef unsigned long int pthread_t;
+typedef union
+{
+  char __size[36];
+  long int __align;
+} pthread_attr_t;
+typedef struct __pthread_internal_slist
+{
+  struct __pthread_internal_slist *__next;
+} __pthread_slist_t;
+typedef union
+{
+  struct __pthread_mutex_s
+  {
+    int __lock;
+    unsigned int __count;
+    int __owner;
+    int __kind;
+    unsigned int __nusers;
+    __extension__ union
+    {
+      int __spins;
+      __pthread_slist_t __list;
+    };
+  } __data;
+  char __size[24];
+  long int __align;
+} pthread_mutex_t;
+typedef union
+{
+  char __size[4];
+  long int __align;
+} pthread_mutexattr_t;
+typedef union
+{
+  struct
+  {
+    int __lock;
+    unsigned int __futex;
+    __extension__ unsigned long long int __total_seq;
+    __extension__ unsigned long long int __wakeup_seq;
+    __extension__ unsigned long long int __woken_seq;
+    void *__mutex;
+    unsigned int __nwaiters;
+    unsigned int __broadcast_seq;
+  } __data;
+  char __size[48];
+  __extension__ long long int __align;
+} pthread_cond_t;
+typedef union
+{
+  char __size[4];
+  long int __align;
+} pthread_condattr_t;
+typedef unsigned int pthread_key_t;
+typedef int pthread_once_t;
+typedef union
+{
+  struct
+  {
+    int __lock;
+    unsigned int __nr_readers;
+    unsigned int __readers_wakeup;
+    unsigned int __writer_wakeup;
+    unsigned int __nr_readers_queued;
+    unsigned int __nr_writers_queued;
+    unsigned char __flags;
+    unsigned char __shared;
+    unsigned char __pad1;
+    unsigned char __pad2;
+    int __writer;
+  } __data;
+  char __size[32];
+  long int __align;
+} pthread_rwlock_t;
+typedef union
+{
+  char __size[8];
+  long int __align;
+} pthread_rwlockattr_t;
+typedef volatile int pthread_spinlock_t;
+typedef union
+{
+  char __size[20];
+  long int __align;
+} pthread_barrier_t;
+typedef union
+{
+  char __size[4];
+  int __align;
+} pthread_barrierattr_t;
+static const int _BITS_UIO_H = 1;
+static const int UIO_MAXIOV = 1024;
+struct iovec
+  {
+    void *iov_base;
+    size_t iov_len;
+  };
+static const int _BITS_UIO_H_FOR_SYS_UIO_H = 1;
+extern ssize_t process_vm_readv (pid_t __pid, __const struct iovec *__lvec,
+     unsigned long int __liovcnt,
+     __const struct iovec *__rvec,
+     unsigned long int __riovcnt,
+     unsigned long int __flags)
+  __attribute__ ((__nothrow__ , __leaf__));
+extern ssize_t process_vm_writev (pid_t __pid, __const struct iovec *__lvec,
+      unsigned long int __liovcnt,
+      __const struct iovec *__rvec,
+      unsigned long int __riovcnt,
+      unsigned long int __flags)
+  __attribute__ ((__nothrow__ , __leaf__));
+extern ssize_t readv (int __fd, __const struct iovec *__iovec, int __count)
+  ;
+extern ssize_t writev (int __fd, __const struct iovec *__iovec, int __count)
+  ;
+extern ssize_t preadv (int __fd, __const struct iovec *__iovec, int __count,
+         __off_t __offset) ;
+extern ssize_t pwritev (int __fd, __const struct iovec *__iovec, int __count,
+   __off_t __offset) ;
+typedef __socklen_t socklen_t;
+enum __socket_type
+{
+  SOCK_STREAM = 1,
+static const int SOCK_STREAM = SOCK_STREAM;
+  SOCK_DGRAM = 2,
+static const int SOCK_DGRAM = SOCK_DGRAM;
+  SOCK_RAW = 3,
+static const int SOCK_RAW = SOCK_RAW;
+  SOCK_RDM = 4,
+static const int SOCK_RDM = SOCK_RDM;
+  SOCK_SEQPACKET = 5,
+static const int SOCK_SEQPACKET = SOCK_SEQPACKET;
+  SOCK_DCCP = 6,
+static const int SOCK_DCCP = SOCK_DCCP;
+  SOCK_PACKET = 10,
+static const int SOCK_PACKET = SOCK_PACKET;
+  SOCK_CLOEXEC = 02000000,
+static const int SOCK_CLOEXEC = SOCK_CLOEXEC;
+  SOCK_NONBLOCK = 04000
+static const int SOCK_NONBLOCK = SOCK_NONBLOCK;
+};
+static const int PF_UNSPEC = 0;
+static const int PF_LOCAL = 1;
+static const int PF_UNIX = PF_LOCAL;
+static const int PF_FILE = PF_LOCAL;
+static const int PF_INET = 2;
+static const int PF_AX25 = 3;
+static const int PF_IPX = 4;
+static const int PF_APPLETALK = 5;
+static const int PF_NETROM = 6;
+static const int PF_BRIDGE = 7;
+static const int PF_ATMPVC = 8;
+static const int PF_X25 = 9;
+static const int PF_INET6 = 10;
+static const int PF_ROSE = 11;
+static const int PF_DECnet = 12;
+static const int PF_NETBEUI = 13;
+static const int PF_SECURITY = 14;
+static const int PF_KEY = 15;
+static const int PF_NETLINK = 16;
+static const int PF_ROUTE = PF_NETLINK;
+static const int PF_PACKET = 17;
+static const int PF_ASH = 18;
+static const int PF_ECONET = 19;
+static const int PF_ATMSVC = 20;
+static const int PF_RDS = 21;
+static const int PF_SNA = 22;
+static const int PF_IRDA = 23;
+static const int PF_PPPOX = 24;
+static const int PF_WANPIPE = 25;
+static const int PF_LLC = 26;
+static const int PF_CAN = 29;
+static const int PF_TIPC = 30;
+static const int PF_BLUETOOTH = 31;
+static const int PF_IUCV = 32;
+static const int PF_RXRPC = 33;
+static const int PF_ISDN = 34;
+static const int PF_PHONET = 35;
+static const int PF_IEEE802154 = 36;
+static const int PF_CAIF = 37;
+static const int PF_ALG = 38;
+static const int PF_NFC = 39;
+static const int PF_MAX = 40;
+static const int AF_UNSPEC = PF_UNSPEC;
+static const int AF_LOCAL = PF_LOCAL;
+static const int AF_UNIX = PF_UNIX;
+static const int AF_FILE = PF_FILE;
+static const int AF_INET = PF_INET;
+static const int AF_AX25 = PF_AX25;
+static const int AF_IPX = PF_IPX;
+static const int AF_APPLETALK = PF_APPLETALK;
+static const int AF_NETROM = PF_NETROM;
+static const int AF_BRIDGE = PF_BRIDGE;
+static const int AF_ATMPVC = PF_ATMPVC;
+static const int AF_X25 = PF_X25;
+static const int AF_INET6 = PF_INET6;
+static const int AF_ROSE = PF_ROSE;
+static const int AF_DECnet = PF_DECnet;
+static const int AF_NETBEUI = PF_NETBEUI;
+static const int AF_SECURITY = PF_SECURITY;
+static const int AF_KEY = PF_KEY;
+static const int AF_NETLINK = PF_NETLINK;
+static const int AF_ROUTE = PF_ROUTE;
+static const int AF_PACKET = PF_PACKET;
+static const int AF_ASH = PF_ASH;
+static const int AF_ECONET = PF_ECONET;
+static const int AF_ATMSVC = PF_ATMSVC;
+static const int AF_RDS = PF_RDS;
+static const int AF_SNA = PF_SNA;
+static const int AF_IRDA = PF_IRDA;
+static const int AF_PPPOX = PF_PPPOX;
+static const int AF_WANPIPE = PF_WANPIPE;
+static const int AF_LLC = PF_LLC;
+static const int AF_CAN = PF_CAN;
+static const int AF_TIPC = PF_TIPC;
+static const int AF_BLUETOOTH = PF_BLUETOOTH;
+static const int AF_IUCV = PF_IUCV;
+static const int AF_RXRPC = PF_RXRPC;
+static const int AF_ISDN = PF_ISDN;
+static const int AF_PHONET = PF_PHONET;
+static const int AF_IEEE802154 = PF_IEEE802154;
+static const int AF_CAIF = PF_CAIF;
+static const int AF_ALG = PF_ALG;
+static const int AF_NFC = PF_NFC;
+static const int AF_MAX = PF_MAX;
+static const int SOL_RAW = 255;
+static const int SOL_DECNET = 261;
+static const int SOL_X25 = 262;
+static const int SOL_PACKET = 263;
+static const int SOL_ATM = 264;
+static const int SOL_AAL = 265;
+static const int SOL_IRDA = 266;
+static const int SOMAXCONN = 128;
+static const int _BITS_SOCKADDR_H = 1;
+typedef unsigned short int sa_family_t;
+static const int __SOCKADDR_COMMON(sa_prefix) = sa_family_t sa_prefix ##family;
+static const int __SOCKADDR_COMMON_SIZE = (sizeof (unsigned short int));
+struct sockaddr
+  {
+    sa_family_t sa_family;
+    char sa_data[14];
+  };
+static const int __ss_aligntype = unsigned long int;
+static const int _SS_SIZE = 128;
+static const int _SS_PADSIZE = (_SS_SIZE - (2 * sizeof (__ss_aligntype)));
+struct sockaddr_storage
+  {
+    sa_family_t ss_family;
+    unsigned long int __ss_align;
+    char __ss_padding[(128 - (2 * sizeof (unsigned long int)))];
+  };
+enum
+  {
+    MSG_OOB = 0x01,
+static const int MSG_OOB = MSG_OOB;
+    MSG_PEEK = 0x02,
+static const int MSG_PEEK = MSG_PEEK;
+    MSG_DONTROUTE = 0x04,
+static const int MSG_DONTROUTE = MSG_DONTROUTE;
+    MSG_CTRUNC = 0x08,
+static const int MSG_CTRUNC = MSG_CTRUNC;
+    MSG_PROXY = 0x10,
+static const int MSG_PROXY = MSG_PROXY;
+    MSG_TRUNC = 0x20,
+static const int MSG_TRUNC = MSG_TRUNC;
+    MSG_DONTWAIT = 0x40,
+static const int MSG_DONTWAIT = MSG_DONTWAIT;
+    MSG_EOR = 0x80,
+static const int MSG_EOR = MSG_EOR;
+    MSG_WAITALL = 0x100,
+static const int MSG_WAITALL = MSG_WAITALL;
+    MSG_FIN = 0x200,
+static const int MSG_FIN = MSG_FIN;
+    MSG_SYN = 0x400,
+static const int MSG_SYN = MSG_SYN;
+    MSG_CONFIRM = 0x800,
+static const int MSG_CONFIRM = MSG_CONFIRM;
+    MSG_RST = 0x1000,
+static const int MSG_RST = MSG_RST;
+    MSG_ERRQUEUE = 0x2000,
+static const int MSG_ERRQUEUE = MSG_ERRQUEUE;
+    MSG_NOSIGNAL = 0x4000,
+static const int MSG_NOSIGNAL = MSG_NOSIGNAL;
+    MSG_MORE = 0x8000,
+static const int MSG_MORE = MSG_MORE;
+    MSG_WAITFORONE = 0x10000,
+static const int MSG_WAITFORONE = MSG_WAITFORONE;
+    MSG_CMSG_CLOEXEC = 0x40000000
+static const int MSG_CMSG_CLOEXEC = MSG_CMSG_CLOEXEC;
+  };
+struct msghdr
+  {
+    void *msg_name;
+    socklen_t msg_namelen;
+    struct iovec *msg_iov;
+    size_t msg_iovlen;
+    void *msg_control;
+    size_t msg_controllen;
+    int msg_flags;
+  };
+struct cmsghdr
+  {
+    size_t cmsg_len;
+    int cmsg_level;
+    int cmsg_type;
+    __extension__ unsigned char __cmsg_data [];
+  };
+static const int CMSG_DATA(cmsg) = ((cmsg)->__cmsg_data);
+static const int CMSG_NXTHDR(mhdr,cmsg) = __cmsg_nxthdr (mhdr, cmsg);
+static const int CMSG_FIRSTHDR(mhdr) = ((size_t) (mhdr)->msg_controllen >= sizeof (struct cmsghdr) ? (struct cmsghdr *) (mhdr)->msg_control : (struct cmsghdr *) 0);
+static const int CMSG_ALIGN(len) = (((len) + sizeof (size_t) - 1) & (size_t) ~(sizeof (size_t) - 1));
+static const int CMSG_SPACE(len) = (CMSG_ALIGN (len) + CMSG_ALIGN (sizeof (struct cmsghdr)));
+static const int CMSG_LEN(len) = (CMSG_ALIGN (sizeof (struct cmsghdr)) + (len));
+extern struct cmsghdr *__cmsg_nxthdr (struct msghdr *__mhdr,
+          struct cmsghdr *__cmsg) __attribute__ ((__nothrow__ , __leaf__));
+enum
+  {
+    SCM_RIGHTS = 0x01
+static const int SCM_RIGHTS = SCM_RIGHTS;
+  };
+static const int FIOSETOWN = 0x8901;
+static const int SIOCSPGRP = 0x8902;
+static const int FIOGETOWN = 0x8903;
+static const int SIOCGPGRP = 0x8904;
+static const int SIOCATMARK = 0x8905;
+static const int SIOCGSTAMP = 0x8906;
+static const int SIOCGSTAMPNS = 0x8907;
+static const int SOL_SOCKET = 1;
+static const int SO_DEBUG = 1;
+static const int SO_REUSEADDR = 2;
+static const int SO_TYPE = 3;
+static const int SO_ERROR = 4;
+static const int SO_DONTROUTE = 5;
+static const int SO_BROADCAST = 6;
+static const int SO_SNDBUF = 7;
+static const int SO_RCVBUF = 8;
+static const int SO_SNDBUFFORCE = 32;
+static const int SO_RCVBUFFORCE = 33;
+static const int SO_KEEPALIVE = 9;
+static const int SO_OOBINLINE = 10;
+static const int SO_NO_CHECK = 11;
+static const int SO_PRIORITY = 12;
+static const int SO_LINGER = 13;
+static const int SO_BSDCOMPAT = 14;
+static const int SO_PASSCRED = 16;
+static const int SO_PEERCRED = 17;
+static const int SO_RCVLOWAT = 18;
+static const int SO_SNDLOWAT = 19;
+static const int SO_RCVTIMEO = 20;
+static const int SO_SNDTIMEO = 21;
+static const int SO_SECURITY_AUTHENTICATION = 22;
+static const int SO_SECURITY_ENCRYPTION_TRANSPORT = 23;
+static const int SO_SECURITY_ENCRYPTION_NETWORK = 24;
+static const int SO_BINDTODEVICE = 25;
+static const int SO_ATTACH_FILTER = 26;
+static const int SO_DETACH_FILTER = 27;
+static const int SO_PEERNAME = 28;
+static const int SO_TIMESTAMP = 29;
+static const int SCM_TIMESTAMP = SO_TIMESTAMP;
+static const int SO_ACCEPTCONN = 30;
+static const int SO_PEERSEC = 31;
+static const int SO_PASSSEC = 34;
+static const int SO_TIMESTAMPNS = 35;
+static const int SCM_TIMESTAMPNS = SO_TIMESTAMPNS;
+static const int SO_MARK = 36;
+static const int SO_TIMESTAMPING = 37;
+static const int SCM_TIMESTAMPING = SO_TIMESTAMPING;
+static const int SO_PROTOCOL = 38;
+static const int SO_DOMAIN = 39;
+static const int SO_RXQ_OVFL = 40;
+static const int SO_WIFI_STATUS = 41;
+static const int SCM_WIFI_STATUS = SO_WIFI_STATUS;
+static const int SO_PEEK_OFF = 42;
+static const int SO_NOFCS = 43;
+struct linger
+  {
+    int l_onoff;
+    int l_linger;
+  };
+extern int recvmmsg (int __fd, struct mmsghdr *__vmessages,
+       unsigned int __vlen, int __flags,
+       __const struct timespec *__tmo);
+extern int sendmmsg (int __fd, struct mmsghdr *__vmessages,
+       unsigned int __vlen, int __flags);
+struct osockaddr
+  {
+    unsigned short int sa_family;
+    unsigned char sa_data[14];
+  };
+enum
+{
+  SHUT_RD = 0,
+static const int SHUT_RD = SHUT_RD;
+  SHUT_WR,
+static const int SHUT_WR = SHUT_WR;
+  SHUT_RDWR
+static const int SHUT_RDWR = SHUT_RDWR;
+};
+static const int __SOCKADDR_ARG = struct sockaddr *__restrict;
+static const int __CONST_SOCKADDR_ARG = __const struct sockaddr *;
+extern int socket (int __domain, int __type, int __protocol) __attribute__ ((__nothrow__ , __leaf__));
+extern int socketpair (int __domain, int __type, int __protocol,
+         int __fds[2]) __attribute__ ((__nothrow__ , __leaf__));
+extern int bind (int __fd, __const struct sockaddr * __addr, socklen_t __len)
+     __attribute__ ((__nothrow__ , __leaf__));
+extern int getsockname (int __fd, struct sockaddr *__restrict __addr,
+   socklen_t *__restrict __len) __attribute__ ((__nothrow__ , __leaf__));
+extern int connect (int __fd, __const struct sockaddr * __addr, socklen_t __len);
+extern int getpeername (int __fd, struct sockaddr *__restrict __addr,
+   socklen_t *__restrict __len) __attribute__ ((__nothrow__ , __leaf__));
+extern ssize_t send (int __fd, __const void *__buf, size_t __n, int __flags);
+extern ssize_t recv (int __fd, void *__buf, size_t __n, int __flags);
+extern ssize_t sendto (int __fd, __const void *__buf, size_t __n,
+         int __flags, __const struct sockaddr * __addr,
+         socklen_t __addr_len);
+extern ssize_t recvfrom (int __fd, void *__restrict __buf, size_t __n,
+    int __flags, struct sockaddr *__restrict __addr,
+    socklen_t *__restrict __addr_len);
+extern ssize_t sendmsg (int __fd, __const struct msghdr *__message,
+   int __flags);
+extern ssize_t recvmsg (int __fd, struct msghdr *__message, int __flags);
+extern int getsockopt (int __fd, int __level, int __optname,
+         void *__restrict __optval,
+         socklen_t *__restrict __optlen) __attribute__ ((__nothrow__ , __leaf__));
+extern int setsockopt (int __fd, int __level, int __optname,
+         __const void *__optval, socklen_t __optlen) __attribute__ ((__nothrow__ , __leaf__));
+extern int listen (int __fd, int __n) __attribute__ ((__nothrow__ , __leaf__));
+extern int accept (int __fd, struct sockaddr *__restrict __addr,
+     socklen_t *__restrict __addr_len);
+extern int shutdown (int __fd, int __how) __attribute__ ((__nothrow__ , __leaf__));
+extern int sockatmark (int __fd) __attribute__ ((__nothrow__ , __leaf__));
+extern int isfdtype (int __fd, int __fdtype) __attribute__ ((__nothrow__ , __leaf__));
+
+
+// *** 9. i386-linux-gnu/sys/ipc.h ***
+static const int _SYS_IPC_H = 1;
+static const int _BITS_IPCTYPES_H = 1;
+typedef unsigned char __u_char;
+typedef unsigned short int __u_short;
+typedef unsigned int __u_int;
+typedef unsigned long int __u_long;
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef signed short int __int16_t;
+typedef unsigned short int __uint16_t;
+typedef signed int __int32_t;
+typedef unsigned int __uint32_t;
+__extension__ typedef signed long long int __int64_t;
+__extension__ typedef unsigned long long int __uint64_t;
+__extension__ typedef long long int __quad_t;
+__extension__ typedef unsigned long long int __u_quad_t;
+__extension__ typedef __u_quad_t __dev_t;
+__extension__ typedef unsigned int __uid_t;
+__extension__ typedef unsigned int __gid_t;
+__extension__ typedef unsigned long int __ino_t;
+__extension__ typedef __u_quad_t __ino64_t;
+__extension__ typedef unsigned int __mode_t;
+__extension__ typedef unsigned int __nlink_t;
+__extension__ typedef long int __off_t;
+__extension__ typedef __quad_t __off64_t;
+__extension__ typedef int __pid_t;
+__extension__ typedef struct { int __val[2]; } __fsid_t;
+__extension__ typedef long int __clock_t;
+__extension__ typedef unsigned long int __rlim_t;
+__extension__ typedef __u_quad_t __rlim64_t;
+__extension__ typedef unsigned int __id_t;
+__extension__ typedef long int __time_t;
+__extension__ typedef unsigned int __useconds_t;
+__extension__ typedef long int __suseconds_t;
+__extension__ typedef int __daddr_t;
+__extension__ typedef long int __swblk_t;
+__extension__ typedef int __key_t;
+__extension__ typedef int __clockid_t;
+__extension__ typedef void * __timer_t;
+__extension__ typedef long int __blksize_t;
+__extension__ typedef long int __blkcnt_t;
+__extension__ typedef __quad_t __blkcnt64_t;
+__extension__ typedef unsigned long int __fsblkcnt_t;
+__extension__ typedef __u_quad_t __fsblkcnt64_t;
+__extension__ typedef unsigned long int __fsfilcnt_t;
+__extension__ typedef __u_quad_t __fsfilcnt64_t;
+__extension__ typedef int __ssize_t;
+typedef __off64_t __loff_t;
+typedef __quad_t *__qaddr_t;
+typedef char *__caddr_t;
+__extension__ typedef int __intptr_t;
+__extension__ typedef unsigned int __socklen_t;
+typedef unsigned short int __ipc_pid_t;
+static const int IPC_CREAT = 01000;
+static const int IPC_EXCL = 02000;
+static const int IPC_NOWAIT = 04000;
+static const int IPC_RMID = 0;
+static const int IPC_SET = 1;
+static const int IPC_STAT = 2;
+static const int IPC_PRIVATE = ((__key_t) 0);
+struct ipc_perm
+  {
+    __key_t __key;
+    __uid_t uid;
+    __gid_t gid;
+    __uid_t cuid;
+    __gid_t cgid;
+    unsigned short int mode;
+    unsigned short int __pad1;
+    unsigned short int __seq;
+    unsigned short int __pad2;
+    unsigned long int __unused1;
+    unsigned long int __unused2;
+  };
+typedef __uid_t uid_t;
+typedef __gid_t gid_t;
+typedef __mode_t mode_t;
+typedef __key_t key_t;
+extern key_t ftok (__const char *__pathname, int __proj_id) __attribute__ ((__nothrow__ , __leaf__));
+
+
+// *** 10. i386-linux-gnu/sys/shm.h ***
+static const int _SYS_SHM_H = 1;
+typedef unsigned int size_t;
+typedef unsigned char __u_char;
+typedef unsigned short int __u_short;
+typedef unsigned int __u_int;
+typedef unsigned long int __u_long;
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef signed short int __int16_t;
+typedef unsigned short int __uint16_t;
+typedef signed int __int32_t;
+typedef unsigned int __uint32_t;
+__extension__ typedef signed long long int __int64_t;
+__extension__ typedef unsigned long long int __uint64_t;
+__extension__ typedef long long int __quad_t;
+__extension__ typedef unsigned long long int __u_quad_t;
+__extension__ typedef __u_quad_t __dev_t;
+__extension__ typedef unsigned int __uid_t;
+__extension__ typedef unsigned int __gid_t;
+__extension__ typedef unsigned long int __ino_t;
+__extension__ typedef __u_quad_t __ino64_t;
+__extension__ typedef unsigned int __mode_t;
+__extension__ typedef unsigned int __nlink_t;
+__extension__ typedef long int __off_t;
+__extension__ typedef __quad_t __off64_t;
+__extension__ typedef int __pid_t;
+__extension__ typedef struct { int __val[2]; } __fsid_t;
+__extension__ typedef long int __clock_t;
+__extension__ typedef unsigned long int __rlim_t;
+__extension__ typedef __u_quad_t __rlim64_t;
+__extension__ typedef unsigned int __id_t;
+__extension__ typedef long int __time_t;
+__extension__ typedef unsigned int __useconds_t;
+__extension__ typedef long int __suseconds_t;
+__extension__ typedef int __daddr_t;
+__extension__ typedef long int __swblk_t;
+__extension__ typedef int __key_t;
+__extension__ typedef int __clockid_t;
+__extension__ typedef void * __timer_t;
+__extension__ typedef long int __blksize_t;
+__extension__ typedef long int __blkcnt_t;
+__extension__ typedef __quad_t __blkcnt64_t;
+__extension__ typedef unsigned long int __fsblkcnt_t;
+__extension__ typedef __u_quad_t __fsblkcnt64_t;
+__extension__ typedef unsigned long int __fsfilcnt_t;
+__extension__ typedef __u_quad_t __fsfilcnt64_t;
+__extension__ typedef int __ssize_t;
+typedef __off64_t __loff_t;
+typedef __quad_t *__qaddr_t;
+typedef char *__caddr_t;
+__extension__ typedef int __intptr_t;
+__extension__ typedef unsigned int __socklen_t;
+typedef unsigned short int __ipc_pid_t;
+struct ipc_perm
+  {
+    __key_t __key;
+    __uid_t uid;
+    __gid_t gid;
+    __uid_t cuid;
+    __gid_t cgid;
+    unsigned short int mode;
+    unsigned short int __pad1;
+    unsigned short int __seq;
+    unsigned short int __pad2;
+    unsigned long int __unused1;
+    unsigned long int __unused2;
+  };
+typedef __uid_t uid_t;
+typedef __gid_t gid_t;
+typedef __mode_t mode_t;
+typedef __key_t key_t;
+extern key_t ftok (__const char *__pathname, int __proj_id) __attribute__ ((__nothrow__ , __leaf__));
+static const int SHM_R = 0400;
+static const int SHM_W = 0200;
+static const int SHM_RDONLY = 010000;
+static const int SHM_RND = 020000;
+static const int SHM_REMAP = 040000;
+static const int SHM_EXEC = 0100000;
+static const int SHM_LOCK = 11;
+static const int SHM_UNLOCK = 12;
+static const int SHMLBA = (__getpagesize ());
+extern int __getpagesize (void) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+typedef unsigned long int shmatt_t;
+struct shmid_ds
+  {
+    struct ipc_perm shm_perm;
+    size_t shm_segsz;
+    __time_t shm_atime;
+    unsigned long int __unused1;
+    __time_t shm_dtime;
+    unsigned long int __unused2;
+    __time_t shm_ctime;
+    unsigned long int __unused3;
+    __pid_t shm_cpid;
+    __pid_t shm_lpid;
+    shmatt_t shm_nattch;
+    unsigned long int __unused4;
+    unsigned long int __unused5;
+  };
+static const int SHM_STAT = 13;
+static const int SHM_INFO = 14;
+static const int SHM_DEST = 01000;
+static const int SHM_LOCKED = 02000;
+static const int SHM_HUGETLB = 04000;
+static const int SHM_NORESERVE = 010000;
+struct shminfo
+  {
+    unsigned long int shmmax;
+    unsigned long int shmmin;
+    unsigned long int shmmni;
+    unsigned long int shmseg;
+    unsigned long int shmall;
+    unsigned long int __unused1;
+    unsigned long int __unused2;
+    unsigned long int __unused3;
+    unsigned long int __unused4;
+  };
+struct shm_info
+  {
+    int used_ids;
+    unsigned long int shm_tot;
+    unsigned long int shm_rss;
+    unsigned long int shm_swp;
+    unsigned long int swap_attempts;
+    unsigned long int swap_successes;
+  };
+typedef __time_t time_t;
+extern int shmctl (int __shmid, int __cmd, struct shmid_ds *__buf) __attribute__ ((__nothrow__ , __leaf__));
+extern int shmget (key_t __key, size_t __size, int __shmflg) __attribute__ ((__nothrow__ , __leaf__));
+extern void *shmat (int __shmid, __const void *__shmaddr, int __shmflg)
+     __attribute__ ((__nothrow__ , __leaf__));
+extern int shmdt (__const void *__shmaddr) __attribute__ ((__nothrow__ , __leaf__));
+
+
+// *** 11. i386-linux-gnu/sys/time.h ***
+static const int _SYS_TIME_H = 1;
+typedef unsigned char __u_char;
+typedef unsigned short int __u_short;
+typedef unsigned int __u_int;
+typedef unsigned long int __u_long;
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef signed short int __int16_t;
+typedef unsigned short int __uint16_t;
+typedef signed int __int32_t;
+typedef unsigned int __uint32_t;
+__extension__ typedef signed long long int __int64_t;
+__extension__ typedef unsigned long long int __uint64_t;
+__extension__ typedef long long int __quad_t;
+__extension__ typedef unsigned long long int __u_quad_t;
+__extension__ typedef __u_quad_t __dev_t;
+__extension__ typedef unsigned int __uid_t;
+__extension__ typedef unsigned int __gid_t;
+__extension__ typedef unsigned long int __ino_t;
+__extension__ typedef __u_quad_t __ino64_t;
+__extension__ typedef unsigned int __mode_t;
+__extension__ typedef unsigned int __nlink_t;
+__extension__ typedef long int __off_t;
+__extension__ typedef __quad_t __off64_t;
+__extension__ typedef int __pid_t;
+__extension__ typedef struct { int __val[2]; } __fsid_t;
+__extension__ typedef long int __clock_t;
+__extension__ typedef unsigned long int __rlim_t;
+__extension__ typedef __u_quad_t __rlim64_t;
+__extension__ typedef unsigned int __id_t;
+__extension__ typedef long int __time_t;
+__extension__ typedef unsigned int __useconds_t;
+__extension__ typedef long int __suseconds_t;
+__extension__ typedef int __daddr_t;
+__extension__ typedef long int __swblk_t;
+__extension__ typedef int __key_t;
+__extension__ typedef int __clockid_t;
+__extension__ typedef void * __timer_t;
+__extension__ typedef long int __blksize_t;
+__extension__ typedef long int __blkcnt_t;
+__extension__ typedef __quad_t __blkcnt64_t;
+__extension__ typedef unsigned long int __fsblkcnt_t;
+__extension__ typedef __u_quad_t __fsblkcnt64_t;
+__extension__ typedef unsigned long int __fsfilcnt_t;
+__extension__ typedef __u_quad_t __fsfilcnt64_t;
+__extension__ typedef int __ssize_t;
+typedef __off64_t __loff_t;
+typedef __quad_t *__qaddr_t;
+typedef char *__caddr_t;
+__extension__ typedef int __intptr_t;
+__extension__ typedef unsigned int __socklen_t;
+typedef __time_t time_t;
+struct timeval
+  {
+    __time_t tv_sec;
+    __suseconds_t tv_usec;
+  };
+typedef int __sig_atomic_t;
+typedef struct
+  {
+    unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
+  } __sigset_t;
+typedef __sigset_t sigset_t;
+struct timespec
+  {
+    __time_t tv_sec;
+    long int tv_nsec;
+  };
+typedef __suseconds_t suseconds_t;
+typedef long int __fd_mask;
+typedef struct
+  {
+    __fd_mask __fds_bits[1024 / (8 * (int) sizeof (__fd_mask))];
+  } fd_set;
+typedef __fd_mask fd_mask;
+extern int select (int __nfds, fd_set *__restrict __readfds,
+     fd_set *__restrict __writefds,
+     fd_set *__restrict __exceptfds,
+     struct timeval *__restrict __timeout);
+extern int pselect (int __nfds, fd_set *__restrict __readfds,
+      fd_set *__restrict __writefds,
+      fd_set *__restrict __exceptfds,
+      const struct timespec *__restrict __timeout,
+      const __sigset_t *__restrict __sigmask);
+struct timezone
+  {
+    int tz_minuteswest;
+    int tz_dsttime;
+  };
+typedef struct timezone *__restrict __timezone_ptr_t;
+extern int gettimeofday (struct timeval *__restrict __tv,
+    __timezone_ptr_t __tz) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int settimeofday (__const struct timeval *__tv,
+    __const struct timezone *__tz)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int adjtime (__const struct timeval *__delta,
+      struct timeval *__olddelta) __attribute__ ((__nothrow__ , __leaf__));
+enum __itimer_which
+  {
+    ITIMER_REAL = 0,
+static const int ITIMER_REAL = ITIMER_REAL;
+    ITIMER_VIRTUAL = 1,
+static const int ITIMER_VIRTUAL = ITIMER_VIRTUAL;
+    ITIMER_PROF = 2
+static const int ITIMER_PROF = ITIMER_PROF;
+  };
+struct itimerval
+  {
+    struct timeval it_interval;
+    struct timeval it_value;
+  };
+typedef int __itimer_which_t;
+extern int getitimer (__itimer_which_t __which,
+        struct itimerval *__value) __attribute__ ((__nothrow__ , __leaf__));
+extern int setitimer (__itimer_which_t __which,
+        __const struct itimerval *__restrict __new,
+        struct itimerval *__restrict __old) __attribute__ ((__nothrow__ , __leaf__));
+extern int utimes (__const char *__file, __const struct timeval __tvp[2])
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int lutimes (__const char *__file, __const struct timeval __tvp[2])
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int futimes (int __fd, __const struct timeval __tvp[2]) __attribute__ ((__nothrow__ , __leaf__));
+static const int timerisset(tvp) = ((tvp)->tv_sec || (tvp)->tv_usec);
+static const int timerclear(tvp) = ((tvp)->tv_sec = (tvp)->tv_usec = 0);
+static const int timercmp(a,b,CMP) = (((a)->tv_sec == (b)->tv_sec) ? ((a)->tv_usec CMP (b)->tv_usec) : ((a)->tv_sec CMP (b)->tv_sec));
+static const int timeradd(a,b,result) = do { (result)->tv_sec = (a)->tv_sec + (b)->tv_sec; (result)->tv_usec = (a)->tv_usec + (b)->tv_usec; if ((result)->tv_usec >= 1000000) { ++(result)->tv_sec; (result)->tv_usec -= 1000000; } } while (0);
+static const int timersub(a,b,result) = do { (result)->tv_sec = (a)->tv_sec - (b)->tv_sec; (result)->tv_usec = (a)->tv_usec - (b)->tv_usec; if ((result)->tv_usec < 0) { --(result)->tv_sec; (result)->tv_usec += 1000000; } } while (0);
+
+
+// *** 12. i386-linux-gnu/sys/poll.h ***
+static const int _SYS_POLL_H = 1;
+static const int POLLIN = 0x001;
+static const int POLLPRI = 0x002;
+static const int POLLOUT = 0x004;
+static const int POLLRDNORM = 0x040;
+static const int POLLRDBAND = 0x080;
+static const int POLLWRNORM = 0x100;
+static const int POLLWRBAND = 0x200;
+static const int POLLERR = 0x008;
+static const int POLLHUP = 0x010;
+static const int POLLNVAL = 0x020;
+typedef unsigned long int nfds_t;
+struct pollfd
+  {
+    int fd;
+    short int events;
+    short int revents;
+  };
+extern int poll (struct pollfd *__fds, nfds_t __nfds, int __timeout);
+
+
+// *** 13. time.h ***
+static const int _TIME_H = 1;
+typedef unsigned int size_t;
+static const int _BITS_TIME_H = 1;
+static const int CLOCKS_PER_SEC = 1000000l;
+static const int CLOCK_REALTIME = 0;
+static const int CLOCK_MONOTONIC = 1;
+static const int CLOCK_PROCESS_CPUTIME_ID = 2;
+static const int CLOCK_THREAD_CPUTIME_ID = 3;
+static const int CLOCK_MONOTONIC_RAW = 4;
+static const int CLOCK_REALTIME_COARSE = 5;
+static const int CLOCK_MONOTONIC_COARSE = 6;
+static const int CLOCK_BOOTTIME = 7;
+static const int CLOCK_REALTIME_ALARM = 8;
+static const int CLOCK_BOOTTIME_ALARM = 9;
+static const int TIMER_ABSTIME = 1;
+typedef unsigned char __u_char;
+typedef unsigned short int __u_short;
+typedef unsigned int __u_int;
+typedef unsigned long int __u_long;
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef signed short int __int16_t;
+typedef unsigned short int __uint16_t;
+typedef signed int __int32_t;
+typedef unsigned int __uint32_t;
+__extension__ typedef signed long long int __int64_t;
+__extension__ typedef unsigned long long int __uint64_t;
+__extension__ typedef long long int __quad_t;
+__extension__ typedef unsigned long long int __u_quad_t;
+__extension__ typedef __u_quad_t __dev_t;
+__extension__ typedef unsigned int __uid_t;
+__extension__ typedef unsigned int __gid_t;
+__extension__ typedef unsigned long int __ino_t;
+__extension__ typedef __u_quad_t __ino64_t;
+__extension__ typedef unsigned int __mode_t;
+__extension__ typedef unsigned int __nlink_t;
+__extension__ typedef long int __off_t;
+__extension__ typedef __quad_t __off64_t;
+__extension__ typedef int __pid_t;
+__extension__ typedef struct { int __val[2]; } __fsid_t;
+__extension__ typedef long int __clock_t;
+__extension__ typedef unsigned long int __rlim_t;
+__extension__ typedef __u_quad_t __rlim64_t;
+__extension__ typedef unsigned int __id_t;
+__extension__ typedef long int __time_t;
+__extension__ typedef unsigned int __useconds_t;
+__extension__ typedef long int __suseconds_t;
+__extension__ typedef int __daddr_t;
+__extension__ typedef long int __swblk_t;
+__extension__ typedef int __key_t;
+__extension__ typedef int __clockid_t;
+__extension__ typedef void * __timer_t;
+__extension__ typedef long int __blksize_t;
+__extension__ typedef long int __blkcnt_t;
+__extension__ typedef __quad_t __blkcnt64_t;
+__extension__ typedef unsigned long int __fsblkcnt_t;
+__extension__ typedef __u_quad_t __fsblkcnt64_t;
+__extension__ typedef unsigned long int __fsfilcnt_t;
+__extension__ typedef __u_quad_t __fsfilcnt64_t;
+__extension__ typedef int __ssize_t;
+typedef __off64_t __loff_t;
+typedef __quad_t *__qaddr_t;
+typedef char *__caddr_t;
+__extension__ typedef int __intptr_t;
+__extension__ typedef unsigned int __socklen_t;
+typedef __clock_t clock_t;
+typedef __time_t time_t;
+typedef __clockid_t clockid_t;
+typedef __timer_t timer_t;
+struct timespec
+  {
+    __time_t tv_sec;
+    long int tv_nsec;
+  };
+struct tm
+{
+  int tm_sec;
+  int tm_min;
+  int tm_hour;
+  int tm_mday;
+  int tm_mon;
+  int tm_year;
+  int tm_wday;
+  int tm_yday;
+  int tm_isdst;
+  long int tm_gmtoff;
+  __const char *tm_zone;
+};
+struct itimerspec
+  {
+    struct timespec it_interval;
+    struct timespec it_value;
+  };
+struct sigevent;
+typedef __pid_t pid_t;
+extern clock_t clock (void) __attribute__ ((__nothrow__ , __leaf__));
+extern time_t time (time_t *__timer) __attribute__ ((__nothrow__ , __leaf__));
+extern double difftime (time_t __time1, time_t __time0)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+extern time_t mktime (struct tm *__tp) __attribute__ ((__nothrow__ , __leaf__));
+extern size_t strftime (char *__restrict __s, size_t __maxsize,
+   __const char *__restrict __format,
+   __const struct tm *__restrict __tp) __attribute__ ((__nothrow__ , __leaf__));
+static const int _XLOCALE_H = 1;
+typedef struct __locale_struct
+{
+  struct __locale_data *__locales[13];
+  const unsigned short int *__ctype_b;
+  const int *__ctype_tolower;
+  const int *__ctype_toupper;
+  const char *__names[13];
+} *__locale_t;
+typedef __locale_t locale_t;
+extern size_t strftime_l (char *__restrict __s, size_t __maxsize,
+     __const char *__restrict __format,
+     __const struct tm *__restrict __tp,
+     __locale_t __loc) __attribute__ ((__nothrow__ , __leaf__));
+extern struct tm *gmtime (__const time_t *__timer) __attribute__ ((__nothrow__ , __leaf__));
+extern struct tm *localtime (__const time_t *__timer) __attribute__ ((__nothrow__ , __leaf__));
+extern struct tm *gmtime_r (__const time_t *__restrict __timer,
+       struct tm *__restrict __tp) __attribute__ ((__nothrow__ , __leaf__));
+extern struct tm *localtime_r (__const time_t *__restrict __timer,
+          struct tm *__restrict __tp) __attribute__ ((__nothrow__ , __leaf__));
+extern char *asctime (__const struct tm *__tp) __attribute__ ((__nothrow__ , __leaf__));
+extern char *ctime (__const time_t *__timer) __attribute__ ((__nothrow__ , __leaf__));
+extern char *asctime_r (__const struct tm *__restrict __tp,
+   char *__restrict __buf) __attribute__ ((__nothrow__ , __leaf__));
+extern char *ctime_r (__const time_t *__restrict __timer,
+        char *__restrict __buf) __attribute__ ((__nothrow__ , __leaf__));
+extern char *__tzname[2];
+extern int __daylight;
+extern long int __timezone;
+extern char *tzname[2];
+extern void tzset (void) __attribute__ ((__nothrow__ , __leaf__));
+extern int daylight;
+extern long int timezone;
+extern int stime (__const time_t *__when) __attribute__ ((__nothrow__ , __leaf__));
+static const int __isleap(year) = ((year) % 4 == 0 && ((year) % 100 != 0 || (year) % 400 == 0));
+extern time_t timegm (struct tm *__tp) __attribute__ ((__nothrow__ , __leaf__));
+extern time_t timelocal (struct tm *__tp) __attribute__ ((__nothrow__ , __leaf__));
+extern int dysize (int __year) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+extern int nanosleep (__const struct timespec *__requested_time,
+        struct timespec *__remaining);
+extern int clock_getres (clockid_t __clock_id, struct timespec *__res) __attribute__ ((__nothrow__ , __leaf__));
+extern int clock_gettime (clockid_t __clock_id, struct timespec *__tp) __attribute__ ((__nothrow__ , __leaf__));
+extern int clock_settime (clockid_t __clock_id, __const struct timespec *__tp)
+     __attribute__ ((__nothrow__ , __leaf__));
+extern int clock_nanosleep (clockid_t __clock_id, int __flags,
+       __const struct timespec *__req,
+       struct timespec *__rem);
+extern int clock_getcpuclockid (pid_t __pid, clockid_t *__clock_id) __attribute__ ((__nothrow__ , __leaf__));
+extern int timer_create (clockid_t __clock_id,
+    struct sigevent *__restrict __evp,
+    timer_t *__restrict __timerid) __attribute__ ((__nothrow__ , __leaf__));
+extern int timer_delete (timer_t __timerid) __attribute__ ((__nothrow__ , __leaf__));
+extern int timer_settime (timer_t __timerid, int __flags,
+     __const struct itimerspec *__restrict __value,
+     struct itimerspec *__restrict __ovalue) __attribute__ ((__nothrow__ , __leaf__));
+extern int timer_gettime (timer_t __timerid, struct itimerspec *__value)
+     __attribute__ ((__nothrow__ , __leaf__));
+extern int timer_getoverrun (timer_t __timerid) __attribute__ ((__nothrow__ , __leaf__));
+
+
+// *** 14. netinet/in.h ***
 static const int _NETINET_IN_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
-#undef __USE_ISOC95
-#undef __USE_ISOC99
-#undef _ATFILE_SOURCE
-#undef __GNU_LIBRARY__
-#undef __P
-#undef __PMT
 static const int _STDINT_H = 1;
 static const int _BITS_WCHAR_H = 1;
 static const int __WCHAR_MIN = (-2147483647l - 1l);
@@ -5317,7 +4420,6 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 __extension__ typedef int __intptr_t;
 __extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
 typedef __u_char u_char;
 typedef __u_short u_short;
 typedef __u_int u_int;
@@ -5340,17 +4442,10 @@ typedef __daddr_t daddr_t;
 typedef __caddr_t caddr_t;
 typedef __key_t key_t;
 typedef __clock_t clock_t;
-#undef __need_clock_t
 typedef __time_t time_t;
-#undef __need_time_t
 typedef __clockid_t clockid_t;
-#undef __clockid_time_t
 typedef __timer_t timer_t;
-#undef __need_timer_t
-#undef __need_timespec
 typedef unsigned int size_t;
-#undef __need_size_t
-#undef __need_NULL
 typedef unsigned long int ulong;
 typedef unsigned short int ushort;
 typedef unsigned int uint;
@@ -5365,25 +4460,18 @@ typedef struct
     unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
   } __sigset_t;
 typedef __sigset_t sigset_t;
-#undef __need_clock_t
-#undef __need_time_t
-#undef __clockid_time_t
-#undef __need_timer_t
 struct timespec
   {
     __time_t tv_sec;
     long int tv_nsec;
   };
-#undef __need_timespec
 struct timeval
   {
     __time_t tv_sec;
     __suseconds_t tv_usec;
   };
-#undef __need_timeval
 typedef __suseconds_t suseconds_t;
 typedef long int __fd_mask;
-#undef __NFDBITS
 typedef struct
   {
     __fd_mask __fds_bits[1024 / (8 * (int) sizeof (__fd_mask))];
@@ -5528,10 +4616,6 @@ extern ssize_t preadv (int __fd, __const struct iovec *__iovec, int __count,
          __off_t __offset) ;
 extern ssize_t pwritev (int __fd, __const struct iovec *__iovec, int __count,
    __off_t __offset) ;
-#undef __need_size_t
-#undef __need_NULL
-#undef __need_size_t
-#undef __need_NULL
 typedef __socklen_t socklen_t;
 enum __socket_type
 {
@@ -6005,75 +5089,22 @@ static const int IN6_IS_ADDR_MC_ORGLOCAL(a) = (IN6_IS_ADDR_MULTICAST(a) && ((((_
 static const int IN6_IS_ADDR_MC_GLOBAL(a) = (IN6_IS_ADDR_MULTICAST(a) && ((((__const uint8_t *) (a))[1] & 0xf) == 0xe));
 
 
-// *** 14. netdb.h ***
-static const int _NETDB_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
-#undef __USE_ISOC95
-#undef __USE_ISOC99
-#undef _ATFILE_SOURCE
-#undef __GNU_LIBRARY__
-#undef __P
-#undef __PMT
-typedef signed char int8_t;
-typedef short int int16_t;
-typedef int int32_t;
-__extension__
-typedef long long int int64_t;
-typedef unsigned char uint8_t;
-typedef unsigned short int uint16_t;
-typedef unsigned int uint32_t;
-__extension__
-typedef unsigned long long int uint64_t;
-typedef signed char int_least8_t;
-typedef short int int_least16_t;
-typedef int int_least32_t;
-__extension__
-typedef long long int int_least64_t;
-typedef unsigned char uint_least8_t;
-typedef unsigned short int uint_least16_t;
-typedef unsigned int uint_least32_t;
-__extension__
-typedef unsigned long long int uint_least64_t;
-typedef signed char int_fast8_t;
-typedef int int_fast16_t;
-typedef int int_fast32_t;
-__extension__
-typedef long long int int_fast64_t;
-typedef unsigned char uint_fast8_t;
-typedef unsigned int uint_fast16_t;
-typedef unsigned int uint_fast32_t;
-__extension__
-typedef unsigned long long int uint_fast64_t;
-typedef int intptr_t;
-typedef unsigned int uintptr_t;
-__extension__
-typedef long long int intmax_t;
-__extension__
-typedef unsigned long long int uintmax_t;
+// *** 15. netinet/tcp.h ***
+static const int _NETINET_TCP_H = 1;
+static const int TCP_NODELAY = 1;
+static const int TCP_MAXSEG = 2;
+static const int TCP_CORK = 3;
+static const int TCP_KEEPIDLE = 4;
+static const int TCP_KEEPINTVL = 5;
+static const int TCP_KEEPCNT = 6;
+static const int TCP_SYNCNT = 7;
+static const int TCP_LINGER2 = 8;
+static const int TCP_DEFER_ACCEPT = 9;
+static const int TCP_WINDOW_CLAMP = 10;
+static const int TCP_INFO = 11;
+static const int TCP_QUICKACK = 12;
+static const int TCP_CONGESTION = 13;
+static const int TCP_MD5SIG = 14;
 typedef unsigned char __u_char;
 typedef unsigned short int __u_short;
 typedef unsigned int __u_int;
@@ -6124,7 +5155,6 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 __extension__ typedef int __intptr_t;
 __extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
 typedef __u_char u_char;
 typedef __u_short u_short;
 typedef __u_int u_int;
@@ -6147,20 +5177,17 @@ typedef __daddr_t daddr_t;
 typedef __caddr_t caddr_t;
 typedef __key_t key_t;
 typedef __clock_t clock_t;
-#undef __need_clock_t
 typedef __time_t time_t;
-#undef __need_time_t
 typedef __clockid_t clockid_t;
-#undef __clockid_time_t
 typedef __timer_t timer_t;
-#undef __need_timer_t
-#undef __need_timespec
 typedef unsigned int size_t;
-#undef __need_size_t
-#undef __need_NULL
 typedef unsigned long int ulong;
 typedef unsigned short int ushort;
 typedef unsigned int uint;
+typedef int int8_t __attribute__ ((__mode__ (__QI__)));
+typedef int int16_t __attribute__ ((__mode__ (__HI__)));
+typedef int int32_t __attribute__ ((__mode__ (__SI__)));
+typedef int int64_t __attribute__ ((__mode__ (__DI__)));
 typedef unsigned int u_int8_t __attribute__ ((__mode__ (__QI__)));
 typedef unsigned int u_int16_t __attribute__ ((__mode__ (__HI__)));
 typedef unsigned int u_int32_t __attribute__ ((__mode__ (__SI__)));
@@ -6172,25 +5199,18 @@ typedef struct
     unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
   } __sigset_t;
 typedef __sigset_t sigset_t;
-#undef __need_clock_t
-#undef __need_time_t
-#undef __clockid_time_t
-#undef __need_timer_t
 struct timespec
   {
     __time_t tv_sec;
     long int tv_nsec;
   };
-#undef __need_timespec
 struct timeval
   {
     __time_t tv_sec;
     __suseconds_t tv_usec;
   };
-#undef __need_timeval
 typedef __suseconds_t suseconds_t;
 typedef long int __fd_mask;
-#undef __NFDBITS
 typedef struct
   {
     __fd_mask __fds_bits[1024 / (8 * (int) sizeof (__fd_mask))];
@@ -6335,10 +5355,6 @@ extern ssize_t preadv (int __fd, __const struct iovec *__iovec, int __count,
          __off_t __offset) ;
 extern ssize_t pwritev (int __fd, __const struct iovec *__iovec, int __count,
    __off_t __offset) ;
-#undef __need_size_t
-#undef __need_NULL
-#undef __need_size_t
-#undef __need_NULL
 typedef __socklen_t socklen_t;
 enum __socket_type
 {
@@ -6461,443 +5477,115 @@ extern int accept (int __fd, struct sockaddr *__restrict __addr,
 extern int shutdown (int __fd, int __how) __attribute__ ((__nothrow__ , __leaf__));
 extern int sockatmark (int __fd) __attribute__ ((__nothrow__ , __leaf__));
 extern int isfdtype (int __fd, int __fdtype) __attribute__ ((__nothrow__ , __leaf__));
+struct tcphdr
+  {
+    u_int16_t source;
+    u_int16_t dest;
+    u_int32_t seq;
+    u_int32_t ack_seq;
+    u_int16_t res1:4;
+    u_int16_t doff:4;
+    u_int16_t fin:1;
+    u_int16_t syn:1;
+    u_int16_t rst:1;
+    u_int16_t psh:1;
+    u_int16_t ack:1;
+    u_int16_t urg:1;
+    u_int16_t res2:2;
+    u_int16_t window;
+    u_int16_t check;
+    u_int16_t urg_ptr;
+};
 enum
-  {
-    IPPROTO_IP = 0,
-    IPPROTO_HOPOPTS = 0,
-    IPPROTO_ICMP = 1,
-    IPPROTO_IGMP = 2,
-    IPPROTO_IPIP = 4,
-    IPPROTO_TCP = 6,
-    IPPROTO_EGP = 8,
-    IPPROTO_PUP = 12,
-    IPPROTO_UDP = 17,
-    IPPROTO_IDP = 22,
-    IPPROTO_TP = 29,
-    IPPROTO_DCCP = 33,
-    IPPROTO_IPV6 = 41,
-    IPPROTO_ROUTING = 43,
-    IPPROTO_FRAGMENT = 44,
-    IPPROTO_RSVP = 46,
-    IPPROTO_GRE = 47,
-    IPPROTO_ESP = 50,
-    IPPROTO_AH = 51,
-    IPPROTO_ICMPV6 = 58,
-    IPPROTO_NONE = 59,
-    IPPROTO_DSTOPTS = 60,
-    IPPROTO_MTP = 92,
-    IPPROTO_ENCAP = 98,
-    IPPROTO_PIM = 103,
-    IPPROTO_COMP = 108,
-    IPPROTO_SCTP = 132,
-    IPPROTO_UDPLITE = 136,
-    IPPROTO_RAW = 255,
-    IPPROTO_MAX
-  };
-typedef uint16_t in_port_t;
-enum
-  {
-    IPPORT_ECHO = 7,
-    IPPORT_DISCARD = 9,
-    IPPORT_SYSTAT = 11,
-    IPPORT_DAYTIME = 13,
-    IPPORT_NETSTAT = 15,
-    IPPORT_FTP = 21,
-    IPPORT_TELNET = 23,
-    IPPORT_SMTP = 25,
-    IPPORT_TIMESERVER = 37,
-    IPPORT_NAMESERVER = 42,
-    IPPORT_WHOIS = 43,
-    IPPORT_MTP = 57,
-    IPPORT_TFTP = 69,
-    IPPORT_RJE = 77,
-    IPPORT_FINGER = 79,
-    IPPORT_TTYLINK = 87,
-    IPPORT_SUPDUP = 95,
-    IPPORT_EXECSERVER = 512,
-    IPPORT_LOGINSERVER = 513,
-    IPPORT_CMDSERVER = 514,
-    IPPORT_EFSSERVER = 520,
-    IPPORT_BIFFUDP = 512,
-    IPPORT_WHOSERVER = 513,
-    IPPORT_ROUTESERVER = 520,
-    IPPORT_RESERVED = 1024,
-    IPPORT_USERRESERVED = 5000
-  };
-typedef uint32_t in_addr_t;
-struct in_addr
-  {
-    in_addr_t s_addr;
-  };
-struct in6_addr
-  {
-    union
-      {
- uint8_t __u6_addr8[16];
- uint16_t __u6_addr16[8];
- uint32_t __u6_addr32[4];
-      } __in6_u;
-  };
-extern const struct in6_addr in6addr_any;
-extern const struct in6_addr in6addr_loopback;
-struct sockaddr_in
-  {
-    sa_family_t sin_family;
-    in_port_t sin_port;
-    struct in_addr sin_addr;
-    unsigned char sin_zero[sizeof (struct sockaddr) -
-      (sizeof (unsigned short int)) -
-      sizeof (in_port_t) -
-      sizeof (struct in_addr)];
-  };
-struct sockaddr_in6
-  {
-    sa_family_t sin6_family;
-    in_port_t sin6_port;
-    uint32_t sin6_flowinfo;
-    struct in6_addr sin6_addr;
-    uint32_t sin6_scope_id;
-  };
-struct ip_mreq
-  {
-    struct in_addr imr_multiaddr;
-    struct in_addr imr_interface;
-  };
-struct ip_mreq_source
-  {
-    struct in_addr imr_multiaddr;
-    struct in_addr imr_interface;
-    struct in_addr imr_sourceaddr;
-  };
-struct ipv6_mreq
-  {
-    struct in6_addr ipv6mr_multiaddr;
-    unsigned int ipv6mr_interface;
-  };
-struct group_req
-  {
-    uint32_t gr_interface;
-    struct sockaddr_storage gr_group;
-  };
-struct group_source_req
-  {
-    uint32_t gsr_interface;
-    struct sockaddr_storage gsr_group;
-    struct sockaddr_storage gsr_source;
-  };
-struct ip_msfilter
-  {
-    struct in_addr imsf_multiaddr;
-    struct in_addr imsf_interface;
-    uint32_t imsf_fmode;
-    uint32_t imsf_numsrc;
-    struct in_addr imsf_slist[1];
-  };
-struct group_filter
-  {
-    uint32_t gf_interface;
-    struct sockaddr_storage gf_group;
-    uint32_t gf_fmode;
-    uint32_t gf_numsrc;
-    struct sockaddr_storage gf_slist[1];
-};
-struct ip_opts
-  {
-    struct in_addr ip_dst;
-    char ip_opts[40];
-  };
-struct ip_mreqn
-  {
-    struct in_addr imr_multiaddr;
-    struct in_addr imr_address;
-    int imr_ifindex;
-  };
-struct in_pktinfo
-  {
-    int ipi_ifindex;
-    struct in_addr ipi_spec_dst;
-    struct in_addr ipi_addr;
-  };
-extern uint32_t ntohl (uint32_t __netlong) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-extern uint16_t ntohs (uint16_t __netshort)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-extern uint32_t htonl (uint32_t __hostlong)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-extern uint16_t htons (uint16_t __hostshort)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-extern int bindresvport (int __sockfd, struct sockaddr_in *__sock_in) __attribute__ ((__nothrow__ , __leaf__));
-extern int bindresvport6 (int __sockfd, struct sockaddr_in6 *__sock_in)
-     __attribute__ ((__nothrow__ , __leaf__));
-static const int _RPC_NETDB_H = 1;
-#undef __need_size_t
-#undef __need_NULL
-struct rpcent
 {
-  char *r_name;
-  char **r_aliases;
-  int r_number;
+  TCP_ESTABLISHED = 1,
+  TCP_SYN_SENT,
+  TCP_SYN_RECV,
+  TCP_FIN_WAIT1,
+  TCP_FIN_WAIT2,
+  TCP_TIME_WAIT,
+  TCP_CLOSE,
+  TCP_CLOSE_WAIT,
+  TCP_LAST_ACK,
+  TCP_LISTEN,
+  TCP_CLOSING
 };
-extern void setrpcent (int __stayopen) __attribute__ ((__nothrow__ , __leaf__));
-extern void endrpcent (void) __attribute__ ((__nothrow__ , __leaf__));
-extern struct rpcent *getrpcbyname (__const char *__name) __attribute__ ((__nothrow__ , __leaf__));
-extern struct rpcent *getrpcbynumber (int __number) __attribute__ ((__nothrow__ , __leaf__));
-extern struct rpcent *getrpcent (void) __attribute__ ((__nothrow__ , __leaf__));
-extern int getrpcbyname_r (__const char *__name, struct rpcent *__result_buf,
-      char *__buffer, size_t __buflen,
-      struct rpcent **__result) __attribute__ ((__nothrow__ , __leaf__));
-extern int getrpcbynumber_r (int __number, struct rpcent *__result_buf,
-        char *__buffer, size_t __buflen,
-        struct rpcent **__result) __attribute__ ((__nothrow__ , __leaf__));
-extern int getrpcent_r (struct rpcent *__result_buf, char *__buffer,
-   size_t __buflen, struct rpcent **__result) __attribute__ ((__nothrow__ , __leaf__));
-struct netent
+static const int TCPOPT_EOL = 0;
+static const int TCPOPT_NOP = 1;
+static const int TCPOPT_MAXSEG = 2;
+static const int TCPOLEN_MAXSEG = 4;
+static const int TCPOPT_WINDOW = 3;
+static const int TCPOLEN_WINDOW = 3;
+static const int TCPOPT_SACK_PERMITTED = 4;
+static const int TCPOLEN_SACK_PERMITTED = 2;
+static const int TCPOPT_SACK = 5;
+static const int TCPOPT_TIMESTAMP = 8;
+static const int TCPOLEN_TIMESTAMP = 10;
+static const int TCPOLEN_TSTAMP_APPA = (TCPOLEN_TIMESTAMP+2);
+static const int TCPOPT_TSTAMP_HDR = (TCPOPT_NOP<<24|TCPOPT_NOP<<16|TCPOPT_TIMESTAMP<<8|TCPOLEN_TIMESTAMP);
+static const int TCP_MSS = 512;
+static const int TCP_MAXWIN = 65535;
+static const int TCP_MAX_WINSHIFT = 14;
+static const int SOL_TCP = 6;
+static const int TCPI_OPT_TIMESTAMPS = 1;
+static const int TCPI_OPT_SACK = 2;
+static const int TCPI_OPT_WSCALE = 4;
+static const int TCPI_OPT_ECN = 8;
+enum tcp_ca_state
 {
-  char *n_name;
-  char **n_aliases;
-  int n_addrtype;
-  uint32_t n_net;
+  TCP_CA_Open = 0,
+  TCP_CA_Disorder = 1,
+  TCP_CA_CWR = 2,
+  TCP_CA_Recovery = 3,
+  TCP_CA_Loss = 4
 };
-static const char _PATH_HEQUIV = "/etc/hosts.equiv";
-static const char _PATH_HOSTS = "/etc/hosts";
-static const char _PATH_NETWORKS = "/etc/networks";
-static const char _PATH_NSSWITCH_CONF = "/etc/nsswitch.conf";
-static const char _PATH_PROTOCOLS = "/etc/protocols";
-static const char _PATH_SERVICES = "/etc/services";
-static const int h_errno = (*__h_errno_location ());
-extern int *__h_errno_location (void) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-static const int HOST_NOT_FOUND = 1;
-static const int TRY_AGAIN = 2;
-static const int NO_RECOVERY = 3;
-static const int NO_DATA = 4;
-static const int NETDB_INTERNAL = -1;
-static const int NETDB_SUCCESS = 0;
-static const int NO_ADDRESS = NO_DATA;
-static const int IPPORT_RESERVED = 1024;
-extern void herror (__const char *__str) __attribute__ ((__nothrow__ , __leaf__));
-extern __const char *hstrerror (int __err_num) __attribute__ ((__nothrow__ , __leaf__));
-struct hostent
+struct tcp_info
 {
-  char *h_name;
-  char **h_aliases;
-  int h_addrtype;
-  int h_length;
-  char **h_addr_list;
-static const int h_addr = h_addr_list[0];
+  u_int8_t tcpi_state;
+  u_int8_t tcpi_ca_state;
+  u_int8_t tcpi_retransmits;
+  u_int8_t tcpi_probes;
+  u_int8_t tcpi_backoff;
+  u_int8_t tcpi_options;
+  u_int8_t tcpi_snd_wscale : 4, tcpi_rcv_wscale : 4;
+  u_int32_t tcpi_rto;
+  u_int32_t tcpi_ato;
+  u_int32_t tcpi_snd_mss;
+  u_int32_t tcpi_rcv_mss;
+  u_int32_t tcpi_unacked;
+  u_int32_t tcpi_sacked;
+  u_int32_t tcpi_lost;
+  u_int32_t tcpi_retrans;
+  u_int32_t tcpi_fackets;
+  u_int32_t tcpi_last_data_sent;
+  u_int32_t tcpi_last_ack_sent;
+  u_int32_t tcpi_last_data_recv;
+  u_int32_t tcpi_last_ack_recv;
+  u_int32_t tcpi_pmtu;
+  u_int32_t tcpi_rcv_ssthresh;
+  u_int32_t tcpi_rtt;
+  u_int32_t tcpi_rttvar;
+  u_int32_t tcpi_snd_ssthresh;
+  u_int32_t tcpi_snd_cwnd;
+  u_int32_t tcpi_advmss;
+  u_int32_t tcpi_reordering;
+  u_int32_t tcpi_rcv_rtt;
+  u_int32_t tcpi_rcv_space;
+  u_int32_t tcpi_total_retrans;
 };
-extern void sethostent (int __stay_open);
-extern void endhostent (void);
-extern struct hostent *gethostent (void);
-extern struct hostent *gethostbyaddr (__const void *__addr, __socklen_t __len,
-          int __type);
-extern struct hostent *gethostbyname (__const char *__name);
-extern struct hostent *gethostbyname2 (__const char *__name, int __af);
-extern int gethostent_r (struct hostent *__restrict __result_buf,
-    char *__restrict __buf, size_t __buflen,
-    struct hostent **__restrict __result,
-    int *__restrict __h_errnop);
-extern int gethostbyaddr_r (__const void *__restrict __addr, __socklen_t __len,
-       int __type,
-       struct hostent *__restrict __result_buf,
-       char *__restrict __buf, size_t __buflen,
-       struct hostent **__restrict __result,
-       int *__restrict __h_errnop);
-extern int gethostbyname_r (__const char *__restrict __name,
-       struct hostent *__restrict __result_buf,
-       char *__restrict __buf, size_t __buflen,
-       struct hostent **__restrict __result,
-       int *__restrict __h_errnop);
-extern int gethostbyname2_r (__const char *__restrict __name, int __af,
-        struct hostent *__restrict __result_buf,
-        char *__restrict __buf, size_t __buflen,
-        struct hostent **__restrict __result,
-        int *__restrict __h_errnop);
-extern void setnetent (int __stay_open);
-extern void endnetent (void);
-extern struct netent *getnetent (void);
-extern struct netent *getnetbyaddr (uint32_t __net, int __type);
-extern struct netent *getnetbyname (__const char *__name);
-extern int getnetent_r (struct netent *__restrict __result_buf,
-   char *__restrict __buf, size_t __buflen,
-   struct netent **__restrict __result,
-   int *__restrict __h_errnop);
-extern int getnetbyaddr_r (uint32_t __net, int __type,
-      struct netent *__restrict __result_buf,
-      char *__restrict __buf, size_t __buflen,
-      struct netent **__restrict __result,
-      int *__restrict __h_errnop);
-extern int getnetbyname_r (__const char *__restrict __name,
-      struct netent *__restrict __result_buf,
-      char *__restrict __buf, size_t __buflen,
-      struct netent **__restrict __result,
-      int *__restrict __h_errnop);
-struct servent
+static const int TCP_MD5SIG_MAXKEYLEN = 80;
+struct tcp_md5sig
 {
-  char *s_name;
-  char **s_aliases;
-  int s_port;
-  char *s_proto;
+  struct sockaddr_storage tcpm_addr;
+  u_int16_t __tcpm_pad1;
+  u_int16_t tcpm_keylen;
+  u_int32_t __tcpm_pad2;
+  u_int8_t tcpm_key[80];
 };
-extern void setservent (int __stay_open);
-extern void endservent (void);
-extern struct servent *getservent (void);
-extern struct servent *getservbyname (__const char *__name,
-          __const char *__proto);
-extern struct servent *getservbyport (int __port, __const char *__proto);
-extern int getservent_r (struct servent *__restrict __result_buf,
-    char *__restrict __buf, size_t __buflen,
-    struct servent **__restrict __result);
-extern int getservbyname_r (__const char *__restrict __name,
-       __const char *__restrict __proto,
-       struct servent *__restrict __result_buf,
-       char *__restrict __buf, size_t __buflen,
-       struct servent **__restrict __result);
-extern int getservbyport_r (int __port, __const char *__restrict __proto,
-       struct servent *__restrict __result_buf,
-       char *__restrict __buf, size_t __buflen,
-       struct servent **__restrict __result);
-struct protoent
-{
-  char *p_name;
-  char **p_aliases;
-  int p_proto;
-};
-extern void setprotoent (int __stay_open);
-extern void endprotoent (void);
-extern struct protoent *getprotoent (void);
-extern struct protoent *getprotobyname (__const char *__name);
-extern struct protoent *getprotobynumber (int __proto);
-extern int getprotoent_r (struct protoent *__restrict __result_buf,
-     char *__restrict __buf, size_t __buflen,
-     struct protoent **__restrict __result);
-extern int getprotobyname_r (__const char *__restrict __name,
-        struct protoent *__restrict __result_buf,
-        char *__restrict __buf, size_t __buflen,
-        struct protoent **__restrict __result);
-extern int getprotobynumber_r (int __proto,
-          struct protoent *__restrict __result_buf,
-          char *__restrict __buf, size_t __buflen,
-          struct protoent **__restrict __result);
-extern int setnetgrent (__const char *__netgroup);
-extern void endnetgrent (void);
-extern int getnetgrent (char **__restrict __hostp,
-   char **__restrict __userp,
-   char **__restrict __domainp);
-extern int innetgr (__const char *__netgroup, __const char *__host,
-      __const char *__user, __const char *__domain);
-extern int getnetgrent_r (char **__restrict __hostp,
-     char **__restrict __userp,
-     char **__restrict __domainp,
-     char *__restrict __buffer, size_t __buflen);
-extern int rcmd (char **__restrict __ahost, unsigned short int __rport,
-   __const char *__restrict __locuser,
-   __const char *__restrict __remuser,
-   __const char *__restrict __cmd, int *__restrict __fd2p);
-extern int rcmd_af (char **__restrict __ahost, unsigned short int __rport,
-      __const char *__restrict __locuser,
-      __const char *__restrict __remuser,
-      __const char *__restrict __cmd, int *__restrict __fd2p,
-      sa_family_t __af);
-extern int rexec (char **__restrict __ahost, int __rport,
-    __const char *__restrict __name,
-    __const char *__restrict __pass,
-    __const char *__restrict __cmd, int *__restrict __fd2p);
-extern int rexec_af (char **__restrict __ahost, int __rport,
-       __const char *__restrict __name,
-       __const char *__restrict __pass,
-       __const char *__restrict __cmd, int *__restrict __fd2p,
-       sa_family_t __af);
-extern int ruserok (__const char *__rhost, int __suser,
-      __const char *__remuser, __const char *__locuser);
-extern int ruserok_af (__const char *__rhost, int __suser,
-         __const char *__remuser, __const char *__locuser,
-         sa_family_t __af);
-extern int iruserok (uint32_t __raddr, int __suser,
-       __const char *__remuser, __const char *__locuser);
-extern int iruserok_af (__const void *__raddr, int __suser,
-   __const char *__remuser, __const char *__locuser,
-   sa_family_t __af);
-extern int rresvport (int *__alport);
-extern int rresvport_af (int *__alport, sa_family_t __af);
-struct addrinfo
-{
-  int ai_flags;
-  int ai_family;
-  int ai_socktype;
-  int ai_protocol;
-  socklen_t ai_addrlen;
-  struct sockaddr *ai_addr;
-  char *ai_canonname;
-  struct addrinfo *ai_next;
-};
-static const int AI_PASSIVE = 0x0001;
-static const int AI_CANONNAME = 0x0002;
-static const int AI_NUMERICHOST = 0x0004;
-static const int AI_V4MAPPED = 0x0008;
-static const int AI_ALL = 0x0010;
-static const int AI_ADDRCONFIG = 0x0020;
-static const int AI_NUMERICSERV = 0x0400;
-static const int EAI_BADFLAGS = -1;
-static const int EAI_NONAME = -2;
-static const int EAI_AGAIN = -3;
-static const int EAI_FAIL = -4;
-static const int EAI_FAMILY = -6;
-static const int EAI_SOCKTYPE = -7;
-static const int EAI_SERVICE = -8;
-static const int EAI_MEMORY = -10;
-static const int EAI_SYSTEM = -11;
-static const int EAI_OVERFLOW = -12;
-static const int NI_MAXHOST = 1025;
-static const int NI_MAXSERV = 32;
-static const int NI_NUMERICHOST = 1;
-static const int NI_NUMERICSERV = 2;
-static const int NI_NOFQDN = 4;
-static const int NI_NAMEREQD = 8;
-static const int NI_DGRAM = 16;
-extern int getaddrinfo (__const char *__restrict __name,
-   __const char *__restrict __service,
-   __const struct addrinfo *__restrict __req,
-   struct addrinfo **__restrict __pai);
-extern void freeaddrinfo (struct addrinfo *__ai) __attribute__ ((__nothrow__ , __leaf__));
-extern __const char *gai_strerror (int __ecode) __attribute__ ((__nothrow__ , __leaf__));
-extern int getnameinfo (__const struct sockaddr *__restrict __sa,
-   socklen_t __salen, char *__restrict __host,
-   socklen_t __hostlen, char *__restrict __serv,
-   socklen_t __servlen, int __flags);
 
 
-// *** 15. arpa/inet.h ***
+// *** 16. arpa/inet.h ***
 static const int _ARPA_INET_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
-#undef __USE_ISOC95
-#undef __USE_ISOC99
-#undef _ATFILE_SOURCE
-#undef __GNU_LIBRARY__
-#undef __P
-#undef __PMT
 typedef signed char int8_t;
 typedef short int int16_t;
 typedef int int32_t;
@@ -6984,7 +5672,6 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 __extension__ typedef int __intptr_t;
 __extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
 typedef __u_char u_char;
 typedef __u_short u_short;
 typedef __u_int u_int;
@@ -7007,17 +5694,10 @@ typedef __daddr_t daddr_t;
 typedef __caddr_t caddr_t;
 typedef __key_t key_t;
 typedef __clock_t clock_t;
-#undef __need_clock_t
 typedef __time_t time_t;
-#undef __need_time_t
 typedef __clockid_t clockid_t;
-#undef __clockid_time_t
 typedef __timer_t timer_t;
-#undef __need_timer_t
-#undef __need_timespec
 typedef unsigned int size_t;
-#undef __need_size_t
-#undef __need_NULL
 typedef unsigned long int ulong;
 typedef unsigned short int ushort;
 typedef unsigned int uint;
@@ -7032,25 +5712,18 @@ typedef struct
     unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
   } __sigset_t;
 typedef __sigset_t sigset_t;
-#undef __need_clock_t
-#undef __need_time_t
-#undef __clockid_time_t
-#undef __need_timer_t
 struct timespec
   {
     __time_t tv_sec;
     long int tv_nsec;
   };
-#undef __need_timespec
 struct timeval
   {
     __time_t tv_sec;
     __suseconds_t tv_usec;
   };
-#undef __need_timeval
 typedef __suseconds_t suseconds_t;
 typedef long int __fd_mask;
-#undef __NFDBITS
 typedef struct
   {
     __fd_mask __fds_bits[1024 / (8 * (int) sizeof (__fd_mask))];
@@ -7195,10 +5868,6 @@ extern ssize_t preadv (int __fd, __const struct iovec *__iovec, int __count,
          __off_t __offset) ;
 extern ssize_t pwritev (int __fd, __const struct iovec *__iovec, int __count,
    __off_t __offset) ;
-#undef __need_size_t
-#undef __need_NULL
-#undef __need_size_t
-#undef __need_NULL
 typedef __socklen_t socklen_t;
 enum __socket_type
 {
@@ -7512,4 +6181,2289 @@ extern char *inet_nsap_ntoa (int __len, __const unsigned char *__cp,
         char *__buf) __attribute__ ((__nothrow__ , __leaf__));
 
 
-// *** 16. c++/4.7/string ***
+// *** 17. netdb.h ***
+static const int _NETDB_H = 1;
+typedef signed char int8_t;
+typedef short int int16_t;
+typedef int int32_t;
+__extension__
+typedef long long int int64_t;
+typedef unsigned char uint8_t;
+typedef unsigned short int uint16_t;
+typedef unsigned int uint32_t;
+__extension__
+typedef unsigned long long int uint64_t;
+typedef signed char int_least8_t;
+typedef short int int_least16_t;
+typedef int int_least32_t;
+__extension__
+typedef long long int int_least64_t;
+typedef unsigned char uint_least8_t;
+typedef unsigned short int uint_least16_t;
+typedef unsigned int uint_least32_t;
+__extension__
+typedef unsigned long long int uint_least64_t;
+typedef signed char int_fast8_t;
+typedef int int_fast16_t;
+typedef int int_fast32_t;
+__extension__
+typedef long long int int_fast64_t;
+typedef unsigned char uint_fast8_t;
+typedef unsigned int uint_fast16_t;
+typedef unsigned int uint_fast32_t;
+__extension__
+typedef unsigned long long int uint_fast64_t;
+typedef int intptr_t;
+typedef unsigned int uintptr_t;
+__extension__
+typedef long long int intmax_t;
+__extension__
+typedef unsigned long long int uintmax_t;
+typedef unsigned char __u_char;
+typedef unsigned short int __u_short;
+typedef unsigned int __u_int;
+typedef unsigned long int __u_long;
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef signed short int __int16_t;
+typedef unsigned short int __uint16_t;
+typedef signed int __int32_t;
+typedef unsigned int __uint32_t;
+__extension__ typedef signed long long int __int64_t;
+__extension__ typedef unsigned long long int __uint64_t;
+__extension__ typedef long long int __quad_t;
+__extension__ typedef unsigned long long int __u_quad_t;
+__extension__ typedef __u_quad_t __dev_t;
+__extension__ typedef unsigned int __uid_t;
+__extension__ typedef unsigned int __gid_t;
+__extension__ typedef unsigned long int __ino_t;
+__extension__ typedef __u_quad_t __ino64_t;
+__extension__ typedef unsigned int __mode_t;
+__extension__ typedef unsigned int __nlink_t;
+__extension__ typedef long int __off_t;
+__extension__ typedef __quad_t __off64_t;
+__extension__ typedef int __pid_t;
+__extension__ typedef struct { int __val[2]; } __fsid_t;
+__extension__ typedef long int __clock_t;
+__extension__ typedef unsigned long int __rlim_t;
+__extension__ typedef __u_quad_t __rlim64_t;
+__extension__ typedef unsigned int __id_t;
+__extension__ typedef long int __time_t;
+__extension__ typedef unsigned int __useconds_t;
+__extension__ typedef long int __suseconds_t;
+__extension__ typedef int __daddr_t;
+__extension__ typedef long int __swblk_t;
+__extension__ typedef int __key_t;
+__extension__ typedef int __clockid_t;
+__extension__ typedef void * __timer_t;
+__extension__ typedef long int __blksize_t;
+__extension__ typedef long int __blkcnt_t;
+__extension__ typedef __quad_t __blkcnt64_t;
+__extension__ typedef unsigned long int __fsblkcnt_t;
+__extension__ typedef __u_quad_t __fsblkcnt64_t;
+__extension__ typedef unsigned long int __fsfilcnt_t;
+__extension__ typedef __u_quad_t __fsfilcnt64_t;
+__extension__ typedef int __ssize_t;
+typedef __off64_t __loff_t;
+typedef __quad_t *__qaddr_t;
+typedef char *__caddr_t;
+__extension__ typedef int __intptr_t;
+__extension__ typedef unsigned int __socklen_t;
+typedef __u_char u_char;
+typedef __u_short u_short;
+typedef __u_int u_int;
+typedef __u_long u_long;
+typedef __quad_t quad_t;
+typedef __u_quad_t u_quad_t;
+typedef __fsid_t fsid_t;
+typedef __loff_t loff_t;
+typedef __ino_t ino_t;
+typedef __dev_t dev_t;
+typedef __gid_t gid_t;
+typedef __mode_t mode_t;
+typedef __nlink_t nlink_t;
+typedef __uid_t uid_t;
+typedef __off_t off_t;
+typedef __pid_t pid_t;
+typedef __id_t id_t;
+typedef __ssize_t ssize_t;
+typedef __daddr_t daddr_t;
+typedef __caddr_t caddr_t;
+typedef __key_t key_t;
+typedef __clock_t clock_t;
+typedef __time_t time_t;
+typedef __clockid_t clockid_t;
+typedef __timer_t timer_t;
+typedef unsigned int size_t;
+typedef unsigned long int ulong;
+typedef unsigned short int ushort;
+typedef unsigned int uint;
+typedef unsigned int u_int8_t __attribute__ ((__mode__ (__QI__)));
+typedef unsigned int u_int16_t __attribute__ ((__mode__ (__HI__)));
+typedef unsigned int u_int32_t __attribute__ ((__mode__ (__SI__)));
+typedef unsigned int u_int64_t __attribute__ ((__mode__ (__DI__)));
+typedef int register_t __attribute__ ((__mode__ (__word__)));
+typedef int __sig_atomic_t;
+typedef struct
+  {
+    unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
+  } __sigset_t;
+typedef __sigset_t sigset_t;
+struct timespec
+  {
+    __time_t tv_sec;
+    long int tv_nsec;
+  };
+struct timeval
+  {
+    __time_t tv_sec;
+    __suseconds_t tv_usec;
+  };
+typedef __suseconds_t suseconds_t;
+typedef long int __fd_mask;
+typedef struct
+  {
+    __fd_mask __fds_bits[1024 / (8 * (int) sizeof (__fd_mask))];
+  } fd_set;
+typedef __fd_mask fd_mask;
+extern int select (int __nfds, fd_set *__restrict __readfds,
+     fd_set *__restrict __writefds,
+     fd_set *__restrict __exceptfds,
+     struct timeval *__restrict __timeout);
+extern int pselect (int __nfds, fd_set *__restrict __readfds,
+      fd_set *__restrict __writefds,
+      fd_set *__restrict __exceptfds,
+      const struct timespec *__restrict __timeout,
+      const __sigset_t *__restrict __sigmask);
+__extension__
+extern unsigned int gnu_dev_major (unsigned long long int __dev)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+__extension__
+extern unsigned int gnu_dev_minor (unsigned long long int __dev)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+__extension__
+extern unsigned long long int gnu_dev_makedev (unsigned int __major,
+            unsigned int __minor)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+typedef __blksize_t blksize_t;
+typedef __blkcnt_t blkcnt_t;
+typedef __fsblkcnt_t fsblkcnt_t;
+typedef __fsfilcnt_t fsfilcnt_t;
+typedef unsigned long int pthread_t;
+typedef union
+{
+  char __size[36];
+  long int __align;
+} pthread_attr_t;
+typedef struct __pthread_internal_slist
+{
+  struct __pthread_internal_slist *__next;
+} __pthread_slist_t;
+typedef union
+{
+  struct __pthread_mutex_s
+  {
+    int __lock;
+    unsigned int __count;
+    int __owner;
+    int __kind;
+    unsigned int __nusers;
+    __extension__ union
+    {
+      int __spins;
+      __pthread_slist_t __list;
+    };
+  } __data;
+  char __size[24];
+  long int __align;
+} pthread_mutex_t;
+typedef union
+{
+  char __size[4];
+  long int __align;
+} pthread_mutexattr_t;
+typedef union
+{
+  struct
+  {
+    int __lock;
+    unsigned int __futex;
+    __extension__ unsigned long long int __total_seq;
+    __extension__ unsigned long long int __wakeup_seq;
+    __extension__ unsigned long long int __woken_seq;
+    void *__mutex;
+    unsigned int __nwaiters;
+    unsigned int __broadcast_seq;
+  } __data;
+  char __size[48];
+  __extension__ long long int __align;
+} pthread_cond_t;
+typedef union
+{
+  char __size[4];
+  long int __align;
+} pthread_condattr_t;
+typedef unsigned int pthread_key_t;
+typedef int pthread_once_t;
+typedef union
+{
+  struct
+  {
+    int __lock;
+    unsigned int __nr_readers;
+    unsigned int __readers_wakeup;
+    unsigned int __writer_wakeup;
+    unsigned int __nr_readers_queued;
+    unsigned int __nr_writers_queued;
+    unsigned char __flags;
+    unsigned char __shared;
+    unsigned char __pad1;
+    unsigned char __pad2;
+    int __writer;
+  } __data;
+  char __size[32];
+  long int __align;
+} pthread_rwlock_t;
+typedef union
+{
+  char __size[8];
+  long int __align;
+} pthread_rwlockattr_t;
+typedef volatile int pthread_spinlock_t;
+typedef union
+{
+  char __size[20];
+  long int __align;
+} pthread_barrier_t;
+typedef union
+{
+  char __size[4];
+  int __align;
+} pthread_barrierattr_t;
+struct iovec
+  {
+    void *iov_base;
+    size_t iov_len;
+  };
+extern ssize_t process_vm_readv (pid_t __pid, __const struct iovec *__lvec,
+     unsigned long int __liovcnt,
+     __const struct iovec *__rvec,
+     unsigned long int __riovcnt,
+     unsigned long int __flags)
+  __attribute__ ((__nothrow__ , __leaf__));
+extern ssize_t process_vm_writev (pid_t __pid, __const struct iovec *__lvec,
+      unsigned long int __liovcnt,
+      __const struct iovec *__rvec,
+      unsigned long int __riovcnt,
+      unsigned long int __flags)
+  __attribute__ ((__nothrow__ , __leaf__));
+extern ssize_t readv (int __fd, __const struct iovec *__iovec, int __count)
+  ;
+extern ssize_t writev (int __fd, __const struct iovec *__iovec, int __count)
+  ;
+extern ssize_t preadv (int __fd, __const struct iovec *__iovec, int __count,
+         __off_t __offset) ;
+extern ssize_t pwritev (int __fd, __const struct iovec *__iovec, int __count,
+   __off_t __offset) ;
+typedef __socklen_t socklen_t;
+enum __socket_type
+{
+  SOCK_STREAM = 1,
+  SOCK_DGRAM = 2,
+  SOCK_RAW = 3,
+  SOCK_RDM = 4,
+  SOCK_SEQPACKET = 5,
+  SOCK_DCCP = 6,
+  SOCK_PACKET = 10,
+  SOCK_CLOEXEC = 02000000,
+  SOCK_NONBLOCK = 04000
+};
+typedef unsigned short int sa_family_t;
+struct sockaddr
+  {
+    sa_family_t sa_family;
+    char sa_data[14];
+  };
+struct sockaddr_storage
+  {
+    sa_family_t ss_family;
+    unsigned long int __ss_align;
+    char __ss_padding[(128 - (2 * sizeof (unsigned long int)))];
+  };
+enum
+  {
+    MSG_OOB = 0x01,
+    MSG_PEEK = 0x02,
+    MSG_DONTROUTE = 0x04,
+    MSG_CTRUNC = 0x08,
+    MSG_PROXY = 0x10,
+    MSG_TRUNC = 0x20,
+    MSG_DONTWAIT = 0x40,
+    MSG_EOR = 0x80,
+    MSG_WAITALL = 0x100,
+    MSG_FIN = 0x200,
+    MSG_SYN = 0x400,
+    MSG_CONFIRM = 0x800,
+    MSG_RST = 0x1000,
+    MSG_ERRQUEUE = 0x2000,
+    MSG_NOSIGNAL = 0x4000,
+    MSG_MORE = 0x8000,
+    MSG_WAITFORONE = 0x10000,
+    MSG_CMSG_CLOEXEC = 0x40000000
+  };
+struct msghdr
+  {
+    void *msg_name;
+    socklen_t msg_namelen;
+    struct iovec *msg_iov;
+    size_t msg_iovlen;
+    void *msg_control;
+    size_t msg_controllen;
+    int msg_flags;
+  };
+struct cmsghdr
+  {
+    size_t cmsg_len;
+    int cmsg_level;
+    int cmsg_type;
+    __extension__ unsigned char __cmsg_data [];
+  };
+extern struct cmsghdr *__cmsg_nxthdr (struct msghdr *__mhdr,
+          struct cmsghdr *__cmsg) __attribute__ ((__nothrow__ , __leaf__));
+enum
+  {
+    SCM_RIGHTS = 0x01
+  };
+struct linger
+  {
+    int l_onoff;
+    int l_linger;
+  };
+extern int recvmmsg (int __fd, struct mmsghdr *__vmessages,
+       unsigned int __vlen, int __flags,
+       __const struct timespec *__tmo);
+extern int sendmmsg (int __fd, struct mmsghdr *__vmessages,
+       unsigned int __vlen, int __flags);
+struct osockaddr
+  {
+    unsigned short int sa_family;
+    unsigned char sa_data[14];
+  };
+enum
+{
+  SHUT_RD = 0,
+  SHUT_WR,
+  SHUT_RDWR
+};
+extern int socket (int __domain, int __type, int __protocol) __attribute__ ((__nothrow__ , __leaf__));
+extern int socketpair (int __domain, int __type, int __protocol,
+         int __fds[2]) __attribute__ ((__nothrow__ , __leaf__));
+extern int bind (int __fd, __const struct sockaddr * __addr, socklen_t __len)
+     __attribute__ ((__nothrow__ , __leaf__));
+extern int getsockname (int __fd, struct sockaddr *__restrict __addr,
+   socklen_t *__restrict __len) __attribute__ ((__nothrow__ , __leaf__));
+extern int connect (int __fd, __const struct sockaddr * __addr, socklen_t __len);
+extern int getpeername (int __fd, struct sockaddr *__restrict __addr,
+   socklen_t *__restrict __len) __attribute__ ((__nothrow__ , __leaf__));
+extern ssize_t send (int __fd, __const void *__buf, size_t __n, int __flags);
+extern ssize_t recv (int __fd, void *__buf, size_t __n, int __flags);
+extern ssize_t sendto (int __fd, __const void *__buf, size_t __n,
+         int __flags, __const struct sockaddr * __addr,
+         socklen_t __addr_len);
+extern ssize_t recvfrom (int __fd, void *__restrict __buf, size_t __n,
+    int __flags, struct sockaddr *__restrict __addr,
+    socklen_t *__restrict __addr_len);
+extern ssize_t sendmsg (int __fd, __const struct msghdr *__message,
+   int __flags);
+extern ssize_t recvmsg (int __fd, struct msghdr *__message, int __flags);
+extern int getsockopt (int __fd, int __level, int __optname,
+         void *__restrict __optval,
+         socklen_t *__restrict __optlen) __attribute__ ((__nothrow__ , __leaf__));
+extern int setsockopt (int __fd, int __level, int __optname,
+         __const void *__optval, socklen_t __optlen) __attribute__ ((__nothrow__ , __leaf__));
+extern int listen (int __fd, int __n) __attribute__ ((__nothrow__ , __leaf__));
+extern int accept (int __fd, struct sockaddr *__restrict __addr,
+     socklen_t *__restrict __addr_len);
+extern int shutdown (int __fd, int __how) __attribute__ ((__nothrow__ , __leaf__));
+extern int sockatmark (int __fd) __attribute__ ((__nothrow__ , __leaf__));
+extern int isfdtype (int __fd, int __fdtype) __attribute__ ((__nothrow__ , __leaf__));
+enum
+  {
+    IPPROTO_IP = 0,
+    IPPROTO_HOPOPTS = 0,
+    IPPROTO_ICMP = 1,
+    IPPROTO_IGMP = 2,
+    IPPROTO_IPIP = 4,
+    IPPROTO_TCP = 6,
+    IPPROTO_EGP = 8,
+    IPPROTO_PUP = 12,
+    IPPROTO_UDP = 17,
+    IPPROTO_IDP = 22,
+    IPPROTO_TP = 29,
+    IPPROTO_DCCP = 33,
+    IPPROTO_IPV6 = 41,
+    IPPROTO_ROUTING = 43,
+    IPPROTO_FRAGMENT = 44,
+    IPPROTO_RSVP = 46,
+    IPPROTO_GRE = 47,
+    IPPROTO_ESP = 50,
+    IPPROTO_AH = 51,
+    IPPROTO_ICMPV6 = 58,
+    IPPROTO_NONE = 59,
+    IPPROTO_DSTOPTS = 60,
+    IPPROTO_MTP = 92,
+    IPPROTO_ENCAP = 98,
+    IPPROTO_PIM = 103,
+    IPPROTO_COMP = 108,
+    IPPROTO_SCTP = 132,
+    IPPROTO_UDPLITE = 136,
+    IPPROTO_RAW = 255,
+    IPPROTO_MAX
+  };
+typedef uint16_t in_port_t;
+enum
+  {
+    IPPORT_ECHO = 7,
+    IPPORT_DISCARD = 9,
+    IPPORT_SYSTAT = 11,
+    IPPORT_DAYTIME = 13,
+    IPPORT_NETSTAT = 15,
+    IPPORT_FTP = 21,
+    IPPORT_TELNET = 23,
+    IPPORT_SMTP = 25,
+    IPPORT_TIMESERVER = 37,
+    IPPORT_NAMESERVER = 42,
+    IPPORT_WHOIS = 43,
+    IPPORT_MTP = 57,
+    IPPORT_TFTP = 69,
+    IPPORT_RJE = 77,
+    IPPORT_FINGER = 79,
+    IPPORT_TTYLINK = 87,
+    IPPORT_SUPDUP = 95,
+    IPPORT_EXECSERVER = 512,
+    IPPORT_LOGINSERVER = 513,
+    IPPORT_CMDSERVER = 514,
+    IPPORT_EFSSERVER = 520,
+    IPPORT_BIFFUDP = 512,
+    IPPORT_WHOSERVER = 513,
+    IPPORT_ROUTESERVER = 520,
+    IPPORT_RESERVED = 1024,
+    IPPORT_USERRESERVED = 5000
+  };
+typedef uint32_t in_addr_t;
+struct in_addr
+  {
+    in_addr_t s_addr;
+  };
+struct in6_addr
+  {
+    union
+      {
+ uint8_t __u6_addr8[16];
+ uint16_t __u6_addr16[8];
+ uint32_t __u6_addr32[4];
+      } __in6_u;
+  };
+extern const struct in6_addr in6addr_any;
+extern const struct in6_addr in6addr_loopback;
+struct sockaddr_in
+  {
+    sa_family_t sin_family;
+    in_port_t sin_port;
+    struct in_addr sin_addr;
+    unsigned char sin_zero[sizeof (struct sockaddr) -
+      (sizeof (unsigned short int)) -
+      sizeof (in_port_t) -
+      sizeof (struct in_addr)];
+  };
+struct sockaddr_in6
+  {
+    sa_family_t sin6_family;
+    in_port_t sin6_port;
+    uint32_t sin6_flowinfo;
+    struct in6_addr sin6_addr;
+    uint32_t sin6_scope_id;
+  };
+struct ip_mreq
+  {
+    struct in_addr imr_multiaddr;
+    struct in_addr imr_interface;
+  };
+struct ip_mreq_source
+  {
+    struct in_addr imr_multiaddr;
+    struct in_addr imr_interface;
+    struct in_addr imr_sourceaddr;
+  };
+struct ipv6_mreq
+  {
+    struct in6_addr ipv6mr_multiaddr;
+    unsigned int ipv6mr_interface;
+  };
+struct group_req
+  {
+    uint32_t gr_interface;
+    struct sockaddr_storage gr_group;
+  };
+struct group_source_req
+  {
+    uint32_t gsr_interface;
+    struct sockaddr_storage gsr_group;
+    struct sockaddr_storage gsr_source;
+  };
+struct ip_msfilter
+  {
+    struct in_addr imsf_multiaddr;
+    struct in_addr imsf_interface;
+    uint32_t imsf_fmode;
+    uint32_t imsf_numsrc;
+    struct in_addr imsf_slist[1];
+  };
+struct group_filter
+  {
+    uint32_t gf_interface;
+    struct sockaddr_storage gf_group;
+    uint32_t gf_fmode;
+    uint32_t gf_numsrc;
+    struct sockaddr_storage gf_slist[1];
+};
+struct ip_opts
+  {
+    struct in_addr ip_dst;
+    char ip_opts[40];
+  };
+struct ip_mreqn
+  {
+    struct in_addr imr_multiaddr;
+    struct in_addr imr_address;
+    int imr_ifindex;
+  };
+struct in_pktinfo
+  {
+    int ipi_ifindex;
+    struct in_addr ipi_spec_dst;
+    struct in_addr ipi_addr;
+  };
+extern uint32_t ntohl (uint32_t __netlong) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+extern uint16_t ntohs (uint16_t __netshort)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+extern uint32_t htonl (uint32_t __hostlong)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+extern uint16_t htons (uint16_t __hostshort)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+extern int bindresvport (int __sockfd, struct sockaddr_in *__sock_in) __attribute__ ((__nothrow__ , __leaf__));
+extern int bindresvport6 (int __sockfd, struct sockaddr_in6 *__sock_in)
+     __attribute__ ((__nothrow__ , __leaf__));
+static const int _RPC_NETDB_H = 1;
+struct rpcent
+{
+  char *r_name;
+  char **r_aliases;
+  int r_number;
+};
+extern void setrpcent (int __stayopen) __attribute__ ((__nothrow__ , __leaf__));
+extern void endrpcent (void) __attribute__ ((__nothrow__ , __leaf__));
+extern struct rpcent *getrpcbyname (__const char *__name) __attribute__ ((__nothrow__ , __leaf__));
+extern struct rpcent *getrpcbynumber (int __number) __attribute__ ((__nothrow__ , __leaf__));
+extern struct rpcent *getrpcent (void) __attribute__ ((__nothrow__ , __leaf__));
+extern int getrpcbyname_r (__const char *__name, struct rpcent *__result_buf,
+      char *__buffer, size_t __buflen,
+      struct rpcent **__result) __attribute__ ((__nothrow__ , __leaf__));
+extern int getrpcbynumber_r (int __number, struct rpcent *__result_buf,
+        char *__buffer, size_t __buflen,
+        struct rpcent **__result) __attribute__ ((__nothrow__ , __leaf__));
+extern int getrpcent_r (struct rpcent *__result_buf, char *__buffer,
+   size_t __buflen, struct rpcent **__result) __attribute__ ((__nothrow__ , __leaf__));
+struct netent
+{
+  char *n_name;
+  char **n_aliases;
+  int n_addrtype;
+  uint32_t n_net;
+};
+static const char _PATH_HEQUIV = "/etc/hosts.equiv";
+static const char _PATH_HOSTS = "/etc/hosts";
+static const char _PATH_NETWORKS = "/etc/networks";
+static const char _PATH_NSSWITCH_CONF = "/etc/nsswitch.conf";
+static const char _PATH_PROTOCOLS = "/etc/protocols";
+static const char _PATH_SERVICES = "/etc/services";
+static const int h_errno = (*__h_errno_location ());
+extern int *__h_errno_location (void) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+static const int HOST_NOT_FOUND = 1;
+static const int TRY_AGAIN = 2;
+static const int NO_RECOVERY = 3;
+static const int NO_DATA = 4;
+static const int NETDB_INTERNAL = -1;
+static const int NETDB_SUCCESS = 0;
+static const int NO_ADDRESS = NO_DATA;
+static const int IPPORT_RESERVED = 1024;
+extern void herror (__const char *__str) __attribute__ ((__nothrow__ , __leaf__));
+extern __const char *hstrerror (int __err_num) __attribute__ ((__nothrow__ , __leaf__));
+struct hostent
+{
+  char *h_name;
+  char **h_aliases;
+  int h_addrtype;
+  int h_length;
+  char **h_addr_list;
+static const int h_addr = h_addr_list[0];
+};
+extern void sethostent (int __stay_open);
+extern void endhostent (void);
+extern struct hostent *gethostent (void);
+extern struct hostent *gethostbyaddr (__const void *__addr, __socklen_t __len,
+          int __type);
+extern struct hostent *gethostbyname (__const char *__name);
+extern struct hostent *gethostbyname2 (__const char *__name, int __af);
+extern int gethostent_r (struct hostent *__restrict __result_buf,
+    char *__restrict __buf, size_t __buflen,
+    struct hostent **__restrict __result,
+    int *__restrict __h_errnop);
+extern int gethostbyaddr_r (__const void *__restrict __addr, __socklen_t __len,
+       int __type,
+       struct hostent *__restrict __result_buf,
+       char *__restrict __buf, size_t __buflen,
+       struct hostent **__restrict __result,
+       int *__restrict __h_errnop);
+extern int gethostbyname_r (__const char *__restrict __name,
+       struct hostent *__restrict __result_buf,
+       char *__restrict __buf, size_t __buflen,
+       struct hostent **__restrict __result,
+       int *__restrict __h_errnop);
+extern int gethostbyname2_r (__const char *__restrict __name, int __af,
+        struct hostent *__restrict __result_buf,
+        char *__restrict __buf, size_t __buflen,
+        struct hostent **__restrict __result,
+        int *__restrict __h_errnop);
+extern void setnetent (int __stay_open);
+extern void endnetent (void);
+extern struct netent *getnetent (void);
+extern struct netent *getnetbyaddr (uint32_t __net, int __type);
+extern struct netent *getnetbyname (__const char *__name);
+extern int getnetent_r (struct netent *__restrict __result_buf,
+   char *__restrict __buf, size_t __buflen,
+   struct netent **__restrict __result,
+   int *__restrict __h_errnop);
+extern int getnetbyaddr_r (uint32_t __net, int __type,
+      struct netent *__restrict __result_buf,
+      char *__restrict __buf, size_t __buflen,
+      struct netent **__restrict __result,
+      int *__restrict __h_errnop);
+extern int getnetbyname_r (__const char *__restrict __name,
+      struct netent *__restrict __result_buf,
+      char *__restrict __buf, size_t __buflen,
+      struct netent **__restrict __result,
+      int *__restrict __h_errnop);
+struct servent
+{
+  char *s_name;
+  char **s_aliases;
+  int s_port;
+  char *s_proto;
+};
+extern void setservent (int __stay_open);
+extern void endservent (void);
+extern struct servent *getservent (void);
+extern struct servent *getservbyname (__const char *__name,
+          __const char *__proto);
+extern struct servent *getservbyport (int __port, __const char *__proto);
+extern int getservent_r (struct servent *__restrict __result_buf,
+    char *__restrict __buf, size_t __buflen,
+    struct servent **__restrict __result);
+extern int getservbyname_r (__const char *__restrict __name,
+       __const char *__restrict __proto,
+       struct servent *__restrict __result_buf,
+       char *__restrict __buf, size_t __buflen,
+       struct servent **__restrict __result);
+extern int getservbyport_r (int __port, __const char *__restrict __proto,
+       struct servent *__restrict __result_buf,
+       char *__restrict __buf, size_t __buflen,
+       struct servent **__restrict __result);
+struct protoent
+{
+  char *p_name;
+  char **p_aliases;
+  int p_proto;
+};
+extern void setprotoent (int __stay_open);
+extern void endprotoent (void);
+extern struct protoent *getprotoent (void);
+extern struct protoent *getprotobyname (__const char *__name);
+extern struct protoent *getprotobynumber (int __proto);
+extern int getprotoent_r (struct protoent *__restrict __result_buf,
+     char *__restrict __buf, size_t __buflen,
+     struct protoent **__restrict __result);
+extern int getprotobyname_r (__const char *__restrict __name,
+        struct protoent *__restrict __result_buf,
+        char *__restrict __buf, size_t __buflen,
+        struct protoent **__restrict __result);
+extern int getprotobynumber_r (int __proto,
+          struct protoent *__restrict __result_buf,
+          char *__restrict __buf, size_t __buflen,
+          struct protoent **__restrict __result);
+extern int setnetgrent (__const char *__netgroup);
+extern void endnetgrent (void);
+extern int getnetgrent (char **__restrict __hostp,
+   char **__restrict __userp,
+   char **__restrict __domainp);
+extern int innetgr (__const char *__netgroup, __const char *__host,
+      __const char *__user, __const char *__domain);
+extern int getnetgrent_r (char **__restrict __hostp,
+     char **__restrict __userp,
+     char **__restrict __domainp,
+     char *__restrict __buffer, size_t __buflen);
+extern int rcmd (char **__restrict __ahost, unsigned short int __rport,
+   __const char *__restrict __locuser,
+   __const char *__restrict __remuser,
+   __const char *__restrict __cmd, int *__restrict __fd2p);
+extern int rcmd_af (char **__restrict __ahost, unsigned short int __rport,
+      __const char *__restrict __locuser,
+      __const char *__restrict __remuser,
+      __const char *__restrict __cmd, int *__restrict __fd2p,
+      sa_family_t __af);
+extern int rexec (char **__restrict __ahost, int __rport,
+    __const char *__restrict __name,
+    __const char *__restrict __pass,
+    __const char *__restrict __cmd, int *__restrict __fd2p);
+extern int rexec_af (char **__restrict __ahost, int __rport,
+       __const char *__restrict __name,
+       __const char *__restrict __pass,
+       __const char *__restrict __cmd, int *__restrict __fd2p,
+       sa_family_t __af);
+extern int ruserok (__const char *__rhost, int __suser,
+      __const char *__remuser, __const char *__locuser);
+extern int ruserok_af (__const char *__rhost, int __suser,
+         __const char *__remuser, __const char *__locuser,
+         sa_family_t __af);
+extern int iruserok (uint32_t __raddr, int __suser,
+       __const char *__remuser, __const char *__locuser);
+extern int iruserok_af (__const void *__raddr, int __suser,
+   __const char *__remuser, __const char *__locuser,
+   sa_family_t __af);
+extern int rresvport (int *__alport);
+extern int rresvport_af (int *__alport, sa_family_t __af);
+struct addrinfo
+{
+  int ai_flags;
+  int ai_family;
+  int ai_socktype;
+  int ai_protocol;
+  socklen_t ai_addrlen;
+  struct sockaddr *ai_addr;
+  char *ai_canonname;
+  struct addrinfo *ai_next;
+};
+static const int AI_PASSIVE = 0x0001;
+static const int AI_CANONNAME = 0x0002;
+static const int AI_NUMERICHOST = 0x0004;
+static const int AI_V4MAPPED = 0x0008;
+static const int AI_ALL = 0x0010;
+static const int AI_ADDRCONFIG = 0x0020;
+static const int AI_NUMERICSERV = 0x0400;
+static const int EAI_BADFLAGS = -1;
+static const int EAI_NONAME = -2;
+static const int EAI_AGAIN = -3;
+static const int EAI_FAIL = -4;
+static const int EAI_FAMILY = -6;
+static const int EAI_SOCKTYPE = -7;
+static const int EAI_SERVICE = -8;
+static const int EAI_MEMORY = -10;
+static const int EAI_SYSTEM = -11;
+static const int EAI_OVERFLOW = -12;
+static const int NI_MAXHOST = 1025;
+static const int NI_MAXSERV = 32;
+static const int NI_NUMERICHOST = 1;
+static const int NI_NUMERICSERV = 2;
+static const int NI_NOFQDN = 4;
+static const int NI_NAMEREQD = 8;
+static const int NI_DGRAM = 16;
+extern int getaddrinfo (__const char *__restrict __name,
+   __const char *__restrict __service,
+   __const struct addrinfo *__restrict __req,
+   struct addrinfo **__restrict __pai);
+extern void freeaddrinfo (struct addrinfo *__ai) __attribute__ ((__nothrow__ , __leaf__));
+extern __const char *gai_strerror (int __ecode) __attribute__ ((__nothrow__ , __leaf__));
+extern int getnameinfo (__const struct sockaddr *__restrict __sa,
+   socklen_t __salen, char *__restrict __host,
+   socklen_t __hostlen, char *__restrict __serv,
+   socklen_t __servlen, int __flags);
+
+
+// *** 18. pthread.h ***
+static const int _PTHREAD_H = 1;
+static const int _SCHED_H = 1;
+typedef unsigned char __u_char;
+typedef unsigned short int __u_short;
+typedef unsigned int __u_int;
+typedef unsigned long int __u_long;
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef signed short int __int16_t;
+typedef unsigned short int __uint16_t;
+typedef signed int __int32_t;
+typedef unsigned int __uint32_t;
+__extension__ typedef signed long long int __int64_t;
+__extension__ typedef unsigned long long int __uint64_t;
+__extension__ typedef long long int __quad_t;
+__extension__ typedef unsigned long long int __u_quad_t;
+__extension__ typedef __u_quad_t __dev_t;
+__extension__ typedef unsigned int __uid_t;
+__extension__ typedef unsigned int __gid_t;
+__extension__ typedef unsigned long int __ino_t;
+__extension__ typedef __u_quad_t __ino64_t;
+__extension__ typedef unsigned int __mode_t;
+__extension__ typedef unsigned int __nlink_t;
+__extension__ typedef long int __off_t;
+__extension__ typedef __quad_t __off64_t;
+__extension__ typedef int __pid_t;
+__extension__ typedef struct { int __val[2]; } __fsid_t;
+__extension__ typedef long int __clock_t;
+__extension__ typedef unsigned long int __rlim_t;
+__extension__ typedef __u_quad_t __rlim64_t;
+__extension__ typedef unsigned int __id_t;
+__extension__ typedef long int __time_t;
+__extension__ typedef unsigned int __useconds_t;
+__extension__ typedef long int __suseconds_t;
+__extension__ typedef int __daddr_t;
+__extension__ typedef long int __swblk_t;
+__extension__ typedef int __key_t;
+__extension__ typedef int __clockid_t;
+__extension__ typedef void * __timer_t;
+__extension__ typedef long int __blksize_t;
+__extension__ typedef long int __blkcnt_t;
+__extension__ typedef __quad_t __blkcnt64_t;
+__extension__ typedef unsigned long int __fsblkcnt_t;
+__extension__ typedef __u_quad_t __fsblkcnt64_t;
+__extension__ typedef unsigned long int __fsfilcnt_t;
+__extension__ typedef __u_quad_t __fsfilcnt64_t;
+__extension__ typedef int __ssize_t;
+typedef __off64_t __loff_t;
+typedef __quad_t *__qaddr_t;
+typedef char *__caddr_t;
+__extension__ typedef int __intptr_t;
+__extension__ typedef unsigned int __socklen_t;
+typedef unsigned int size_t;
+typedef __time_t time_t;
+struct timespec
+  {
+    __time_t tv_sec;
+    long int tv_nsec;
+  };
+typedef __pid_t pid_t;
+static const int SCHED_OTHER = 0;
+static const int SCHED_FIFO = 1;
+static const int SCHED_RR = 2;
+struct sched_param
+  {
+    int __sched_priority;
+  };
+static const int __defined_schedparam = 1;
+struct __sched_param
+  {
+    int __sched_priority;
+  };
+static const int __CPU_SETSIZE = 1024;
+static const int __NCPUBITS = (8 * sizeof (__cpu_mask));
+typedef unsigned long int __cpu_mask;
+static const int __CPUELT(cpu) = ((cpu) / __NCPUBITS);
+static const int __CPUMASK(cpu) = ((__cpu_mask) 1 << ((cpu) % __NCPUBITS));
+typedef struct
+{
+  __cpu_mask __bits[1024 / (8 * sizeof (__cpu_mask))];
+} cpu_set_t;
+static const int __CPU_ZERO_S(setsize,cpusetp) = do __builtin_memset (cpusetp, '\0', setsize); while (0);
+static const int __CPU_SET_S(cpu,setsize,cpusetp) = (__extension__ ({ size_t __cpu = (cpu); __cpu < 8 * (setsize) ? (((__cpu_mask *) ((cpusetp)->__bits))[__CPUELT (__cpu)] |= __CPUMASK (__cpu)) : 0; }));
+static const int __CPU_CLR_S(cpu,setsize,cpusetp) = (__extension__ ({ size_t __cpu = (cpu); __cpu < 8 * (setsize) ? (((__cpu_mask *) ((cpusetp)->__bits))[__CPUELT (__cpu)] &= ~__CPUMASK (__cpu)) : 0; }));
+static const int __CPU_ISSET_S(cpu,setsize,cpusetp) = (__extension__ ({ size_t __cpu = (cpu); __cpu < 8 * (setsize) ? ((((__const __cpu_mask *) ((cpusetp)->__bits))[__CPUELT (__cpu)] & __CPUMASK (__cpu))) != 0 : 0; }));
+static const int __CPU_COUNT_S(setsize,cpusetp) = __sched_cpucount (setsize, cpusetp);
+static const int __CPU_EQUAL_S(setsize,cpusetp1,cpusetp2) = (__builtin_memcmp (cpusetp1, cpusetp2, setsize) == 0);
+static const int __CPU_OP_S(setsize,destset,srcset1,srcset2,op) = (__extension__ ({ cpu_set_t *__dest = (destset); __const __cpu_mask *__arr1 = (srcset1)->__bits; __const __cpu_mask *__arr2 = (srcset2)->__bits; size_t __imax = (setsize) / sizeof (__cpu_mask); size_t __i; for (__i = 0; __i < __imax; ++__i) ((__cpu_mask *) __dest->__bits)[__i] = __arr1[__i] op __arr2[__i]; __dest; }));
+static const int __CPU_ALLOC_SIZE(count) = ((((count) + __NCPUBITS - 1) / __NCPUBITS) * sizeof (__cpu_mask));
+static const int __CPU_ALLOC(count) = __sched_cpualloc (count);
+static const int __CPU_FREE(cpuset) = __sched_cpufree (cpuset);
+extern int __sched_cpucount (size_t __setsize, const cpu_set_t *__setp)
+  __attribute__ ((__nothrow__ , __leaf__));
+extern cpu_set_t *__sched_cpualloc (size_t __count) __attribute__ ((__nothrow__ , __leaf__)) ;
+extern void __sched_cpufree (cpu_set_t *__set) __attribute__ ((__nothrow__ , __leaf__));
+static const int sched_priority = __sched_priority;
+extern int sched_setparam (__pid_t __pid, __const struct sched_param *__param)
+     __attribute__ ((__nothrow__ , __leaf__));
+extern int sched_getparam (__pid_t __pid, struct sched_param *__param) __attribute__ ((__nothrow__ , __leaf__));
+extern int sched_setscheduler (__pid_t __pid, int __policy,
+          __const struct sched_param *__param) __attribute__ ((__nothrow__ , __leaf__));
+extern int sched_getscheduler (__pid_t __pid) __attribute__ ((__nothrow__ , __leaf__));
+extern int sched_yield (void) __attribute__ ((__nothrow__ , __leaf__));
+extern int sched_get_priority_max (int __algorithm) __attribute__ ((__nothrow__ , __leaf__));
+extern int sched_get_priority_min (int __algorithm) __attribute__ ((__nothrow__ , __leaf__));
+extern int sched_rr_get_interval (__pid_t __pid, struct timespec *__t) __attribute__ ((__nothrow__ , __leaf__));
+typedef __clock_t clock_t;
+typedef __clockid_t clockid_t;
+typedef __timer_t timer_t;
+struct tm
+{
+  int tm_sec;
+  int tm_min;
+  int tm_hour;
+  int tm_mday;
+  int tm_mon;
+  int tm_year;
+  int tm_wday;
+  int tm_yday;
+  int tm_isdst;
+  long int tm_gmtoff;
+  __const char *tm_zone;
+};
+struct itimerspec
+  {
+    struct timespec it_interval;
+    struct timespec it_value;
+  };
+struct sigevent;
+extern clock_t clock (void) __attribute__ ((__nothrow__ , __leaf__));
+extern time_t time (time_t *__timer) __attribute__ ((__nothrow__ , __leaf__));
+extern double difftime (time_t __time1, time_t __time0)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+extern time_t mktime (struct tm *__tp) __attribute__ ((__nothrow__ , __leaf__));
+extern size_t strftime (char *__restrict __s, size_t __maxsize,
+   __const char *__restrict __format,
+   __const struct tm *__restrict __tp) __attribute__ ((__nothrow__ , __leaf__));
+typedef struct __locale_struct
+{
+  struct __locale_data *__locales[13];
+  const unsigned short int *__ctype_b;
+  const int *__ctype_tolower;
+  const int *__ctype_toupper;
+  const char *__names[13];
+} *__locale_t;
+typedef __locale_t locale_t;
+extern size_t strftime_l (char *__restrict __s, size_t __maxsize,
+     __const char *__restrict __format,
+     __const struct tm *__restrict __tp,
+     __locale_t __loc) __attribute__ ((__nothrow__ , __leaf__));
+extern struct tm *gmtime (__const time_t *__timer) __attribute__ ((__nothrow__ , __leaf__));
+extern struct tm *localtime (__const time_t *__timer) __attribute__ ((__nothrow__ , __leaf__));
+extern struct tm *gmtime_r (__const time_t *__restrict __timer,
+       struct tm *__restrict __tp) __attribute__ ((__nothrow__ , __leaf__));
+extern struct tm *localtime_r (__const time_t *__restrict __timer,
+          struct tm *__restrict __tp) __attribute__ ((__nothrow__ , __leaf__));
+extern char *asctime (__const struct tm *__tp) __attribute__ ((__nothrow__ , __leaf__));
+extern char *ctime (__const time_t *__timer) __attribute__ ((__nothrow__ , __leaf__));
+extern char *asctime_r (__const struct tm *__restrict __tp,
+   char *__restrict __buf) __attribute__ ((__nothrow__ , __leaf__));
+extern char *ctime_r (__const time_t *__restrict __timer,
+        char *__restrict __buf) __attribute__ ((__nothrow__ , __leaf__));
+extern char *__tzname[2];
+extern int __daylight;
+extern long int __timezone;
+extern char *tzname[2];
+extern void tzset (void) __attribute__ ((__nothrow__ , __leaf__));
+extern int daylight;
+extern long int timezone;
+extern int stime (__const time_t *__when) __attribute__ ((__nothrow__ , __leaf__));
+extern time_t timegm (struct tm *__tp) __attribute__ ((__nothrow__ , __leaf__));
+extern time_t timelocal (struct tm *__tp) __attribute__ ((__nothrow__ , __leaf__));
+extern int dysize (int __year) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+extern int nanosleep (__const struct timespec *__requested_time,
+        struct timespec *__remaining);
+extern int clock_getres (clockid_t __clock_id, struct timespec *__res) __attribute__ ((__nothrow__ , __leaf__));
+extern int clock_gettime (clockid_t __clock_id, struct timespec *__tp) __attribute__ ((__nothrow__ , __leaf__));
+extern int clock_settime (clockid_t __clock_id, __const struct timespec *__tp)
+     __attribute__ ((__nothrow__ , __leaf__));
+extern int clock_nanosleep (clockid_t __clock_id, int __flags,
+       __const struct timespec *__req,
+       struct timespec *__rem);
+extern int clock_getcpuclockid (pid_t __pid, clockid_t *__clock_id) __attribute__ ((__nothrow__ , __leaf__));
+extern int timer_create (clockid_t __clock_id,
+    struct sigevent *__restrict __evp,
+    timer_t *__restrict __timerid) __attribute__ ((__nothrow__ , __leaf__));
+extern int timer_delete (timer_t __timerid) __attribute__ ((__nothrow__ , __leaf__));
+extern int timer_settime (timer_t __timerid, int __flags,
+     __const struct itimerspec *__restrict __value,
+     struct itimerspec *__restrict __ovalue) __attribute__ ((__nothrow__ , __leaf__));
+extern int timer_gettime (timer_t __timerid, struct itimerspec *__value)
+     __attribute__ ((__nothrow__ , __leaf__));
+extern int timer_getoverrun (timer_t __timerid) __attribute__ ((__nothrow__ , __leaf__));
+typedef unsigned long int pthread_t;
+typedef union
+{
+  char __size[36];
+  long int __align;
+} pthread_attr_t;
+typedef struct __pthread_internal_slist
+{
+  struct __pthread_internal_slist *__next;
+} __pthread_slist_t;
+typedef union
+{
+  struct __pthread_mutex_s
+  {
+    int __lock;
+    unsigned int __count;
+    int __owner;
+    int __kind;
+    unsigned int __nusers;
+    __extension__ union
+    {
+      int __spins;
+      __pthread_slist_t __list;
+    };
+  } __data;
+  char __size[24];
+  long int __align;
+} pthread_mutex_t;
+typedef union
+{
+  char __size[4];
+  long int __align;
+} pthread_mutexattr_t;
+typedef union
+{
+  struct
+  {
+    int __lock;
+    unsigned int __futex;
+    __extension__ unsigned long long int __total_seq;
+    __extension__ unsigned long long int __wakeup_seq;
+    __extension__ unsigned long long int __woken_seq;
+    void *__mutex;
+    unsigned int __nwaiters;
+    unsigned int __broadcast_seq;
+  } __data;
+  char __size[48];
+  __extension__ long long int __align;
+} pthread_cond_t;
+typedef union
+{
+  char __size[4];
+  long int __align;
+} pthread_condattr_t;
+typedef unsigned int pthread_key_t;
+typedef int pthread_once_t;
+typedef union
+{
+  struct
+  {
+    int __lock;
+    unsigned int __nr_readers;
+    unsigned int __readers_wakeup;
+    unsigned int __writer_wakeup;
+    unsigned int __nr_readers_queued;
+    unsigned int __nr_writers_queued;
+    unsigned char __flags;
+    unsigned char __shared;
+    unsigned char __pad1;
+    unsigned char __pad2;
+    int __writer;
+  } __data;
+  char __size[32];
+  long int __align;
+} pthread_rwlock_t;
+typedef union
+{
+  char __size[8];
+  long int __align;
+} pthread_rwlockattr_t;
+typedef volatile int pthread_spinlock_t;
+typedef union
+{
+  char __size[20];
+  long int __align;
+} pthread_barrier_t;
+typedef union
+{
+  char __size[4];
+  int __align;
+} pthread_barrierattr_t;
+static const int _BITS_SETJMP_H = 1;
+typedef int __jmp_buf[6];
+enum
+{
+  PTHREAD_CREATE_JOINABLE,
+static const int PTHREAD_CREATE_JOINABLE = PTHREAD_CREATE_JOINABLE;
+  PTHREAD_CREATE_DETACHED
+static const int PTHREAD_CREATE_DETACHED = PTHREAD_CREATE_DETACHED;
+};
+enum
+{
+  PTHREAD_MUTEX_TIMED_NP,
+  PTHREAD_MUTEX_RECURSIVE_NP,
+  PTHREAD_MUTEX_ERRORCHECK_NP,
+  PTHREAD_MUTEX_ADAPTIVE_NP
+  ,
+  PTHREAD_MUTEX_NORMAL = PTHREAD_MUTEX_TIMED_NP,
+  PTHREAD_MUTEX_RECURSIVE = PTHREAD_MUTEX_RECURSIVE_NP,
+  PTHREAD_MUTEX_ERRORCHECK = PTHREAD_MUTEX_ERRORCHECK_NP,
+  PTHREAD_MUTEX_DEFAULT = PTHREAD_MUTEX_NORMAL
+};
+enum
+{
+  PTHREAD_MUTEX_STALLED,
+  PTHREAD_MUTEX_STALLED_NP = PTHREAD_MUTEX_STALLED,
+  PTHREAD_MUTEX_ROBUST,
+  PTHREAD_MUTEX_ROBUST_NP = PTHREAD_MUTEX_ROBUST
+};
+static const int PTHREAD_MUTEX_INITIALIZER = { { 0, 0, 0, 0, 0, { 0 } } };
+enum
+{
+  PTHREAD_RWLOCK_PREFER_READER_NP,
+  PTHREAD_RWLOCK_PREFER_WRITER_NP,
+  PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP,
+  PTHREAD_RWLOCK_DEFAULT_NP = PTHREAD_RWLOCK_PREFER_READER_NP
+};
+static const int PTHREAD_RWLOCK_INITIALIZER = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
+enum
+{
+  PTHREAD_INHERIT_SCHED,
+static const int PTHREAD_INHERIT_SCHED = PTHREAD_INHERIT_SCHED;
+  PTHREAD_EXPLICIT_SCHED
+static const int PTHREAD_EXPLICIT_SCHED = PTHREAD_EXPLICIT_SCHED;
+};
+enum
+{
+  PTHREAD_SCOPE_SYSTEM,
+static const int PTHREAD_SCOPE_SYSTEM = PTHREAD_SCOPE_SYSTEM;
+  PTHREAD_SCOPE_PROCESS
+static const int PTHREAD_SCOPE_PROCESS = PTHREAD_SCOPE_PROCESS;
+};
+enum
+{
+  PTHREAD_PROCESS_PRIVATE,
+static const int PTHREAD_PROCESS_PRIVATE = PTHREAD_PROCESS_PRIVATE;
+  PTHREAD_PROCESS_SHARED
+static const int PTHREAD_PROCESS_SHARED = PTHREAD_PROCESS_SHARED;
+};
+static const int PTHREAD_COND_INITIALIZER = { { 0, 0, 0, 0, 0, (void *) 0, 0, 0 } };
+struct _pthread_cleanup_buffer
+{
+  void (*__routine) (void *);
+  void *__arg;
+  int __canceltype;
+  struct _pthread_cleanup_buffer *__prev;
+};
+enum
+{
+  PTHREAD_CANCEL_ENABLE,
+static const int PTHREAD_CANCEL_ENABLE = PTHREAD_CANCEL_ENABLE;
+  PTHREAD_CANCEL_DISABLE
+static const int PTHREAD_CANCEL_DISABLE = PTHREAD_CANCEL_DISABLE;
+};
+enum
+{
+  PTHREAD_CANCEL_DEFERRED,
+static const int PTHREAD_CANCEL_DEFERRED = PTHREAD_CANCEL_DEFERRED;
+  PTHREAD_CANCEL_ASYNCHRONOUS
+static const int PTHREAD_CANCEL_ASYNCHRONOUS = PTHREAD_CANCEL_ASYNCHRONOUS;
+};
+static const int PTHREAD_CANCELED = ((void *) -1);
+static const int PTHREAD_ONCE_INIT = 0;
+static const int PTHREAD_BARRIER_SERIAL_THREAD = -1;
+extern int pthread_create (pthread_t *__restrict __newthread,
+      __const pthread_attr_t *__restrict __attr,
+      void *(*__start_routine) (void *),
+      void *__restrict __arg) __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1, 3)));
+extern void pthread_exit (void *__retval) __attribute__ ((__noreturn__));
+extern int pthread_join (pthread_t __th, void **__thread_return);
+extern int pthread_detach (pthread_t __th) __attribute__ ((__nothrow__ , __leaf__));
+extern pthread_t pthread_self (void) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+extern int pthread_equal (pthread_t __thread1, pthread_t __thread2) __attribute__ ((__nothrow__ , __leaf__));
+extern int pthread_attr_init (pthread_attr_t *__attr) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_attr_destroy (pthread_attr_t *__attr)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_attr_getdetachstate (__const pthread_attr_t *__attr,
+     int *__detachstate)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_attr_setdetachstate (pthread_attr_t *__attr,
+     int __detachstate)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_attr_getguardsize (__const pthread_attr_t *__attr,
+          size_t *__guardsize)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_attr_setguardsize (pthread_attr_t *__attr,
+          size_t __guardsize)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_attr_getschedparam (__const pthread_attr_t *__restrict
+           __attr,
+           struct sched_param *__restrict __param)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_attr_setschedparam (pthread_attr_t *__restrict __attr,
+           __const struct sched_param *__restrict
+           __param) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_attr_getschedpolicy (__const pthread_attr_t *__restrict
+     __attr, int *__restrict __policy)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_attr_setschedpolicy (pthread_attr_t *__attr, int __policy)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_attr_getinheritsched (__const pthread_attr_t *__restrict
+      __attr, int *__restrict __inherit)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_attr_setinheritsched (pthread_attr_t *__attr,
+      int __inherit)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_attr_getscope (__const pthread_attr_t *__restrict __attr,
+      int *__restrict __scope)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_attr_setscope (pthread_attr_t *__attr, int __scope)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_attr_getstackaddr (__const pthread_attr_t *__restrict
+          __attr, void **__restrict __stackaddr)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2))) __attribute__ ((__deprecated__));
+extern int pthread_attr_setstackaddr (pthread_attr_t *__attr,
+          void *__stackaddr)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1))) __attribute__ ((__deprecated__));
+extern int pthread_attr_getstacksize (__const pthread_attr_t *__restrict
+          __attr, size_t *__restrict __stacksize)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_attr_setstacksize (pthread_attr_t *__attr,
+          size_t __stacksize)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_attr_getstack (__const pthread_attr_t *__restrict __attr,
+      void **__restrict __stackaddr,
+      size_t *__restrict __stacksize)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2, 3)));
+extern int pthread_attr_setstack (pthread_attr_t *__attr, void *__stackaddr,
+      size_t __stacksize) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_setschedparam (pthread_t __target_thread, int __policy,
+      __const struct sched_param *__param)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (3)));
+extern int pthread_getschedparam (pthread_t __target_thread,
+      int *__restrict __policy,
+      struct sched_param *__restrict __param)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2, 3)));
+extern int pthread_setschedprio (pthread_t __target_thread, int __prio)
+     __attribute__ ((__nothrow__ , __leaf__));
+extern int pthread_once (pthread_once_t *__once_control,
+    void (*__init_routine) (void)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_setcancelstate (int __state, int *__oldstate);
+extern int pthread_setcanceltype (int __type, int *__oldtype);
+extern int pthread_cancel (pthread_t __th);
+extern void pthread_testcancel (void);
+typedef struct
+{
+  struct
+  {
+    __jmp_buf __cancel_jmp_buf;
+    int __mask_was_saved;
+  } __cancel_jmp_buf[1];
+  void *__pad[4];
+} __pthread_unwind_buf_t __attribute__ ((__aligned__));
+struct __pthread_cleanup_frame
+{
+  void (*__cancel_routine) (void *);
+  void *__cancel_arg;
+  int __do_it;
+  int __cancel_type;
+};
+static const int pthread_cleanup_push(routine,arg) = do { __pthread_unwind_buf_t __cancel_buf; void (*__cancel_routine) (void *) = (routine); void *__cancel_arg = (arg); int __not_first_call = __sigsetjmp ((struct __jmp_buf_tag *) (void *) __cancel_buf.__cancel_jmp_buf, 0); if (__builtin_expect (__not_first_call, 0)) { __cancel_routine (__cancel_arg); __pthread_unwind_next (&__cancel_buf); } __pthread_register_cancel (&__cancel_buf); do {;
+extern void __pthread_register_cancel (__pthread_unwind_buf_t *__buf)
+     __attribute__ ((__regparm__ (1)));
+static const int pthread_cleanup_pop(execute) = do { } while (0); } while (0); __pthread_unregister_cancel (&__cancel_buf); if (execute) __cancel_routine (__cancel_arg); } while (0);
+extern void __pthread_unregister_cancel (__pthread_unwind_buf_t *__buf)
+  __attribute__ ((__regparm__ (1)));
+extern void __pthread_unwind_next (__pthread_unwind_buf_t *__buf)
+     __attribute__ ((__regparm__ (1))) __attribute__ ((__noreturn__))
+     __attribute__ ((__weak__))
+     ;
+struct __jmp_buf_tag;
+extern int __sigsetjmp (struct __jmp_buf_tag *__env, int __savemask) __attribute__ ((__nothrow__ , __leaf__));
+extern int pthread_mutex_init (pthread_mutex_t *__mutex,
+          __const pthread_mutexattr_t *__mutexattr)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_mutex_destroy (pthread_mutex_t *__mutex)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_mutex_trylock (pthread_mutex_t *__mutex)
+     __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_mutex_lock (pthread_mutex_t *__mutex)
+     __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_mutex_timedlock (pthread_mutex_t *__restrict __mutex,
+        __const struct timespec *__restrict
+        __abstime) __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_mutex_unlock (pthread_mutex_t *__mutex)
+     __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_mutex_getprioceiling (__const pthread_mutex_t *
+      __restrict __mutex,
+      int *__restrict __prioceiling)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_mutex_setprioceiling (pthread_mutex_t *__restrict __mutex,
+      int __prioceiling,
+      int *__restrict __old_ceiling)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 3)));
+extern int pthread_mutex_consistent (pthread_mutex_t *__mutex)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_mutexattr_init (pthread_mutexattr_t *__attr)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_mutexattr_destroy (pthread_mutexattr_t *__attr)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_mutexattr_getpshared (__const pthread_mutexattr_t *
+      __restrict __attr,
+      int *__restrict __pshared)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_mutexattr_setpshared (pthread_mutexattr_t *__attr,
+      int __pshared)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_mutexattr_gettype (__const pthread_mutexattr_t *__restrict
+          __attr, int *__restrict __kind)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_mutexattr_settype (pthread_mutexattr_t *__attr, int __kind)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_mutexattr_getprotocol (__const pthread_mutexattr_t *
+       __restrict __attr,
+       int *__restrict __protocol)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_mutexattr_setprotocol (pthread_mutexattr_t *__attr,
+       int __protocol)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_mutexattr_getprioceiling (__const pthread_mutexattr_t *
+          __restrict __attr,
+          int *__restrict __prioceiling)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_mutexattr_setprioceiling (pthread_mutexattr_t *__attr,
+          int __prioceiling)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_mutexattr_getrobust (__const pthread_mutexattr_t *__attr,
+     int *__robustness)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_mutexattr_setrobust (pthread_mutexattr_t *__attr,
+     int __robustness)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_rwlock_init (pthread_rwlock_t *__restrict __rwlock,
+    __const pthread_rwlockattr_t *__restrict
+    __attr) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_rwlock_destroy (pthread_rwlock_t *__rwlock)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_rwlock_rdlock (pthread_rwlock_t *__rwlock)
+     __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_rwlock_tryrdlock (pthread_rwlock_t *__rwlock)
+  __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_rwlock_timedrdlock (pthread_rwlock_t *__restrict __rwlock,
+           __const struct timespec *__restrict
+           __abstime) __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_rwlock_wrlock (pthread_rwlock_t *__rwlock)
+     __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_rwlock_trywrlock (pthread_rwlock_t *__rwlock)
+     __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_rwlock_timedwrlock (pthread_rwlock_t *__restrict __rwlock,
+           __const struct timespec *__restrict
+           __abstime) __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_rwlock_unlock (pthread_rwlock_t *__rwlock)
+     __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_rwlockattr_init (pthread_rwlockattr_t *__attr)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_rwlockattr_destroy (pthread_rwlockattr_t *__attr)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_rwlockattr_getpshared (__const pthread_rwlockattr_t *
+       __restrict __attr,
+       int *__restrict __pshared)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_rwlockattr_setpshared (pthread_rwlockattr_t *__attr,
+       int __pshared)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_rwlockattr_getkind_np (__const pthread_rwlockattr_t *
+       __restrict __attr,
+       int *__restrict __pref)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_rwlockattr_setkind_np (pthread_rwlockattr_t *__attr,
+       int __pref) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_cond_init (pthread_cond_t *__restrict __cond,
+         __const pthread_condattr_t *__restrict
+         __cond_attr) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_cond_destroy (pthread_cond_t *__cond)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_cond_signal (pthread_cond_t *__cond)
+     __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_cond_broadcast (pthread_cond_t *__cond)
+     __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_cond_wait (pthread_cond_t *__restrict __cond,
+         pthread_mutex_t *__restrict __mutex)
+     __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_cond_timedwait (pthread_cond_t *__restrict __cond,
+       pthread_mutex_t *__restrict __mutex,
+       __const struct timespec *__restrict
+       __abstime) __attribute__ ((__nonnull__ (1, 2, 3)));
+extern int pthread_condattr_init (pthread_condattr_t *__attr)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_condattr_destroy (pthread_condattr_t *__attr)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_condattr_getpshared (__const pthread_condattr_t *
+     __restrict __attr,
+     int *__restrict __pshared)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_condattr_setpshared (pthread_condattr_t *__attr,
+     int __pshared) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_condattr_getclock (__const pthread_condattr_t *
+          __restrict __attr,
+          __clockid_t *__restrict __clock_id)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_condattr_setclock (pthread_condattr_t *__attr,
+          __clockid_t __clock_id)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_spin_init (pthread_spinlock_t *__lock, int __pshared)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_spin_destroy (pthread_spinlock_t *__lock)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_spin_lock (pthread_spinlock_t *__lock)
+     __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_spin_trylock (pthread_spinlock_t *__lock)
+     __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_spin_unlock (pthread_spinlock_t *__lock)
+     __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_barrier_init (pthread_barrier_t *__restrict __barrier,
+     __const pthread_barrierattr_t *__restrict
+     __attr, unsigned int __count)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_barrier_destroy (pthread_barrier_t *__barrier)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_barrier_wait (pthread_barrier_t *__barrier)
+     __attribute__ ((__nothrow__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_barrierattr_init (pthread_barrierattr_t *__attr)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_barrierattr_destroy (pthread_barrierattr_t *__attr)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_barrierattr_getpshared (__const pthread_barrierattr_t *
+        __restrict __attr,
+        int *__restrict __pshared)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int pthread_barrierattr_setpshared (pthread_barrierattr_t *__attr,
+        int __pshared)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_key_create (pthread_key_t *__key,
+          void (*__destr_function) (void *))
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int pthread_key_delete (pthread_key_t __key) __attribute__ ((__nothrow__ , __leaf__));
+extern void *pthread_getspecific (pthread_key_t __key) __attribute__ ((__nothrow__ , __leaf__));
+extern int pthread_setspecific (pthread_key_t __key,
+    __const void *__pointer) __attribute__ ((__nothrow__ , __leaf__)) ;
+extern int pthread_getcpuclockid (pthread_t __thread_id,
+      __clockid_t *__clock_id)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2)));
+extern int pthread_atfork (void (*__prepare) (void),
+      void (*__parent) (void),
+      void (*__child) (void)) __attribute__ ((__nothrow__ , __leaf__));
+
+
+// *** 19. signal.h ***
+typedef int __sig_atomic_t;
+typedef struct
+  {
+    unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
+  } __sigset_t;
+static const int _SIGSET_H_fns = 1;
+static const int _EXTERN_INLINE = __extern_inline;
+static const int __sigmask(sig) = (((unsigned long int) 1) << (((sig) - 1) % (8 * sizeof (unsigned long int))));
+static const int __sigword(sig) = (((sig) - 1) / (8 * sizeof (unsigned long int)));
+static const int __sigemptyset(set) = (__extension__ ({ int __cnt = _SIGSET_NWORDS; sigset_t *__set = (set); while (--__cnt >= 0) __set->__val[__cnt] = 0; 0; }));
+static const int __sigfillset(set) = (__extension__ ({ int __cnt = _SIGSET_NWORDS; sigset_t *__set = (set); while (--__cnt >= 0) __set->__val[__cnt] = ~0UL; 0; }));
+extern int __sigismember (__const __sigset_t *, int);
+extern int __sigaddset (__sigset_t *, int);
+extern int __sigdelset (__sigset_t *, int);
+typedef __sig_atomic_t sig_atomic_t;
+typedef __sigset_t sigset_t;
+typedef unsigned char __u_char;
+typedef unsigned short int __u_short;
+typedef unsigned int __u_int;
+typedef unsigned long int __u_long;
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef signed short int __int16_t;
+typedef unsigned short int __uint16_t;
+typedef signed int __int32_t;
+typedef unsigned int __uint32_t;
+__extension__ typedef signed long long int __int64_t;
+__extension__ typedef unsigned long long int __uint64_t;
+__extension__ typedef long long int __quad_t;
+__extension__ typedef unsigned long long int __u_quad_t;
+__extension__ typedef __u_quad_t __dev_t;
+__extension__ typedef unsigned int __uid_t;
+__extension__ typedef unsigned int __gid_t;
+__extension__ typedef unsigned long int __ino_t;
+__extension__ typedef __u_quad_t __ino64_t;
+__extension__ typedef unsigned int __mode_t;
+__extension__ typedef unsigned int __nlink_t;
+__extension__ typedef long int __off_t;
+__extension__ typedef __quad_t __off64_t;
+__extension__ typedef int __pid_t;
+__extension__ typedef struct { int __val[2]; } __fsid_t;
+__extension__ typedef long int __clock_t;
+__extension__ typedef unsigned long int __rlim_t;
+__extension__ typedef __u_quad_t __rlim64_t;
+__extension__ typedef unsigned int __id_t;
+__extension__ typedef long int __time_t;
+__extension__ typedef unsigned int __useconds_t;
+__extension__ typedef long int __suseconds_t;
+__extension__ typedef int __daddr_t;
+__extension__ typedef long int __swblk_t;
+__extension__ typedef int __key_t;
+__extension__ typedef int __clockid_t;
+__extension__ typedef void * __timer_t;
+__extension__ typedef long int __blksize_t;
+__extension__ typedef long int __blkcnt_t;
+__extension__ typedef __quad_t __blkcnt64_t;
+__extension__ typedef unsigned long int __fsblkcnt_t;
+__extension__ typedef __u_quad_t __fsblkcnt64_t;
+__extension__ typedef unsigned long int __fsfilcnt_t;
+__extension__ typedef __u_quad_t __fsfilcnt64_t;
+__extension__ typedef int __ssize_t;
+typedef __off64_t __loff_t;
+typedef __quad_t *__qaddr_t;
+typedef char *__caddr_t;
+__extension__ typedef int __intptr_t;
+__extension__ typedef unsigned int __socklen_t;
+static const int SIG_ERR = ((__sighandler_t) -1);
+static const int SIG_DFL = ((__sighandler_t) 0);
+static const int SIG_IGN = ((__sighandler_t) 1);
+static const int SIGHUP = 1;
+static const int SIGINT = 2;
+static const int SIGQUIT = 3;
+static const int SIGILL = 4;
+static const int SIGTRAP = 5;
+static const int SIGABRT = 6;
+static const int SIGIOT = 6;
+static const int SIGBUS = 7;
+static const int SIGFPE = 8;
+static const int SIGKILL = 9;
+static const int SIGUSR1 = 10;
+static const int SIGSEGV = 11;
+static const int SIGUSR2 = 12;
+static const int SIGPIPE = 13;
+static const int SIGALRM = 14;
+static const int SIGTERM = 15;
+static const int SIGSTKFLT = 16;
+static const int SIGCLD = SIGCHLD;
+static const int SIGCHLD = 17;
+static const int SIGCONT = 18;
+static const int SIGSTOP = 19;
+static const int SIGTSTP = 20;
+static const int SIGTTIN = 21;
+static const int SIGTTOU = 22;
+static const int SIGURG = 23;
+static const int SIGXCPU = 24;
+static const int SIGXFSZ = 25;
+static const int SIGVTALRM = 26;
+static const int SIGPROF = 27;
+static const int SIGWINCH = 28;
+static const int SIGPOLL = SIGIO;
+static const int SIGIO = 29;
+static const int SIGPWR = 30;
+static const int SIGSYS = 31;
+static const int SIGUNUSED = 31;
+static const int _NSIG = 65;
+static const int SIGRTMIN = (__libc_current_sigrtmin ());
+static const int SIGRTMAX = (__libc_current_sigrtmax ());
+static const int __SIGRTMIN = 32;
+static const int __SIGRTMAX = (_NSIG - 1);
+typedef __pid_t pid_t;
+typedef __uid_t uid_t;
+struct timespec
+  {
+    __time_t tv_sec;
+    long int tv_nsec;
+  };
+static const int __have_sigval_t = 1;
+typedef union sigval
+  {
+    int sival_int;
+    void *sival_ptr;
+  } sigval_t;
+static const int __have_siginfo_t = 1;
+static const int __SI_MAX_SIZE = 128;
+static const int __SI_PAD_SIZE = ((__SI_MAX_SIZE / sizeof (int)) - 3);
+typedef struct siginfo
+  {
+    int si_signo;
+    int si_errno;
+    int si_code;
+    union
+      {
+ int _pad[((128 / sizeof (int)) - 3)];
+ struct
+   {
+     __pid_t si_pid;
+     __uid_t si_uid;
+   } _kill;
+ struct
+   {
+     int si_tid;
+     int si_overrun;
+     sigval_t si_sigval;
+   } _timer;
+ struct
+   {
+     __pid_t si_pid;
+     __uid_t si_uid;
+     sigval_t si_sigval;
+   } _rt;
+ struct
+   {
+     __pid_t si_pid;
+     __uid_t si_uid;
+     int si_status;
+     __clock_t si_utime;
+     __clock_t si_stime;
+   } _sigchld;
+ struct
+   {
+     void *si_addr;
+   } _sigfault;
+ struct
+   {
+     long int si_band;
+     int si_fd;
+   } _sigpoll;
+      } _sifields;
+  } siginfo_t;
+static const int si_pid = _sifields._kill.si_pid;
+static const int si_uid = _sifields._kill.si_uid;
+static const int si_timerid = _sifields._timer.si_tid;
+static const int si_overrun = _sifields._timer.si_overrun;
+static const int si_status = _sifields._sigchld.si_status;
+static const int si_utime = _sifields._sigchld.si_utime;
+static const int si_stime = _sifields._sigchld.si_stime;
+static const int si_value = _sifields._rt.si_sigval;
+static const int si_int = _sifields._rt.si_sigval.sival_int;
+static const int si_ptr = _sifields._rt.si_sigval.sival_ptr;
+static const int si_addr = _sifields._sigfault.si_addr;
+static const int si_band = _sifields._sigpoll.si_band;
+static const int si_fd = _sifields._sigpoll.si_fd;
+enum
+{
+  SI_ASYNCNL = -60,
+static const int SI_ASYNCNL = SI_ASYNCNL;
+  SI_TKILL = -6,
+static const int SI_TKILL = SI_TKILL;
+  SI_SIGIO,
+static const int SI_SIGIO = SI_SIGIO;
+  SI_ASYNCIO,
+static const int SI_ASYNCIO = SI_ASYNCIO;
+  SI_MESGQ,
+static const int SI_MESGQ = SI_MESGQ;
+  SI_TIMER,
+static const int SI_TIMER = SI_TIMER;
+  SI_QUEUE,
+static const int SI_QUEUE = SI_QUEUE;
+  SI_USER,
+static const int SI_USER = SI_USER;
+  SI_KERNEL = 0x80
+static const int SI_KERNEL = SI_KERNEL;
+};
+enum
+{
+  ILL_ILLOPC = 1,
+static const int ILL_ILLOPC = ILL_ILLOPC;
+  ILL_ILLOPN,
+static const int ILL_ILLOPN = ILL_ILLOPN;
+  ILL_ILLADR,
+static const int ILL_ILLADR = ILL_ILLADR;
+  ILL_ILLTRP,
+static const int ILL_ILLTRP = ILL_ILLTRP;
+  ILL_PRVOPC,
+static const int ILL_PRVOPC = ILL_PRVOPC;
+  ILL_PRVREG,
+static const int ILL_PRVREG = ILL_PRVREG;
+  ILL_COPROC,
+static const int ILL_COPROC = ILL_COPROC;
+  ILL_BADSTK
+static const int ILL_BADSTK = ILL_BADSTK;
+};
+enum
+{
+  FPE_INTDIV = 1,
+static const int FPE_INTDIV = FPE_INTDIV;
+  FPE_INTOVF,
+static const int FPE_INTOVF = FPE_INTOVF;
+  FPE_FLTDIV,
+static const int FPE_FLTDIV = FPE_FLTDIV;
+  FPE_FLTOVF,
+static const int FPE_FLTOVF = FPE_FLTOVF;
+  FPE_FLTUND,
+static const int FPE_FLTUND = FPE_FLTUND;
+  FPE_FLTRES,
+static const int FPE_FLTRES = FPE_FLTRES;
+  FPE_FLTINV,
+static const int FPE_FLTINV = FPE_FLTINV;
+  FPE_FLTSUB
+static const int FPE_FLTSUB = FPE_FLTSUB;
+};
+enum
+{
+  SEGV_MAPERR = 1,
+static const int SEGV_MAPERR = SEGV_MAPERR;
+  SEGV_ACCERR
+static const int SEGV_ACCERR = SEGV_ACCERR;
+};
+enum
+{
+  BUS_ADRALN = 1,
+static const int BUS_ADRALN = BUS_ADRALN;
+  BUS_ADRERR,
+static const int BUS_ADRERR = BUS_ADRERR;
+  BUS_OBJERR
+static const int BUS_OBJERR = BUS_OBJERR;
+};
+enum
+{
+  TRAP_BRKPT = 1,
+static const int TRAP_BRKPT = TRAP_BRKPT;
+  TRAP_TRACE
+static const int TRAP_TRACE = TRAP_TRACE;
+};
+enum
+{
+  CLD_EXITED = 1,
+static const int CLD_EXITED = CLD_EXITED;
+  CLD_KILLED,
+static const int CLD_KILLED = CLD_KILLED;
+  CLD_DUMPED,
+static const int CLD_DUMPED = CLD_DUMPED;
+  CLD_TRAPPED,
+static const int CLD_TRAPPED = CLD_TRAPPED;
+  CLD_STOPPED,
+static const int CLD_STOPPED = CLD_STOPPED;
+  CLD_CONTINUED
+static const int CLD_CONTINUED = CLD_CONTINUED;
+};
+enum
+{
+  POLL_IN = 1,
+static const int POLL_IN = POLL_IN;
+  POLL_OUT,
+static const int POLL_OUT = POLL_OUT;
+  POLL_MSG,
+static const int POLL_MSG = POLL_MSG;
+  POLL_ERR,
+static const int POLL_ERR = POLL_ERR;
+  POLL_PRI,
+static const int POLL_PRI = POLL_PRI;
+  POLL_HUP
+static const int POLL_HUP = POLL_HUP;
+};
+static const int __have_sigevent_t = 1;
+static const int __SIGEV_MAX_SIZE = 64;
+static const int __SIGEV_PAD_SIZE = ((__SIGEV_MAX_SIZE / sizeof (int)) - 3);
+typedef struct sigevent
+  {
+    sigval_t sigev_value;
+    int sigev_signo;
+    int sigev_notify;
+    union
+      {
+ int _pad[((64 / sizeof (int)) - 3)];
+ __pid_t _tid;
+ struct
+   {
+     void (*_function) (sigval_t);
+     void *_attribute;
+   } _sigev_thread;
+      } _sigev_un;
+  } sigevent_t;
+static const int sigev_notify_function = _sigev_un._sigev_thread._function;
+static const int sigev_notify_attributes = _sigev_un._sigev_thread._attribute;
+enum
+{
+  SIGEV_SIGNAL = 0,
+static const int SIGEV_SIGNAL = SIGEV_SIGNAL;
+  SIGEV_NONE,
+static const int SIGEV_NONE = SIGEV_NONE;
+  SIGEV_THREAD,
+static const int SIGEV_THREAD = SIGEV_THREAD;
+  SIGEV_THREAD_ID = 4
+static const int SIGEV_THREAD_ID = SIGEV_THREAD_ID;
+};
+typedef void (*__sighandler_t) (int);
+extern __sighandler_t __sysv_signal (int __sig, __sighandler_t __handler)
+     __attribute__ ((__nothrow__ , __leaf__));
+extern __sighandler_t signal (int __sig, __sighandler_t __handler)
+     __attribute__ ((__nothrow__ , __leaf__));
+extern int kill (__pid_t __pid, int __sig) __attribute__ ((__nothrow__ , __leaf__));
+extern int killpg (__pid_t __pgrp, int __sig) __attribute__ ((__nothrow__ , __leaf__));
+extern int raise (int __sig) __attribute__ ((__nothrow__ , __leaf__));
+extern __sighandler_t ssignal (int __sig, __sighandler_t __handler)
+     __attribute__ ((__nothrow__ , __leaf__));
+extern int gsignal (int __sig) __attribute__ ((__nothrow__ , __leaf__));
+extern void psignal (int __sig, __const char *__s);
+extern void psiginfo (__const siginfo_t *__pinfo, __const char *__s);
+extern int __sigpause (int __sig_or_mask, int __is_sig);
+static const int sigmask(sig) = __sigmask(sig);
+extern int sigblock (int __mask) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__deprecated__));
+extern int sigsetmask (int __mask) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__deprecated__));
+extern int siggetmask (void) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__deprecated__));
+static const int NSIG = _NSIG;
+typedef __sighandler_t sig_t;
+extern int sigemptyset (sigset_t *__set) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int sigfillset (sigset_t *__set) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int sigaddset (sigset_t *__set, int __signo) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int sigdelset (sigset_t *__set, int __signo) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int sigismember (__const sigset_t *__set, int __signo)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+struct sigaction
+  {
+    union
+      {
+ __sighandler_t sa_handler;
+ void (*sa_sigaction) (int, siginfo_t *, void *);
+      }
+    __sigaction_handler;
+static const int sa_handler = __sigaction_handler.sa_handler;
+static const int sa_sigaction = __sigaction_handler.sa_sigaction;
+    __sigset_t sa_mask;
+    int sa_flags;
+    void (*sa_restorer) (void);
+  };
+static const int SA_NOCLDSTOP = 1;
+static const int SA_NOCLDWAIT = 2;
+static const int SA_SIGINFO = 4;
+static const int SA_ONSTACK = 0x08000000;
+static const int SA_RESTART = 0x10000000;
+static const int SA_NODEFER = 0x40000000;
+static const int SA_RESETHAND = 0x80000000;
+static const int SA_INTERRUPT = 0x20000000;
+static const int SA_NOMASK = SA_NODEFER;
+static const int SA_ONESHOT = SA_RESETHAND;
+static const int SA_STACK = SA_ONSTACK;
+static const int SIG_BLOCK = 0;
+static const int SIG_UNBLOCK = 1;
+static const int SIG_SETMASK = 2;
+extern int sigprocmask (int __how, __const sigset_t *__restrict __set,
+   sigset_t *__restrict __oset) __attribute__ ((__nothrow__ , __leaf__));
+extern int sigsuspend (__const sigset_t *__set) __attribute__ ((__nonnull__ (1)));
+extern int sigaction (int __sig, __const struct sigaction *__restrict __act,
+        struct sigaction *__restrict __oact) __attribute__ ((__nothrow__ , __leaf__));
+extern int sigpending (sigset_t *__set) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int sigwait (__const sigset_t *__restrict __set, int *__restrict __sig)
+     __attribute__ ((__nonnull__ (1, 2)));
+extern int sigwaitinfo (__const sigset_t *__restrict __set,
+   siginfo_t *__restrict __info) __attribute__ ((__nonnull__ (1)));
+extern int sigtimedwait (__const sigset_t *__restrict __set,
+    siginfo_t *__restrict __info,
+    __const struct timespec *__restrict __timeout)
+     __attribute__ ((__nonnull__ (1)));
+extern int sigqueue (__pid_t __pid, int __sig, __const union sigval __val)
+     __attribute__ ((__nothrow__ , __leaf__));
+extern __const char *__const _sys_siglist[65];
+extern __const char *__const sys_siglist[65];
+struct sigvec
+  {
+    __sighandler_t sv_handler;
+    int sv_mask;
+    int sv_flags;
+static const int sv_onstack = sv_flags;
+  };
+static const int SV_ONSTACK = (1 << 0);
+static const int SV_INTERRUPT = (1 << 1);
+static const int SV_RESETHAND = (1 << 2);
+extern int sigvec (int __sig, __const struct sigvec *__vec,
+     struct sigvec *__ovec) __attribute__ ((__nothrow__ , __leaf__));
+static const int sigcontext_struct = sigcontext;
+static const int __BITS_PER_LONG = 32;
+typedef __signed__ char __s8;
+typedef unsigned char __u8;
+typedef __signed__ short __s16;
+typedef unsigned short __u16;
+typedef __signed__ int __s32;
+typedef unsigned int __u32;
+__extension__ typedef __signed__ long long __s64;
+__extension__ typedef unsigned long long __u64;
+typedef struct {
+ unsigned long fds_bits[1024 / (8 * sizeof(long))];
+} __kernel_fd_set;
+typedef void (*__kernel_sighandler_t)(int);
+typedef int __kernel_key_t;
+typedef int __kernel_mqd_t;
+typedef unsigned short __kernel_mode_t;
+static const int __kernel_mode_t = __kernel_mode_t;
+typedef unsigned short __kernel_ipc_pid_t;
+static const int __kernel_ipc_pid_t = __kernel_ipc_pid_t;
+typedef unsigned short __kernel_uid_t;
+typedef unsigned short __kernel_gid_t;
+static const int __kernel_uid_t = __kernel_uid_t;
+typedef unsigned short __kernel_old_dev_t;
+static const int __kernel_old_dev_t = __kernel_old_dev_t;
+typedef long __kernel_long_t;
+typedef unsigned long __kernel_ulong_t;
+typedef __kernel_ulong_t __kernel_ino_t;
+typedef int __kernel_pid_t;
+typedef __kernel_long_t __kernel_suseconds_t;
+typedef int __kernel_daddr_t;
+typedef unsigned int __kernel_uid32_t;
+typedef unsigned int __kernel_gid32_t;
+typedef __kernel_uid_t __kernel_old_uid_t;
+typedef __kernel_gid_t __kernel_old_gid_t;
+typedef unsigned int __kernel_size_t;
+typedef int __kernel_ssize_t;
+typedef int __kernel_ptrdiff_t;
+typedef struct {
+ int val[2];
+} __kernel_fsid_t;
+typedef __kernel_long_t __kernel_off_t;
+typedef long long __kernel_loff_t;
+typedef __kernel_long_t __kernel_time_t;
+typedef __kernel_long_t __kernel_clock_t;
+typedef int __kernel_timer_t;
+typedef int __kernel_clockid_t;
+typedef char * __kernel_caddr_t;
+typedef unsigned short __kernel_uid16_t;
+typedef unsigned short __kernel_gid16_t;
+typedef __u16 __le16;
+typedef __u16 __be16;
+typedef __u32 __le32;
+typedef __u32 __be32;
+typedef __u64 __le64;
+typedef __u64 __be64;
+typedef __u16 __sum16;
+typedef __u32 __wsum;
+static const int __aligned_u64 = __u64 __attribute__((aligned(8)));
+static const int __aligned_be64 = __be64 __attribute__((aligned(8)));
+static const int __aligned_le64 = __le64 __attribute__((aligned(8)));
+static const int FP_XSTATE_MAGIC1 = 0x46505853U;
+static const int FP_XSTATE_MAGIC2 = 0x46505845U;
+static const int FP_XSTATE_MAGIC2_SIZE = sizeof(FP_XSTATE_MAGIC2);
+struct _fpx_sw_bytes {
+ __u32 magic1;
+ __u32 extended_size;
+ __u64 xstate_bv;
+ __u32 xstate_size;
+ __u32 padding[7];
+};
+struct _fpreg {
+ unsigned short significand[4];
+ unsigned short exponent;
+};
+struct _fpxreg {
+ unsigned short significand[4];
+ unsigned short exponent;
+ unsigned short padding[3];
+};
+struct _xmmreg {
+ unsigned long element[4];
+};
+struct _fpstate {
+ unsigned long cw;
+ unsigned long sw;
+ unsigned long tag;
+ unsigned long ipoff;
+ unsigned long cssel;
+ unsigned long dataoff;
+ unsigned long datasel;
+ struct _fpreg _st[8];
+ unsigned short status;
+ unsigned short magic;
+ unsigned long _fxsr_env[6];
+ unsigned long mxcsr;
+ unsigned long reserved;
+ struct _fpxreg _fxsr_st[8];
+ struct _xmmreg _xmm[8];
+ unsigned long padding1[44];
+ union {
+  unsigned long padding2[12];
+  struct _fpx_sw_bytes sw_reserved;
+ };
+};
+static const int X86_FXSR_MAGIC = 0x0000;
+struct sigcontext {
+ unsigned short gs, __gsh;
+ unsigned short fs, __fsh;
+ unsigned short es, __esh;
+ unsigned short ds, __dsh;
+ unsigned long edi;
+ unsigned long esi;
+ unsigned long ebp;
+ unsigned long esp;
+ unsigned long ebx;
+ unsigned long edx;
+ unsigned long ecx;
+ unsigned long eax;
+ unsigned long trapno;
+ unsigned long err;
+ unsigned long eip;
+ unsigned short cs, __csh;
+ unsigned long eflags;
+ unsigned long esp_at_signal;
+ unsigned short ss, __ssh;
+ struct _fpstate *fpstate;
+ unsigned long oldmask;
+ unsigned long cr2;
+};
+struct _xsave_hdr {
+ __u64 xstate_bv;
+ __u64 reserved1[2];
+ __u64 reserved2[5];
+};
+struct _ymmh_state {
+ __u32 ymmh_space[64];
+};
+struct _xstate {
+ struct _fpstate fpstate;
+ struct _xsave_hdr xstate_hdr;
+ struct _ymmh_state ymmh;
+};
+extern int sigreturn (struct sigcontext *__scp) __attribute__ ((__nothrow__ , __leaf__));
+typedef unsigned int size_t;
+extern int siginterrupt (int __sig, int __interrupt) __attribute__ ((__nothrow__ , __leaf__));
+struct sigstack
+  {
+    void *ss_sp;
+    int ss_onstack;
+  };
+enum
+{
+  SS_ONSTACK = 1,
+static const int SS_ONSTACK = SS_ONSTACK;
+  SS_DISABLE
+static const int SS_DISABLE = SS_DISABLE;
+};
+static const int MINSIGSTKSZ = 2048;
+static const int SIGSTKSZ = 8192;
+typedef struct sigaltstack
+  {
+    void *ss_sp;
+    int ss_flags;
+    size_t ss_size;
+  } stack_t;
+static const int _SYS_UCONTEXT_H = 1;
+typedef int greg_t;
+static const int NGREG = 19;
+typedef greg_t gregset_t[19];
+struct _libc_fpreg
+{
+  unsigned short int significand[4];
+  unsigned short int exponent;
+};
+struct _libc_fpstate
+{
+  unsigned long int cw;
+  unsigned long int sw;
+  unsigned long int tag;
+  unsigned long int ipoff;
+  unsigned long int cssel;
+  unsigned long int dataoff;
+  unsigned long int datasel;
+  struct _libc_fpreg _st[8];
+  unsigned long int status;
+};
+typedef struct _libc_fpstate *fpregset_t;
+typedef struct
+  {
+    gregset_t gregs;
+    fpregset_t fpregs;
+    unsigned long int oldmask;
+    unsigned long int cr2;
+  } mcontext_t;
+typedef struct ucontext
+  {
+    unsigned long int uc_flags;
+    struct ucontext *uc_link;
+    stack_t uc_stack;
+    mcontext_t uc_mcontext;
+    __sigset_t uc_sigmask;
+    struct _libc_fpstate __fpregs_mem;
+  } ucontext_t;
+extern int sigstack (struct sigstack *__ss, struct sigstack *__oss)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__deprecated__));
+extern int sigaltstack (__const struct sigaltstack *__restrict __ss,
+   struct sigaltstack *__restrict __oss) __attribute__ ((__nothrow__ , __leaf__));
+typedef unsigned long int pthread_t;
+typedef union
+{
+  char __size[36];
+  long int __align;
+} pthread_attr_t;
+typedef struct __pthread_internal_slist
+{
+  struct __pthread_internal_slist *__next;
+} __pthread_slist_t;
+typedef union
+{
+  struct __pthread_mutex_s
+  {
+    int __lock;
+    unsigned int __count;
+    int __owner;
+    int __kind;
+    unsigned int __nusers;
+    __extension__ union
+    {
+      int __spins;
+      __pthread_slist_t __list;
+    };
+  } __data;
+  char __size[24];
+  long int __align;
+} pthread_mutex_t;
+typedef union
+{
+  char __size[4];
+  long int __align;
+} pthread_mutexattr_t;
+typedef union
+{
+  struct
+  {
+    int __lock;
+    unsigned int __futex;
+    __extension__ unsigned long long int __total_seq;
+    __extension__ unsigned long long int __wakeup_seq;
+    __extension__ unsigned long long int __woken_seq;
+    void *__mutex;
+    unsigned int __nwaiters;
+    unsigned int __broadcast_seq;
+  } __data;
+  char __size[48];
+  __extension__ long long int __align;
+} pthread_cond_t;
+typedef union
+{
+  char __size[4];
+  long int __align;
+} pthread_condattr_t;
+typedef unsigned int pthread_key_t;
+typedef int pthread_once_t;
+typedef union
+{
+  struct
+  {
+    int __lock;
+    unsigned int __nr_readers;
+    unsigned int __readers_wakeup;
+    unsigned int __writer_wakeup;
+    unsigned int __nr_readers_queued;
+    unsigned int __nr_writers_queued;
+    unsigned char __flags;
+    unsigned char __shared;
+    unsigned char __pad1;
+    unsigned char __pad2;
+    int __writer;
+  } __data;
+  char __size[32];
+  long int __align;
+} pthread_rwlock_t;
+typedef union
+{
+  char __size[8];
+  long int __align;
+} pthread_rwlockattr_t;
+typedef volatile int pthread_spinlock_t;
+typedef union
+{
+  char __size[20];
+  long int __align;
+} pthread_barrier_t;
+typedef union
+{
+  char __size[4];
+  int __align;
+} pthread_barrierattr_t;
+static const int _BITS_SIGTHREAD_H = 1;
+extern int pthread_sigmask (int __how,
+       __const __sigset_t *__restrict __newmask,
+       __sigset_t *__restrict __oldmask)__attribute__ ((__nothrow__ , __leaf__));
+extern int pthread_kill (pthread_t __threadid, int __signo) __attribute__ ((__nothrow__ , __leaf__));
+extern int __libc_current_sigrtmin (void) __attribute__ ((__nothrow__ , __leaf__));
+extern int __libc_current_sigrtmax (void) __attribute__ ((__nothrow__ , __leaf__));
+
+
+// *** 20. string.h ***
+static const int _STRING_H = 1;
+typedef unsigned int size_t;
+extern void *memcpy (void *__restrict __dest,
+       __const void *__restrict __src, size_t __n)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern void *memmove (void *__dest, __const void *__src, size_t __n)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern void *memccpy (void *__restrict __dest, __const void *__restrict __src,
+        int __c, size_t __n)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern void *memset (void *__s, int __c, size_t __n) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int memcmp (__const void *__s1, __const void *__s2, size_t __n)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern void *memchr (__const void *__s, int __c, size_t __n)
+      __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
+extern char *strcpy (char *__restrict __dest, __const char *__restrict __src)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern char *strncpy (char *__restrict __dest,
+        __const char *__restrict __src, size_t __n)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern char *strcat (char *__restrict __dest, __const char *__restrict __src)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern char *strncat (char *__restrict __dest, __const char *__restrict __src,
+        size_t __n) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int strcmp (__const char *__s1, __const char *__s2)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int strncmp (__const char *__s1, __const char *__s2, size_t __n)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int strcoll (__const char *__s1, __const char *__s2)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern size_t strxfrm (char *__restrict __dest,
+         __const char *__restrict __src, size_t __n)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2)));
+typedef struct __locale_struct
+{
+  struct __locale_data *__locales[13];
+  const unsigned short int *__ctype_b;
+  const int *__ctype_tolower;
+  const int *__ctype_toupper;
+  const char *__names[13];
+} *__locale_t;
+typedef __locale_t locale_t;
+extern int strcoll_l (__const char *__s1, __const char *__s2, __locale_t __l)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2, 3)));
+extern size_t strxfrm_l (char *__dest, __const char *__src, size_t __n,
+    __locale_t __l) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2, 4)));
+extern char *strdup (__const char *__s)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__malloc__)) __attribute__ ((__nonnull__ (1)));
+extern char *strndup (__const char *__string, size_t __n)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__malloc__)) __attribute__ ((__nonnull__ (1)));
+extern char *strchr (__const char *__s, int __c)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
+extern char *strrchr (__const char *__s, int __c)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
+extern size_t strcspn (__const char *__s, __const char *__reject)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern size_t strspn (__const char *__s, __const char *__accept)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern char *strpbrk (__const char *__s, __const char *__accept)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern char *strstr (__const char *__haystack, __const char *__needle)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern char *strtok (char *__restrict __s, __const char *__restrict __delim)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2)));
+extern char *__strtok_r (char *__restrict __s,
+    __const char *__restrict __delim,
+    char **__restrict __save_ptr)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2, 3)));
+extern char *strtok_r (char *__restrict __s, __const char *__restrict __delim,
+         char **__restrict __save_ptr)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2, 3)));
+extern size_t strlen (__const char *__s)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
+extern size_t strnlen (__const char *__string, size_t __maxlen)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
+extern char *strerror (int __errnum) __attribute__ ((__nothrow__ , __leaf__));
+extern int strerror_r (int __errnum, char *__buf, size_t __buflen) __asm__ ("" "__xpg_strerror_r") __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (2)));
+extern char *strerror_l (int __errnum, __locale_t __l) __attribute__ ((__nothrow__ , __leaf__));
+extern void __bzero (void *__s, size_t __n) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern void bcopy (__const void *__src, void *__dest, size_t __n)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern void bzero (void *__s, size_t __n) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1)));
+extern int bcmp (__const void *__s1, __const void *__s2, size_t __n)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern char *index (__const char *__s, int __c)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
+extern char *rindex (__const char *__s, int __c)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1)));
+extern int ffs (int __i) __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
+extern int strcasecmp (__const char *__s1, __const char *__s2)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern int strncasecmp (__const char *__s1, __const char *__s2, size_t __n)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__pure__)) __attribute__ ((__nonnull__ (1, 2)));
+extern char *strsep (char **__restrict __stringp,
+       __const char *__restrict __delim)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern char *strsignal (int __sig) __attribute__ ((__nothrow__ , __leaf__));
+extern char *__stpcpy (char *__restrict __dest, __const char *__restrict __src)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern char *stpcpy (char *__restrict __dest, __const char *__restrict __src)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern char *__stpncpy (char *__restrict __dest,
+   __const char *__restrict __src, size_t __n)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));
+extern char *stpncpy (char *__restrict __dest,
+        __const char *__restrict __src, size_t __n)
+     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__nonnull__ (1, 2)));

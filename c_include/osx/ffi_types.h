@@ -1,6 +1,6 @@
 
 
-// *** 1. sys/types.h ***
+// *** 1. unistd.h ***
 static const int __STDC__ = 1;
 static const int __STDC_HOSTED__ = 1;
 static const int __GNUC__ = 4;
@@ -206,28 +206,6 @@ typedef unsigned long __darwin_clock_t;
 typedef __uint32_t __darwin_socklen_t;
 typedef long __darwin_ssize_t;
 typedef long __darwin_time_t;
-typedef signed char int8_t;
-typedef unsigned char u_int8_t;
-typedef short int16_t;
-typedef unsigned short u_int16_t;
-typedef int int32_t;
-typedef unsigned int u_int32_t;
-typedef long long int64_t;
-typedef unsigned long long u_int64_t;
-typedef int64_t register_t;
-typedef __darwin_intptr_t intptr_t;
-typedef unsigned long uintptr_t;
-typedef u_int64_t user_addr_t;
-typedef u_int64_t user_size_t;
-typedef int64_t user_ssize_t;
-typedef int64_t user_long_t;
-typedef u_int64_t user_ulong_t;
-typedef int64_t user_time_t;
-typedef int64_t user_off_t;
-static const int USER_ADDR_NULL = ((user_addr_t) 0);
-static const int CAST_USER_ADDR_T(a_ptr) = ((user_addr_t)((uintptr_t)(a_ptr)));
-typedef u_int64_t syscall_arg_t;
-static const int __offsetof(type,field) = ((size_t)(&((type *)0)->field));
 static const int __PTHREAD_SIZE__ = 1168;
 static const int __PTHREAD_ATTR_SIZE__ = 56;
 static const int __PTHREAD_MUTEXATTR_SIZE__ = 8;
@@ -253,527 +231,6 @@ struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
 struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
 struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
 static const int __DARWIN_NULL = ((void *)0);
-typedef __int64_t __darwin_blkcnt_t;
-typedef __int32_t __darwin_blksize_t;
-typedef __int32_t __darwin_dev_t;
-typedef unsigned int __darwin_fsblkcnt_t;
-typedef unsigned int __darwin_fsfilcnt_t;
-typedef __uint32_t __darwin_gid_t;
-typedef __uint32_t __darwin_id_t;
-typedef __uint64_t __darwin_ino64_t;
-typedef __darwin_ino64_t __darwin_ino_t;
-typedef __darwin_natural_t __darwin_mach_port_name_t;
-typedef __darwin_mach_port_name_t __darwin_mach_port_t;
-typedef __uint16_t __darwin_mode_t;
-typedef __int64_t __darwin_off_t;
-typedef __int32_t __darwin_pid_t;
-typedef struct _opaque_pthread_attr_t
-   __darwin_pthread_attr_t;
-typedef struct _opaque_pthread_cond_t
-   __darwin_pthread_cond_t;
-typedef struct _opaque_pthread_condattr_t
-   __darwin_pthread_condattr_t;
-typedef unsigned long __darwin_pthread_key_t;
-typedef struct _opaque_pthread_mutex_t
-   __darwin_pthread_mutex_t;
-typedef struct _opaque_pthread_mutexattr_t
-   __darwin_pthread_mutexattr_t;
-typedef struct _opaque_pthread_once_t
-   __darwin_pthread_once_t;
-typedef struct _opaque_pthread_rwlock_t
-   __darwin_pthread_rwlock_t;
-typedef struct _opaque_pthread_rwlockattr_t
-   __darwin_pthread_rwlockattr_t;
-typedef struct _opaque_pthread_t
-   *__darwin_pthread_t;
-typedef __uint32_t __darwin_sigset_t;
-typedef __int32_t __darwin_suseconds_t;
-typedef __uint32_t __darwin_uid_t;
-typedef __uint32_t __darwin_useconds_t;
-typedef unsigned char __darwin_uuid_t[16];
-typedef char __darwin_uuid_string_t[37];
-static const int _QUAD_HIGHWORD = 1;
-static const int _QUAD_LOWWORD = 0;
-static const int __DARWIN_LITTLE_ENDIAN = 1234;
-static const int __DARWIN_BIG_ENDIAN = 4321;
-static const int __DARWIN_PDP_ENDIAN = 3412;
-static const int __DARWIN_BYTE_ORDER = __DARWIN_LITTLE_ENDIAN;
-static const int LITTLE_ENDIAN = __DARWIN_LITTLE_ENDIAN;
-static const int BIG_ENDIAN = __DARWIN_BIG_ENDIAN;
-static const int PDP_ENDIAN = __DARWIN_PDP_ENDIAN;
-static const int BYTE_ORDER = __DARWIN_BYTE_ORDER;
-static const int __DARWIN_OSSwapConstInt16(x) = ((__uint16_t)((((__uint16_t)(x) & 0xff00) >> 8) | (((__uint16_t)(x) & 0x00ff) << 8)));
-static const int __DARWIN_OSSwapConstInt32(x) = ((__uint32_t)((((__uint32_t)(x) & 0xff000000) >> 24) | (((__uint32_t)(x) & 0x00ff0000) >> 8) | (((__uint32_t)(x) & 0x0000ff00) << 8) | (((__uint32_t)(x) & 0x000000ff) << 24)));
-static const int __DARWIN_OSSwapConstInt64(x) = ((__uint64_t)((((__uint64_t)(x) & 0xff00000000000000ULL) >> 56) | (((__uint64_t)(x) & 0x00ff000000000000ULL) >> 40) | (((__uint64_t)(x) & 0x0000ff0000000000ULL) >> 24) | (((__uint64_t)(x) & 0x000000ff00000000ULL) >> 8) | (((__uint64_t)(x) & 0x00000000ff000000ULL) << 8) | (((__uint64_t)(x) & 0x0000000000ff0000ULL) << 24) | (((__uint64_t)(x) & 0x000000000000ff00ULL) << 40) | (((__uint64_t)(x) & 0x00000000000000ffULL) << 56)));
-static const int __DARWIN_OS_INLINE = static __inline__;
-static __inline__
-__uint16_t
-_OSSwapInt16(
-    __uint16_t _data
-)
-{
-    return ((_data << 8) | (_data >> 8));
-}
-static __inline__
-__uint32_t
-_OSSwapInt32(
-    __uint32_t _data
-)
-{
-    return __builtin_bswap32(_data);
-}
-static __inline__
-__uint64_t
-_OSSwapInt64(
-    __uint64_t _data
-)
-{
-    return __builtin_bswap64(_data);
-}
-static const int __DARWIN_OSSwapInt16(x) = ((__uint16_t)(__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt16(x) : _OSSwapInt16(x)));
-static const int __DARWIN_OSSwapInt32(x) = (__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt32(x) : _OSSwapInt32(x));
-static const int __DARWIN_OSSwapInt64(x) = (__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt64(x) : _OSSwapInt64(x));
-static const int ntohs(x) = __DARWIN_OSSwapInt16(x);
-static const int htons(x) = __DARWIN_OSSwapInt16(x);
-static const int ntohl(x) = __DARWIN_OSSwapInt32(x);
-static const int htonl(x) = __DARWIN_OSSwapInt32(x);
-static const int NTOHL(x) = (x) = ntohl((__uint32_t)x);
-static const int NTOHS(x) = (x) = ntohs((__uint16_t)x);
-static const int HTONL(x) = (x) = htonl((__uint32_t)x);
-static const int HTONS(x) = (x) = htons((__uint16_t)x);
-typedef unsigned char u_char;
-typedef unsigned short u_short;
-typedef unsigned int u_int;
-typedef unsigned long u_long;
-typedef unsigned short ushort;
-typedef unsigned int uint;
-typedef u_int64_t u_quad_t;
-typedef int64_t quad_t;
-typedef quad_t * qaddr_t;
-typedef char * caddr_t;
-typedef int32_t daddr_t;
-typedef __darwin_dev_t dev_t;
-typedef u_int32_t fixpt_t;
-typedef __darwin_blkcnt_t blkcnt_t;
-typedef __darwin_blksize_t blksize_t;
-typedef __darwin_gid_t gid_t;
-typedef __uint32_t in_addr_t;
-typedef __uint16_t in_port_t;
-typedef __darwin_ino_t ino_t;
-typedef __darwin_ino64_t ino64_t;
-typedef __int32_t key_t;
-typedef __darwin_mode_t mode_t;
-typedef __uint16_t nlink_t;
-typedef __darwin_id_t id_t;
-typedef __darwin_pid_t pid_t;
-typedef __darwin_off_t off_t;
-typedef int32_t segsz_t;
-typedef int32_t swblk_t;
-typedef __darwin_uid_t uid_t;
-static const int major(x) = ((int32_t)(((u_int32_t)(x) >> 24) & 0xff));
-static const int minor(x) = ((int32_t)((x) & 0xffffff));
-static const int makedev(x,y) = ((dev_t)(((x) << 24) | (y)));
-typedef __darwin_clock_t clock_t;
-typedef __darwin_size_t size_t;
-typedef __darwin_ssize_t ssize_t;
-typedef __darwin_time_t time_t;
-typedef __darwin_useconds_t useconds_t;
-typedef __darwin_suseconds_t suseconds_t;
-#undef __need_fd_set
-static const int __DARWIN_FD_SETSIZE = 1024;
-static const int __DARWIN_NBBY = 8;
-static const int __DARWIN_NFDBITS = (sizeof(__int32_t) * __DARWIN_NBBY);
-static const int __DARWIN_howmany(x,y) = ((((x) % (y)) == 0) ? ((x) / (y)) : (((x) / (y)) + 1));
-typedef struct fd_set {
- __int32_t fds_bits[((((1024) % ((sizeof(__int32_t) * 8))) == 0) ? ((1024) / ((sizeof(__int32_t) * 8))) : (((1024) / ((sizeof(__int32_t) * 8))) + 1))];
-} fd_set;
-static __inline int
-__darwin_fd_isset(int _n, const struct fd_set *_p)
-{
- return (_p->fds_bits[_n/(sizeof(__int32_t) * 8)] & (1<<(_n % (sizeof(__int32_t) * 8))));
-}
-static const int __DARWIN_FD_SET(n,p) = do { int __fd = (n); ((p)->fds_bits[__fd/__DARWIN_NFDBITS] |= (1<<(__fd % __DARWIN_NFDBITS))); } while(0);
-static const int __DARWIN_FD_CLR(n,p) = do { int __fd = (n); ((p)->fds_bits[__fd/__DARWIN_NFDBITS] &= ~(1<<(__fd % __DARWIN_NFDBITS))); } while(0);
-static const int __DARWIN_FD_ISSET(n,p) = __darwin_fd_isset((n), (p));
-static const int __DARWIN_FD_ZERO(p) = __builtin_bzero(p, sizeof(*(p)));
-static const int __DARWIN_FD_COPY(f,t) = bcopy(f, t, sizeof(*(f)));
-static const int NBBY = __DARWIN_NBBY;
-static const int NFDBITS = __DARWIN_NFDBITS;
-static const int howmany(x,y) = __DARWIN_howmany(x, y);
-typedef __int32_t fd_mask;
-static const int FD_SETSIZE = __DARWIN_FD_SETSIZE;
-static const int FD_SET(n,p) = __DARWIN_FD_SET(n, p);
-static const int FD_CLR(n,p) = __DARWIN_FD_CLR(n, p);
-static const int FD_ISSET(n,p) = __DARWIN_FD_ISSET(n, p);
-static const int FD_ZERO(p) = __DARWIN_FD_ZERO(p);
-static const int FD_COPY(f,t) = __DARWIN_FD_COPY(f, t);
-typedef __darwin_pthread_attr_t pthread_attr_t;
-typedef __darwin_pthread_cond_t pthread_cond_t;
-typedef __darwin_pthread_condattr_t pthread_condattr_t;
-typedef __darwin_pthread_mutex_t pthread_mutex_t;
-typedef __darwin_pthread_mutexattr_t pthread_mutexattr_t;
-typedef __darwin_pthread_once_t pthread_once_t;
-typedef __darwin_pthread_rwlock_t pthread_rwlock_t;
-typedef __darwin_pthread_rwlockattr_t pthread_rwlockattr_t;
-typedef __darwin_pthread_t pthread_t;
-typedef __darwin_pthread_key_t pthread_key_t;
-typedef __darwin_fsblkcnt_t fsblkcnt_t;
-typedef __darwin_fsfilcnt_t fsfilcnt_t;
-
-
-// *** 2. sys/event.h ***
-typedef __signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef short __int16_t;
-typedef unsigned short __uint16_t;
-typedef int __int32_t;
-typedef unsigned int __uint32_t;
-typedef long long __int64_t;
-typedef unsigned long long __uint64_t;
-typedef long __darwin_intptr_t;
-typedef unsigned int __darwin_natural_t;
-typedef int __darwin_ct_rune_t;
-typedef union {
- char __mbstate8[128];
- long long _mbstateL;
-} __mbstate_t;
-typedef __mbstate_t __darwin_mbstate_t;
-typedef long int __darwin_ptrdiff_t;
-typedef long unsigned int __darwin_size_t;
-typedef __builtin_va_list __darwin_va_list;
-typedef int __darwin_wchar_t;
-typedef __darwin_wchar_t __darwin_rune_t;
-typedef int __darwin_wint_t;
-typedef unsigned long __darwin_clock_t;
-typedef __uint32_t __darwin_socklen_t;
-typedef long __darwin_ssize_t;
-typedef long __darwin_time_t;
-typedef signed char int8_t;
-typedef unsigned char u_int8_t;
-typedef short int16_t;
-typedef unsigned short u_int16_t;
-typedef int int32_t;
-typedef unsigned int u_int32_t;
-typedef long long int64_t;
-typedef unsigned long long u_int64_t;
-typedef int64_t register_t;
-typedef __darwin_intptr_t intptr_t;
-typedef unsigned long uintptr_t;
-typedef u_int64_t user_addr_t;
-typedef u_int64_t user_size_t;
-typedef int64_t user_ssize_t;
-typedef int64_t user_long_t;
-typedef u_int64_t user_ulong_t;
-typedef int64_t user_time_t;
-typedef int64_t user_off_t;
-typedef u_int64_t syscall_arg_t;
-static const int __WORDSIZE = 64;
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
-typedef unsigned int uint32_t;
-typedef unsigned long long uint64_t;
-typedef int8_t int_least8_t;
-typedef int16_t int_least16_t;
-typedef int32_t int_least32_t;
-typedef int64_t int_least64_t;
-typedef uint8_t uint_least8_t;
-typedef uint16_t uint_least16_t;
-typedef uint32_t uint_least32_t;
-typedef uint64_t uint_least64_t;
-typedef int8_t int_fast8_t;
-typedef int16_t int_fast16_t;
-typedef int32_t int_fast32_t;
-typedef int64_t int_fast64_t;
-typedef uint8_t uint_fast8_t;
-typedef uint16_t uint_fast16_t;
-typedef uint32_t uint_fast32_t;
-typedef uint64_t uint_fast64_t;
-typedef long int intmax_t;
-typedef long unsigned int uintmax_t;
-static const int INT8_MAX = 127;
-static const int INT16_MAX = 32767;
-static const int INT32_MAX = 2147483647;
-static const long long INT64_MAX = 9223372036854775807LL;
-static const int INT8_MIN = -128;
-static const int INT16_MIN = -32768;
-static const int INT32_MIN = (-INT32_MAX-1);
-static const int INT64_MIN = (-INT64_MAX-1);
-static const int UINT8_MAX = 255;
-static const int UINT16_MAX = 65535;
-static const int UINT32_MAX = 4294967295U;
-static const int UINT64_MAX = 18446744073709551615ULL;
-static const int INT_LEAST8_MIN = INT8_MIN;
-static const int INT_LEAST16_MIN = INT16_MIN;
-static const int INT_LEAST32_MIN = INT32_MIN;
-static const int INT_LEAST64_MIN = INT64_MIN;
-static const int INT_LEAST8_MAX = INT8_MAX;
-static const int INT_LEAST16_MAX = INT16_MAX;
-static const int INT_LEAST32_MAX = INT32_MAX;
-static const int INT_LEAST64_MAX = INT64_MAX;
-static const int UINT_LEAST8_MAX = UINT8_MAX;
-static const int UINT_LEAST16_MAX = UINT16_MAX;
-static const int UINT_LEAST32_MAX = UINT32_MAX;
-static const int UINT_LEAST64_MAX = UINT64_MAX;
-static const int INT_FAST8_MIN = INT8_MIN;
-static const int INT_FAST16_MIN = INT16_MIN;
-static const int INT_FAST32_MIN = INT32_MIN;
-static const int INT_FAST64_MIN = INT64_MIN;
-static const int INT_FAST8_MAX = INT8_MAX;
-static const int INT_FAST16_MAX = INT16_MAX;
-static const int INT_FAST32_MAX = INT32_MAX;
-static const int INT_FAST64_MAX = INT64_MAX;
-static const int UINT_FAST8_MAX = UINT8_MAX;
-static const int UINT_FAST16_MAX = UINT16_MAX;
-static const int UINT_FAST32_MAX = UINT32_MAX;
-static const int UINT_FAST64_MAX = UINT64_MAX;
-static const int INTPTR_MIN = INT64_MIN;
-static const int INTPTR_MAX = INT64_MAX;
-static const int UINTPTR_MAX = UINT64_MAX;
-static const int INTMAX_MIN = INT64_MIN;
-static const int INTMAX_MAX = INT64_MAX;
-static const int UINTMAX_MAX = UINT64_MAX;
-static const int PTRDIFF_MIN = INT64_MIN;
-static const int PTRDIFF_MAX = INT64_MAX;
-static const int SIZE_MAX = UINT64_MAX;
-static const int WCHAR_MAX = __WCHAR_MAX__;
-static const int WCHAR_MIN = (-WCHAR_MAX-1);
-static const int WINT_MIN = INT32_MIN;
-static const int WINT_MAX = INT32_MAX;
-static const int SIG_ATOMIC_MIN = INT32_MIN;
-static const int SIG_ATOMIC_MAX = INT32_MAX;
-static const int INT8_C(v) = (v);
-static const int INT16_C(v) = (v);
-static const int INT32_C(v) = (v);
-static const int INT64_C(v) = (v ## LL);
-static const int UINT8_C(v) = (v ## U);
-static const int UINT16_C(v) = (v ## U);
-static const int UINT32_C(v) = (v ## U);
-static const int UINT64_C(v) = (v ## ULL);
-static const int INTMAX_C(v) = (v ## LL);
-static const int UINTMAX_C(v) = (v ## ULL);
-static const int EVFILT_READ = (-1);
-static const int EVFILT_WRITE = (-2);
-static const int EVFILT_AIO = (-3);
-static const int EVFILT_VNODE = (-4);
-static const int EVFILT_PROC = (-5);
-static const int EVFILT_SIGNAL = (-6);
-static const int EVFILT_TIMER = (-7);
-static const int EVFILT_MACHPORT = (-8);
-static const int EVFILT_FS = (-9);
-static const int EVFILT_USER = (-10);
-static const int EVFILT_VM = (-12);
-static const int EVFILT_SYSCOUNT = 13;
-static const int EVFILT_THREADMARKER = EVFILT_SYSCOUNT;
-#pragma pack(4)
-struct kevent {
- uintptr_t ident;
- int16_t filter;
- uint16_t flags;
- uint32_t fflags;
- intptr_t data;
- void *udata;
-};
-#pragma pack()
-struct kevent64_s {
- uint64_t ident;
- int16_t filter;
- uint16_t flags;
- uint32_t fflags;
- int64_t data;
- uint64_t udata;
- uint64_t ext[2];
-};
-static const int EV_SET(kevp,a,b,c,d,e,f) = do { struct kevent *__kevp__ = (kevp); __kevp__->ident = (a); __kevp__->filter = (b); __kevp__->flags = (c); __kevp__->fflags = (d); __kevp__->data = (e); __kevp__->udata = (f); } while(0);
-static const int EV_SET64(kevp,a,b,c,d,e,f,g,h) = do { struct kevent64_s *__kevp__ = (kevp); __kevp__->ident = (a); __kevp__->filter = (b); __kevp__->flags = (c); __kevp__->fflags = (d); __kevp__->data = (e); __kevp__->udata = (f); __kevp__->ext[0] = (g); __kevp__->ext[1] = (h); } while(0);
-static const int EV_ADD = 0x0001;
-static const int EV_DELETE = 0x0002;
-static const int EV_ENABLE = 0x0004;
-static const int EV_DISABLE = 0x0008;
-static const int EV_RECEIPT = 0x0040;
-static const int EV_ONESHOT = 0x0010;
-static const int EV_CLEAR = 0x0020;
-static const int EV_DISPATCH = 0x0080;
-static const int EV_SYSFLAGS = 0xF000;
-static const int EV_FLAG0 = 0x1000;
-static const int EV_FLAG1 = 0x2000;
-static const int EV_EOF = 0x8000;
-static const int EV_ERROR = 0x4000;
-static const int EV_POLL = EV_FLAG0;
-static const int EV_OOBAND = EV_FLAG1;
-static const int NOTE_TRIGGER = 0x01000000;
-static const int NOTE_FFNOP = 0x00000000;
-static const int NOTE_FFAND = 0x40000000;
-static const int NOTE_FFOR = 0x80000000;
-static const int NOTE_FFCOPY = 0xc0000000;
-static const int NOTE_FFCTRLMASK = 0xc0000000;
-static const int NOTE_FFLAGSMASK = 0x00ffffff;
-static const int NOTE_LOWAT = 0x00000001;
-static const int NOTE_DELETE = 0x00000001;
-static const int NOTE_WRITE = 0x00000002;
-static const int NOTE_EXTEND = 0x00000004;
-static const int NOTE_ATTRIB = 0x00000008;
-static const int NOTE_LINK = 0x00000010;
-static const int NOTE_RENAME = 0x00000020;
-static const int NOTE_REVOKE = 0x00000040;
-static const int NOTE_NONE = 0x00000080;
-static const int NOTE_EXIT = 0x80000000;
-static const int NOTE_FORK = 0x40000000;
-static const int NOTE_EXEC = 0x20000000;
-static const int NOTE_REAP = 0x10000000;
-static const int NOTE_SIGNAL = 0x08000000;
-static const int NOTE_EXITSTATUS = 0x04000000;
-static const int NOTE_RESOURCEEND = 0x02000000;
-static const int NOTE_PDATAMASK = 0x000fffff;
-static const int NOTE_PCTRLMASK = (~NOTE_PDATAMASK);
-static const int NOTE_EXIT_REPARENTED = 0x00080000;
-static const int NOTE_VM_PRESSURE = 0x80000000;
-static const int NOTE_VM_PRESSURE_TERMINATE = 0x40000000;
-static const int NOTE_VM_PRESSURE_SUDDEN_TERMINATE = 0x20000000;
-static const int NOTE_VM_ERROR = 0x10000000;
-static const int NOTE_SECONDS = 0x00000001;
-static const int NOTE_USECONDS = 0x00000002;
-static const int NOTE_NSECONDS = 0x00000004;
-static const int NOTE_ABSOLUTE = 0x00000008;
-static const int NOTE_TRACK = 0x00000001;
-static const int NOTE_TRACKERR = 0x00000002;
-static const int NOTE_CHILD = 0x00000004;
-static const int SLIST_HEAD(name,type) = struct name { struct type *slh_first; };
-static const int SLIST_HEAD_INITIALIZER(head) = { NULL };
-static const int SLIST_ENTRY(type) = struct { struct type *sle_next; };
-static const int SLIST_EMPTY(head) = ((head)->slh_first == NULL);
-static const int SLIST_FIRST(head) = ((head)->slh_first);
-static const int SLIST_FOREACH(var,head,field) = for ((var) = SLIST_FIRST((head)); (var); (var) = SLIST_NEXT((var), field));
-static const int SLIST_FOREACH_SAFE(var,head,field,tvar) = for ((var) = SLIST_FIRST((head)); (var) && ((tvar) = SLIST_NEXT((var), field), 1); (var) = (tvar));
-static const int SLIST_FOREACH_PREVPTR(var,varp,head,field) = for ((varp) = &SLIST_FIRST((head)); ((var) = *(varp)) != NULL; (varp) = &SLIST_NEXT((var), field));
-static const int SLIST_INIT(head) = do { SLIST_FIRST((head)) = NULL; } while (0);
-static const int SLIST_INSERT_AFTER(slistelm,elm,field) = do { SLIST_NEXT((elm), field) = SLIST_NEXT((slistelm), field); SLIST_NEXT((slistelm), field) = (elm); } while (0);
-static const int SLIST_INSERT_HEAD(head,elm,field) = do { SLIST_NEXT((elm), field) = SLIST_FIRST((head)); SLIST_FIRST((head)) = (elm); } while (0);
-static const int SLIST_NEXT(elm,field) = ((elm)->field.sle_next);
-static const int SLIST_REMOVE(head,elm,type,field) = do { if (SLIST_FIRST((head)) == (elm)) { SLIST_REMOVE_HEAD((head), field); } else { struct type *curelm = SLIST_FIRST((head)); while (SLIST_NEXT(curelm, field) != (elm)) curelm = SLIST_NEXT(curelm, field); SLIST_REMOVE_AFTER(curelm, field); } TRASHIT((elm)->field.sle_next); } while (0);
-static const int SLIST_REMOVE_AFTER(elm,field) = do { SLIST_NEXT(elm, field) = SLIST_NEXT(SLIST_NEXT(elm, field), field); } while (0);
-static const int SLIST_REMOVE_HEAD(head,field) = do { SLIST_FIRST((head)) = SLIST_NEXT(SLIST_FIRST((head)), field); } while (0);
-static const int STAILQ_HEAD(name,type) = struct name { struct type *stqh_first; struct type **stqh_last; };
-static const int STAILQ_HEAD_INITIALIZER(head) = { NULL, &(head).stqh_first };
-static const int STAILQ_ENTRY(type) = struct { struct type *stqe_next; };
-static const int STAILQ_CONCAT(head1,head2) = do { if (!STAILQ_EMPTY((head2))) { *(head1)->stqh_last = (head2)->stqh_first; (head1)->stqh_last = (head2)->stqh_last; STAILQ_INIT((head2)); } } while (0);
-static const int STAILQ_EMPTY(head) = ((head)->stqh_first == NULL);
-static const int STAILQ_FIRST(head) = ((head)->stqh_first);
-static const int STAILQ_FOREACH(var,head,field) = for((var) = STAILQ_FIRST((head)); (var); (var) = STAILQ_NEXT((var), field));
-static const int STAILQ_FOREACH_SAFE(var,head,field,tvar) = for ((var) = STAILQ_FIRST((head)); (var) && ((tvar) = STAILQ_NEXT((var), field), 1); (var) = (tvar));
-static const int STAILQ_INIT(head) = do { STAILQ_FIRST((head)) = NULL; (head)->stqh_last = &STAILQ_FIRST((head)); } while (0);
-static const int STAILQ_INSERT_AFTER(head,tqelm,elm,field) = do { if ((STAILQ_NEXT((elm), field) = STAILQ_NEXT((tqelm), field)) == NULL) (head)->stqh_last = &STAILQ_NEXT((elm), field); STAILQ_NEXT((tqelm), field) = (elm); } while (0);
-static const int STAILQ_INSERT_HEAD(head,elm,field) = do { if ((STAILQ_NEXT((elm), field) = STAILQ_FIRST((head))) == NULL) (head)->stqh_last = &STAILQ_NEXT((elm), field); STAILQ_FIRST((head)) = (elm); } while (0);
-static const int STAILQ_INSERT_TAIL(head,elm,field) = do { STAILQ_NEXT((elm), field) = NULL; *(head)->stqh_last = (elm); (head)->stqh_last = &STAILQ_NEXT((elm), field); } while (0);
-static const int STAILQ_LAST(head,type,field) = (STAILQ_EMPTY((head)) ? NULL : ((struct type *)(void *) ((char *)((head)->stqh_last) - __offsetof(struct type, field))));
-static const int STAILQ_NEXT(elm,field) = ((elm)->field.stqe_next);
-static const int STAILQ_REMOVE(head,elm,type,field) = do { if (STAILQ_FIRST((head)) == (elm)) { STAILQ_REMOVE_HEAD((head), field); } else { struct type *curelm = STAILQ_FIRST((head)); while (STAILQ_NEXT(curelm, field) != (elm)) curelm = STAILQ_NEXT(curelm, field); STAILQ_REMOVE_AFTER(head, curelm, field); } TRASHIT((elm)->field.stqe_next); } while (0);
-static const int STAILQ_REMOVE_HEAD(head,field) = do { if ((STAILQ_FIRST((head)) = STAILQ_NEXT(STAILQ_FIRST((head)), field)) == NULL) (head)->stqh_last = &STAILQ_FIRST((head)); } while (0);
-static const int STAILQ_REMOVE_HEAD_UNTIL(head,elm,field) = do { if ((STAILQ_FIRST((head)) = STAILQ_NEXT((elm), field)) == NULL) (head)->stqh_last = &STAILQ_FIRST((head)); } while (0);
-static const int STAILQ_REMOVE_AFTER(head,elm,field) = do { if ((STAILQ_NEXT(elm, field) = STAILQ_NEXT(STAILQ_NEXT(elm, field), field)) == NULL) (head)->stqh_last = &STAILQ_NEXT((elm), field); } while (0);
-static const int STAILQ_SWAP(head1,head2,type) = do { struct type *swap_first = STAILQ_FIRST(head1); struct type **swap_last = (head1)->stqh_last; STAILQ_FIRST(head1) = STAILQ_FIRST(head2); (head1)->stqh_last = (head2)->stqh_last; STAILQ_FIRST(head2) = swap_first; (head2)->stqh_last = swap_last; if (STAILQ_EMPTY(head1)) (head1)->stqh_last = &STAILQ_FIRST(head1); if (STAILQ_EMPTY(head2)) (head2)->stqh_last = &STAILQ_FIRST(head2); } while (0);
-static const int LIST_HEAD(name,type) = struct name { struct type *lh_first; };
-static const int LIST_HEAD_INITIALIZER(head) = { NULL };
-static const int LIST_ENTRY(type) = struct { struct type *le_next; struct type **le_prev; };
-static const int LIST_EMPTY(head) = ((head)->lh_first == NULL);
-static const int LIST_FIRST(head) = ((head)->lh_first);
-static const int LIST_FOREACH(var,head,field) = for ((var) = LIST_FIRST((head)); (var); (var) = LIST_NEXT((var), field));
-static const int LIST_FOREACH_SAFE(var,head,field,tvar) = for ((var) = LIST_FIRST((head)); (var) && ((tvar) = LIST_NEXT((var), field), 1); (var) = (tvar));
-static const int LIST_INIT(head) = do { LIST_FIRST((head)) = NULL; } while (0);
-static const int LIST_INSERT_AFTER(listelm,elm,field) = do { QMD_LIST_CHECK_NEXT(listelm, field); if ((LIST_NEXT((elm), field) = LIST_NEXT((listelm), field)) != NULL) LIST_NEXT((listelm), field)->field.le_prev = &LIST_NEXT((elm), field); LIST_NEXT((listelm), field) = (elm); (elm)->field.le_prev = &LIST_NEXT((listelm), field); } while (0);
-static const int LIST_INSERT_BEFORE(listelm,elm,field) = do { QMD_LIST_CHECK_PREV(listelm, field); (elm)->field.le_prev = (listelm)->field.le_prev; LIST_NEXT((elm), field) = (listelm); *(listelm)->field.le_prev = (elm); (listelm)->field.le_prev = &LIST_NEXT((elm), field); } while (0);
-static const int LIST_INSERT_HEAD(head,elm,field) = do { QMD_LIST_CHECK_HEAD((head), field); if ((LIST_NEXT((elm), field) = LIST_FIRST((head))) != NULL) LIST_FIRST((head))->field.le_prev = &LIST_NEXT((elm), field); LIST_FIRST((head)) = (elm); (elm)->field.le_prev = &LIST_FIRST((head)); } while (0);
-static const int LIST_NEXT(elm,field) = ((elm)->field.le_next);
-static const int LIST_REMOVE(elm,field) = do { QMD_LIST_CHECK_NEXT(elm, field); QMD_LIST_CHECK_PREV(elm, field); if (LIST_NEXT((elm), field) != NULL) LIST_NEXT((elm), field)->field.le_prev = (elm)->field.le_prev; *(elm)->field.le_prev = LIST_NEXT((elm), field); TRASHIT((elm)->field.le_next); TRASHIT((elm)->field.le_prev); } while (0);
-static const int LIST_SWAP(head1,head2,type,field) = do { struct type *swap_tmp = LIST_FIRST((head1)); LIST_FIRST((head1)) = LIST_FIRST((head2)); LIST_FIRST((head2)) = swap_tmp; if ((swap_tmp = LIST_FIRST((head1))) != NULL) swap_tmp->field.le_prev = &LIST_FIRST((head1)); if ((swap_tmp = LIST_FIRST((head2))) != NULL) swap_tmp->field.le_prev = &LIST_FIRST((head2)); } while (0);
-static const int TAILQ_HEAD(name,type) = struct name { struct type *tqh_first; struct type **tqh_last; TRACEBUF };
-static const int TAILQ_HEAD_INITIALIZER(head) = { NULL, &(head).tqh_first };
-static const int TAILQ_ENTRY(type) = struct { struct type *tqe_next; struct type **tqe_prev; TRACEBUF };
-static const int TAILQ_CONCAT(head1,head2,field) = do { if (!TAILQ_EMPTY(head2)) { *(head1)->tqh_last = (head2)->tqh_first; (head2)->tqh_first->field.tqe_prev = (head1)->tqh_last; (head1)->tqh_last = (head2)->tqh_last; TAILQ_INIT((head2)); QMD_TRACE_HEAD(head1); QMD_TRACE_HEAD(head2); } } while (0);
-static const int TAILQ_EMPTY(head) = ((head)->tqh_first == NULL);
-static const int TAILQ_FIRST(head) = ((head)->tqh_first);
-static const int TAILQ_FOREACH(var,head,field) = for ((var) = TAILQ_FIRST((head)); (var); (var) = TAILQ_NEXT((var), field));
-static const int TAILQ_FOREACH_SAFE(var,head,field,tvar) = for ((var) = TAILQ_FIRST((head)); (var) && ((tvar) = TAILQ_NEXT((var), field), 1); (var) = (tvar));
-static const int TAILQ_FOREACH_REVERSE(var,head,headname,field) = for ((var) = TAILQ_LAST((head), headname); (var); (var) = TAILQ_PREV((var), headname, field));
-static const int TAILQ_FOREACH_REVERSE_SAFE(var,head,headname,field,tvar) = for ((var) = TAILQ_LAST((head), headname); (var) && ((tvar) = TAILQ_PREV((var), headname, field), 1); (var) = (tvar));
-static const int TAILQ_INIT(head) = do { TAILQ_FIRST((head)) = NULL; (head)->tqh_last = &TAILQ_FIRST((head)); QMD_TRACE_HEAD(head); } while (0);
-static const int TAILQ_INSERT_AFTER(head,listelm,elm,field) = do { if ((TAILQ_NEXT((elm), field) = TAILQ_NEXT((listelm), field)) != NULL) TAILQ_NEXT((elm), field)->field.tqe_prev = &TAILQ_NEXT((elm), field); else { (head)->tqh_last = &TAILQ_NEXT((elm), field); QMD_TRACE_HEAD(head); } TAILQ_NEXT((listelm), field) = (elm); (elm)->field.tqe_prev = &TAILQ_NEXT((listelm), field); QMD_TRACE_ELEM(&(elm)->field); QMD_TRACE_ELEM(&listelm->field); } while (0);
-static const int TAILQ_INSERT_BEFORE(listelm,elm,field) = do { (elm)->field.tqe_prev = (listelm)->field.tqe_prev; TAILQ_NEXT((elm), field) = (listelm); *(listelm)->field.tqe_prev = (elm); (listelm)->field.tqe_prev = &TAILQ_NEXT((elm), field); QMD_TRACE_ELEM(&(elm)->field); QMD_TRACE_ELEM(&listelm->field); } while (0);
-static const int TAILQ_INSERT_HEAD(head,elm,field) = do { if ((TAILQ_NEXT((elm), field) = TAILQ_FIRST((head))) != NULL) TAILQ_FIRST((head))->field.tqe_prev = &TAILQ_NEXT((elm), field); else (head)->tqh_last = &TAILQ_NEXT((elm), field); TAILQ_FIRST((head)) = (elm); (elm)->field.tqe_prev = &TAILQ_FIRST((head)); QMD_TRACE_HEAD(head); QMD_TRACE_ELEM(&(elm)->field); } while (0);
-static const int TAILQ_INSERT_TAIL(head,elm,field) = do { TAILQ_NEXT((elm), field) = NULL; (elm)->field.tqe_prev = (head)->tqh_last; *(head)->tqh_last = (elm); (head)->tqh_last = &TAILQ_NEXT((elm), field); QMD_TRACE_HEAD(head); QMD_TRACE_ELEM(&(elm)->field); } while (0);
-static const int TAILQ_LAST(head,headname) = (*(((struct headname *)((head)->tqh_last))->tqh_last));
-static const int TAILQ_NEXT(elm,field) = ((elm)->field.tqe_next);
-static const int TAILQ_PREV(elm,headname,field) = (*(((struct headname *)((elm)->field.tqe_prev))->tqh_last));
-static const int TAILQ_REMOVE(head,elm,field) = do { if ((TAILQ_NEXT((elm), field)) != NULL) TAILQ_NEXT((elm), field)->field.tqe_prev = (elm)->field.tqe_prev; else { (head)->tqh_last = (elm)->field.tqe_prev; QMD_TRACE_HEAD(head); } *(elm)->field.tqe_prev = TAILQ_NEXT((elm), field); TRASHIT((elm)->field.tqe_next); TRASHIT((elm)->field.tqe_prev); QMD_TRACE_ELEM(&(elm)->field); } while (0);
-static const int TAILQ_SWAP(head1,head2,type,field) = do { struct type *swap_first = (head1)->tqh_first; struct type **swap_last = (head1)->tqh_last; (head1)->tqh_first = (head2)->tqh_first; (head1)->tqh_last = (head2)->tqh_last; (head2)->tqh_first = swap_first; (head2)->tqh_last = swap_last; if ((swap_first = (head1)->tqh_first) != NULL) swap_first->field.tqe_prev = &(head1)->tqh_first; else (head1)->tqh_last = &(head1)->tqh_first; if ((swap_first = (head2)->tqh_first) != NULL) swap_first->field.tqe_prev = &(head2)->tqh_first; else (head2)->tqh_last = &(head2)->tqh_first; } while (0);
-static const int CIRCLEQ_HEAD(name,type) = struct name { struct type *cqh_first; struct type *cqh_last; };
-static const int CIRCLEQ_ENTRY(type) = struct { struct type *cqe_next; struct type *cqe_prev; };
-static const int CIRCLEQ_EMPTY(head) = ((head)->cqh_first == (void *)(head));
-static const int CIRCLEQ_FIRST(head) = ((head)->cqh_first);
-static const int CIRCLEQ_FOREACH(var,head,field) = for((var) = (head)->cqh_first; (var) != (void *)(head); (var) = (var)->field.cqe_next);
-static const int CIRCLEQ_INIT(head) = do { (head)->cqh_first = (void *)(head); (head)->cqh_last = (void *)(head); } while (0);
-static const int CIRCLEQ_INSERT_AFTER(head,listelm,elm,field) = do { (elm)->field.cqe_next = (listelm)->field.cqe_next; (elm)->field.cqe_prev = (listelm); if ((listelm)->field.cqe_next == (void *)(head)) (head)->cqh_last = (elm); else (listelm)->field.cqe_next->field.cqe_prev = (elm); (listelm)->field.cqe_next = (elm); } while (0);
-static const int CIRCLEQ_INSERT_BEFORE(head,listelm,elm,field) = do { (elm)->field.cqe_next = (listelm); (elm)->field.cqe_prev = (listelm)->field.cqe_prev; if ((listelm)->field.cqe_prev == (void *)(head)) (head)->cqh_first = (elm); else (listelm)->field.cqe_prev->field.cqe_next = (elm); (listelm)->field.cqe_prev = (elm); } while (0);
-static const int CIRCLEQ_INSERT_HEAD(head,elm,field) = do { (elm)->field.cqe_next = (head)->cqh_first; (elm)->field.cqe_prev = (void *)(head); if ((head)->cqh_last == (void *)(head)) (head)->cqh_last = (elm); else (head)->cqh_first->field.cqe_prev = (elm); (head)->cqh_first = (elm); } while (0);
-static const int CIRCLEQ_INSERT_TAIL(head,elm,field) = do { (elm)->field.cqe_next = (void *)(head); (elm)->field.cqe_prev = (head)->cqh_last; if ((head)->cqh_first == (void *)(head)) (head)->cqh_first = (elm); else (head)->cqh_last->field.cqe_next = (elm); (head)->cqh_last = (elm); } while (0);
-static const int CIRCLEQ_LAST(head) = ((head)->cqh_last);
-static const int CIRCLEQ_NEXT(elm,field) = ((elm)->field.cqe_next);
-static const int CIRCLEQ_PREV(elm,field) = ((elm)->field.cqe_prev);
-static const int CIRCLEQ_REMOVE(head,elm,field) = do { if ((elm)->field.cqe_next == (void *)(head)) (head)->cqh_last = (elm)->field.cqe_prev; else (elm)->field.cqe_next->field.cqe_prev = (elm)->field.cqe_prev; if ((elm)->field.cqe_prev == (void *)(head)) (head)->cqh_first = (elm)->field.cqe_next; else (elm)->field.cqe_prev->field.cqe_next = (elm)->field.cqe_next; } while (0);
-struct knote;
-struct klist { struct knote *slh_first; };
-struct timespec;
-int kqueue(void);
-int kevent(int kq, const struct kevent *changelist, int nchanges,
-      struct kevent *eventlist, int nevents,
-      const struct timespec *timeout);
-int kevent64(int kq, const struct kevent64_s *changelist,
-      int nchanges, struct kevent64_s *eventlist,
-      int nevents, unsigned int flags,
-      const struct timespec *timeout);
-
-
-// *** 3. unistd.h ***
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef short __int16_t;
-typedef unsigned short __uint16_t;
-typedef int __int32_t;
-typedef unsigned int __uint32_t;
-typedef long long __int64_t;
-typedef unsigned long long __uint64_t;
-typedef long __darwin_intptr_t;
-typedef unsigned int __darwin_natural_t;
-typedef int __darwin_ct_rune_t;
-typedef union {
- char __mbstate8[128];
- long long _mbstateL;
-} __mbstate_t;
-typedef __mbstate_t __darwin_mbstate_t;
-typedef long int __darwin_ptrdiff_t;
-typedef long unsigned int __darwin_size_t;
-typedef __builtin_va_list __darwin_va_list;
-typedef int __darwin_wchar_t;
-typedef __darwin_wchar_t __darwin_rune_t;
-typedef int __darwin_wint_t;
-typedef unsigned long __darwin_clock_t;
-typedef __uint32_t __darwin_socklen_t;
-typedef long __darwin_ssize_t;
-typedef long __darwin_time_t;
-struct __darwin_pthread_handler_rec
-{
- void (*__routine)(void *);
- void *__arg;
- struct __darwin_pthread_handler_rec *__next;
-};
-struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_cond_t { long __sig; char __opaque[40]; };
-struct _opaque_pthread_condattr_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_mutex_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_mutexattr_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_once_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
-struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
-struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
 typedef __int64_t __darwin_blkcnt_t;
 typedef __int32_t __darwin_blksize_t;
 typedef __int32_t __darwin_dev_t;
@@ -1336,21 +793,22 @@ ssize_t readlink(const char * , char * , size_t);
 int setegid(gid_t);
 int seteuid(uid_t);
 int symlink(const char *, const char *);
-#undef __need_struct_timespec
 static const int _STRUCT_TIMESPEC = struct timespec;
 struct timespec
 {
  __darwin_time_t tv_sec;
  long tv_nsec;
 };
-#undef __need_struct_timeval
 static const int _STRUCT_TIMEVAL = struct timeval;
 struct timeval
 {
  __darwin_time_t tv_sec;
  __darwin_suseconds_t tv_usec;
 };
-#undef __need_fd_set
+static const int __DARWIN_FD_SETSIZE = 1024;
+static const int __DARWIN_NBBY = 8;
+static const int __DARWIN_NFDBITS = (sizeof(__int32_t) * __DARWIN_NBBY);
+static const int __DARWIN_howmany(x,y) = ((((x) % (y)) == 0) ? ((x) / (y)) : (((x) / (y)) + 1));
 typedef struct fd_set {
  __int32_t fds_bits[((((1024) % ((sizeof(__int32_t) * 8))) == 0) ? ((1024) / ((sizeof(__int32_t) * 8))) : (((1024) / ((sizeof(__int32_t) * 8))) + 1))];
 } fd_set;
@@ -1359,9 +817,20 @@ __darwin_fd_isset(int _n, const struct fd_set *_p)
 {
  return (_p->fds_bits[_n/(sizeof(__int32_t) * 8)] & (1<<(_n % (sizeof(__int32_t) * 8))));
 }
+static const int __DARWIN_FD_SET(n,p) = do { int __fd = (n); ((p)->fds_bits[__fd/__DARWIN_NFDBITS] |= (1<<(__fd % __DARWIN_NFDBITS))); } while(0);
+static const int __DARWIN_FD_CLR(n,p) = do { int __fd = (n); ((p)->fds_bits[__fd/__DARWIN_NFDBITS] &= ~(1<<(__fd % __DARWIN_NFDBITS))); } while(0);
+static const int __DARWIN_FD_ISSET(n,p) = __darwin_fd_isset((n), (p));
+static const int __DARWIN_FD_ZERO(p) = __builtin_bzero(p, sizeof(*(p)));
+static const int __DARWIN_FD_COPY(f,t) = bcopy(f, t, sizeof(*(f)));
 typedef __darwin_time_t time_t;
 typedef __darwin_suseconds_t suseconds_t;
 typedef __darwin_sigset_t sigset_t;
+static const int FD_SETSIZE = __DARWIN_FD_SETSIZE;
+static const int FD_SET(n,p) = __DARWIN_FD_SET(n, p);
+static const int FD_CLR(n,p) = __DARWIN_FD_CLR(n, p);
+static const int FD_ISSET(n,p) = __DARWIN_FD_ISSET(n, p);
+static const int FD_ZERO(p) = __DARWIN_FD_ZERO(p);
+static const int FD_COPY(f,t) = __DARWIN_FD_COPY(f, t);
 int pselect(int, fd_set * , fd_set * ,
   fd_set * , const struct timespec * ,
   const sigset_t * )
@@ -1450,152 +919,7 @@ int sync_volume_np(const char *, int) __attribute__((visibility("default")));
 extern int optreset;
 
 
-// *** 4. sys/mman.h ***
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef short __int16_t;
-typedef unsigned short __uint16_t;
-typedef int __int32_t;
-typedef unsigned int __uint32_t;
-typedef long long __int64_t;
-typedef unsigned long long __uint64_t;
-typedef long __darwin_intptr_t;
-typedef unsigned int __darwin_natural_t;
-typedef int __darwin_ct_rune_t;
-typedef union {
- char __mbstate8[128];
- long long _mbstateL;
-} __mbstate_t;
-typedef __mbstate_t __darwin_mbstate_t;
-typedef long int __darwin_ptrdiff_t;
-typedef long unsigned int __darwin_size_t;
-typedef __builtin_va_list __darwin_va_list;
-typedef int __darwin_wchar_t;
-typedef __darwin_wchar_t __darwin_rune_t;
-typedef int __darwin_wint_t;
-typedef unsigned long __darwin_clock_t;
-typedef __uint32_t __darwin_socklen_t;
-typedef long __darwin_ssize_t;
-typedef long __darwin_time_t;
-struct __darwin_pthread_handler_rec
-{
- void (*__routine)(void *);
- void *__arg;
- struct __darwin_pthread_handler_rec *__next;
-};
-struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_cond_t { long __sig; char __opaque[40]; };
-struct _opaque_pthread_condattr_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_mutex_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_mutexattr_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_once_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
-struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
-struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
-typedef __int64_t __darwin_blkcnt_t;
-typedef __int32_t __darwin_blksize_t;
-typedef __int32_t __darwin_dev_t;
-typedef unsigned int __darwin_fsblkcnt_t;
-typedef unsigned int __darwin_fsfilcnt_t;
-typedef __uint32_t __darwin_gid_t;
-typedef __uint32_t __darwin_id_t;
-typedef __uint64_t __darwin_ino64_t;
-typedef __darwin_ino64_t __darwin_ino_t;
-typedef __darwin_natural_t __darwin_mach_port_name_t;
-typedef __darwin_mach_port_name_t __darwin_mach_port_t;
-typedef __uint16_t __darwin_mode_t;
-typedef __int64_t __darwin_off_t;
-typedef __int32_t __darwin_pid_t;
-typedef struct _opaque_pthread_attr_t
-   __darwin_pthread_attr_t;
-typedef struct _opaque_pthread_cond_t
-   __darwin_pthread_cond_t;
-typedef struct _opaque_pthread_condattr_t
-   __darwin_pthread_condattr_t;
-typedef unsigned long __darwin_pthread_key_t;
-typedef struct _opaque_pthread_mutex_t
-   __darwin_pthread_mutex_t;
-typedef struct _opaque_pthread_mutexattr_t
-   __darwin_pthread_mutexattr_t;
-typedef struct _opaque_pthread_once_t
-   __darwin_pthread_once_t;
-typedef struct _opaque_pthread_rwlock_t
-   __darwin_pthread_rwlock_t;
-typedef struct _opaque_pthread_rwlockattr_t
-   __darwin_pthread_rwlockattr_t;
-typedef struct _opaque_pthread_t
-   *__darwin_pthread_t;
-typedef __uint32_t __darwin_sigset_t;
-typedef __int32_t __darwin_suseconds_t;
-typedef __uint32_t __darwin_uid_t;
-typedef __uint32_t __darwin_useconds_t;
-typedef unsigned char __darwin_uuid_t[16];
-typedef char __darwin_uuid_string_t[37];
-typedef __darwin_mode_t mode_t;
-typedef __darwin_off_t off_t;
-typedef __darwin_size_t size_t;
-static const int PROT_NONE = 0x00;
-static const int PROT_READ = 0x01;
-static const int PROT_WRITE = 0x02;
-static const int PROT_EXEC = 0x04;
-static const int MAP_SHARED = 0x0001;
-static const int MAP_PRIVATE = 0x0002;
-static const int MAP_COPY = MAP_PRIVATE;
-static const int MAP_FIXED = 0x0010;
-static const int MAP_RENAME = 0x0020;
-static const int MAP_NORESERVE = 0x0040;
-static const int MAP_RESERVED0080 = 0x0080;
-static const int MAP_NOEXTEND = 0x0100;
-static const int MAP_HASSEMAPHORE = 0x0200;
-static const int MAP_NOCACHE = 0x0400;
-static const int MAP_JIT = 0x0800;
-static const int MCL_CURRENT = 0x0001;
-static const int MCL_FUTURE = 0x0002;
-static const int MAP_FAILED = ((void *)-1);
-static const int MS_ASYNC = 0x0001;
-static const int MS_INVALIDATE = 0x0002;
-static const int MS_SYNC = 0x0010;
-static const int MS_KILLPAGES = 0x0004;
-static const int MS_DEACTIVATE = 0x0008;
-static const int MAP_FILE = 0x0000;
-static const int MAP_ANON = 0x1000;
-static const int POSIX_MADV_NORMAL = 0;
-static const int POSIX_MADV_RANDOM = 1;
-static const int POSIX_MADV_SEQUENTIAL = 2;
-static const int POSIX_MADV_WILLNEED = 3;
-static const int POSIX_MADV_DONTNEED = 4;
-static const int MADV_NORMAL = POSIX_MADV_NORMAL;
-static const int MADV_RANDOM = POSIX_MADV_RANDOM;
-static const int MADV_SEQUENTIAL = POSIX_MADV_SEQUENTIAL;
-static const int MADV_WILLNEED = POSIX_MADV_WILLNEED;
-static const int MADV_DONTNEED = POSIX_MADV_DONTNEED;
-static const int MADV_FREE = 5;
-static const int MADV_ZERO_WIRED_PAGES = 6;
-static const int MADV_FREE_REUSABLE = 7;
-static const int MADV_FREE_REUSE = 8;
-static const int MADV_CAN_REUSE = 9;
-static const int MINCORE_INCORE = 0x1;
-static const int MINCORE_REFERENCED = 0x2;
-static const int MINCORE_MODIFIED = 0x4;
-static const int MINCORE_REFERENCED_OTHER = 0x8;
-static const int MINCORE_MODIFIED_OTHER = 0x10;
-int mlockall(int);
-int munlockall(void);
-int mlock(const void *, size_t);
-void * mmap(void *, size_t, int, int, int, off_t) __asm("_" "mmap" );
-int mprotect(void *, size_t, int) __asm("_" "mprotect" );
-int msync(void *, size_t, int) __asm("_" "msync" );
-int munlock(const void *, size_t);
-int munmap(void *, size_t) __asm("_" "munmap" );
-int shm_open(const char *, int, ...);
-int shm_unlink(const char *);
-int posix_madvise(void *, size_t, int);
-int madvise(void *, size_t, int);
-int mincore(const void *, size_t, char *);
-int minherit(void *, size_t, int);
-
-
-// *** 5. stdio.h ***
+// *** 2. stdio.h ***
 typedef signed char __int8_t;
 typedef unsigned char __uint8_t;
 typedef short __int16_t;
@@ -1852,14 +1176,9 @@ static const int feof_unlocked(p) = __sfeof(p);
 static const int ferror_unlocked(p) = __sferror(p);
 static const int clearerr_unlocked(p) = __sclearerr(p);
 static const int fileno_unlocked(p) = __sfileno(p);
-#undef _USE_FORTIFY_LEVEL
 static const int _USE_FORTIFY_LEVEL = 2;
 static const int __darwin_obsz0(object) = __builtin_object_size (object, 0);
 static const int __darwin_obsz(object) = __builtin_object_size (object, _USE_FORTIFY_LEVEL > 1);
-#undef sprintf
-#undef vsprintf
-#undef snprintf
-#undef vsnprintf
 extern int __sprintf_chk (char * , int, size_t,
      const char * , ...);
 static const int sprintf(str,...) = __builtin___sprintf_chk (str, 0, __darwin_obsz(str), __VA_ARGS__);
@@ -1874,7 +1193,7 @@ extern int __vsnprintf_chk (char * , size_t, int, size_t,
 static const int vsnprintf(str,len,format,ap) = __builtin___vsnprintf_chk (str, len, 0, __darwin_obsz(str), format, ap);
 
 
-// *** 6. stdlib.h ***
+// *** 3. stdlib.h ***
 typedef signed char __int8_t;
 typedef unsigned char __uint8_t;
 typedef short __int16_t;
@@ -2331,7 +1650,6 @@ struct __darwin_x86_debug_state64
  __uint64_t __dr6;
  __uint64_t __dr7;
 };
-#undef __need_struct_mcontext
 static const int _STRUCT_MCONTEXT32 = struct __darwin_mcontext32;
 struct __darwin_mcontext32
 {
@@ -2360,10 +1678,8 @@ struct __darwin_mcontext_avx64
  struct __darwin_x86_thread_state64 __ss;
  struct __darwin_x86_avx_state64 __fs;
 };
-#undef __need_mcontext_t
 typedef struct __darwin_mcontext64 *mcontext_t;
 static const int _STRUCT_MCONTEXT = _STRUCT_MCONTEXT64;
-#undef __need_struct_sigaltstack
 static const int _STRUCT_SIGALTSTACK = struct __darwin_sigaltstack;
 struct __darwin_sigaltstack
 {
@@ -2371,7 +1687,6 @@ struct __darwin_sigaltstack
  __darwin_size_t ss_size;
  int ss_flags;
 };
-#undef __need_struct_ucontext
 static const int _STRUCT_UCONTEXT = struct __darwin_ucontext;
 struct __darwin_ucontext
 {
@@ -2382,9 +1697,7 @@ struct __darwin_ucontext
  __darwin_size_t uc_mcsize;
  struct __darwin_mcontext64 *uc_mcontext;
 };
-#undef __need_stack_t
 typedef struct __darwin_sigaltstack stack_t;
-#undef __need_ucontext_t
 typedef struct __darwin_ucontext ucontext_t;
 typedef __darwin_pthread_attr_t pthread_attr_t;
 typedef __darwin_sigset_t sigset_t;
@@ -2516,7 +1829,6 @@ struct sigstack {
 static const int sigmask(m) = (1 << ((m)-1));
 static const int BADSIG = SIG_ERR;
 void (*signal(int, void (*)(int)))(int);
-#undef __need_struct_timeval
 struct timeval
 {
  __darwin_time_t tv_sec;
@@ -2610,6 +1922,20 @@ static const int WCONTINUED = 0x00000010;
 static const int WNOWAIT = 0x00000020;
 static const int WAIT_ANY = (-1);
 static const int WAIT_MYPGRP = 0;
+static const int _QUAD_HIGHWORD = 1;
+static const int _QUAD_LOWWORD = 0;
+static const int __DARWIN_LITTLE_ENDIAN = 1234;
+static const int __DARWIN_BIG_ENDIAN = 4321;
+static const int __DARWIN_PDP_ENDIAN = 3412;
+static const int __DARWIN_BYTE_ORDER = __DARWIN_LITTLE_ENDIAN;
+static const int LITTLE_ENDIAN = __DARWIN_LITTLE_ENDIAN;
+static const int BIG_ENDIAN = __DARWIN_BIG_ENDIAN;
+static const int PDP_ENDIAN = __DARWIN_PDP_ENDIAN;
+static const int BYTE_ORDER = __DARWIN_BYTE_ORDER;
+static const int __DARWIN_OSSwapConstInt16(x) = ((__uint16_t)((((__uint16_t)(x) & 0xff00) >> 8) | (((__uint16_t)(x) & 0x00ff) << 8)));
+static const int __DARWIN_OSSwapConstInt32(x) = ((__uint32_t)((((__uint32_t)(x) & 0xff000000) >> 24) | (((__uint32_t)(x) & 0x00ff0000) >> 8) | (((__uint32_t)(x) & 0x0000ff00) << 8) | (((__uint32_t)(x) & 0x000000ff) << 24)));
+static const int __DARWIN_OSSwapConstInt64(x) = ((__uint64_t)((((__uint64_t)(x) & 0xff00000000000000ULL) >> 56) | (((__uint64_t)(x) & 0x00ff000000000000ULL) >> 40) | (((__uint64_t)(x) & 0x0000ff0000000000ULL) >> 24) | (((__uint64_t)(x) & 0x000000ff00000000ULL) >> 8) | (((__uint64_t)(x) & 0x00000000ff000000ULL) << 8) | (((__uint64_t)(x) & 0x0000000000ff0000ULL) << 24) | (((__uint64_t)(x) & 0x000000000000ff00ULL) << 40) | (((__uint64_t)(x) & 0x00000000000000ffULL) << 56)));
+static const int __DARWIN_OS_INLINE = static __inline__;
 static __inline__
 __uint16_t
 _OSSwapInt16(
@@ -2634,6 +1960,17 @@ _OSSwapInt64(
 {
     return __builtin_bswap64(_data);
 }
+static const int __DARWIN_OSSwapInt16(x) = ((__uint16_t)(__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt16(x) : _OSSwapInt16(x)));
+static const int __DARWIN_OSSwapInt32(x) = (__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt32(x) : _OSSwapInt32(x));
+static const int __DARWIN_OSSwapInt64(x) = (__builtin_constant_p(x) ? __DARWIN_OSSwapConstInt64(x) : _OSSwapInt64(x));
+static const int ntohs(x) = __DARWIN_OSSwapInt16(x);
+static const int htons(x) = __DARWIN_OSSwapInt16(x);
+static const int ntohl(x) = __DARWIN_OSSwapInt32(x);
+static const int htonl(x) = __DARWIN_OSSwapInt32(x);
+static const int NTOHL(x) = (x) = ntohl((__uint32_t)x);
+static const int NTOHS(x) = (x) = ntohs((__uint16_t)x);
+static const int HTONL(x) = (x) = htonl((__uint32_t)x);
+static const int HTONS(x) = (x) = htons((__uint16_t)x);
 union wait {
  int w_status;
  struct {
@@ -2659,8 +1996,6 @@ int waitid(idtype_t, id_t, siginfo_t *, int) __asm("_" "waitid" );
 pid_t wait3(int *, int, struct rusage *);
 pid_t wait4(pid_t, int *, int, struct rusage *);
 void *alloca(size_t);
-#undef alloca
-#undef __alloca
 static const int alloca(size) = __alloca(size);
 static const int __alloca(size) = __builtin_alloca(size);
 typedef __darwin_ct_rune_t ct_rune_t;
@@ -2778,7 +2113,10 @@ typedef int64_t user_long_t;
 typedef u_int64_t user_ulong_t;
 typedef int64_t user_time_t;
 typedef int64_t user_off_t;
+static const int USER_ADDR_NULL = ((user_addr_t) 0);
+static const int CAST_USER_ADDR_T(a_ptr) = ((user_addr_t)((uintptr_t)(a_ptr)));
 typedef u_int64_t syscall_arg_t;
+static const int __offsetof(type,field) = ((size_t)(&((type *)0)->field));
 typedef __darwin_dev_t dev_t;
 typedef __darwin_mode_t mode_t;
 u_int32_t
@@ -2842,7 +2180,7 @@ extern char *suboptarg;
 void *valloc(size_t);
 
 
-// *** 7. fcntl.h ***
+// *** 4. fcntl.h ***
 typedef signed char __int8_t;
 typedef unsigned char __uint8_t;
 typedef short __int16_t;
@@ -3111,7 +2449,120 @@ static const int _FILESEC_UNSET_PROPERTY = ((void *)0);
 static const int _FILESEC_REMOVE_ACL = ((void *)1);
 
 
-// *** 8. sys/time.h ***
+// *** 5. errno.h ***
+extern int * __error(void);
+static const int errno = (*__error());
+static const int EPERM = 1;
+static const int ENOENT = 2;
+static const int ESRCH = 3;
+static const int EINTR = 4;
+static const int EIO = 5;
+static const int ENXIO = 6;
+static const int E2BIG = 7;
+static const int ENOEXEC = 8;
+static const int EBADF = 9;
+static const int ECHILD = 10;
+static const int EDEADLK = 11;
+static const int ENOMEM = 12;
+static const int EACCES = 13;
+static const int EFAULT = 14;
+static const int ENOTBLK = 15;
+static const int EBUSY = 16;
+static const int EEXIST = 17;
+static const int EXDEV = 18;
+static const int ENODEV = 19;
+static const int ENOTDIR = 20;
+static const int EISDIR = 21;
+static const int EINVAL = 22;
+static const int ENFILE = 23;
+static const int EMFILE = 24;
+static const int ENOTTY = 25;
+static const int ETXTBSY = 26;
+static const int EFBIG = 27;
+static const int ENOSPC = 28;
+static const int ESPIPE = 29;
+static const int EROFS = 30;
+static const int EMLINK = 31;
+static const int EPIPE = 32;
+static const int EDOM = 33;
+static const int ERANGE = 34;
+static const int EAGAIN = 35;
+static const int EWOULDBLOCK = EAGAIN;
+static const int EINPROGRESS = 36;
+static const int EALREADY = 37;
+static const int ENOTSOCK = 38;
+static const int EDESTADDRREQ = 39;
+static const int EMSGSIZE = 40;
+static const int EPROTOTYPE = 41;
+static const int ENOPROTOOPT = 42;
+static const int EPROTONOSUPPORT = 43;
+static const int ESOCKTNOSUPPORT = 44;
+static const int ENOTSUP = 45;
+static const int EPFNOSUPPORT = 46;
+static const int EAFNOSUPPORT = 47;
+static const int EADDRINUSE = 48;
+static const int EADDRNOTAVAIL = 49;
+static const int ENETDOWN = 50;
+static const int ENETUNREACH = 51;
+static const int ENETRESET = 52;
+static const int ECONNABORTED = 53;
+static const int ECONNRESET = 54;
+static const int ENOBUFS = 55;
+static const int EISCONN = 56;
+static const int ENOTCONN = 57;
+static const int ESHUTDOWN = 58;
+static const int ETOOMANYREFS = 59;
+static const int ETIMEDOUT = 60;
+static const int ECONNREFUSED = 61;
+static const int ELOOP = 62;
+static const int ENAMETOOLONG = 63;
+static const int EHOSTDOWN = 64;
+static const int EHOSTUNREACH = 65;
+static const int ENOTEMPTY = 66;
+static const int EPROCLIM = 67;
+static const int EUSERS = 68;
+static const int EDQUOT = 69;
+static const int ESTALE = 70;
+static const int EREMOTE = 71;
+static const int EBADRPC = 72;
+static const int ERPCMISMATCH = 73;
+static const int EPROGUNAVAIL = 74;
+static const int EPROGMISMATCH = 75;
+static const int EPROCUNAVAIL = 76;
+static const int ENOLCK = 77;
+static const int ENOSYS = 78;
+static const int EFTYPE = 79;
+static const int EAUTH = 80;
+static const int ENEEDAUTH = 81;
+static const int EPWROFF = 82;
+static const int EDEVERR = 83;
+static const int EOVERFLOW = 84;
+static const int EBADEXEC = 85;
+static const int EBADARCH = 86;
+static const int ESHLIBVERS = 87;
+static const int EBADMACHO = 88;
+static const int ECANCELED = 89;
+static const int EIDRM = 90;
+static const int ENOMSG = 91;
+static const int EILSEQ = 92;
+static const int ENOATTR = 93;
+static const int EBADMSG = 94;
+static const int EMULTIHOP = 95;
+static const int ENODATA = 96;
+static const int ENOLINK = 97;
+static const int ENOSR = 98;
+static const int ENOSTR = 99;
+static const int EPROTO = 100;
+static const int ETIME = 101;
+static const int EOPNOTSUPP = 102;
+static const int ENOPOLICY = 103;
+static const int ENOTRECOVERABLE = 104;
+static const int EOWNERDEAD = 105;
+static const int EQFULL = 106;
+static const int ELAST = 106;
+
+
+// *** 6. sys/types.h ***
 typedef signed char __int8_t;
 typedef unsigned char __uint8_t;
 typedef short __int16_t;
@@ -3138,6 +2589,25 @@ typedef unsigned long __darwin_clock_t;
 typedef __uint32_t __darwin_socklen_t;
 typedef long __darwin_ssize_t;
 typedef long __darwin_time_t;
+typedef signed char int8_t;
+typedef unsigned char u_int8_t;
+typedef short int16_t;
+typedef unsigned short u_int16_t;
+typedef int int32_t;
+typedef unsigned int u_int32_t;
+typedef long long int64_t;
+typedef unsigned long long u_int64_t;
+typedef int64_t register_t;
+typedef __darwin_intptr_t intptr_t;
+typedef unsigned long uintptr_t;
+typedef u_int64_t user_addr_t;
+typedef u_int64_t user_size_t;
+typedef int64_t user_ssize_t;
+typedef int64_t user_long_t;
+typedef u_int64_t user_ulong_t;
+typedef int64_t user_time_t;
+typedef int64_t user_off_t;
+typedef u_int64_t syscall_arg_t;
 struct __darwin_pthread_handler_rec
 {
  void (*__routine)(void *);
@@ -3192,124 +2662,406 @@ typedef __uint32_t __darwin_uid_t;
 typedef __uint32_t __darwin_useconds_t;
 typedef unsigned char __darwin_uuid_t[16];
 typedef char __darwin_uuid_string_t[37];
-#undef __need_struct_timespec
-struct timespec
+static __inline__
+__uint16_t
+_OSSwapInt16(
+    __uint16_t _data
+)
 {
- __darwin_time_t tv_sec;
- long tv_nsec;
-};
-#undef __need_struct_timeval
-struct timeval
-{
- __darwin_time_t tv_sec;
- __darwin_suseconds_t tv_usec;
-};
-#undef __need_fd_set
-typedef struct fd_set {
- __int32_t fds_bits[((((1024) % ((sizeof(__int32_t) * 8))) == 0) ? ((1024) / ((sizeof(__int32_t) * 8))) : (((1024) / ((sizeof(__int32_t) * 8))) + 1))];
-} fd_set;
-static __inline int
-__darwin_fd_isset(int _n, const struct fd_set *_p)
-{
- return (_p->fds_bits[_n/(sizeof(__int32_t) * 8)] & (1<<(_n % (sizeof(__int32_t) * 8))));
+    return ((_data << 8) | (_data >> 8));
 }
-typedef __darwin_time_t time_t;
-typedef __darwin_suseconds_t suseconds_t;
-struct itimerval {
- struct timeval it_interval;
- struct timeval it_value;
-};
-static const int ITIMER_REAL = 0;
-static const int ITIMER_VIRTUAL = 1;
-static const int ITIMER_PROF = 2;
-static const int TIMEVAL_TO_TIMESPEC(tv,ts) = { (ts)->tv_sec = (tv)->tv_sec; (ts)->tv_nsec = (tv)->tv_usec * 1000; };
-static const int TIMESPEC_TO_TIMEVAL(tv,ts) = { (tv)->tv_sec = (ts)->tv_sec; (tv)->tv_usec = (ts)->tv_nsec / 1000; };
-struct timezone {
- int tz_minuteswest;
- int tz_dsttime;
-};
-static const int DST_NONE = 0;
-static const int DST_USA = 1;
-static const int DST_AUST = 2;
-static const int DST_WET = 3;
-static const int DST_MET = 4;
-static const int DST_EET = 5;
-static const int DST_CAN = 6;
-static const int timerclear(tvp) = (tvp)->tv_sec = (tvp)->tv_usec = 0;
-static const int timerisset(tvp) = ((tvp)->tv_sec || (tvp)->tv_usec);
-static const int timercmp(tvp,uvp,cmp) = (((tvp)->tv_sec == (uvp)->tv_sec) ? ((tvp)->tv_usec cmp (uvp)->tv_usec) : ((tvp)->tv_sec cmp (uvp)->tv_sec));
-static const int timeradd(tvp,uvp,vvp) = do { (vvp)->tv_sec = (tvp)->tv_sec + (uvp)->tv_sec; (vvp)->tv_usec = (tvp)->tv_usec + (uvp)->tv_usec; if ((vvp)->tv_usec >= 1000000) { (vvp)->tv_sec++; (vvp)->tv_usec -= 1000000; } } while (0);
-static const int timersub(tvp,uvp,vvp) = do { (vvp)->tv_sec = (tvp)->tv_sec - (uvp)->tv_sec; (vvp)->tv_usec = (tvp)->tv_usec - (uvp)->tv_usec; if ((vvp)->tv_usec < 0) { (vvp)->tv_sec--; (vvp)->tv_usec += 1000000; } } while (0);
-static const int timevalcmp(l,r,cmp) = timercmp(l, r, cmp);
-struct clockinfo {
- int hz;
- int tick;
- int tickadj;
- int stathz;
- int profhz;
-};
-typedef int __darwin_nl_item;
-typedef int __darwin_wctrans_t;
-typedef __uint32_t __darwin_wctype_t;
-#undef __need_struct_timespec
+static __inline__
+__uint32_t
+_OSSwapInt32(
+    __uint32_t _data
+)
+{
+    return __builtin_bswap32(_data);
+}
+static __inline__
+__uint64_t
+_OSSwapInt64(
+    __uint64_t _data
+)
+{
+    return __builtin_bswap64(_data);
+}
+typedef unsigned char u_char;
+typedef unsigned short u_short;
+typedef unsigned int u_int;
+typedef unsigned long u_long;
+typedef unsigned short ushort;
+typedef unsigned int uint;
+typedef u_int64_t u_quad_t;
+typedef int64_t quad_t;
+typedef quad_t * qaddr_t;
+typedef char * caddr_t;
+typedef int32_t daddr_t;
+typedef __darwin_dev_t dev_t;
+typedef u_int32_t fixpt_t;
+typedef __darwin_blkcnt_t blkcnt_t;
+typedef __darwin_blksize_t blksize_t;
+typedef __darwin_gid_t gid_t;
+typedef __uint32_t in_addr_t;
+typedef __uint16_t in_port_t;
+typedef __darwin_ino_t ino_t;
+typedef __darwin_ino64_t ino64_t;
+typedef __int32_t key_t;
+typedef __darwin_mode_t mode_t;
+typedef __uint16_t nlink_t;
+typedef __darwin_id_t id_t;
+typedef __darwin_pid_t pid_t;
+typedef __darwin_off_t off_t;
+typedef int32_t segsz_t;
+typedef int32_t swblk_t;
+typedef __darwin_uid_t uid_t;
+static const int major(x) = ((int32_t)(((u_int32_t)(x) >> 24) & 0xff));
+static const int minor(x) = ((int32_t)((x) & 0xffffff));
+static const int makedev(x,y) = ((dev_t)(((x) << 24) | (y)));
 typedef __darwin_clock_t clock_t;
 typedef __darwin_size_t size_t;
-struct tm {
- int tm_sec;
- int tm_min;
- int tm_hour;
- int tm_mday;
- int tm_mon;
- int tm_year;
- int tm_wday;
- int tm_yday;
- int tm_isdst;
- long tm_gmtoff;
- char *tm_zone;
+typedef __darwin_ssize_t ssize_t;
+typedef __darwin_time_t time_t;
+typedef __darwin_useconds_t useconds_t;
+typedef __darwin_suseconds_t suseconds_t;
+typedef struct fd_set {
+ __int32_t fds_bits[((((1024) % ((sizeof(__int32_t) * 8))) == 0) ? ((1024) / ((sizeof(__int32_t) * 8))) : (((1024) / ((sizeof(__int32_t) * 8))) + 1))];
+} fd_set;
+static __inline int
+__darwin_fd_isset(int _n, const struct fd_set *_p)
+{
+ return (_p->fds_bits[_n/(sizeof(__int32_t) * 8)] & (1<<(_n % (sizeof(__int32_t) * 8))));
+}
+static const int NBBY = __DARWIN_NBBY;
+static const int NFDBITS = __DARWIN_NFDBITS;
+static const int howmany(x,y) = __DARWIN_howmany(x, y);
+typedef __int32_t fd_mask;
+typedef __darwin_pthread_attr_t pthread_attr_t;
+typedef __darwin_pthread_cond_t pthread_cond_t;
+typedef __darwin_pthread_condattr_t pthread_condattr_t;
+typedef __darwin_pthread_mutex_t pthread_mutex_t;
+typedef __darwin_pthread_mutexattr_t pthread_mutexattr_t;
+typedef __darwin_pthread_once_t pthread_once_t;
+typedef __darwin_pthread_rwlock_t pthread_rwlock_t;
+typedef __darwin_pthread_rwlockattr_t pthread_rwlockattr_t;
+typedef __darwin_pthread_t pthread_t;
+typedef __darwin_pthread_key_t pthread_key_t;
+typedef __darwin_fsblkcnt_t fsblkcnt_t;
+typedef __darwin_fsfilcnt_t fsfilcnt_t;
+
+
+// *** 7. sys/event.h ***
+typedef __signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef short __int16_t;
+typedef unsigned short __uint16_t;
+typedef int __int32_t;
+typedef unsigned int __uint32_t;
+typedef long long __int64_t;
+typedef unsigned long long __uint64_t;
+typedef long __darwin_intptr_t;
+typedef unsigned int __darwin_natural_t;
+typedef int __darwin_ct_rune_t;
+typedef union {
+ char __mbstate8[128];
+ long long _mbstateL;
+} __mbstate_t;
+typedef __mbstate_t __darwin_mbstate_t;
+typedef long int __darwin_ptrdiff_t;
+typedef long unsigned int __darwin_size_t;
+typedef __builtin_va_list __darwin_va_list;
+typedef int __darwin_wchar_t;
+typedef __darwin_wchar_t __darwin_rune_t;
+typedef int __darwin_wint_t;
+typedef unsigned long __darwin_clock_t;
+typedef __uint32_t __darwin_socklen_t;
+typedef long __darwin_ssize_t;
+typedef long __darwin_time_t;
+typedef signed char int8_t;
+typedef unsigned char u_int8_t;
+typedef short int16_t;
+typedef unsigned short u_int16_t;
+typedef int int32_t;
+typedef unsigned int u_int32_t;
+typedef long long int64_t;
+typedef unsigned long long u_int64_t;
+typedef int64_t register_t;
+typedef __darwin_intptr_t intptr_t;
+typedef unsigned long uintptr_t;
+typedef u_int64_t user_addr_t;
+typedef u_int64_t user_size_t;
+typedef int64_t user_ssize_t;
+typedef int64_t user_long_t;
+typedef u_int64_t user_ulong_t;
+typedef int64_t user_time_t;
+typedef int64_t user_off_t;
+typedef u_int64_t syscall_arg_t;
+static const int __WORDSIZE = 64;
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
+typedef unsigned int uint32_t;
+typedef unsigned long long uint64_t;
+typedef int8_t int_least8_t;
+typedef int16_t int_least16_t;
+typedef int32_t int_least32_t;
+typedef int64_t int_least64_t;
+typedef uint8_t uint_least8_t;
+typedef uint16_t uint_least16_t;
+typedef uint32_t uint_least32_t;
+typedef uint64_t uint_least64_t;
+typedef int8_t int_fast8_t;
+typedef int16_t int_fast16_t;
+typedef int32_t int_fast32_t;
+typedef int64_t int_fast64_t;
+typedef uint8_t uint_fast8_t;
+typedef uint16_t uint_fast16_t;
+typedef uint32_t uint_fast32_t;
+typedef uint64_t uint_fast64_t;
+typedef long int intmax_t;
+typedef long unsigned int uintmax_t;
+static const int INT8_MAX = 127;
+static const int INT16_MAX = 32767;
+static const int INT32_MAX = 2147483647;
+static const long long INT64_MAX = 9223372036854775807LL;
+static const int INT8_MIN = -128;
+static const int INT16_MIN = -32768;
+static const int INT32_MIN = (-INT32_MAX-1);
+static const int INT64_MIN = (-INT64_MAX-1);
+static const int UINT8_MAX = 255;
+static const int UINT16_MAX = 65535;
+static const int UINT32_MAX = 4294967295U;
+static const int UINT64_MAX = 18446744073709551615ULL;
+static const int INT_LEAST8_MIN = INT8_MIN;
+static const int INT_LEAST16_MIN = INT16_MIN;
+static const int INT_LEAST32_MIN = INT32_MIN;
+static const int INT_LEAST64_MIN = INT64_MIN;
+static const int INT_LEAST8_MAX = INT8_MAX;
+static const int INT_LEAST16_MAX = INT16_MAX;
+static const int INT_LEAST32_MAX = INT32_MAX;
+static const int INT_LEAST64_MAX = INT64_MAX;
+static const int UINT_LEAST8_MAX = UINT8_MAX;
+static const int UINT_LEAST16_MAX = UINT16_MAX;
+static const int UINT_LEAST32_MAX = UINT32_MAX;
+static const int UINT_LEAST64_MAX = UINT64_MAX;
+static const int INT_FAST8_MIN = INT8_MIN;
+static const int INT_FAST16_MIN = INT16_MIN;
+static const int INT_FAST32_MIN = INT32_MIN;
+static const int INT_FAST64_MIN = INT64_MIN;
+static const int INT_FAST8_MAX = INT8_MAX;
+static const int INT_FAST16_MAX = INT16_MAX;
+static const int INT_FAST32_MAX = INT32_MAX;
+static const int INT_FAST64_MAX = INT64_MAX;
+static const int UINT_FAST8_MAX = UINT8_MAX;
+static const int UINT_FAST16_MAX = UINT16_MAX;
+static const int UINT_FAST32_MAX = UINT32_MAX;
+static const int UINT_FAST64_MAX = UINT64_MAX;
+static const int INTPTR_MIN = INT64_MIN;
+static const int INTPTR_MAX = INT64_MAX;
+static const int UINTPTR_MAX = UINT64_MAX;
+static const int INTMAX_MIN = INT64_MIN;
+static const int INTMAX_MAX = INT64_MAX;
+static const int UINTMAX_MAX = UINT64_MAX;
+static const int PTRDIFF_MIN = INT64_MIN;
+static const int PTRDIFF_MAX = INT64_MAX;
+static const int SIZE_MAX = UINT64_MAX;
+static const int WCHAR_MAX = __WCHAR_MAX__;
+static const int WCHAR_MIN = (-WCHAR_MAX-1);
+static const int WINT_MIN = INT32_MIN;
+static const int WINT_MAX = INT32_MAX;
+static const int SIG_ATOMIC_MIN = INT32_MIN;
+static const int SIG_ATOMIC_MAX = INT32_MAX;
+static const int INT8_C(v) = (v);
+static const int INT16_C(v) = (v);
+static const int INT32_C(v) = (v);
+static const int INT64_C(v) = (v ## LL);
+static const int UINT8_C(v) = (v ## U);
+static const int UINT16_C(v) = (v ## U);
+static const int UINT32_C(v) = (v ## U);
+static const int UINT64_C(v) = (v ## ULL);
+static const int INTMAX_C(v) = (v ## LL);
+static const int UINTMAX_C(v) = (v ## ULL);
+static const int EVFILT_READ = (-1);
+static const int EVFILT_WRITE = (-2);
+static const int EVFILT_AIO = (-3);
+static const int EVFILT_VNODE = (-4);
+static const int EVFILT_PROC = (-5);
+static const int EVFILT_SIGNAL = (-6);
+static const int EVFILT_TIMER = (-7);
+static const int EVFILT_MACHPORT = (-8);
+static const int EVFILT_FS = (-9);
+static const int EVFILT_USER = (-10);
+static const int EVFILT_VM = (-12);
+static const int EVFILT_SYSCOUNT = 13;
+static const int EVFILT_THREADMARKER = EVFILT_SYSCOUNT;
+#pragma pack(4)
+struct kevent {
+ uintptr_t ident;
+ int16_t filter;
+ uint16_t flags;
+ uint32_t fflags;
+ intptr_t data;
+ void *udata;
 };
-static const int CLOCKS_PER_SEC = 1000000;
-extern char *tzname[];
-extern int getdate_err;
-extern long timezone __asm("_" "timezone" );
-extern int daylight;
-char *asctime(const struct tm *);
-clock_t clock(void) __asm("_" "clock" );
-char *ctime(const time_t *);
-double difftime(time_t, time_t);
-struct tm *getdate(const char *);
-struct tm *gmtime(const time_t *);
-struct tm *localtime(const time_t *);
-time_t mktime(struct tm *) __asm("_" "mktime" );
-size_t strftime(char * , size_t, const char * , const struct tm * ) __asm("_" "strftime" );
-char *strptime(const char * , const char * , struct tm * ) __asm("_" "strptime" );
-time_t time(time_t *);
-void tzset(void);
-char *asctime_r(const struct tm * , char * );
-char *ctime_r(const time_t *, char *);
-struct tm *gmtime_r(const time_t * , struct tm * );
-struct tm *localtime_r(const time_t * , struct tm * );
-time_t posix2time(time_t);
-void tzsetwall(void);
-time_t time2posix(time_t);
-time_t timelocal(struct tm * const);
-time_t timegm(struct tm * const);
-int nanosleep(const struct timespec *, struct timespec *) __asm("_" "nanosleep" );
-int adjtime(const struct timeval *, struct timeval *);
-int futimes(int, const struct timeval *);
-int lutimes(const char *, const struct timeval *) __attribute__((visibility("default")));
-int settimeofday(const struct timeval *, const struct timezone *);
-int getitimer(int, struct itimerval *);
-int gettimeofday(struct timeval * , void * );
-int select(int, fd_set * , fd_set * ,
-  fd_set * , struct timeval * )
-  __asm("_" "select" "$1050")
-  ;
-int setitimer(int, const struct itimerval * ,
-  struct itimerval * );
-int utimes(const char *, const struct timeval *);
+#pragma pack()
+struct kevent64_s {
+ uint64_t ident;
+ int16_t filter;
+ uint16_t flags;
+ uint32_t fflags;
+ int64_t data;
+ uint64_t udata;
+ uint64_t ext[2];
+};
+static const int EV_SET(kevp,a,b,c,d,e,f) = do { struct kevent *__kevp__ = (kevp); __kevp__->ident = (a); __kevp__->filter = (b); __kevp__->flags = (c); __kevp__->fflags = (d); __kevp__->data = (e); __kevp__->udata = (f); } while(0);
+static const int EV_SET64(kevp,a,b,c,d,e,f,g,h) = do { struct kevent64_s *__kevp__ = (kevp); __kevp__->ident = (a); __kevp__->filter = (b); __kevp__->flags = (c); __kevp__->fflags = (d); __kevp__->data = (e); __kevp__->udata = (f); __kevp__->ext[0] = (g); __kevp__->ext[1] = (h); } while(0);
+static const int EV_ADD = 0x0001;
+static const int EV_DELETE = 0x0002;
+static const int EV_ENABLE = 0x0004;
+static const int EV_DISABLE = 0x0008;
+static const int EV_RECEIPT = 0x0040;
+static const int EV_ONESHOT = 0x0010;
+static const int EV_CLEAR = 0x0020;
+static const int EV_DISPATCH = 0x0080;
+static const int EV_SYSFLAGS = 0xF000;
+static const int EV_FLAG0 = 0x1000;
+static const int EV_FLAG1 = 0x2000;
+static const int EV_EOF = 0x8000;
+static const int EV_ERROR = 0x4000;
+static const int EV_POLL = EV_FLAG0;
+static const int EV_OOBAND = EV_FLAG1;
+static const int NOTE_TRIGGER = 0x01000000;
+static const int NOTE_FFNOP = 0x00000000;
+static const int NOTE_FFAND = 0x40000000;
+static const int NOTE_FFOR = 0x80000000;
+static const int NOTE_FFCOPY = 0xc0000000;
+static const int NOTE_FFCTRLMASK = 0xc0000000;
+static const int NOTE_FFLAGSMASK = 0x00ffffff;
+static const int NOTE_LOWAT = 0x00000001;
+static const int NOTE_DELETE = 0x00000001;
+static const int NOTE_WRITE = 0x00000002;
+static const int NOTE_EXTEND = 0x00000004;
+static const int NOTE_ATTRIB = 0x00000008;
+static const int NOTE_LINK = 0x00000010;
+static const int NOTE_RENAME = 0x00000020;
+static const int NOTE_REVOKE = 0x00000040;
+static const int NOTE_NONE = 0x00000080;
+static const int NOTE_EXIT = 0x80000000;
+static const int NOTE_FORK = 0x40000000;
+static const int NOTE_EXEC = 0x20000000;
+static const int NOTE_REAP = 0x10000000;
+static const int NOTE_SIGNAL = 0x08000000;
+static const int NOTE_EXITSTATUS = 0x04000000;
+static const int NOTE_RESOURCEEND = 0x02000000;
+static const int NOTE_PDATAMASK = 0x000fffff;
+static const int NOTE_PCTRLMASK = (~NOTE_PDATAMASK);
+static const int NOTE_EXIT_REPARENTED = 0x00080000;
+static const int NOTE_VM_PRESSURE = 0x80000000;
+static const int NOTE_VM_PRESSURE_TERMINATE = 0x40000000;
+static const int NOTE_VM_PRESSURE_SUDDEN_TERMINATE = 0x20000000;
+static const int NOTE_VM_ERROR = 0x10000000;
+static const int NOTE_SECONDS = 0x00000001;
+static const int NOTE_USECONDS = 0x00000002;
+static const int NOTE_NSECONDS = 0x00000004;
+static const int NOTE_ABSOLUTE = 0x00000008;
+static const int NOTE_TRACK = 0x00000001;
+static const int NOTE_TRACKERR = 0x00000002;
+static const int NOTE_CHILD = 0x00000004;
+static const int SLIST_HEAD(name,type) = struct name { struct type *slh_first; };
+static const int SLIST_HEAD_INITIALIZER(head) = { NULL };
+static const int SLIST_ENTRY(type) = struct { struct type *sle_next; };
+static const int SLIST_EMPTY(head) = ((head)->slh_first == NULL);
+static const int SLIST_FIRST(head) = ((head)->slh_first);
+static const int SLIST_FOREACH(var,head,field) = for ((var) = SLIST_FIRST((head)); (var); (var) = SLIST_NEXT((var), field));
+static const int SLIST_FOREACH_SAFE(var,head,field,tvar) = for ((var) = SLIST_FIRST((head)); (var) && ((tvar) = SLIST_NEXT((var), field), 1); (var) = (tvar));
+static const int SLIST_FOREACH_PREVPTR(var,varp,head,field) = for ((varp) = &SLIST_FIRST((head)); ((var) = *(varp)) != NULL; (varp) = &SLIST_NEXT((var), field));
+static const int SLIST_INIT(head) = do { SLIST_FIRST((head)) = NULL; } while (0);
+static const int SLIST_INSERT_AFTER(slistelm,elm,field) = do { SLIST_NEXT((elm), field) = SLIST_NEXT((slistelm), field); SLIST_NEXT((slistelm), field) = (elm); } while (0);
+static const int SLIST_INSERT_HEAD(head,elm,field) = do { SLIST_NEXT((elm), field) = SLIST_FIRST((head)); SLIST_FIRST((head)) = (elm); } while (0);
+static const int SLIST_NEXT(elm,field) = ((elm)->field.sle_next);
+static const int SLIST_REMOVE(head,elm,type,field) = do { if (SLIST_FIRST((head)) == (elm)) { SLIST_REMOVE_HEAD((head), field); } else { struct type *curelm = SLIST_FIRST((head)); while (SLIST_NEXT(curelm, field) != (elm)) curelm = SLIST_NEXT(curelm, field); SLIST_REMOVE_AFTER(curelm, field); } TRASHIT((elm)->field.sle_next); } while (0);
+static const int SLIST_REMOVE_AFTER(elm,field) = do { SLIST_NEXT(elm, field) = SLIST_NEXT(SLIST_NEXT(elm, field), field); } while (0);
+static const int SLIST_REMOVE_HEAD(head,field) = do { SLIST_FIRST((head)) = SLIST_NEXT(SLIST_FIRST((head)), field); } while (0);
+static const int STAILQ_HEAD(name,type) = struct name { struct type *stqh_first; struct type **stqh_last; };
+static const int STAILQ_HEAD_INITIALIZER(head) = { NULL, &(head).stqh_first };
+static const int STAILQ_ENTRY(type) = struct { struct type *stqe_next; };
+static const int STAILQ_CONCAT(head1,head2) = do { if (!STAILQ_EMPTY((head2))) { *(head1)->stqh_last = (head2)->stqh_first; (head1)->stqh_last = (head2)->stqh_last; STAILQ_INIT((head2)); } } while (0);
+static const int STAILQ_EMPTY(head) = ((head)->stqh_first == NULL);
+static const int STAILQ_FIRST(head) = ((head)->stqh_first);
+static const int STAILQ_FOREACH(var,head,field) = for((var) = STAILQ_FIRST((head)); (var); (var) = STAILQ_NEXT((var), field));
+static const int STAILQ_FOREACH_SAFE(var,head,field,tvar) = for ((var) = STAILQ_FIRST((head)); (var) && ((tvar) = STAILQ_NEXT((var), field), 1); (var) = (tvar));
+static const int STAILQ_INIT(head) = do { STAILQ_FIRST((head)) = NULL; (head)->stqh_last = &STAILQ_FIRST((head)); } while (0);
+static const int STAILQ_INSERT_AFTER(head,tqelm,elm,field) = do { if ((STAILQ_NEXT((elm), field) = STAILQ_NEXT((tqelm), field)) == NULL) (head)->stqh_last = &STAILQ_NEXT((elm), field); STAILQ_NEXT((tqelm), field) = (elm); } while (0);
+static const int STAILQ_INSERT_HEAD(head,elm,field) = do { if ((STAILQ_NEXT((elm), field) = STAILQ_FIRST((head))) == NULL) (head)->stqh_last = &STAILQ_NEXT((elm), field); STAILQ_FIRST((head)) = (elm); } while (0);
+static const int STAILQ_INSERT_TAIL(head,elm,field) = do { STAILQ_NEXT((elm), field) = NULL; *(head)->stqh_last = (elm); (head)->stqh_last = &STAILQ_NEXT((elm), field); } while (0);
+static const int STAILQ_LAST(head,type,field) = (STAILQ_EMPTY((head)) ? NULL : ((struct type *)(void *) ((char *)((head)->stqh_last) - __offsetof(struct type, field))));
+static const int STAILQ_NEXT(elm,field) = ((elm)->field.stqe_next);
+static const int STAILQ_REMOVE(head,elm,type,field) = do { if (STAILQ_FIRST((head)) == (elm)) { STAILQ_REMOVE_HEAD((head), field); } else { struct type *curelm = STAILQ_FIRST((head)); while (STAILQ_NEXT(curelm, field) != (elm)) curelm = STAILQ_NEXT(curelm, field); STAILQ_REMOVE_AFTER(head, curelm, field); } TRASHIT((elm)->field.stqe_next); } while (0);
+static const int STAILQ_REMOVE_HEAD(head,field) = do { if ((STAILQ_FIRST((head)) = STAILQ_NEXT(STAILQ_FIRST((head)), field)) == NULL) (head)->stqh_last = &STAILQ_FIRST((head)); } while (0);
+static const int STAILQ_REMOVE_HEAD_UNTIL(head,elm,field) = do { if ((STAILQ_FIRST((head)) = STAILQ_NEXT((elm), field)) == NULL) (head)->stqh_last = &STAILQ_FIRST((head)); } while (0);
+static const int STAILQ_REMOVE_AFTER(head,elm,field) = do { if ((STAILQ_NEXT(elm, field) = STAILQ_NEXT(STAILQ_NEXT(elm, field), field)) == NULL) (head)->stqh_last = &STAILQ_NEXT((elm), field); } while (0);
+static const int STAILQ_SWAP(head1,head2,type) = do { struct type *swap_first = STAILQ_FIRST(head1); struct type **swap_last = (head1)->stqh_last; STAILQ_FIRST(head1) = STAILQ_FIRST(head2); (head1)->stqh_last = (head2)->stqh_last; STAILQ_FIRST(head2) = swap_first; (head2)->stqh_last = swap_last; if (STAILQ_EMPTY(head1)) (head1)->stqh_last = &STAILQ_FIRST(head1); if (STAILQ_EMPTY(head2)) (head2)->stqh_last = &STAILQ_FIRST(head2); } while (0);
+static const int LIST_HEAD(name,type) = struct name { struct type *lh_first; };
+static const int LIST_HEAD_INITIALIZER(head) = { NULL };
+static const int LIST_ENTRY(type) = struct { struct type *le_next; struct type **le_prev; };
+static const int LIST_EMPTY(head) = ((head)->lh_first == NULL);
+static const int LIST_FIRST(head) = ((head)->lh_first);
+static const int LIST_FOREACH(var,head,field) = for ((var) = LIST_FIRST((head)); (var); (var) = LIST_NEXT((var), field));
+static const int LIST_FOREACH_SAFE(var,head,field,tvar) = for ((var) = LIST_FIRST((head)); (var) && ((tvar) = LIST_NEXT((var), field), 1); (var) = (tvar));
+static const int LIST_INIT(head) = do { LIST_FIRST((head)) = NULL; } while (0);
+static const int LIST_INSERT_AFTER(listelm,elm,field) = do { QMD_LIST_CHECK_NEXT(listelm, field); if ((LIST_NEXT((elm), field) = LIST_NEXT((listelm), field)) != NULL) LIST_NEXT((listelm), field)->field.le_prev = &LIST_NEXT((elm), field); LIST_NEXT((listelm), field) = (elm); (elm)->field.le_prev = &LIST_NEXT((listelm), field); } while (0);
+static const int LIST_INSERT_BEFORE(listelm,elm,field) = do { QMD_LIST_CHECK_PREV(listelm, field); (elm)->field.le_prev = (listelm)->field.le_prev; LIST_NEXT((elm), field) = (listelm); *(listelm)->field.le_prev = (elm); (listelm)->field.le_prev = &LIST_NEXT((elm), field); } while (0);
+static const int LIST_INSERT_HEAD(head,elm,field) = do { QMD_LIST_CHECK_HEAD((head), field); if ((LIST_NEXT((elm), field) = LIST_FIRST((head))) != NULL) LIST_FIRST((head))->field.le_prev = &LIST_NEXT((elm), field); LIST_FIRST((head)) = (elm); (elm)->field.le_prev = &LIST_FIRST((head)); } while (0);
+static const int LIST_NEXT(elm,field) = ((elm)->field.le_next);
+static const int LIST_REMOVE(elm,field) = do { QMD_LIST_CHECK_NEXT(elm, field); QMD_LIST_CHECK_PREV(elm, field); if (LIST_NEXT((elm), field) != NULL) LIST_NEXT((elm), field)->field.le_prev = (elm)->field.le_prev; *(elm)->field.le_prev = LIST_NEXT((elm), field); TRASHIT((elm)->field.le_next); TRASHIT((elm)->field.le_prev); } while (0);
+static const int LIST_SWAP(head1,head2,type,field) = do { struct type *swap_tmp = LIST_FIRST((head1)); LIST_FIRST((head1)) = LIST_FIRST((head2)); LIST_FIRST((head2)) = swap_tmp; if ((swap_tmp = LIST_FIRST((head1))) != NULL) swap_tmp->field.le_prev = &LIST_FIRST((head1)); if ((swap_tmp = LIST_FIRST((head2))) != NULL) swap_tmp->field.le_prev = &LIST_FIRST((head2)); } while (0);
+static const int TAILQ_HEAD(name,type) = struct name { struct type *tqh_first; struct type **tqh_last; TRACEBUF };
+static const int TAILQ_HEAD_INITIALIZER(head) = { NULL, &(head).tqh_first };
+static const int TAILQ_ENTRY(type) = struct { struct type *tqe_next; struct type **tqe_prev; TRACEBUF };
+static const int TAILQ_CONCAT(head1,head2,field) = do { if (!TAILQ_EMPTY(head2)) { *(head1)->tqh_last = (head2)->tqh_first; (head2)->tqh_first->field.tqe_prev = (head1)->tqh_last; (head1)->tqh_last = (head2)->tqh_last; TAILQ_INIT((head2)); QMD_TRACE_HEAD(head1); QMD_TRACE_HEAD(head2); } } while (0);
+static const int TAILQ_EMPTY(head) = ((head)->tqh_first == NULL);
+static const int TAILQ_FIRST(head) = ((head)->tqh_first);
+static const int TAILQ_FOREACH(var,head,field) = for ((var) = TAILQ_FIRST((head)); (var); (var) = TAILQ_NEXT((var), field));
+static const int TAILQ_FOREACH_SAFE(var,head,field,tvar) = for ((var) = TAILQ_FIRST((head)); (var) && ((tvar) = TAILQ_NEXT((var), field), 1); (var) = (tvar));
+static const int TAILQ_FOREACH_REVERSE(var,head,headname,field) = for ((var) = TAILQ_LAST((head), headname); (var); (var) = TAILQ_PREV((var), headname, field));
+static const int TAILQ_FOREACH_REVERSE_SAFE(var,head,headname,field,tvar) = for ((var) = TAILQ_LAST((head), headname); (var) && ((tvar) = TAILQ_PREV((var), headname, field), 1); (var) = (tvar));
+static const int TAILQ_INIT(head) = do { TAILQ_FIRST((head)) = NULL; (head)->tqh_last = &TAILQ_FIRST((head)); QMD_TRACE_HEAD(head); } while (0);
+static const int TAILQ_INSERT_AFTER(head,listelm,elm,field) = do { if ((TAILQ_NEXT((elm), field) = TAILQ_NEXT((listelm), field)) != NULL) TAILQ_NEXT((elm), field)->field.tqe_prev = &TAILQ_NEXT((elm), field); else { (head)->tqh_last = &TAILQ_NEXT((elm), field); QMD_TRACE_HEAD(head); } TAILQ_NEXT((listelm), field) = (elm); (elm)->field.tqe_prev = &TAILQ_NEXT((listelm), field); QMD_TRACE_ELEM(&(elm)->field); QMD_TRACE_ELEM(&listelm->field); } while (0);
+static const int TAILQ_INSERT_BEFORE(listelm,elm,field) = do { (elm)->field.tqe_prev = (listelm)->field.tqe_prev; TAILQ_NEXT((elm), field) = (listelm); *(listelm)->field.tqe_prev = (elm); (listelm)->field.tqe_prev = &TAILQ_NEXT((elm), field); QMD_TRACE_ELEM(&(elm)->field); QMD_TRACE_ELEM(&listelm->field); } while (0);
+static const int TAILQ_INSERT_HEAD(head,elm,field) = do { if ((TAILQ_NEXT((elm), field) = TAILQ_FIRST((head))) != NULL) TAILQ_FIRST((head))->field.tqe_prev = &TAILQ_NEXT((elm), field); else (head)->tqh_last = &TAILQ_NEXT((elm), field); TAILQ_FIRST((head)) = (elm); (elm)->field.tqe_prev = &TAILQ_FIRST((head)); QMD_TRACE_HEAD(head); QMD_TRACE_ELEM(&(elm)->field); } while (0);
+static const int TAILQ_INSERT_TAIL(head,elm,field) = do { TAILQ_NEXT((elm), field) = NULL; (elm)->field.tqe_prev = (head)->tqh_last; *(head)->tqh_last = (elm); (head)->tqh_last = &TAILQ_NEXT((elm), field); QMD_TRACE_HEAD(head); QMD_TRACE_ELEM(&(elm)->field); } while (0);
+static const int TAILQ_LAST(head,headname) = (*(((struct headname *)((head)->tqh_last))->tqh_last));
+static const int TAILQ_NEXT(elm,field) = ((elm)->field.tqe_next);
+static const int TAILQ_PREV(elm,headname,field) = (*(((struct headname *)((elm)->field.tqe_prev))->tqh_last));
+static const int TAILQ_REMOVE(head,elm,field) = do { if ((TAILQ_NEXT((elm), field)) != NULL) TAILQ_NEXT((elm), field)->field.tqe_prev = (elm)->field.tqe_prev; else { (head)->tqh_last = (elm)->field.tqe_prev; QMD_TRACE_HEAD(head); } *(elm)->field.tqe_prev = TAILQ_NEXT((elm), field); TRASHIT((elm)->field.tqe_next); TRASHIT((elm)->field.tqe_prev); QMD_TRACE_ELEM(&(elm)->field); } while (0);
+static const int TAILQ_SWAP(head1,head2,type,field) = do { struct type *swap_first = (head1)->tqh_first; struct type **swap_last = (head1)->tqh_last; (head1)->tqh_first = (head2)->tqh_first; (head1)->tqh_last = (head2)->tqh_last; (head2)->tqh_first = swap_first; (head2)->tqh_last = swap_last; if ((swap_first = (head1)->tqh_first) != NULL) swap_first->field.tqe_prev = &(head1)->tqh_first; else (head1)->tqh_last = &(head1)->tqh_first; if ((swap_first = (head2)->tqh_first) != NULL) swap_first->field.tqe_prev = &(head2)->tqh_first; else (head2)->tqh_last = &(head2)->tqh_first; } while (0);
+static const int CIRCLEQ_HEAD(name,type) = struct name { struct type *cqh_first; struct type *cqh_last; };
+static const int CIRCLEQ_ENTRY(type) = struct { struct type *cqe_next; struct type *cqe_prev; };
+static const int CIRCLEQ_EMPTY(head) = ((head)->cqh_first == (void *)(head));
+static const int CIRCLEQ_FIRST(head) = ((head)->cqh_first);
+static const int CIRCLEQ_FOREACH(var,head,field) = for((var) = (head)->cqh_first; (var) != (void *)(head); (var) = (var)->field.cqe_next);
+static const int CIRCLEQ_INIT(head) = do { (head)->cqh_first = (void *)(head); (head)->cqh_last = (void *)(head); } while (0);
+static const int CIRCLEQ_INSERT_AFTER(head,listelm,elm,field) = do { (elm)->field.cqe_next = (listelm)->field.cqe_next; (elm)->field.cqe_prev = (listelm); if ((listelm)->field.cqe_next == (void *)(head)) (head)->cqh_last = (elm); else (listelm)->field.cqe_next->field.cqe_prev = (elm); (listelm)->field.cqe_next = (elm); } while (0);
+static const int CIRCLEQ_INSERT_BEFORE(head,listelm,elm,field) = do { (elm)->field.cqe_next = (listelm); (elm)->field.cqe_prev = (listelm)->field.cqe_prev; if ((listelm)->field.cqe_prev == (void *)(head)) (head)->cqh_first = (elm); else (listelm)->field.cqe_prev->field.cqe_next = (elm); (listelm)->field.cqe_prev = (elm); } while (0);
+static const int CIRCLEQ_INSERT_HEAD(head,elm,field) = do { (elm)->field.cqe_next = (head)->cqh_first; (elm)->field.cqe_prev = (void *)(head); if ((head)->cqh_last == (void *)(head)) (head)->cqh_last = (elm); else (head)->cqh_first->field.cqe_prev = (elm); (head)->cqh_first = (elm); } while (0);
+static const int CIRCLEQ_INSERT_TAIL(head,elm,field) = do { (elm)->field.cqe_next = (void *)(head); (elm)->field.cqe_prev = (head)->cqh_last; if ((head)->cqh_first == (void *)(head)) (head)->cqh_first = (elm); else (head)->cqh_last->field.cqe_next = (elm); (head)->cqh_last = (elm); } while (0);
+static const int CIRCLEQ_LAST(head) = ((head)->cqh_last);
+static const int CIRCLEQ_NEXT(elm,field) = ((elm)->field.cqe_next);
+static const int CIRCLEQ_PREV(elm,field) = ((elm)->field.cqe_prev);
+static const int CIRCLEQ_REMOVE(head,elm,field) = do { if ((elm)->field.cqe_next == (void *)(head)) (head)->cqh_last = (elm)->field.cqe_prev; else (elm)->field.cqe_next->field.cqe_prev = (elm)->field.cqe_prev; if ((elm)->field.cqe_prev == (void *)(head)) (head)->cqh_first = (elm)->field.cqe_next; else (elm)->field.cqe_prev->field.cqe_next = (elm)->field.cqe_next; } while (0);
+struct knote;
+struct klist { struct knote *slh_first; };
+struct timespec;
+int kqueue(void);
+int kevent(int kq, const struct kevent *changelist, int nchanges,
+      struct kevent *eventlist, int nevents,
+      const struct timespec *timeout);
+int kevent64(int kq, const struct kevent64_s *changelist,
+      int nchanges, struct kevent64_s *eventlist,
+      int nevents, unsigned int flags,
+      const struct timespec *timeout);
 
 
-// *** 9. unistd.h ***
+// *** 8. sys/mman.h ***
 typedef signed char __int8_t;
 typedef unsigned char __uint8_t;
 typedef short __int16_t;
@@ -3390,222 +3142,71 @@ typedef __uint32_t __darwin_uid_t;
 typedef __uint32_t __darwin_useconds_t;
 typedef unsigned char __darwin_uuid_t[16];
 typedef char __darwin_uuid_string_t[37];
-typedef int __darwin_nl_item;
-typedef int __darwin_wctrans_t;
-typedef __uint32_t __darwin_wctype_t;
-struct accessx_descriptor {
- unsigned int ad_name_offset;
- int ad_flags;
- int ad_pad[2];
-};
-typedef __darwin_gid_t gid_t;
-typedef __darwin_intptr_t intptr_t;
-typedef __darwin_off_t off_t;
-typedef __darwin_pid_t pid_t;
-typedef __darwin_size_t size_t;
-typedef __darwin_ssize_t ssize_t;
-typedef __darwin_uid_t uid_t;
-typedef __darwin_useconds_t useconds_t;
-void _exit(int) __attribute__((noreturn));
-int access(const char *, int);
-unsigned int
-  alarm(unsigned int);
-int chdir(const char *);
-int chown(const char *, uid_t, gid_t);
-int close(int) __asm("_" "close" );
-int dup(int);
-int dup2(int, int);
-int execl(const char *, const char *, ...);
-int execle(const char *, const char *, ...);
-int execlp(const char *, const char *, ...);
-int execv(const char *, char * const *);
-int execve(const char *, char * const *, char * const *);
-int execvp(const char *, char * const *);
-pid_t fork(void);
-long fpathconf(int, int);
-char *getcwd(char *, size_t);
-gid_t getegid(void);
-uid_t geteuid(void);
-gid_t getgid(void);
-int getgroups(int, gid_t []);
-char *getlogin(void);
-pid_t getpgrp(void);
-pid_t getpid(void);
-pid_t getppid(void);
-uid_t getuid(void);
-int isatty(int);
-int link(const char *, const char *);
-off_t lseek(int, off_t, int);
-long pathconf(const char *, int);
-int pause(void) __asm("_" "pause" );
-int pipe(int [2]);
-ssize_t read(int, void *, size_t) __asm("_" "read" );
-int rmdir(const char *);
-int setgid(gid_t);
-int setpgid(pid_t, pid_t);
-pid_t setsid(void);
-int setuid(uid_t);
-unsigned int
-  sleep(unsigned int) __asm("_" "sleep" );
-long sysconf(int);
-pid_t tcgetpgrp(int);
-int tcsetpgrp(int, pid_t);
-char *ttyname(int);
-int ttyname_r(int, char *, size_t) __asm("_" "ttyname_r" );
-int unlink(const char *);
-ssize_t write(int, const void *, size_t) __asm("_" "write" );
-size_t confstr(int, char *, size_t) __asm("_" "confstr" );
-int getopt(int, char * const [], const char *) __asm("_" "getopt" );
-extern char *optarg;
-extern int optind, opterr, optopt;
-void *brk(const void *);
-int chroot(const char *) ;
-char *crypt(const char *, const char *);
-char *ctermid(char *);
-void encrypt(char *, int) __asm("_" "encrypt" );
-int fchdir(int);
-long gethostid(void);
-pid_t getpgid(pid_t);
-pid_t getsid(pid_t);
-int getdtablesize(void) ;
-int getpagesize(void) __attribute__((const)) ;
-char *getpass(const char *) ;
-char *getwd(char *) ;
-int lchown(const char *, uid_t, gid_t) __asm("_" "lchown" );
-int lockf(int, int, off_t) __asm("_" "lockf" );
-int nice(int) __asm("_" "nice" );
-ssize_t pread(int, void *, size_t, off_t) __asm("_" "pread" );
-ssize_t pwrite(int, const void *, size_t, off_t) __asm("_" "pwrite" );
-void *sbrk(int);
-pid_t setpgrp(void) __asm("_" "setpgrp" );
-int setregid(gid_t, gid_t) __asm("_" "setregid" );
-int setreuid(uid_t, uid_t) __asm("_" "setreuid" );
-void swab(const void * , void * , ssize_t);
-void sync(void);
-int truncate(const char *, off_t);
-useconds_t ualarm(useconds_t, useconds_t);
-int usleep(useconds_t) __asm("_" "usleep" );
-pid_t vfork(void);
-int fsync(int) __asm("_" "fsync" );
-int ftruncate(int, off_t);
-int getlogin_r(char *, size_t);
-int fchown(int, uid_t, gid_t);
-int gethostname(char *, size_t);
-ssize_t readlink(const char * , char * , size_t);
-int setegid(gid_t);
-int seteuid(uid_t);
-int symlink(const char *, const char *);
-#undef __need_struct_timespec
-struct timespec
-{
- __darwin_time_t tv_sec;
- long tv_nsec;
-};
-#undef __need_struct_timeval
-struct timeval
-{
- __darwin_time_t tv_sec;
- __darwin_suseconds_t tv_usec;
-};
-#undef __need_fd_set
-typedef struct fd_set {
- __int32_t fds_bits[((((1024) % ((sizeof(__int32_t) * 8))) == 0) ? ((1024) / ((sizeof(__int32_t) * 8))) : (((1024) / ((sizeof(__int32_t) * 8))) + 1))];
-} fd_set;
-static __inline int
-__darwin_fd_isset(int _n, const struct fd_set *_p)
-{
- return (_p->fds_bits[_n/(sizeof(__int32_t) * 8)] & (1<<(_n % (sizeof(__int32_t) * 8))));
-}
-typedef __darwin_time_t time_t;
-typedef __darwin_suseconds_t suseconds_t;
-typedef __darwin_sigset_t sigset_t;
-int pselect(int, fd_set * , fd_set * ,
-  fd_set * , const struct timespec * ,
-  const sigset_t * )
-  __asm("_" "pselect" "$1050")
-  ;
-int select(int, fd_set * , fd_set * ,
-  fd_set * , struct timeval * )
-  __asm("_" "select" "$1050")
-  ;
-typedef __darwin_dev_t dev_t;
 typedef __darwin_mode_t mode_t;
-typedef __darwin_uuid_t uuid_t;
-void _Exit(int) __attribute__((noreturn));
-int accessx_np(const struct accessx_descriptor *, size_t, int *, uid_t);
-int acct(const char *);
-int add_profil(char *, size_t, unsigned long, unsigned int);
-void endusershell(void);
-int execvP(const char *, const char *, char * const *);
-char *fflagstostr(unsigned long);
-int getdomainname(char *, int);
-int getgrouplist(const char *, int, int *, int *);
-int gethostuuid(uuid_t, const struct timespec *) __attribute__((visibility("default")));
-mode_t getmode(const void *, mode_t);
-int getpeereid(int, uid_t *, gid_t *);
-int getsgroups_np(int *, uuid_t);
-char *getusershell(void);
-int getwgroups_np(int *, uuid_t);
-int initgroups(const char *, int);
-int iruserok(unsigned long, int, const char *, const char *);
-int iruserok_sa(const void *, int, int, const char *, const char *);
-int issetugid(void);
-char *mkdtemp(char *);
-int mknod(const char *, mode_t, dev_t);
-int mkpath_np(const char *path, mode_t omode) __attribute__((visibility("default")));
-int mkstemp(char *);
-int mkstemps(char *, int);
-char *mktemp(char *);
-int nfssvc(int, void *);
-int profil(char *, size_t, unsigned long, unsigned int);
-int pthread_setugid_np(uid_t, gid_t);
-int pthread_getugid_np( uid_t *, gid_t *);
-int rcmd(char **, int, const char *, const char *, const char *, int *);
-int rcmd_af(char **, int, const char *, const char *, const char *, int *,
-  int);
-int reboot(int);
-int revoke(const char *);
-int rresvport(int *);
-int rresvport_af(int *, int);
-int ruserok(const char *, int, const char *, const char *);
-int setdomainname(const char *, int);
-int setgroups(int, const gid_t *);
-void sethostid(long);
-int sethostname(const char *, int);
-void setkey(const char *) __asm("_" "setkey" );
-int setlogin(const char *);
-void *setmode(const char *) __asm("_" "setmode" );
-int setrgid(gid_t);
-int setruid(uid_t);
-int setsgroups_np(int, const uuid_t);
-void setusershell(void);
-int setwgroups_np(int, const uuid_t);
-int strtofflags(char **, unsigned long *, unsigned long *);
-int swapon(const char *);
-int syscall(int, ...);
-int ttyslot(void);
-int undelete(const char *);
-int unwhiteout(const char *);
-void *valloc(size_t);
-extern char *suboptarg;
-int getsubopt(char **, char * const *, char **);
-int fgetattrlist(int,void*,void*,size_t,unsigned int) __attribute__((visibility("default")));
-int fsetattrlist(int,void*,void*,size_t,unsigned int) __attribute__((visibility("default")));
-int getattrlist(const char*,void*,void*,size_t,unsigned int) __asm("_" "getattrlist" );
-int setattrlist(const char*,void*,void*,size_t,unsigned int) __asm("_" "setattrlist" );
-int exchangedata(const char*,const char*,unsigned int);
-int getdirentriesattr(int,void*,void*,size_t,unsigned int*,unsigned int*,unsigned int*,unsigned int);
-struct fssearchblock;
-struct searchstate;
-int searchfs(const char *, struct fssearchblock *, unsigned long *, unsigned int, unsigned int, struct searchstate *);
-int fsctl(const char *,unsigned long,void*,unsigned int);
-int ffsctl(int,unsigned long,void*,unsigned int) __attribute__((visibility("default")));
-int fsync_volume_np(int, int) __attribute__((visibility("default")));
-int sync_volume_np(const char *, int) __attribute__((visibility("default")));
-extern int optreset;
+typedef __darwin_off_t off_t;
+typedef __darwin_size_t size_t;
+static const int PROT_NONE = 0x00;
+static const int PROT_READ = 0x01;
+static const int PROT_WRITE = 0x02;
+static const int PROT_EXEC = 0x04;
+static const int MAP_SHARED = 0x0001;
+static const int MAP_PRIVATE = 0x0002;
+static const int MAP_COPY = MAP_PRIVATE;
+static const int MAP_FIXED = 0x0010;
+static const int MAP_RENAME = 0x0020;
+static const int MAP_NORESERVE = 0x0040;
+static const int MAP_RESERVED0080 = 0x0080;
+static const int MAP_NOEXTEND = 0x0100;
+static const int MAP_HASSEMAPHORE = 0x0200;
+static const int MAP_NOCACHE = 0x0400;
+static const int MAP_JIT = 0x0800;
+static const int MCL_CURRENT = 0x0001;
+static const int MCL_FUTURE = 0x0002;
+static const int MAP_FAILED = ((void *)-1);
+static const int MS_ASYNC = 0x0001;
+static const int MS_INVALIDATE = 0x0002;
+static const int MS_SYNC = 0x0010;
+static const int MS_KILLPAGES = 0x0004;
+static const int MS_DEACTIVATE = 0x0008;
+static const int MAP_FILE = 0x0000;
+static const int MAP_ANON = 0x1000;
+static const int POSIX_MADV_NORMAL = 0;
+static const int POSIX_MADV_RANDOM = 1;
+static const int POSIX_MADV_SEQUENTIAL = 2;
+static const int POSIX_MADV_WILLNEED = 3;
+static const int POSIX_MADV_DONTNEED = 4;
+static const int MADV_NORMAL = POSIX_MADV_NORMAL;
+static const int MADV_RANDOM = POSIX_MADV_RANDOM;
+static const int MADV_SEQUENTIAL = POSIX_MADV_SEQUENTIAL;
+static const int MADV_WILLNEED = POSIX_MADV_WILLNEED;
+static const int MADV_DONTNEED = POSIX_MADV_DONTNEED;
+static const int MADV_FREE = 5;
+static const int MADV_ZERO_WIRED_PAGES = 6;
+static const int MADV_FREE_REUSABLE = 7;
+static const int MADV_FREE_REUSE = 8;
+static const int MADV_CAN_REUSE = 9;
+static const int MINCORE_INCORE = 0x1;
+static const int MINCORE_REFERENCED = 0x2;
+static const int MINCORE_MODIFIED = 0x4;
+static const int MINCORE_REFERENCED_OTHER = 0x8;
+static const int MINCORE_MODIFIED_OTHER = 0x10;
+int mlockall(int);
+int munlockall(void);
+int mlock(const void *, size_t);
+void * mmap(void *, size_t, int, int, int, off_t) __asm("_" "mmap" );
+int mprotect(void *, size_t, int) __asm("_" "mprotect" );
+int msync(void *, size_t, int) __asm("_" "msync" );
+int munlock(const void *, size_t);
+int munmap(void *, size_t) __asm("_" "munmap" );
+int shm_open(const char *, int, ...);
+int shm_unlink(const char *);
+int posix_madvise(void *, size_t, int);
+int madvise(void *, size_t, int);
+int mincore(const void *, size_t, char *);
+int minherit(void *, size_t, int);
 
 
-// *** 10. sys/socket.h ***
+// *** 9. sys/socket.h ***
 typedef signed char __int8_t;
 typedef unsigned char __uint8_t;
 typedef short __int16_t;
@@ -3764,7 +3365,6 @@ typedef __darwin_ssize_t ssize_t;
 typedef __darwin_time_t time_t;
 typedef __darwin_useconds_t useconds_t;
 typedef __darwin_suseconds_t suseconds_t;
-#undef __need_fd_set
 typedef struct fd_set {
  __int32_t fds_bits[((((1024) % ((sizeof(__int32_t) * 8))) == 0) ? ((1024) / ((sizeof(__int32_t) * 8))) : (((1024) / ((sizeof(__int32_t) * 8))) + 1))];
 } fd_set;
@@ -4040,120 +3640,642 @@ int sendfile(int, int, off_t, off_t *, struct sf_hdtr *, int);
 void pfctlinput(int, struct sockaddr *);
 
 
-// *** 11. errno.h ***
-extern int * __error(void);
-static const int errno = (*__error());
-static const int EPERM = 1;
-static const int ENOENT = 2;
-static const int ESRCH = 3;
-static const int EINTR = 4;
-static const int EIO = 5;
-static const int ENXIO = 6;
-static const int E2BIG = 7;
-static const int ENOEXEC = 8;
-static const int EBADF = 9;
-static const int ECHILD = 10;
-static const int EDEADLK = 11;
-static const int ENOMEM = 12;
-static const int EACCES = 13;
-static const int EFAULT = 14;
-static const int ENOTBLK = 15;
-static const int EBUSY = 16;
-static const int EEXIST = 17;
-static const int EXDEV = 18;
-static const int ENODEV = 19;
-static const int ENOTDIR = 20;
-static const int EISDIR = 21;
-static const int EINVAL = 22;
-static const int ENFILE = 23;
-static const int EMFILE = 24;
-static const int ENOTTY = 25;
-static const int ETXTBSY = 26;
-static const int EFBIG = 27;
-static const int ENOSPC = 28;
-static const int ESPIPE = 29;
-static const int EROFS = 30;
-static const int EMLINK = 31;
-static const int EPIPE = 32;
-static const int EDOM = 33;
-static const int ERANGE = 34;
-static const int EAGAIN = 35;
-static const int EWOULDBLOCK = EAGAIN;
-static const int EINPROGRESS = 36;
-static const int EALREADY = 37;
-static const int ENOTSOCK = 38;
-static const int EDESTADDRREQ = 39;
-static const int EMSGSIZE = 40;
-static const int EPROTOTYPE = 41;
-static const int ENOPROTOOPT = 42;
-static const int EPROTONOSUPPORT = 43;
-static const int ESOCKTNOSUPPORT = 44;
-static const int ENOTSUP = 45;
-static const int EPFNOSUPPORT = 46;
-static const int EAFNOSUPPORT = 47;
-static const int EADDRINUSE = 48;
-static const int EADDRNOTAVAIL = 49;
-static const int ENETDOWN = 50;
-static const int ENETUNREACH = 51;
-static const int ENETRESET = 52;
-static const int ECONNABORTED = 53;
-static const int ECONNRESET = 54;
-static const int ENOBUFS = 55;
-static const int EISCONN = 56;
-static const int ENOTCONN = 57;
-static const int ESHUTDOWN = 58;
-static const int ETOOMANYREFS = 59;
-static const int ETIMEDOUT = 60;
-static const int ECONNREFUSED = 61;
-static const int ELOOP = 62;
-static const int ENAMETOOLONG = 63;
-static const int EHOSTDOWN = 64;
-static const int EHOSTUNREACH = 65;
-static const int ENOTEMPTY = 66;
-static const int EPROCLIM = 67;
-static const int EUSERS = 68;
-static const int EDQUOT = 69;
-static const int ESTALE = 70;
-static const int EREMOTE = 71;
-static const int EBADRPC = 72;
-static const int ERPCMISMATCH = 73;
-static const int EPROGUNAVAIL = 74;
-static const int EPROGMISMATCH = 75;
-static const int EPROCUNAVAIL = 76;
-static const int ENOLCK = 77;
-static const int ENOSYS = 78;
-static const int EFTYPE = 79;
-static const int EAUTH = 80;
-static const int ENEEDAUTH = 81;
-static const int EPWROFF = 82;
-static const int EDEVERR = 83;
-static const int EOVERFLOW = 84;
-static const int EBADEXEC = 85;
-static const int EBADARCH = 86;
-static const int ESHLIBVERS = 87;
-static const int EBADMACHO = 88;
-static const int ECANCELED = 89;
-static const int EIDRM = 90;
-static const int ENOMSG = 91;
-static const int EILSEQ = 92;
-static const int ENOATTR = 93;
-static const int EBADMSG = 94;
-static const int EMULTIHOP = 95;
-static const int ENODATA = 96;
-static const int ENOLINK = 97;
-static const int ENOSR = 98;
-static const int ENOSTR = 99;
-static const int EPROTO = 100;
-static const int ETIME = 101;
-static const int EOPNOTSUPP = 102;
-static const int ENOPOLICY = 103;
-static const int ENOTRECOVERABLE = 104;
-static const int EOWNERDEAD = 105;
-static const int EQFULL = 106;
-static const int ELAST = 106;
+// *** 10. sys/ipc.h ***
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef short __int16_t;
+typedef unsigned short __uint16_t;
+typedef int __int32_t;
+typedef unsigned int __uint32_t;
+typedef long long __int64_t;
+typedef unsigned long long __uint64_t;
+typedef long __darwin_intptr_t;
+typedef unsigned int __darwin_natural_t;
+typedef int __darwin_ct_rune_t;
+typedef union {
+ char __mbstate8[128];
+ long long _mbstateL;
+} __mbstate_t;
+typedef __mbstate_t __darwin_mbstate_t;
+typedef long int __darwin_ptrdiff_t;
+typedef long unsigned int __darwin_size_t;
+typedef __builtin_va_list __darwin_va_list;
+typedef int __darwin_wchar_t;
+typedef __darwin_wchar_t __darwin_rune_t;
+typedef int __darwin_wint_t;
+typedef unsigned long __darwin_clock_t;
+typedef __uint32_t __darwin_socklen_t;
+typedef long __darwin_ssize_t;
+typedef long __darwin_time_t;
+struct __darwin_pthread_handler_rec
+{
+ void (*__routine)(void *);
+ void *__arg;
+ struct __darwin_pthread_handler_rec *__next;
+};
+struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
+struct _opaque_pthread_cond_t { long __sig; char __opaque[40]; };
+struct _opaque_pthread_condattr_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_mutex_t { long __sig; char __opaque[56]; };
+struct _opaque_pthread_mutexattr_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_once_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
+struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
+struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
+typedef __int64_t __darwin_blkcnt_t;
+typedef __int32_t __darwin_blksize_t;
+typedef __int32_t __darwin_dev_t;
+typedef unsigned int __darwin_fsblkcnt_t;
+typedef unsigned int __darwin_fsfilcnt_t;
+typedef __uint32_t __darwin_gid_t;
+typedef __uint32_t __darwin_id_t;
+typedef __uint64_t __darwin_ino64_t;
+typedef __darwin_ino64_t __darwin_ino_t;
+typedef __darwin_natural_t __darwin_mach_port_name_t;
+typedef __darwin_mach_port_name_t __darwin_mach_port_t;
+typedef __uint16_t __darwin_mode_t;
+typedef __int64_t __darwin_off_t;
+typedef __int32_t __darwin_pid_t;
+typedef struct _opaque_pthread_attr_t
+   __darwin_pthread_attr_t;
+typedef struct _opaque_pthread_cond_t
+   __darwin_pthread_cond_t;
+typedef struct _opaque_pthread_condattr_t
+   __darwin_pthread_condattr_t;
+typedef unsigned long __darwin_pthread_key_t;
+typedef struct _opaque_pthread_mutex_t
+   __darwin_pthread_mutex_t;
+typedef struct _opaque_pthread_mutexattr_t
+   __darwin_pthread_mutexattr_t;
+typedef struct _opaque_pthread_once_t
+   __darwin_pthread_once_t;
+typedef struct _opaque_pthread_rwlock_t
+   __darwin_pthread_rwlock_t;
+typedef struct _opaque_pthread_rwlockattr_t
+   __darwin_pthread_rwlockattr_t;
+typedef struct _opaque_pthread_t
+   *__darwin_pthread_t;
+typedef __uint32_t __darwin_sigset_t;
+typedef __int32_t __darwin_suseconds_t;
+typedef __uint32_t __darwin_uid_t;
+typedef __uint32_t __darwin_useconds_t;
+typedef unsigned char __darwin_uuid_t[16];
+typedef char __darwin_uuid_string_t[37];
+typedef __darwin_uid_t uid_t;
+typedef __darwin_gid_t gid_t;
+typedef __darwin_mode_t mode_t;
+typedef __int32_t key_t;
+#pragma pack(4)
+struct ipc_perm
+{
+ uid_t uid;
+ gid_t gid;
+ uid_t cuid;
+ gid_t cgid;
+ mode_t mode;
+ unsigned short _seq;
+ key_t _key;
+};
+static const int __ipc_perm_new = ipc_perm;
+#pragma pack()
+static const int IPC_CREAT = 001000;
+static const int IPC_EXCL = 002000;
+static const int IPC_NOWAIT = 004000;
+static const int IPC_PRIVATE = ((key_t)0);
+static const int IPC_RMID = 0;
+static const int IPC_SET = 1;
+static const int IPC_STAT = 2;
+static const int IPC_R = 000400;
+static const int IPC_W = 000200;
+static const int IPC_M = 010000;
+key_t ftok(const char *, int);
 
 
-// *** 12. netinet/in.h ***
+// *** 11. sys/shm.h ***
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef short __int16_t;
+typedef unsigned short __uint16_t;
+typedef int __int32_t;
+typedef unsigned int __uint32_t;
+typedef long long __int64_t;
+typedef unsigned long long __uint64_t;
+typedef long __darwin_intptr_t;
+typedef unsigned int __darwin_natural_t;
+typedef int __darwin_ct_rune_t;
+typedef union {
+ char __mbstate8[128];
+ long long _mbstateL;
+} __mbstate_t;
+typedef __mbstate_t __darwin_mbstate_t;
+typedef long int __darwin_ptrdiff_t;
+typedef long unsigned int __darwin_size_t;
+typedef __builtin_va_list __darwin_va_list;
+typedef int __darwin_wchar_t;
+typedef __darwin_wchar_t __darwin_rune_t;
+typedef int __darwin_wint_t;
+typedef unsigned long __darwin_clock_t;
+typedef __uint32_t __darwin_socklen_t;
+typedef long __darwin_ssize_t;
+typedef long __darwin_time_t;
+struct __darwin_pthread_handler_rec
+{
+ void (*__routine)(void *);
+ void *__arg;
+ struct __darwin_pthread_handler_rec *__next;
+};
+struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
+struct _opaque_pthread_cond_t { long __sig; char __opaque[40]; };
+struct _opaque_pthread_condattr_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_mutex_t { long __sig; char __opaque[56]; };
+struct _opaque_pthread_mutexattr_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_once_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
+struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
+struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
+typedef __int64_t __darwin_blkcnt_t;
+typedef __int32_t __darwin_blksize_t;
+typedef __int32_t __darwin_dev_t;
+typedef unsigned int __darwin_fsblkcnt_t;
+typedef unsigned int __darwin_fsfilcnt_t;
+typedef __uint32_t __darwin_gid_t;
+typedef __uint32_t __darwin_id_t;
+typedef __uint64_t __darwin_ino64_t;
+typedef __darwin_ino64_t __darwin_ino_t;
+typedef __darwin_natural_t __darwin_mach_port_name_t;
+typedef __darwin_mach_port_name_t __darwin_mach_port_t;
+typedef __uint16_t __darwin_mode_t;
+typedef __int64_t __darwin_off_t;
+typedef __int32_t __darwin_pid_t;
+typedef struct _opaque_pthread_attr_t
+   __darwin_pthread_attr_t;
+typedef struct _opaque_pthread_cond_t
+   __darwin_pthread_cond_t;
+typedef struct _opaque_pthread_condattr_t
+   __darwin_pthread_condattr_t;
+typedef unsigned long __darwin_pthread_key_t;
+typedef struct _opaque_pthread_mutex_t
+   __darwin_pthread_mutex_t;
+typedef struct _opaque_pthread_mutexattr_t
+   __darwin_pthread_mutexattr_t;
+typedef struct _opaque_pthread_once_t
+   __darwin_pthread_once_t;
+typedef struct _opaque_pthread_rwlock_t
+   __darwin_pthread_rwlock_t;
+typedef struct _opaque_pthread_rwlockattr_t
+   __darwin_pthread_rwlockattr_t;
+typedef struct _opaque_pthread_t
+   *__darwin_pthread_t;
+typedef __uint32_t __darwin_sigset_t;
+typedef __int32_t __darwin_suseconds_t;
+typedef __uint32_t __darwin_uid_t;
+typedef __uint32_t __darwin_useconds_t;
+typedef unsigned char __darwin_uuid_t[16];
+typedef char __darwin_uuid_string_t[37];
+typedef __darwin_uid_t uid_t;
+typedef __darwin_gid_t gid_t;
+typedef __darwin_mode_t mode_t;
+typedef __int32_t key_t;
+#pragma pack(4)
+struct ipc_perm
+{
+ uid_t uid;
+ gid_t gid;
+ uid_t cuid;
+ gid_t cgid;
+ mode_t mode;
+ unsigned short _seq;
+ key_t _key;
+};
+#pragma pack()
+key_t ftok(const char *, int);
+typedef __darwin_pid_t pid_t;
+typedef __darwin_time_t time_t;
+typedef __darwin_size_t size_t;
+typedef unsigned short shmatt_t;
+static const int SHM_RDONLY = 010000;
+static const int SHM_RND = 020000;
+static const int SHMLBA = 4096;
+static const int SHM_R = (IPC_R);
+static const int SHM_W = (IPC_W);
+#pragma pack(4)
+static const int shmid_ds = __shmid_ds_new;
+struct __shmid_ds_new
+{
+ struct ipc_perm shm_perm;
+ size_t shm_segsz;
+ pid_t shm_lpid;
+ pid_t shm_cpid;
+ shmatt_t shm_nattch;
+ time_t shm_atime;
+ time_t shm_dtime;
+ time_t shm_ctime;
+ void *shm_internal;
+};
+#pragma pack()
+int shmsys(int, ...);
+void *shmat (int, const void *, int);
+int shmctl(int, int, struct __shmid_ds_new *) __asm("_" "shmctl" );
+int shmdt(const void *);
+int shmget(key_t, size_t, int);
+
+
+// *** 12. sys/time.h ***
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef short __int16_t;
+typedef unsigned short __uint16_t;
+typedef int __int32_t;
+typedef unsigned int __uint32_t;
+typedef long long __int64_t;
+typedef unsigned long long __uint64_t;
+typedef long __darwin_intptr_t;
+typedef unsigned int __darwin_natural_t;
+typedef int __darwin_ct_rune_t;
+typedef union {
+ char __mbstate8[128];
+ long long _mbstateL;
+} __mbstate_t;
+typedef __mbstate_t __darwin_mbstate_t;
+typedef long int __darwin_ptrdiff_t;
+typedef long unsigned int __darwin_size_t;
+typedef __builtin_va_list __darwin_va_list;
+typedef int __darwin_wchar_t;
+typedef __darwin_wchar_t __darwin_rune_t;
+typedef int __darwin_wint_t;
+typedef unsigned long __darwin_clock_t;
+typedef __uint32_t __darwin_socklen_t;
+typedef long __darwin_ssize_t;
+typedef long __darwin_time_t;
+struct __darwin_pthread_handler_rec
+{
+ void (*__routine)(void *);
+ void *__arg;
+ struct __darwin_pthread_handler_rec *__next;
+};
+struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
+struct _opaque_pthread_cond_t { long __sig; char __opaque[40]; };
+struct _opaque_pthread_condattr_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_mutex_t { long __sig; char __opaque[56]; };
+struct _opaque_pthread_mutexattr_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_once_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
+struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
+struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
+typedef __int64_t __darwin_blkcnt_t;
+typedef __int32_t __darwin_blksize_t;
+typedef __int32_t __darwin_dev_t;
+typedef unsigned int __darwin_fsblkcnt_t;
+typedef unsigned int __darwin_fsfilcnt_t;
+typedef __uint32_t __darwin_gid_t;
+typedef __uint32_t __darwin_id_t;
+typedef __uint64_t __darwin_ino64_t;
+typedef __darwin_ino64_t __darwin_ino_t;
+typedef __darwin_natural_t __darwin_mach_port_name_t;
+typedef __darwin_mach_port_name_t __darwin_mach_port_t;
+typedef __uint16_t __darwin_mode_t;
+typedef __int64_t __darwin_off_t;
+typedef __int32_t __darwin_pid_t;
+typedef struct _opaque_pthread_attr_t
+   __darwin_pthread_attr_t;
+typedef struct _opaque_pthread_cond_t
+   __darwin_pthread_cond_t;
+typedef struct _opaque_pthread_condattr_t
+   __darwin_pthread_condattr_t;
+typedef unsigned long __darwin_pthread_key_t;
+typedef struct _opaque_pthread_mutex_t
+   __darwin_pthread_mutex_t;
+typedef struct _opaque_pthread_mutexattr_t
+   __darwin_pthread_mutexattr_t;
+typedef struct _opaque_pthread_once_t
+   __darwin_pthread_once_t;
+typedef struct _opaque_pthread_rwlock_t
+   __darwin_pthread_rwlock_t;
+typedef struct _opaque_pthread_rwlockattr_t
+   __darwin_pthread_rwlockattr_t;
+typedef struct _opaque_pthread_t
+   *__darwin_pthread_t;
+typedef __uint32_t __darwin_sigset_t;
+typedef __int32_t __darwin_suseconds_t;
+typedef __uint32_t __darwin_uid_t;
+typedef __uint32_t __darwin_useconds_t;
+typedef unsigned char __darwin_uuid_t[16];
+typedef char __darwin_uuid_string_t[37];
+struct timespec
+{
+ __darwin_time_t tv_sec;
+ long tv_nsec;
+};
+struct timeval
+{
+ __darwin_time_t tv_sec;
+ __darwin_suseconds_t tv_usec;
+};
+typedef struct fd_set {
+ __int32_t fds_bits[((((1024) % ((sizeof(__int32_t) * 8))) == 0) ? ((1024) / ((sizeof(__int32_t) * 8))) : (((1024) / ((sizeof(__int32_t) * 8))) + 1))];
+} fd_set;
+static __inline int
+__darwin_fd_isset(int _n, const struct fd_set *_p)
+{
+ return (_p->fds_bits[_n/(sizeof(__int32_t) * 8)] & (1<<(_n % (sizeof(__int32_t) * 8))));
+}
+typedef __darwin_time_t time_t;
+typedef __darwin_suseconds_t suseconds_t;
+struct itimerval {
+ struct timeval it_interval;
+ struct timeval it_value;
+};
+static const int ITIMER_REAL = 0;
+static const int ITIMER_VIRTUAL = 1;
+static const int ITIMER_PROF = 2;
+static const int TIMEVAL_TO_TIMESPEC(tv,ts) = { (ts)->tv_sec = (tv)->tv_sec; (ts)->tv_nsec = (tv)->tv_usec * 1000; };
+static const int TIMESPEC_TO_TIMEVAL(tv,ts) = { (tv)->tv_sec = (ts)->tv_sec; (tv)->tv_usec = (ts)->tv_nsec / 1000; };
+struct timezone {
+ int tz_minuteswest;
+ int tz_dsttime;
+};
+static const int DST_NONE = 0;
+static const int DST_USA = 1;
+static const int DST_AUST = 2;
+static const int DST_WET = 3;
+static const int DST_MET = 4;
+static const int DST_EET = 5;
+static const int DST_CAN = 6;
+static const int timerclear(tvp) = (tvp)->tv_sec = (tvp)->tv_usec = 0;
+static const int timerisset(tvp) = ((tvp)->tv_sec || (tvp)->tv_usec);
+static const int timercmp(tvp,uvp,cmp) = (((tvp)->tv_sec == (uvp)->tv_sec) ? ((tvp)->tv_usec cmp (uvp)->tv_usec) : ((tvp)->tv_sec cmp (uvp)->tv_sec));
+static const int timeradd(tvp,uvp,vvp) = do { (vvp)->tv_sec = (tvp)->tv_sec + (uvp)->tv_sec; (vvp)->tv_usec = (tvp)->tv_usec + (uvp)->tv_usec; if ((vvp)->tv_usec >= 1000000) { (vvp)->tv_sec++; (vvp)->tv_usec -= 1000000; } } while (0);
+static const int timersub(tvp,uvp,vvp) = do { (vvp)->tv_sec = (tvp)->tv_sec - (uvp)->tv_sec; (vvp)->tv_usec = (tvp)->tv_usec - (uvp)->tv_usec; if ((vvp)->tv_usec < 0) { (vvp)->tv_sec--; (vvp)->tv_usec += 1000000; } } while (0);
+static const int timevalcmp(l,r,cmp) = timercmp(l, r, cmp);
+struct clockinfo {
+ int hz;
+ int tick;
+ int tickadj;
+ int stathz;
+ int profhz;
+};
+typedef int __darwin_nl_item;
+typedef int __darwin_wctrans_t;
+typedef __uint32_t __darwin_wctype_t;
+typedef __darwin_clock_t clock_t;
+typedef __darwin_size_t size_t;
+struct tm {
+ int tm_sec;
+ int tm_min;
+ int tm_hour;
+ int tm_mday;
+ int tm_mon;
+ int tm_year;
+ int tm_wday;
+ int tm_yday;
+ int tm_isdst;
+ long tm_gmtoff;
+ char *tm_zone;
+};
+static const int CLOCKS_PER_SEC = 1000000;
+extern char *tzname[];
+extern int getdate_err;
+extern long timezone __asm("_" "timezone" );
+extern int daylight;
+char *asctime(const struct tm *);
+clock_t clock(void) __asm("_" "clock" );
+char *ctime(const time_t *);
+double difftime(time_t, time_t);
+struct tm *getdate(const char *);
+struct tm *gmtime(const time_t *);
+struct tm *localtime(const time_t *);
+time_t mktime(struct tm *) __asm("_" "mktime" );
+size_t strftime(char * , size_t, const char * , const struct tm * ) __asm("_" "strftime" );
+char *strptime(const char * , const char * , struct tm * ) __asm("_" "strptime" );
+time_t time(time_t *);
+void tzset(void);
+char *asctime_r(const struct tm * , char * );
+char *ctime_r(const time_t *, char *);
+struct tm *gmtime_r(const time_t * , struct tm * );
+struct tm *localtime_r(const time_t * , struct tm * );
+time_t posix2time(time_t);
+void tzsetwall(void);
+time_t time2posix(time_t);
+time_t timelocal(struct tm * const);
+time_t timegm(struct tm * const);
+int nanosleep(const struct timespec *, struct timespec *) __asm("_" "nanosleep" );
+int adjtime(const struct timeval *, struct timeval *);
+int futimes(int, const struct timeval *);
+int lutimes(const char *, const struct timeval *) __attribute__((visibility("default")));
+int settimeofday(const struct timeval *, const struct timezone *);
+int getitimer(int, struct itimerval *);
+int gettimeofday(struct timeval * , void * );
+int select(int, fd_set * , fd_set * ,
+  fd_set * , struct timeval * )
+  __asm("_" "select" "$1050")
+  ;
+int setitimer(int, const struct itimerval * ,
+  struct itimerval * );
+int utimes(const char *, const struct timeval *);
+
+
+// *** 13. poll.h ***
+static const int POLLIN = 0x0001;
+static const int POLLPRI = 0x0002;
+static const int POLLOUT = 0x0004;
+static const int POLLRDNORM = 0x0040;
+static const int POLLWRNORM = POLLOUT;
+static const int POLLRDBAND = 0x0080;
+static const int POLLWRBAND = 0x0100;
+static const int POLLEXTEND = 0x0200;
+static const int POLLATTRIB = 0x0400;
+static const int POLLNLINK = 0x0800;
+static const int POLLWRITE = 0x1000;
+static const int POLLERR = 0x0008;
+static const int POLLHUP = 0x0010;
+static const int POLLNVAL = 0x0020;
+static const int POLLSTANDARD = (POLLIN|POLLPRI|POLLOUT|POLLRDNORM|POLLRDBAND| POLLWRBAND|POLLERR|POLLHUP|POLLNVAL);
+struct pollfd
+{
+ int fd;
+ short events;
+ short revents;
+};
+typedef unsigned int nfds_t;
+extern int poll (struct pollfd *, nfds_t, int) __asm("_" "poll" );
+
+
+// *** 14. time.h ***
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef short __int16_t;
+typedef unsigned short __uint16_t;
+typedef int __int32_t;
+typedef unsigned int __uint32_t;
+typedef long long __int64_t;
+typedef unsigned long long __uint64_t;
+typedef long __darwin_intptr_t;
+typedef unsigned int __darwin_natural_t;
+typedef int __darwin_ct_rune_t;
+typedef union {
+ char __mbstate8[128];
+ long long _mbstateL;
+} __mbstate_t;
+typedef __mbstate_t __darwin_mbstate_t;
+typedef long int __darwin_ptrdiff_t;
+typedef long unsigned int __darwin_size_t;
+typedef __builtin_va_list __darwin_va_list;
+typedef int __darwin_wchar_t;
+typedef __darwin_wchar_t __darwin_rune_t;
+typedef int __darwin_wint_t;
+typedef unsigned long __darwin_clock_t;
+typedef __uint32_t __darwin_socklen_t;
+typedef long __darwin_ssize_t;
+typedef long __darwin_time_t;
+struct __darwin_pthread_handler_rec
+{
+ void (*__routine)(void *);
+ void *__arg;
+ struct __darwin_pthread_handler_rec *__next;
+};
+struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
+struct _opaque_pthread_cond_t { long __sig; char __opaque[40]; };
+struct _opaque_pthread_condattr_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_mutex_t { long __sig; char __opaque[56]; };
+struct _opaque_pthread_mutexattr_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_once_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
+struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
+struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
+typedef __int64_t __darwin_blkcnt_t;
+typedef __int32_t __darwin_blksize_t;
+typedef __int32_t __darwin_dev_t;
+typedef unsigned int __darwin_fsblkcnt_t;
+typedef unsigned int __darwin_fsfilcnt_t;
+typedef __uint32_t __darwin_gid_t;
+typedef __uint32_t __darwin_id_t;
+typedef __uint64_t __darwin_ino64_t;
+typedef __darwin_ino64_t __darwin_ino_t;
+typedef __darwin_natural_t __darwin_mach_port_name_t;
+typedef __darwin_mach_port_name_t __darwin_mach_port_t;
+typedef __uint16_t __darwin_mode_t;
+typedef __int64_t __darwin_off_t;
+typedef __int32_t __darwin_pid_t;
+typedef struct _opaque_pthread_attr_t
+   __darwin_pthread_attr_t;
+typedef struct _opaque_pthread_cond_t
+   __darwin_pthread_cond_t;
+typedef struct _opaque_pthread_condattr_t
+   __darwin_pthread_condattr_t;
+typedef unsigned long __darwin_pthread_key_t;
+typedef struct _opaque_pthread_mutex_t
+   __darwin_pthread_mutex_t;
+typedef struct _opaque_pthread_mutexattr_t
+   __darwin_pthread_mutexattr_t;
+typedef struct _opaque_pthread_once_t
+   __darwin_pthread_once_t;
+typedef struct _opaque_pthread_rwlock_t
+   __darwin_pthread_rwlock_t;
+typedef struct _opaque_pthread_rwlockattr_t
+   __darwin_pthread_rwlockattr_t;
+typedef struct _opaque_pthread_t
+   *__darwin_pthread_t;
+typedef __uint32_t __darwin_sigset_t;
+typedef __int32_t __darwin_suseconds_t;
+typedef __uint32_t __darwin_uid_t;
+typedef __uint32_t __darwin_useconds_t;
+typedef unsigned char __darwin_uuid_t[16];
+typedef char __darwin_uuid_string_t[37];
+struct timespec
+{
+ __darwin_time_t tv_sec;
+ long tv_nsec;
+};
+struct timeval
+{
+ __darwin_time_t tv_sec;
+ __darwin_suseconds_t tv_usec;
+};
+typedef struct fd_set {
+ __int32_t fds_bits[((((1024) % ((sizeof(__int32_t) * 8))) == 0) ? ((1024) / ((sizeof(__int32_t) * 8))) : (((1024) / ((sizeof(__int32_t) * 8))) + 1))];
+} fd_set;
+static __inline int
+__darwin_fd_isset(int _n, const struct fd_set *_p)
+{
+ return (_p->fds_bits[_n/(sizeof(__int32_t) * 8)] & (1<<(_n % (sizeof(__int32_t) * 8))));
+}
+typedef __darwin_time_t time_t;
+typedef __darwin_suseconds_t suseconds_t;
+struct itimerval {
+ struct timeval it_interval;
+ struct timeval it_value;
+};
+struct timezone {
+ int tz_minuteswest;
+ int tz_dsttime;
+};
+struct clockinfo {
+ int hz;
+ int tick;
+ int tickadj;
+ int stathz;
+ int profhz;
+};
+typedef int __darwin_nl_item;
+typedef int __darwin_wctrans_t;
+typedef __uint32_t __darwin_wctype_t;
+typedef __darwin_clock_t clock_t;
+typedef __darwin_size_t size_t;
+struct tm {
+ int tm_sec;
+ int tm_min;
+ int tm_hour;
+ int tm_mday;
+ int tm_mon;
+ int tm_year;
+ int tm_wday;
+ int tm_yday;
+ int tm_isdst;
+ long tm_gmtoff;
+ char *tm_zone;
+};
+extern char *tzname[];
+extern int getdate_err;
+extern long timezone __asm("_" "timezone" );
+extern int daylight;
+char *asctime(const struct tm *);
+clock_t clock(void) __asm("_" "clock" );
+char *ctime(const time_t *);
+double difftime(time_t, time_t);
+struct tm *getdate(const char *);
+struct tm *gmtime(const time_t *);
+struct tm *localtime(const time_t *);
+time_t mktime(struct tm *) __asm("_" "mktime" );
+size_t strftime(char * , size_t, const char * , const struct tm * ) __asm("_" "strftime" );
+char *strptime(const char * , const char * , struct tm * ) __asm("_" "strptime" );
+time_t time(time_t *);
+void tzset(void);
+char *asctime_r(const struct tm * , char * );
+char *ctime_r(const time_t *, char *);
+struct tm *gmtime_r(const time_t * , struct tm * );
+struct tm *localtime_r(const time_t * , struct tm * );
+time_t posix2time(time_t);
+void tzsetwall(void);
+time_t time2posix(time_t);
+time_t timelocal(struct tm * const);
+time_t timegm(struct tm * const);
+int nanosleep(const struct timespec *, struct timespec *) __asm("_" "nanosleep" );
+int adjtime(const struct timeval *, struct timeval *);
+int futimes(int, const struct timeval *);
+int lutimes(const char *, const struct timeval *) __attribute__((visibility("default")));
+int settimeofday(const struct timeval *, const struct timezone *);
+int getitimer(int, struct itimerval *);
+int gettimeofday(struct timeval * , void * );
+int select(int, fd_set * , fd_set * ,
+  fd_set * , struct timeval * )
+  __asm("_" "select" "$1050")
+  ;
+int setitimer(int, const struct itimerval * ,
+  struct itimerval * );
+int utimes(const char *, const struct timeval *);
+
+
+// *** 15. netinet/in.h ***
 typedef signed char __int8_t;
 typedef unsigned char __uint8_t;
 typedef short __int16_t;
@@ -4334,7 +4456,6 @@ typedef __darwin_ssize_t ssize_t;
 typedef __darwin_time_t time_t;
 typedef __darwin_useconds_t useconds_t;
 typedef __darwin_suseconds_t suseconds_t;
-#undef __need_fd_set
 typedef struct fd_set {
  __int32_t fds_bits[((((1024) % ((sizeof(__int32_t) * 8))) == 0) ? ((1024) / ((sizeof(__int32_t) * 8))) : (((1024) / ((sizeof(__int32_t) * 8))) + 1))];
 } fd_set;
@@ -4921,1010 +5042,9 @@ extern int inet6_rth_reverse(const void *, void *);
 extern int inet6_rth_segments(const void *);
 extern struct in6_addr *inet6_rth_getaddr(const void *, int);
 extern void addrsel_policy_init(void);
-#undef __KAME_NETINET_IN_H_INCLUDED_
 int bindresvport(int, struct sockaddr_in *);
 struct sockaddr;
 int bindresvport_sa(int, struct sockaddr *);
-
-
-// *** 13. netdb.h ***
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef short __int16_t;
-typedef unsigned short __uint16_t;
-typedef int __int32_t;
-typedef unsigned int __uint32_t;
-typedef long long __int64_t;
-typedef unsigned long long __uint64_t;
-typedef long __darwin_intptr_t;
-typedef unsigned int __darwin_natural_t;
-typedef int __darwin_ct_rune_t;
-typedef union {
- char __mbstate8[128];
- long long _mbstateL;
-} __mbstate_t;
-typedef __mbstate_t __darwin_mbstate_t;
-typedef long int __darwin_ptrdiff_t;
-typedef long unsigned int __darwin_size_t;
-typedef __builtin_va_list __darwin_va_list;
-typedef int __darwin_wchar_t;
-typedef __darwin_wchar_t __darwin_rune_t;
-typedef int __darwin_wint_t;
-typedef unsigned long __darwin_clock_t;
-typedef __uint32_t __darwin_socklen_t;
-typedef long __darwin_ssize_t;
-typedef long __darwin_time_t;
-struct __darwin_pthread_handler_rec
-{
- void (*__routine)(void *);
- void *__arg;
- struct __darwin_pthread_handler_rec *__next;
-};
-struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_cond_t { long __sig; char __opaque[40]; };
-struct _opaque_pthread_condattr_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_mutex_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_mutexattr_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_once_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
-struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
-struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
-typedef __int64_t __darwin_blkcnt_t;
-typedef __int32_t __darwin_blksize_t;
-typedef __int32_t __darwin_dev_t;
-typedef unsigned int __darwin_fsblkcnt_t;
-typedef unsigned int __darwin_fsfilcnt_t;
-typedef __uint32_t __darwin_gid_t;
-typedef __uint32_t __darwin_id_t;
-typedef __uint64_t __darwin_ino64_t;
-typedef __darwin_ino64_t __darwin_ino_t;
-typedef __darwin_natural_t __darwin_mach_port_name_t;
-typedef __darwin_mach_port_name_t __darwin_mach_port_t;
-typedef __uint16_t __darwin_mode_t;
-typedef __int64_t __darwin_off_t;
-typedef __int32_t __darwin_pid_t;
-typedef struct _opaque_pthread_attr_t
-   __darwin_pthread_attr_t;
-typedef struct _opaque_pthread_cond_t
-   __darwin_pthread_cond_t;
-typedef struct _opaque_pthread_condattr_t
-   __darwin_pthread_condattr_t;
-typedef unsigned long __darwin_pthread_key_t;
-typedef struct _opaque_pthread_mutex_t
-   __darwin_pthread_mutex_t;
-typedef struct _opaque_pthread_mutexattr_t
-   __darwin_pthread_mutexattr_t;
-typedef struct _opaque_pthread_once_t
-   __darwin_pthread_once_t;
-typedef struct _opaque_pthread_rwlock_t
-   __darwin_pthread_rwlock_t;
-typedef struct _opaque_pthread_rwlockattr_t
-   __darwin_pthread_rwlockattr_t;
-typedef struct _opaque_pthread_t
-   *__darwin_pthread_t;
-typedef __uint32_t __darwin_sigset_t;
-typedef __int32_t __darwin_suseconds_t;
-typedef __uint32_t __darwin_uid_t;
-typedef __uint32_t __darwin_useconds_t;
-typedef unsigned char __darwin_uuid_t[16];
-typedef char __darwin_uuid_string_t[37];
-typedef int __darwin_nl_item;
-typedef int __darwin_wctrans_t;
-typedef __uint32_t __darwin_wctype_t;
-typedef signed char int8_t;
-typedef short int16_t;
-typedef int int32_t;
-typedef long long int64_t;
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
-typedef unsigned int uint32_t;
-typedef unsigned long long uint64_t;
-typedef int8_t int_least8_t;
-typedef int16_t int_least16_t;
-typedef int32_t int_least32_t;
-typedef int64_t int_least64_t;
-typedef uint8_t uint_least8_t;
-typedef uint16_t uint_least16_t;
-typedef uint32_t uint_least32_t;
-typedef uint64_t uint_least64_t;
-typedef int8_t int_fast8_t;
-typedef int16_t int_fast16_t;
-typedef int32_t int_fast32_t;
-typedef int64_t int_fast64_t;
-typedef uint8_t uint_fast8_t;
-typedef uint16_t uint_fast16_t;
-typedef uint32_t uint_fast32_t;
-typedef uint64_t uint_fast64_t;
-typedef long intptr_t;
-typedef unsigned long uintptr_t;
-typedef long int intmax_t;
-typedef long unsigned int uintmax_t;
-typedef __uint32_t in_addr_t;
-typedef __uint16_t in_port_t;
-typedef unsigned char u_int8_t;
-typedef unsigned short u_int16_t;
-typedef unsigned int u_int32_t;
-typedef unsigned long long u_int64_t;
-typedef int64_t register_t;
-typedef u_int64_t user_addr_t;
-typedef u_int64_t user_size_t;
-typedef int64_t user_ssize_t;
-typedef int64_t user_long_t;
-typedef u_int64_t user_ulong_t;
-typedef int64_t user_time_t;
-typedef int64_t user_off_t;
-typedef u_int64_t syscall_arg_t;
-static __inline__
-__uint16_t
-_OSSwapInt16(
-    __uint16_t _data
-)
-{
-    return ((_data << 8) | (_data >> 8));
-}
-static __inline__
-__uint32_t
-_OSSwapInt32(
-    __uint32_t _data
-)
-{
-    return __builtin_bswap32(_data);
-}
-static __inline__
-__uint64_t
-_OSSwapInt64(
-    __uint64_t _data
-)
-{
-    return __builtin_bswap64(_data);
-}
-typedef unsigned char u_char;
-typedef unsigned short u_short;
-typedef unsigned int u_int;
-typedef unsigned long u_long;
-typedef unsigned short ushort;
-typedef unsigned int uint;
-typedef u_int64_t u_quad_t;
-typedef int64_t quad_t;
-typedef quad_t * qaddr_t;
-typedef char * caddr_t;
-typedef int32_t daddr_t;
-typedef __darwin_dev_t dev_t;
-typedef u_int32_t fixpt_t;
-typedef __darwin_blkcnt_t blkcnt_t;
-typedef __darwin_blksize_t blksize_t;
-typedef __darwin_gid_t gid_t;
-typedef __darwin_ino_t ino_t;
-typedef __darwin_ino64_t ino64_t;
-typedef __int32_t key_t;
-typedef __darwin_mode_t mode_t;
-typedef __uint16_t nlink_t;
-typedef __darwin_id_t id_t;
-typedef __darwin_pid_t pid_t;
-typedef __darwin_off_t off_t;
-typedef int32_t segsz_t;
-typedef int32_t swblk_t;
-typedef __darwin_uid_t uid_t;
-typedef __darwin_clock_t clock_t;
-typedef __darwin_size_t size_t;
-typedef __darwin_ssize_t ssize_t;
-typedef __darwin_time_t time_t;
-typedef __darwin_useconds_t useconds_t;
-typedef __darwin_suseconds_t suseconds_t;
-#undef __need_fd_set
-typedef struct fd_set {
- __int32_t fds_bits[((((1024) % ((sizeof(__int32_t) * 8))) == 0) ? ((1024) / ((sizeof(__int32_t) * 8))) : (((1024) / ((sizeof(__int32_t) * 8))) + 1))];
-} fd_set;
-static __inline int
-__darwin_fd_isset(int _n, const struct fd_set *_p)
-{
- return (_p->fds_bits[_n/(sizeof(__int32_t) * 8)] & (1<<(_n % (sizeof(__int32_t) * 8))));
-}
-typedef __int32_t fd_mask;
-typedef __darwin_pthread_attr_t pthread_attr_t;
-typedef __darwin_pthread_cond_t pthread_cond_t;
-typedef __darwin_pthread_condattr_t pthread_condattr_t;
-typedef __darwin_pthread_mutex_t pthread_mutex_t;
-typedef __darwin_pthread_mutexattr_t pthread_mutexattr_t;
-typedef __darwin_pthread_once_t pthread_once_t;
-typedef __darwin_pthread_rwlock_t pthread_rwlock_t;
-typedef __darwin_pthread_rwlockattr_t pthread_rwlockattr_t;
-typedef __darwin_pthread_t pthread_t;
-typedef __darwin_pthread_key_t pthread_key_t;
-typedef __darwin_fsblkcnt_t fsblkcnt_t;
-typedef __darwin_fsfilcnt_t fsfilcnt_t;
-typedef __uint8_t sa_family_t;
-typedef __darwin_socklen_t socklen_t;
-struct iovec {
- void * iov_base;
- size_t iov_len;
-};
-struct linger {
- int l_onoff;
- int l_linger;
-};
-struct so_np_extensions {
- u_int32_t npx_flags;
- u_int32_t npx_mask;
-};
-struct sockaddr {
- __uint8_t sa_len;
- sa_family_t sa_family;
- char sa_data[14];
-};
-struct sockproto {
- __uint16_t sp_family;
- __uint16_t sp_protocol;
-};
-struct sockaddr_storage {
- __uint8_t ss_len;
- sa_family_t ss_family;
- char __ss_pad1[((sizeof(__int64_t)) - sizeof(__uint8_t) - sizeof(sa_family_t))];
- __int64_t __ss_align;
- char __ss_pad2[(128 - sizeof(__uint8_t) - sizeof(sa_family_t) - ((sizeof(__int64_t)) - sizeof(__uint8_t) - sizeof(sa_family_t)) - (sizeof(__int64_t)))];
-};
-struct msghdr {
- void *msg_name;
- socklen_t msg_namelen;
- struct iovec *msg_iov;
- int msg_iovlen;
- void *msg_control;
- socklen_t msg_controllen;
- int msg_flags;
-};
-struct cmsghdr {
- socklen_t cmsg_len;
- int cmsg_level;
- int cmsg_type;
-};
-struct sf_hdtr {
- struct iovec *headers;
- int hdr_cnt;
- struct iovec *trailers;
- int trl_cnt;
-};
-int accept(int, struct sockaddr * , socklen_t * )
-  __asm("_" "accept" );
-int bind(int, const struct sockaddr *, socklen_t) __asm("_" "bind" );
-int connect(int, const struct sockaddr *, socklen_t) __asm("_" "connect" );
-int getpeername(int, struct sockaddr * , socklen_t * )
-  __asm("_" "getpeername" );
-int getsockname(int, struct sockaddr * , socklen_t * )
-  __asm("_" "getsockname" );
-int getsockopt(int, int, int, void * , socklen_t * );
-int listen(int, int) __asm("_" "listen" );
-ssize_t recv(int, void *, size_t, int) __asm("_" "recv" );
-ssize_t recvfrom(int, void *, size_t, int, struct sockaddr * ,
-  socklen_t * ) __asm("_" "recvfrom" );
-ssize_t recvmsg(int, struct msghdr *, int) __asm("_" "recvmsg" );
-ssize_t send(int, const void *, size_t, int) __asm("_" "send" );
-ssize_t sendmsg(int, const struct msghdr *, int) __asm("_" "sendmsg" );
-ssize_t sendto(int, const void *, size_t,
-  int, const struct sockaddr *, socklen_t) __asm("_" "sendto" );
-int setsockopt(int, int, int, const void *, socklen_t);
-int shutdown(int, int);
-int sockatmark(int) __attribute__((visibility("default")));
-int socket(int, int, int);
-int socketpair(int, int, int, int *) __asm("_" "socketpair" );
-int sendfile(int, int, off_t, off_t *, struct sf_hdtr *, int);
-void pfctlinput(int, struct sockaddr *);
-struct in_addr {
- in_addr_t s_addr;
-};
-struct sockaddr_in {
- __uint8_t sin_len;
- sa_family_t sin_family;
- in_port_t sin_port;
- struct in_addr sin_addr;
- char sin_zero[8];
-};
-struct ip_opts {
- struct in_addr ip_dst;
- char ip_opts[40];
-};
-struct ip_mreq {
- struct in_addr imr_multiaddr;
- struct in_addr imr_interface;
-};
-struct ip_mreqn {
- struct in_addr imr_multiaddr;
- struct in_addr imr_address;
- int imr_ifindex;
-};
-#pragma pack(4)
-struct ip_mreq_source {
- struct in_addr imr_multiaddr;
- struct in_addr imr_sourceaddr;
- struct in_addr imr_interface;
-};
-struct group_req {
- uint32_t gr_interface;
- struct sockaddr_storage gr_group;
-};
-struct group_source_req {
- uint32_t gsr_interface;
- struct sockaddr_storage gsr_group;
- struct sockaddr_storage gsr_source;
-};
-struct __msfilterreq {
- uint32_t msfr_ifindex;
- uint32_t msfr_fmode;
- uint32_t msfr_nsrcs;
- uint32_t __msfr_align;
- struct sockaddr_storage msfr_group;
- struct sockaddr_storage *msfr_srcs;
-};
-#pragma pack()
-struct sockaddr;
-int setipv4sourcefilter(int, struct in_addr, struct in_addr, uint32_t,
-     uint32_t, struct in_addr *) __attribute__((visibility("default")));
-int getipv4sourcefilter(int, struct in_addr, struct in_addr, uint32_t *,
-     uint32_t *, struct in_addr *) __attribute__((visibility("default")));
-int setsourcefilter(int, uint32_t, struct sockaddr *, socklen_t,
-     uint32_t, uint32_t, struct sockaddr_storage *) __attribute__((visibility("default")));
-int getsourcefilter(int, uint32_t, struct sockaddr *, socklen_t,
-     uint32_t *, uint32_t *, struct sockaddr_storage *) __attribute__((visibility("default")));
-struct in_pktinfo {
- unsigned int ipi_ifindex;
- struct in_addr ipi_spec_dst;
- struct in_addr ipi_addr;
-};
-struct in6_addr {
- union {
-  __uint8_t __u6_addr8[16];
-  __uint16_t __u6_addr16[8];
-  __uint32_t __u6_addr32[4];
- } __u6_addr;
-};
-struct sockaddr_in6 {
- __uint8_t sin6_len;
- sa_family_t sin6_family;
- in_port_t sin6_port;
- __uint32_t sin6_flowinfo;
- struct in6_addr sin6_addr;
- __uint32_t sin6_scope_id;
-};
-extern const struct in6_addr in6addr_any;
-extern const struct in6_addr in6addr_loopback;
-extern const struct in6_addr in6addr_nodelocal_allnodes;
-extern const struct in6_addr in6addr_linklocal_allnodes;
-extern const struct in6_addr in6addr_linklocal_allrouters;
-extern const struct in6_addr in6addr_linklocal_allv2routers;
-struct ipv6_mreq {
- struct in6_addr ipv6mr_multiaddr;
- unsigned int ipv6mr_interface;
-};
-struct in6_pktinfo {
- struct in6_addr ipi6_addr;
- unsigned int ipi6_ifindex;
-};
-struct ip6_mtuinfo {
- struct sockaddr_in6 ip6m_addr;
- uint32_t ip6m_mtu;
-};
-struct cmsghdr;
-extern int inet6_option_space(int);
-extern int inet6_option_init(void *, struct cmsghdr **, int);
-extern int inet6_option_append(struct cmsghdr *, const __uint8_t *,
- int, int);
-extern __uint8_t *inet6_option_alloc(struct cmsghdr *, int, int, int);
-extern int inet6_option_next(const struct cmsghdr *, __uint8_t **);
-extern int inet6_option_find(const struct cmsghdr *, __uint8_t **, int);
-extern size_t inet6_rthdr_space(int, int);
-extern struct cmsghdr *inet6_rthdr_init(void *, int);
-extern int inet6_rthdr_add(struct cmsghdr *, const struct in6_addr *,
-  unsigned int);
-extern int inet6_rthdr_lasthop(struct cmsghdr *, unsigned int);
-extern int inet6_rthdr_segments(const struct cmsghdr *);
-extern struct in6_addr *inet6_rthdr_getaddr(struct cmsghdr *, int);
-extern int inet6_rthdr_getflags(const struct cmsghdr *, int);
-extern int inet6_opt_init(void *, socklen_t);
-extern int inet6_opt_append(void *, socklen_t, int, __uint8_t,
-     socklen_t, __uint8_t, void **);
-extern int inet6_opt_finish(void *, socklen_t, int);
-extern int inet6_opt_set_val(void *, int, void *, socklen_t);
-extern int inet6_opt_next(void *, socklen_t, int, __uint8_t *,
-          socklen_t *, void **);
-extern int inet6_opt_find(void *, socklen_t, int, __uint8_t,
-     socklen_t *, void **);
-extern int inet6_opt_get_val(void *, int, void *, socklen_t);
-extern socklen_t inet6_rth_space(int, int);
-extern void *inet6_rth_init(void *, socklen_t, int, int);
-extern int inet6_rth_add(void *, const struct in6_addr *);
-extern int inet6_rth_reverse(const void *, void *);
-extern int inet6_rth_segments(const void *);
-extern struct in6_addr *inet6_rth_getaddr(const void *, int);
-extern void addrsel_policy_init(void);
-#undef __KAME_NETINET_IN_H_INCLUDED_
-int bindresvport(int, struct sockaddr_in *);
-struct sockaddr;
-int bindresvport_sa(int, struct sockaddr *);
-static const char _PATH_HEQUIV = "/etc/hosts.equiv";
-static const char _PATH_HOSTS = "/etc/hosts";
-static const char _PATH_NETWORKS = "/etc/networks";
-static const char _PATH_PROTOCOLS = "/etc/protocols";
-static const char _PATH_SERVICES = "/etc/services";
-extern int h_errno;
-struct hostent {
- char *h_name;
- char **h_aliases;
- int h_addrtype;
- int h_length;
- char **h_addr_list;
-static const int h_addr = h_addr_list[0];
-};
-struct netent {
- char *n_name;
- char **n_aliases;
- int n_addrtype;
- uint32_t n_net;
-};
-struct servent {
- char *s_name;
- char **s_aliases;
- int s_port;
- char *s_proto;
-};
-struct protoent {
- char *p_name;
- char **p_aliases;
- int p_proto;
-};
-struct addrinfo {
- int ai_flags;
- int ai_family;
- int ai_socktype;
- int ai_protocol;
- socklen_t ai_addrlen;
- char *ai_canonname;
- struct sockaddr *ai_addr;
- struct addrinfo *ai_next;
-};
-struct rpcent {
-        char *r_name;
-        char **r_aliases;
-        int r_number;
-};
-static const int NETDB_INTERNAL = -1;
-static const int NETDB_SUCCESS = 0;
-static const int HOST_NOT_FOUND = 1;
-static const int TRY_AGAIN = 2;
-static const int NO_RECOVERY = 3;
-static const int NO_DATA = 4;
-static const int NO_ADDRESS = NO_DATA;
-static const int EAI_ADDRFAMILY = 1;
-static const int EAI_AGAIN = 2;
-static const int EAI_BADFLAGS = 3;
-static const int EAI_FAIL = 4;
-static const int EAI_FAMILY = 5;
-static const int EAI_MEMORY = 6;
-static const int EAI_NODATA = 7;
-static const int EAI_NONAME = 8;
-static const int EAI_SERVICE = 9;
-static const int EAI_SOCKTYPE = 10;
-static const int EAI_SYSTEM = 11;
-static const int EAI_BADHINTS = 12;
-static const int EAI_PROTOCOL = 13;
-static const int EAI_OVERFLOW = 14;
-static const int EAI_MAX = 15;
-static const int AI_PASSIVE = 0x00000001;
-static const int AI_CANONNAME = 0x00000002;
-static const int AI_NUMERICHOST = 0x00000004;
-static const int AI_NUMERICSERV = 0x00001000;
-static const int AI_MASK = (AI_PASSIVE | AI_CANONNAME | AI_NUMERICHOST | AI_NUMERICSERV | AI_ADDRCONFIG);
-static const int AI_ALL = 0x00000100;
-static const int AI_V4MAPPED_CFG = 0x00000200;
-static const int AI_ADDRCONFIG = 0x00000400;
-static const int AI_V4MAPPED = 0x00000800;
-static const int AI_DEFAULT = (AI_V4MAPPED_CFG | AI_ADDRCONFIG);
-static const int NI_MAXHOST = 1025;
-static const int NI_MAXSERV = 32;
-static const int NI_NOFQDN = 0x00000001;
-static const int NI_NUMERICHOST = 0x00000002;
-static const int NI_NAMEREQD = 0x00000004;
-static const int NI_NUMERICSERV = 0x00000008;
-static const int NI_DGRAM = 0x00000010;
-static const int NI_WITHSCOPEID = 0x00000020;
-static const int SCOPE_DELIMITER = '%';
-void endhostent(void);
-void endnetent(void);
-void endprotoent(void);
-void endservent(void);
-void freeaddrinfo(struct addrinfo *);
-const char *gai_strerror(int);
-int getaddrinfo(const char * , const char * ,
-       const struct addrinfo * ,
-       struct addrinfo ** );
-struct hostent *gethostbyaddr(const void *, socklen_t, int);
-struct hostent *gethostbyname(const char *);
-struct hostent *gethostent(void);
-int getnameinfo(const struct sockaddr * , socklen_t,
-         char * , socklen_t, char * ,
-         socklen_t, int);
-struct netent *getnetbyaddr(uint32_t, int);
-struct netent *getnetbyname(const char *);
-struct netent *getnetent(void);
-struct protoent *getprotobyname(const char *);
-struct protoent *getprotobynumber(int);
-struct protoent *getprotoent(void);
-struct servent *getservbyname(const char *, const char *);
-struct servent *getservbyport(int, const char *);
-struct servent *getservent(void);
-void sethostent(int);
-void setnetent(int);
-void setprotoent(int);
-void setservent(int);
-void freehostent(struct hostent *);
-struct hostent *gethostbyname2(const char *, int);
-struct hostent *getipnodebyaddr(const void *, size_t, int, int *);
-struct hostent *getipnodebyname(const char *, int, int, int *);
-struct rpcent *getrpcbyname(const char *name);
-struct rpcent *getrpcbynumber(int number);
-struct rpcent *getrpcent(void);
-void setrpcent(int stayopen);
-void endrpcent(void);
-void herror(const char *);
-const char *hstrerror(int);
-int innetgr(const char *, const char *, const char *, const char *);
-int getnetgrent(char **, char **, char **);
-void endnetgrent(void);
-void setnetgrent(const char *);
-
-
-// *** 14. arpa/inet.h ***
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef short __int16_t;
-typedef unsigned short __uint16_t;
-typedef int __int32_t;
-typedef unsigned int __uint32_t;
-typedef long long __int64_t;
-typedef unsigned long long __uint64_t;
-typedef long __darwin_intptr_t;
-typedef unsigned int __darwin_natural_t;
-typedef int __darwin_ct_rune_t;
-typedef union {
- char __mbstate8[128];
- long long _mbstateL;
-} __mbstate_t;
-typedef __mbstate_t __darwin_mbstate_t;
-typedef long int __darwin_ptrdiff_t;
-typedef long unsigned int __darwin_size_t;
-typedef __builtin_va_list __darwin_va_list;
-typedef int __darwin_wchar_t;
-typedef __darwin_wchar_t __darwin_rune_t;
-typedef int __darwin_wint_t;
-typedef unsigned long __darwin_clock_t;
-typedef __uint32_t __darwin_socklen_t;
-typedef long __darwin_ssize_t;
-typedef long __darwin_time_t;
-struct __darwin_pthread_handler_rec
-{
- void (*__routine)(void *);
- void *__arg;
- struct __darwin_pthread_handler_rec *__next;
-};
-struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_cond_t { long __sig; char __opaque[40]; };
-struct _opaque_pthread_condattr_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_mutex_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_mutexattr_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_once_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
-struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
-struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
-typedef __int64_t __darwin_blkcnt_t;
-typedef __int32_t __darwin_blksize_t;
-typedef __int32_t __darwin_dev_t;
-typedef unsigned int __darwin_fsblkcnt_t;
-typedef unsigned int __darwin_fsfilcnt_t;
-typedef __uint32_t __darwin_gid_t;
-typedef __uint32_t __darwin_id_t;
-typedef __uint64_t __darwin_ino64_t;
-typedef __darwin_ino64_t __darwin_ino_t;
-typedef __darwin_natural_t __darwin_mach_port_name_t;
-typedef __darwin_mach_port_name_t __darwin_mach_port_t;
-typedef __uint16_t __darwin_mode_t;
-typedef __int64_t __darwin_off_t;
-typedef __int32_t __darwin_pid_t;
-typedef struct _opaque_pthread_attr_t
-   __darwin_pthread_attr_t;
-typedef struct _opaque_pthread_cond_t
-   __darwin_pthread_cond_t;
-typedef struct _opaque_pthread_condattr_t
-   __darwin_pthread_condattr_t;
-typedef unsigned long __darwin_pthread_key_t;
-typedef struct _opaque_pthread_mutex_t
-   __darwin_pthread_mutex_t;
-typedef struct _opaque_pthread_mutexattr_t
-   __darwin_pthread_mutexattr_t;
-typedef struct _opaque_pthread_once_t
-   __darwin_pthread_once_t;
-typedef struct _opaque_pthread_rwlock_t
-   __darwin_pthread_rwlock_t;
-typedef struct _opaque_pthread_rwlockattr_t
-   __darwin_pthread_rwlockattr_t;
-typedef struct _opaque_pthread_t
-   *__darwin_pthread_t;
-typedef __uint32_t __darwin_sigset_t;
-typedef __int32_t __darwin_suseconds_t;
-typedef __uint32_t __darwin_uid_t;
-typedef __uint32_t __darwin_useconds_t;
-typedef unsigned char __darwin_uuid_t[16];
-typedef char __darwin_uuid_string_t[37];
-typedef int __darwin_nl_item;
-typedef int __darwin_wctrans_t;
-typedef __uint32_t __darwin_wctype_t;
-typedef signed char int8_t;
-typedef short int16_t;
-typedef int int32_t;
-typedef long long int64_t;
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
-typedef unsigned int uint32_t;
-typedef unsigned long long uint64_t;
-typedef int8_t int_least8_t;
-typedef int16_t int_least16_t;
-typedef int32_t int_least32_t;
-typedef int64_t int_least64_t;
-typedef uint8_t uint_least8_t;
-typedef uint16_t uint_least16_t;
-typedef uint32_t uint_least32_t;
-typedef uint64_t uint_least64_t;
-typedef int8_t int_fast8_t;
-typedef int16_t int_fast16_t;
-typedef int32_t int_fast32_t;
-typedef int64_t int_fast64_t;
-typedef uint8_t uint_fast8_t;
-typedef uint16_t uint_fast16_t;
-typedef uint32_t uint_fast32_t;
-typedef uint64_t uint_fast64_t;
-typedef long intptr_t;
-typedef unsigned long uintptr_t;
-typedef long int intmax_t;
-typedef long unsigned int uintmax_t;
-static __inline__
-__uint16_t
-_OSSwapInt16(
-    __uint16_t _data
-)
-{
-    return ((_data << 8) | (_data >> 8));
-}
-static __inline__
-__uint32_t
-_OSSwapInt32(
-    __uint32_t _data
-)
-{
-    return __builtin_bswap32(_data);
-}
-static __inline__
-__uint64_t
-_OSSwapInt64(
-    __uint64_t _data
-)
-{
-    return __builtin_bswap64(_data);
-}
-typedef __uint32_t in_addr_t;
-typedef __uint16_t in_port_t;
-typedef unsigned char u_int8_t;
-typedef unsigned short u_int16_t;
-typedef unsigned int u_int32_t;
-typedef unsigned long long u_int64_t;
-typedef int64_t register_t;
-typedef u_int64_t user_addr_t;
-typedef u_int64_t user_size_t;
-typedef int64_t user_ssize_t;
-typedef int64_t user_long_t;
-typedef u_int64_t user_ulong_t;
-typedef int64_t user_time_t;
-typedef int64_t user_off_t;
-typedef u_int64_t syscall_arg_t;
-typedef unsigned char u_char;
-typedef unsigned short u_short;
-typedef unsigned int u_int;
-typedef unsigned long u_long;
-typedef unsigned short ushort;
-typedef unsigned int uint;
-typedef u_int64_t u_quad_t;
-typedef int64_t quad_t;
-typedef quad_t * qaddr_t;
-typedef char * caddr_t;
-typedef int32_t daddr_t;
-typedef __darwin_dev_t dev_t;
-typedef u_int32_t fixpt_t;
-typedef __darwin_blkcnt_t blkcnt_t;
-typedef __darwin_blksize_t blksize_t;
-typedef __darwin_gid_t gid_t;
-typedef __darwin_ino_t ino_t;
-typedef __darwin_ino64_t ino64_t;
-typedef __int32_t key_t;
-typedef __darwin_mode_t mode_t;
-typedef __uint16_t nlink_t;
-typedef __darwin_id_t id_t;
-typedef __darwin_pid_t pid_t;
-typedef __darwin_off_t off_t;
-typedef int32_t segsz_t;
-typedef int32_t swblk_t;
-typedef __darwin_uid_t uid_t;
-typedef __darwin_clock_t clock_t;
-typedef __darwin_size_t size_t;
-typedef __darwin_ssize_t ssize_t;
-typedef __darwin_time_t time_t;
-typedef __darwin_useconds_t useconds_t;
-typedef __darwin_suseconds_t suseconds_t;
-#undef __need_fd_set
-typedef struct fd_set {
- __int32_t fds_bits[((((1024) % ((sizeof(__int32_t) * 8))) == 0) ? ((1024) / ((sizeof(__int32_t) * 8))) : (((1024) / ((sizeof(__int32_t) * 8))) + 1))];
-} fd_set;
-static __inline int
-__darwin_fd_isset(int _n, const struct fd_set *_p)
-{
- return (_p->fds_bits[_n/(sizeof(__int32_t) * 8)] & (1<<(_n % (sizeof(__int32_t) * 8))));
-}
-typedef __int32_t fd_mask;
-typedef __darwin_pthread_attr_t pthread_attr_t;
-typedef __darwin_pthread_cond_t pthread_cond_t;
-typedef __darwin_pthread_condattr_t pthread_condattr_t;
-typedef __darwin_pthread_mutex_t pthread_mutex_t;
-typedef __darwin_pthread_mutexattr_t pthread_mutexattr_t;
-typedef __darwin_pthread_once_t pthread_once_t;
-typedef __darwin_pthread_rwlock_t pthread_rwlock_t;
-typedef __darwin_pthread_rwlockattr_t pthread_rwlockattr_t;
-typedef __darwin_pthread_t pthread_t;
-typedef __darwin_pthread_key_t pthread_key_t;
-typedef __darwin_fsblkcnt_t fsblkcnt_t;
-typedef __darwin_fsfilcnt_t fsfilcnt_t;
-typedef __uint8_t sa_family_t;
-typedef __darwin_socklen_t socklen_t;
-struct iovec {
- void * iov_base;
- size_t iov_len;
-};
-struct linger {
- int l_onoff;
- int l_linger;
-};
-struct so_np_extensions {
- u_int32_t npx_flags;
- u_int32_t npx_mask;
-};
-struct sockaddr {
- __uint8_t sa_len;
- sa_family_t sa_family;
- char sa_data[14];
-};
-struct sockproto {
- __uint16_t sp_family;
- __uint16_t sp_protocol;
-};
-struct sockaddr_storage {
- __uint8_t ss_len;
- sa_family_t ss_family;
- char __ss_pad1[((sizeof(__int64_t)) - sizeof(__uint8_t) - sizeof(sa_family_t))];
- __int64_t __ss_align;
- char __ss_pad2[(128 - sizeof(__uint8_t) - sizeof(sa_family_t) - ((sizeof(__int64_t)) - sizeof(__uint8_t) - sizeof(sa_family_t)) - (sizeof(__int64_t)))];
-};
-struct msghdr {
- void *msg_name;
- socklen_t msg_namelen;
- struct iovec *msg_iov;
- int msg_iovlen;
- void *msg_control;
- socklen_t msg_controllen;
- int msg_flags;
-};
-struct cmsghdr {
- socklen_t cmsg_len;
- int cmsg_level;
- int cmsg_type;
-};
-struct sf_hdtr {
- struct iovec *headers;
- int hdr_cnt;
- struct iovec *trailers;
- int trl_cnt;
-};
-int accept(int, struct sockaddr * , socklen_t * )
-  __asm("_" "accept" );
-int bind(int, const struct sockaddr *, socklen_t) __asm("_" "bind" );
-int connect(int, const struct sockaddr *, socklen_t) __asm("_" "connect" );
-int getpeername(int, struct sockaddr * , socklen_t * )
-  __asm("_" "getpeername" );
-int getsockname(int, struct sockaddr * , socklen_t * )
-  __asm("_" "getsockname" );
-int getsockopt(int, int, int, void * , socklen_t * );
-int listen(int, int) __asm("_" "listen" );
-ssize_t recv(int, void *, size_t, int) __asm("_" "recv" );
-ssize_t recvfrom(int, void *, size_t, int, struct sockaddr * ,
-  socklen_t * ) __asm("_" "recvfrom" );
-ssize_t recvmsg(int, struct msghdr *, int) __asm("_" "recvmsg" );
-ssize_t send(int, const void *, size_t, int) __asm("_" "send" );
-ssize_t sendmsg(int, const struct msghdr *, int) __asm("_" "sendmsg" );
-ssize_t sendto(int, const void *, size_t,
-  int, const struct sockaddr *, socklen_t) __asm("_" "sendto" );
-int setsockopt(int, int, int, const void *, socklen_t);
-int shutdown(int, int);
-int sockatmark(int) __attribute__((visibility("default")));
-int socket(int, int, int);
-int socketpair(int, int, int, int *) __asm("_" "socketpair" );
-int sendfile(int, int, off_t, off_t *, struct sf_hdtr *, int);
-void pfctlinput(int, struct sockaddr *);
-struct in_addr {
- in_addr_t s_addr;
-};
-struct sockaddr_in {
- __uint8_t sin_len;
- sa_family_t sin_family;
- in_port_t sin_port;
- struct in_addr sin_addr;
- char sin_zero[8];
-};
-struct ip_opts {
- struct in_addr ip_dst;
- char ip_opts[40];
-};
-struct ip_mreq {
- struct in_addr imr_multiaddr;
- struct in_addr imr_interface;
-};
-struct ip_mreqn {
- struct in_addr imr_multiaddr;
- struct in_addr imr_address;
- int imr_ifindex;
-};
-#pragma pack(4)
-struct ip_mreq_source {
- struct in_addr imr_multiaddr;
- struct in_addr imr_sourceaddr;
- struct in_addr imr_interface;
-};
-struct group_req {
- uint32_t gr_interface;
- struct sockaddr_storage gr_group;
-};
-struct group_source_req {
- uint32_t gsr_interface;
- struct sockaddr_storage gsr_group;
- struct sockaddr_storage gsr_source;
-};
-struct __msfilterreq {
- uint32_t msfr_ifindex;
- uint32_t msfr_fmode;
- uint32_t msfr_nsrcs;
- uint32_t __msfr_align;
- struct sockaddr_storage msfr_group;
- struct sockaddr_storage *msfr_srcs;
-};
-#pragma pack()
-struct sockaddr;
-int setipv4sourcefilter(int, struct in_addr, struct in_addr, uint32_t,
-     uint32_t, struct in_addr *) __attribute__((visibility("default")));
-int getipv4sourcefilter(int, struct in_addr, struct in_addr, uint32_t *,
-     uint32_t *, struct in_addr *) __attribute__((visibility("default")));
-int setsourcefilter(int, uint32_t, struct sockaddr *, socklen_t,
-     uint32_t, uint32_t, struct sockaddr_storage *) __attribute__((visibility("default")));
-int getsourcefilter(int, uint32_t, struct sockaddr *, socklen_t,
-     uint32_t *, uint32_t *, struct sockaddr_storage *) __attribute__((visibility("default")));
-struct in_pktinfo {
- unsigned int ipi_ifindex;
- struct in_addr ipi_spec_dst;
- struct in_addr ipi_addr;
-};
-struct in6_addr {
- union {
-  __uint8_t __u6_addr8[16];
-  __uint16_t __u6_addr16[8];
-  __uint32_t __u6_addr32[4];
- } __u6_addr;
-};
-struct sockaddr_in6 {
- __uint8_t sin6_len;
- sa_family_t sin6_family;
- in_port_t sin6_port;
- __uint32_t sin6_flowinfo;
- struct in6_addr sin6_addr;
- __uint32_t sin6_scope_id;
-};
-extern const struct in6_addr in6addr_any;
-extern const struct in6_addr in6addr_loopback;
-extern const struct in6_addr in6addr_nodelocal_allnodes;
-extern const struct in6_addr in6addr_linklocal_allnodes;
-extern const struct in6_addr in6addr_linklocal_allrouters;
-extern const struct in6_addr in6addr_linklocal_allv2routers;
-struct ipv6_mreq {
- struct in6_addr ipv6mr_multiaddr;
- unsigned int ipv6mr_interface;
-};
-struct in6_pktinfo {
- struct in6_addr ipi6_addr;
- unsigned int ipi6_ifindex;
-};
-struct ip6_mtuinfo {
- struct sockaddr_in6 ip6m_addr;
- uint32_t ip6m_mtu;
-};
-struct cmsghdr;
-extern int inet6_option_space(int);
-extern int inet6_option_init(void *, struct cmsghdr **, int);
-extern int inet6_option_append(struct cmsghdr *, const __uint8_t *,
- int, int);
-extern __uint8_t *inet6_option_alloc(struct cmsghdr *, int, int, int);
-extern int inet6_option_next(const struct cmsghdr *, __uint8_t **);
-extern int inet6_option_find(const struct cmsghdr *, __uint8_t **, int);
-extern size_t inet6_rthdr_space(int, int);
-extern struct cmsghdr *inet6_rthdr_init(void *, int);
-extern int inet6_rthdr_add(struct cmsghdr *, const struct in6_addr *,
-  unsigned int);
-extern int inet6_rthdr_lasthop(struct cmsghdr *, unsigned int);
-extern int inet6_rthdr_segments(const struct cmsghdr *);
-extern struct in6_addr *inet6_rthdr_getaddr(struct cmsghdr *, int);
-extern int inet6_rthdr_getflags(const struct cmsghdr *, int);
-extern int inet6_opt_init(void *, socklen_t);
-extern int inet6_opt_append(void *, socklen_t, int, __uint8_t,
-     socklen_t, __uint8_t, void **);
-extern int inet6_opt_finish(void *, socklen_t, int);
-extern int inet6_opt_set_val(void *, int, void *, socklen_t);
-extern int inet6_opt_next(void *, socklen_t, int, __uint8_t *,
-          socklen_t *, void **);
-extern int inet6_opt_find(void *, socklen_t, int, __uint8_t,
-     socklen_t *, void **);
-extern int inet6_opt_get_val(void *, int, void *, socklen_t);
-extern socklen_t inet6_rth_space(int, int);
-extern void *inet6_rth_init(void *, socklen_t, int, int);
-extern int inet6_rth_add(void *, const struct in6_addr *);
-extern int inet6_rth_reverse(const void *, void *);
-extern int inet6_rth_segments(const void *);
-extern struct in6_addr *inet6_rth_getaddr(const void *, int);
-extern void addrsel_policy_init(void);
-#undef __KAME_NETINET_IN_H_INCLUDED_
-int bindresvport(int, struct sockaddr_in *);
-struct sockaddr;
-int bindresvport_sa(int, struct sockaddr *);
-in_addr_t inet_addr(const char *);
-char *inet_ntoa(struct in_addr);
-const char *inet_ntop(int, const void *, char *, socklen_t);
-int inet_pton(int, const char *, void *);
-int ascii2addr(int, const char *, void *);
-char *addr2ascii(int, const void *, int, char *);
-int inet_aton(const char *, struct in_addr *);
-in_addr_t inet_lnaof(struct in_addr);
-struct in_addr inet_makeaddr(in_addr_t, in_addr_t);
-in_addr_t inet_netof(struct in_addr);
-in_addr_t inet_network(const char *);
-char *inet_net_ntop(int, const void *, int, char *, __darwin_size_t);
-int inet_net_pton(int, const char *, void *, __darwin_size_t);
-char *inet_neta(in_addr_t, char *, __darwin_size_t);
-unsigned int inet_nsap_addr(const char *, unsigned char *, int maxlen);
-char *inet_nsap_ntoa(int, const unsigned char *, char *ascii);
-
-
-// *** 15. poll.h ***
-static const int POLLIN = 0x0001;
-static const int POLLPRI = 0x0002;
-static const int POLLOUT = 0x0004;
-static const int POLLRDNORM = 0x0040;
-static const int POLLWRNORM = POLLOUT;
-static const int POLLRDBAND = 0x0080;
-static const int POLLWRBAND = 0x0100;
-static const int POLLEXTEND = 0x0200;
-static const int POLLATTRIB = 0x0400;
-static const int POLLNLINK = 0x0800;
-static const int POLLWRITE = 0x1000;
-static const int POLLERR = 0x0008;
-static const int POLLHUP = 0x0010;
-static const int POLLNVAL = 0x0020;
-static const int POLLSTANDARD = (POLLIN|POLLPRI|POLLOUT|POLLRDNORM|POLLRDBAND| POLLWRBAND|POLLERR|POLLHUP|POLLNVAL);
-struct pollfd
-{
- int fd;
- short events;
- short revents;
-};
-typedef unsigned int nfds_t;
-extern int poll (struct pollfd *, nfds_t, int) __asm("_" "poll" );
 
 
 // *** 16. netinet/tcp.h ***
@@ -6104,7 +5224,7 @@ static const int TCP_RXT_CONNDROPTIME = 0x80;
 static const int TCP_RXT_FINDROP = 0x100;
 
 
-// *** 17. sys/ipc.h ***
+// *** 17. arpa/inet.h ***
 typedef signed char __int8_t;
 typedef unsigned char __uint8_t;
 typedef short __int16_t;
@@ -6185,163 +5305,893 @@ typedef __uint32_t __darwin_uid_t;
 typedef __uint32_t __darwin_useconds_t;
 typedef unsigned char __darwin_uuid_t[16];
 typedef char __darwin_uuid_string_t[37];
-typedef __darwin_uid_t uid_t;
+typedef int __darwin_nl_item;
+typedef int __darwin_wctrans_t;
+typedef __uint32_t __darwin_wctype_t;
+typedef signed char int8_t;
+typedef short int16_t;
+typedef int int32_t;
+typedef long long int64_t;
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
+typedef unsigned int uint32_t;
+typedef unsigned long long uint64_t;
+typedef int8_t int_least8_t;
+typedef int16_t int_least16_t;
+typedef int32_t int_least32_t;
+typedef int64_t int_least64_t;
+typedef uint8_t uint_least8_t;
+typedef uint16_t uint_least16_t;
+typedef uint32_t uint_least32_t;
+typedef uint64_t uint_least64_t;
+typedef int8_t int_fast8_t;
+typedef int16_t int_fast16_t;
+typedef int32_t int_fast32_t;
+typedef int64_t int_fast64_t;
+typedef uint8_t uint_fast8_t;
+typedef uint16_t uint_fast16_t;
+typedef uint32_t uint_fast32_t;
+typedef uint64_t uint_fast64_t;
+typedef long intptr_t;
+typedef unsigned long uintptr_t;
+typedef long int intmax_t;
+typedef long unsigned int uintmax_t;
+static __inline__
+__uint16_t
+_OSSwapInt16(
+    __uint16_t _data
+)
+{
+    return ((_data << 8) | (_data >> 8));
+}
+static __inline__
+__uint32_t
+_OSSwapInt32(
+    __uint32_t _data
+)
+{
+    return __builtin_bswap32(_data);
+}
+static __inline__
+__uint64_t
+_OSSwapInt64(
+    __uint64_t _data
+)
+{
+    return __builtin_bswap64(_data);
+}
+typedef __uint32_t in_addr_t;
+typedef __uint16_t in_port_t;
+typedef unsigned char u_int8_t;
+typedef unsigned short u_int16_t;
+typedef unsigned int u_int32_t;
+typedef unsigned long long u_int64_t;
+typedef int64_t register_t;
+typedef u_int64_t user_addr_t;
+typedef u_int64_t user_size_t;
+typedef int64_t user_ssize_t;
+typedef int64_t user_long_t;
+typedef u_int64_t user_ulong_t;
+typedef int64_t user_time_t;
+typedef int64_t user_off_t;
+typedef u_int64_t syscall_arg_t;
+typedef unsigned char u_char;
+typedef unsigned short u_short;
+typedef unsigned int u_int;
+typedef unsigned long u_long;
+typedef unsigned short ushort;
+typedef unsigned int uint;
+typedef u_int64_t u_quad_t;
+typedef int64_t quad_t;
+typedef quad_t * qaddr_t;
+typedef char * caddr_t;
+typedef int32_t daddr_t;
+typedef __darwin_dev_t dev_t;
+typedef u_int32_t fixpt_t;
+typedef __darwin_blkcnt_t blkcnt_t;
+typedef __darwin_blksize_t blksize_t;
 typedef __darwin_gid_t gid_t;
-typedef __darwin_mode_t mode_t;
+typedef __darwin_ino_t ino_t;
+typedef __darwin_ino64_t ino64_t;
 typedef __int32_t key_t;
-#pragma pack(4)
-struct ipc_perm
-{
- uid_t uid;
- gid_t gid;
- uid_t cuid;
- gid_t cgid;
- mode_t mode;
- unsigned short _seq;
- key_t _key;
-};
-static const int __ipc_perm_new = ipc_perm;
-#pragma pack()
-static const int IPC_CREAT = 001000;
-static const int IPC_EXCL = 002000;
-static const int IPC_NOWAIT = 004000;
-static const int IPC_PRIVATE = ((key_t)0);
-static const int IPC_RMID = 0;
-static const int IPC_SET = 1;
-static const int IPC_STAT = 2;
-static const int IPC_R = 000400;
-static const int IPC_W = 000200;
-static const int IPC_M = 010000;
-key_t ftok(const char *, int);
-
-
-// *** 18. sys/shm.h ***
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef short __int16_t;
-typedef unsigned short __uint16_t;
-typedef int __int32_t;
-typedef unsigned int __uint32_t;
-typedef long long __int64_t;
-typedef unsigned long long __uint64_t;
-typedef long __darwin_intptr_t;
-typedef unsigned int __darwin_natural_t;
-typedef int __darwin_ct_rune_t;
-typedef union {
- char __mbstate8[128];
- long long _mbstateL;
-} __mbstate_t;
-typedef __mbstate_t __darwin_mbstate_t;
-typedef long int __darwin_ptrdiff_t;
-typedef long unsigned int __darwin_size_t;
-typedef __builtin_va_list __darwin_va_list;
-typedef int __darwin_wchar_t;
-typedef __darwin_wchar_t __darwin_rune_t;
-typedef int __darwin_wint_t;
-typedef unsigned long __darwin_clock_t;
-typedef __uint32_t __darwin_socklen_t;
-typedef long __darwin_ssize_t;
-typedef long __darwin_time_t;
-struct __darwin_pthread_handler_rec
-{
- void (*__routine)(void *);
- void *__arg;
- struct __darwin_pthread_handler_rec *__next;
-};
-struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_cond_t { long __sig; char __opaque[40]; };
-struct _opaque_pthread_condattr_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_mutex_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_mutexattr_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_once_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
-struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
-struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
-typedef __int64_t __darwin_blkcnt_t;
-typedef __int32_t __darwin_blksize_t;
-typedef __int32_t __darwin_dev_t;
-typedef unsigned int __darwin_fsblkcnt_t;
-typedef unsigned int __darwin_fsfilcnt_t;
-typedef __uint32_t __darwin_gid_t;
-typedef __uint32_t __darwin_id_t;
-typedef __uint64_t __darwin_ino64_t;
-typedef __darwin_ino64_t __darwin_ino_t;
-typedef __darwin_natural_t __darwin_mach_port_name_t;
-typedef __darwin_mach_port_name_t __darwin_mach_port_t;
-typedef __uint16_t __darwin_mode_t;
-typedef __int64_t __darwin_off_t;
-typedef __int32_t __darwin_pid_t;
-typedef struct _opaque_pthread_attr_t
-   __darwin_pthread_attr_t;
-typedef struct _opaque_pthread_cond_t
-   __darwin_pthread_cond_t;
-typedef struct _opaque_pthread_condattr_t
-   __darwin_pthread_condattr_t;
-typedef unsigned long __darwin_pthread_key_t;
-typedef struct _opaque_pthread_mutex_t
-   __darwin_pthread_mutex_t;
-typedef struct _opaque_pthread_mutexattr_t
-   __darwin_pthread_mutexattr_t;
-typedef struct _opaque_pthread_once_t
-   __darwin_pthread_once_t;
-typedef struct _opaque_pthread_rwlock_t
-   __darwin_pthread_rwlock_t;
-typedef struct _opaque_pthread_rwlockattr_t
-   __darwin_pthread_rwlockattr_t;
-typedef struct _opaque_pthread_t
-   *__darwin_pthread_t;
-typedef __uint32_t __darwin_sigset_t;
-typedef __int32_t __darwin_suseconds_t;
-typedef __uint32_t __darwin_uid_t;
-typedef __uint32_t __darwin_useconds_t;
-typedef unsigned char __darwin_uuid_t[16];
-typedef char __darwin_uuid_string_t[37];
-typedef __darwin_uid_t uid_t;
-typedef __darwin_gid_t gid_t;
 typedef __darwin_mode_t mode_t;
-typedef __int32_t key_t;
-#pragma pack(4)
-struct ipc_perm
-{
- uid_t uid;
- gid_t gid;
- uid_t cuid;
- gid_t cgid;
- mode_t mode;
- unsigned short _seq;
- key_t _key;
-};
-#pragma pack()
-key_t ftok(const char *, int);
+typedef __uint16_t nlink_t;
+typedef __darwin_id_t id_t;
 typedef __darwin_pid_t pid_t;
-typedef __darwin_time_t time_t;
+typedef __darwin_off_t off_t;
+typedef int32_t segsz_t;
+typedef int32_t swblk_t;
+typedef __darwin_uid_t uid_t;
+typedef __darwin_clock_t clock_t;
 typedef __darwin_size_t size_t;
-typedef unsigned short shmatt_t;
-static const int SHM_RDONLY = 010000;
-static const int SHM_RND = 020000;
-static const int SHMLBA = 4096;
-static const int SHM_R = (IPC_R);
-static const int SHM_W = (IPC_W);
-#pragma pack(4)
-static const int shmid_ds = __shmid_ds_new;
-struct __shmid_ds_new
+typedef __darwin_ssize_t ssize_t;
+typedef __darwin_time_t time_t;
+typedef __darwin_useconds_t useconds_t;
+typedef __darwin_suseconds_t suseconds_t;
+typedef struct fd_set {
+ __int32_t fds_bits[((((1024) % ((sizeof(__int32_t) * 8))) == 0) ? ((1024) / ((sizeof(__int32_t) * 8))) : (((1024) / ((sizeof(__int32_t) * 8))) + 1))];
+} fd_set;
+static __inline int
+__darwin_fd_isset(int _n, const struct fd_set *_p)
 {
- struct ipc_perm shm_perm;
- size_t shm_segsz;
- pid_t shm_lpid;
- pid_t shm_cpid;
- shmatt_t shm_nattch;
- time_t shm_atime;
- time_t shm_dtime;
- time_t shm_ctime;
- void *shm_internal;
+ return (_p->fds_bits[_n/(sizeof(__int32_t) * 8)] & (1<<(_n % (sizeof(__int32_t) * 8))));
+}
+typedef __int32_t fd_mask;
+typedef __darwin_pthread_attr_t pthread_attr_t;
+typedef __darwin_pthread_cond_t pthread_cond_t;
+typedef __darwin_pthread_condattr_t pthread_condattr_t;
+typedef __darwin_pthread_mutex_t pthread_mutex_t;
+typedef __darwin_pthread_mutexattr_t pthread_mutexattr_t;
+typedef __darwin_pthread_once_t pthread_once_t;
+typedef __darwin_pthread_rwlock_t pthread_rwlock_t;
+typedef __darwin_pthread_rwlockattr_t pthread_rwlockattr_t;
+typedef __darwin_pthread_t pthread_t;
+typedef __darwin_pthread_key_t pthread_key_t;
+typedef __darwin_fsblkcnt_t fsblkcnt_t;
+typedef __darwin_fsfilcnt_t fsfilcnt_t;
+typedef __uint8_t sa_family_t;
+typedef __darwin_socklen_t socklen_t;
+struct iovec {
+ void * iov_base;
+ size_t iov_len;
+};
+struct linger {
+ int l_onoff;
+ int l_linger;
+};
+struct so_np_extensions {
+ u_int32_t npx_flags;
+ u_int32_t npx_mask;
+};
+struct sockaddr {
+ __uint8_t sa_len;
+ sa_family_t sa_family;
+ char sa_data[14];
+};
+struct sockproto {
+ __uint16_t sp_family;
+ __uint16_t sp_protocol;
+};
+struct sockaddr_storage {
+ __uint8_t ss_len;
+ sa_family_t ss_family;
+ char __ss_pad1[((sizeof(__int64_t)) - sizeof(__uint8_t) - sizeof(sa_family_t))];
+ __int64_t __ss_align;
+ char __ss_pad2[(128 - sizeof(__uint8_t) - sizeof(sa_family_t) - ((sizeof(__int64_t)) - sizeof(__uint8_t) - sizeof(sa_family_t)) - (sizeof(__int64_t)))];
+};
+struct msghdr {
+ void *msg_name;
+ socklen_t msg_namelen;
+ struct iovec *msg_iov;
+ int msg_iovlen;
+ void *msg_control;
+ socklen_t msg_controllen;
+ int msg_flags;
+};
+struct cmsghdr {
+ socklen_t cmsg_len;
+ int cmsg_level;
+ int cmsg_type;
+};
+struct sf_hdtr {
+ struct iovec *headers;
+ int hdr_cnt;
+ struct iovec *trailers;
+ int trl_cnt;
+};
+int accept(int, struct sockaddr * , socklen_t * )
+  __asm("_" "accept" );
+int bind(int, const struct sockaddr *, socklen_t) __asm("_" "bind" );
+int connect(int, const struct sockaddr *, socklen_t) __asm("_" "connect" );
+int getpeername(int, struct sockaddr * , socklen_t * )
+  __asm("_" "getpeername" );
+int getsockname(int, struct sockaddr * , socklen_t * )
+  __asm("_" "getsockname" );
+int getsockopt(int, int, int, void * , socklen_t * );
+int listen(int, int) __asm("_" "listen" );
+ssize_t recv(int, void *, size_t, int) __asm("_" "recv" );
+ssize_t recvfrom(int, void *, size_t, int, struct sockaddr * ,
+  socklen_t * ) __asm("_" "recvfrom" );
+ssize_t recvmsg(int, struct msghdr *, int) __asm("_" "recvmsg" );
+ssize_t send(int, const void *, size_t, int) __asm("_" "send" );
+ssize_t sendmsg(int, const struct msghdr *, int) __asm("_" "sendmsg" );
+ssize_t sendto(int, const void *, size_t,
+  int, const struct sockaddr *, socklen_t) __asm("_" "sendto" );
+int setsockopt(int, int, int, const void *, socklen_t);
+int shutdown(int, int);
+int sockatmark(int) __attribute__((visibility("default")));
+int socket(int, int, int);
+int socketpair(int, int, int, int *) __asm("_" "socketpair" );
+int sendfile(int, int, off_t, off_t *, struct sf_hdtr *, int);
+void pfctlinput(int, struct sockaddr *);
+struct in_addr {
+ in_addr_t s_addr;
+};
+struct sockaddr_in {
+ __uint8_t sin_len;
+ sa_family_t sin_family;
+ in_port_t sin_port;
+ struct in_addr sin_addr;
+ char sin_zero[8];
+};
+struct ip_opts {
+ struct in_addr ip_dst;
+ char ip_opts[40];
+};
+struct ip_mreq {
+ struct in_addr imr_multiaddr;
+ struct in_addr imr_interface;
+};
+struct ip_mreqn {
+ struct in_addr imr_multiaddr;
+ struct in_addr imr_address;
+ int imr_ifindex;
+};
+#pragma pack(4)
+struct ip_mreq_source {
+ struct in_addr imr_multiaddr;
+ struct in_addr imr_sourceaddr;
+ struct in_addr imr_interface;
+};
+struct group_req {
+ uint32_t gr_interface;
+ struct sockaddr_storage gr_group;
+};
+struct group_source_req {
+ uint32_t gsr_interface;
+ struct sockaddr_storage gsr_group;
+ struct sockaddr_storage gsr_source;
+};
+struct __msfilterreq {
+ uint32_t msfr_ifindex;
+ uint32_t msfr_fmode;
+ uint32_t msfr_nsrcs;
+ uint32_t __msfr_align;
+ struct sockaddr_storage msfr_group;
+ struct sockaddr_storage *msfr_srcs;
 };
 #pragma pack()
-int shmsys(int, ...);
-void *shmat (int, const void *, int);
-int shmctl(int, int, struct __shmid_ds_new *) __asm("_" "shmctl" );
-int shmdt(const void *);
-int shmget(key_t, size_t, int);
+struct sockaddr;
+int setipv4sourcefilter(int, struct in_addr, struct in_addr, uint32_t,
+     uint32_t, struct in_addr *) __attribute__((visibility("default")));
+int getipv4sourcefilter(int, struct in_addr, struct in_addr, uint32_t *,
+     uint32_t *, struct in_addr *) __attribute__((visibility("default")));
+int setsourcefilter(int, uint32_t, struct sockaddr *, socklen_t,
+     uint32_t, uint32_t, struct sockaddr_storage *) __attribute__((visibility("default")));
+int getsourcefilter(int, uint32_t, struct sockaddr *, socklen_t,
+     uint32_t *, uint32_t *, struct sockaddr_storage *) __attribute__((visibility("default")));
+struct in_pktinfo {
+ unsigned int ipi_ifindex;
+ struct in_addr ipi_spec_dst;
+ struct in_addr ipi_addr;
+};
+struct in6_addr {
+ union {
+  __uint8_t __u6_addr8[16];
+  __uint16_t __u6_addr16[8];
+  __uint32_t __u6_addr32[4];
+ } __u6_addr;
+};
+struct sockaddr_in6 {
+ __uint8_t sin6_len;
+ sa_family_t sin6_family;
+ in_port_t sin6_port;
+ __uint32_t sin6_flowinfo;
+ struct in6_addr sin6_addr;
+ __uint32_t sin6_scope_id;
+};
+extern const struct in6_addr in6addr_any;
+extern const struct in6_addr in6addr_loopback;
+extern const struct in6_addr in6addr_nodelocal_allnodes;
+extern const struct in6_addr in6addr_linklocal_allnodes;
+extern const struct in6_addr in6addr_linklocal_allrouters;
+extern const struct in6_addr in6addr_linklocal_allv2routers;
+struct ipv6_mreq {
+ struct in6_addr ipv6mr_multiaddr;
+ unsigned int ipv6mr_interface;
+};
+struct in6_pktinfo {
+ struct in6_addr ipi6_addr;
+ unsigned int ipi6_ifindex;
+};
+struct ip6_mtuinfo {
+ struct sockaddr_in6 ip6m_addr;
+ uint32_t ip6m_mtu;
+};
+struct cmsghdr;
+extern int inet6_option_space(int);
+extern int inet6_option_init(void *, struct cmsghdr **, int);
+extern int inet6_option_append(struct cmsghdr *, const __uint8_t *,
+ int, int);
+extern __uint8_t *inet6_option_alloc(struct cmsghdr *, int, int, int);
+extern int inet6_option_next(const struct cmsghdr *, __uint8_t **);
+extern int inet6_option_find(const struct cmsghdr *, __uint8_t **, int);
+extern size_t inet6_rthdr_space(int, int);
+extern struct cmsghdr *inet6_rthdr_init(void *, int);
+extern int inet6_rthdr_add(struct cmsghdr *, const struct in6_addr *,
+  unsigned int);
+extern int inet6_rthdr_lasthop(struct cmsghdr *, unsigned int);
+extern int inet6_rthdr_segments(const struct cmsghdr *);
+extern struct in6_addr *inet6_rthdr_getaddr(struct cmsghdr *, int);
+extern int inet6_rthdr_getflags(const struct cmsghdr *, int);
+extern int inet6_opt_init(void *, socklen_t);
+extern int inet6_opt_append(void *, socklen_t, int, __uint8_t,
+     socklen_t, __uint8_t, void **);
+extern int inet6_opt_finish(void *, socklen_t, int);
+extern int inet6_opt_set_val(void *, int, void *, socklen_t);
+extern int inet6_opt_next(void *, socklen_t, int, __uint8_t *,
+          socklen_t *, void **);
+extern int inet6_opt_find(void *, socklen_t, int, __uint8_t,
+     socklen_t *, void **);
+extern int inet6_opt_get_val(void *, int, void *, socklen_t);
+extern socklen_t inet6_rth_space(int, int);
+extern void *inet6_rth_init(void *, socklen_t, int, int);
+extern int inet6_rth_add(void *, const struct in6_addr *);
+extern int inet6_rth_reverse(const void *, void *);
+extern int inet6_rth_segments(const void *);
+extern struct in6_addr *inet6_rth_getaddr(const void *, int);
+extern void addrsel_policy_init(void);
+int bindresvport(int, struct sockaddr_in *);
+struct sockaddr;
+int bindresvport_sa(int, struct sockaddr *);
+in_addr_t inet_addr(const char *);
+char *inet_ntoa(struct in_addr);
+const char *inet_ntop(int, const void *, char *, socklen_t);
+int inet_pton(int, const char *, void *);
+int ascii2addr(int, const char *, void *);
+char *addr2ascii(int, const void *, int, char *);
+int inet_aton(const char *, struct in_addr *);
+in_addr_t inet_lnaof(struct in_addr);
+struct in_addr inet_makeaddr(in_addr_t, in_addr_t);
+in_addr_t inet_netof(struct in_addr);
+in_addr_t inet_network(const char *);
+char *inet_net_ntop(int, const void *, int, char *, __darwin_size_t);
+int inet_net_pton(int, const char *, void *, __darwin_size_t);
+char *inet_neta(in_addr_t, char *, __darwin_size_t);
+unsigned int inet_nsap_addr(const char *, unsigned char *, int maxlen);
+char *inet_nsap_ntoa(int, const unsigned char *, char *ascii);
+
+
+// *** 18. netdb.h ***
+typedef signed char __int8_t;
+typedef unsigned char __uint8_t;
+typedef short __int16_t;
+typedef unsigned short __uint16_t;
+typedef int __int32_t;
+typedef unsigned int __uint32_t;
+typedef long long __int64_t;
+typedef unsigned long long __uint64_t;
+typedef long __darwin_intptr_t;
+typedef unsigned int __darwin_natural_t;
+typedef int __darwin_ct_rune_t;
+typedef union {
+ char __mbstate8[128];
+ long long _mbstateL;
+} __mbstate_t;
+typedef __mbstate_t __darwin_mbstate_t;
+typedef long int __darwin_ptrdiff_t;
+typedef long unsigned int __darwin_size_t;
+typedef __builtin_va_list __darwin_va_list;
+typedef int __darwin_wchar_t;
+typedef __darwin_wchar_t __darwin_rune_t;
+typedef int __darwin_wint_t;
+typedef unsigned long __darwin_clock_t;
+typedef __uint32_t __darwin_socklen_t;
+typedef long __darwin_ssize_t;
+typedef long __darwin_time_t;
+struct __darwin_pthread_handler_rec
+{
+ void (*__routine)(void *);
+ void *__arg;
+ struct __darwin_pthread_handler_rec *__next;
+};
+struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
+struct _opaque_pthread_cond_t { long __sig; char __opaque[40]; };
+struct _opaque_pthread_condattr_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_mutex_t { long __sig; char __opaque[56]; };
+struct _opaque_pthread_mutexattr_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_once_t { long __sig; char __opaque[8]; };
+struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
+struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
+struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
+typedef __int64_t __darwin_blkcnt_t;
+typedef __int32_t __darwin_blksize_t;
+typedef __int32_t __darwin_dev_t;
+typedef unsigned int __darwin_fsblkcnt_t;
+typedef unsigned int __darwin_fsfilcnt_t;
+typedef __uint32_t __darwin_gid_t;
+typedef __uint32_t __darwin_id_t;
+typedef __uint64_t __darwin_ino64_t;
+typedef __darwin_ino64_t __darwin_ino_t;
+typedef __darwin_natural_t __darwin_mach_port_name_t;
+typedef __darwin_mach_port_name_t __darwin_mach_port_t;
+typedef __uint16_t __darwin_mode_t;
+typedef __int64_t __darwin_off_t;
+typedef __int32_t __darwin_pid_t;
+typedef struct _opaque_pthread_attr_t
+   __darwin_pthread_attr_t;
+typedef struct _opaque_pthread_cond_t
+   __darwin_pthread_cond_t;
+typedef struct _opaque_pthread_condattr_t
+   __darwin_pthread_condattr_t;
+typedef unsigned long __darwin_pthread_key_t;
+typedef struct _opaque_pthread_mutex_t
+   __darwin_pthread_mutex_t;
+typedef struct _opaque_pthread_mutexattr_t
+   __darwin_pthread_mutexattr_t;
+typedef struct _opaque_pthread_once_t
+   __darwin_pthread_once_t;
+typedef struct _opaque_pthread_rwlock_t
+   __darwin_pthread_rwlock_t;
+typedef struct _opaque_pthread_rwlockattr_t
+   __darwin_pthread_rwlockattr_t;
+typedef struct _opaque_pthread_t
+   *__darwin_pthread_t;
+typedef __uint32_t __darwin_sigset_t;
+typedef __int32_t __darwin_suseconds_t;
+typedef __uint32_t __darwin_uid_t;
+typedef __uint32_t __darwin_useconds_t;
+typedef unsigned char __darwin_uuid_t[16];
+typedef char __darwin_uuid_string_t[37];
+typedef int __darwin_nl_item;
+typedef int __darwin_wctrans_t;
+typedef __uint32_t __darwin_wctype_t;
+typedef signed char int8_t;
+typedef short int16_t;
+typedef int int32_t;
+typedef long long int64_t;
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
+typedef unsigned int uint32_t;
+typedef unsigned long long uint64_t;
+typedef int8_t int_least8_t;
+typedef int16_t int_least16_t;
+typedef int32_t int_least32_t;
+typedef int64_t int_least64_t;
+typedef uint8_t uint_least8_t;
+typedef uint16_t uint_least16_t;
+typedef uint32_t uint_least32_t;
+typedef uint64_t uint_least64_t;
+typedef int8_t int_fast8_t;
+typedef int16_t int_fast16_t;
+typedef int32_t int_fast32_t;
+typedef int64_t int_fast64_t;
+typedef uint8_t uint_fast8_t;
+typedef uint16_t uint_fast16_t;
+typedef uint32_t uint_fast32_t;
+typedef uint64_t uint_fast64_t;
+typedef long intptr_t;
+typedef unsigned long uintptr_t;
+typedef long int intmax_t;
+typedef long unsigned int uintmax_t;
+typedef __uint32_t in_addr_t;
+typedef __uint16_t in_port_t;
+typedef unsigned char u_int8_t;
+typedef unsigned short u_int16_t;
+typedef unsigned int u_int32_t;
+typedef unsigned long long u_int64_t;
+typedef int64_t register_t;
+typedef u_int64_t user_addr_t;
+typedef u_int64_t user_size_t;
+typedef int64_t user_ssize_t;
+typedef int64_t user_long_t;
+typedef u_int64_t user_ulong_t;
+typedef int64_t user_time_t;
+typedef int64_t user_off_t;
+typedef u_int64_t syscall_arg_t;
+static __inline__
+__uint16_t
+_OSSwapInt16(
+    __uint16_t _data
+)
+{
+    return ((_data << 8) | (_data >> 8));
+}
+static __inline__
+__uint32_t
+_OSSwapInt32(
+    __uint32_t _data
+)
+{
+    return __builtin_bswap32(_data);
+}
+static __inline__
+__uint64_t
+_OSSwapInt64(
+    __uint64_t _data
+)
+{
+    return __builtin_bswap64(_data);
+}
+typedef unsigned char u_char;
+typedef unsigned short u_short;
+typedef unsigned int u_int;
+typedef unsigned long u_long;
+typedef unsigned short ushort;
+typedef unsigned int uint;
+typedef u_int64_t u_quad_t;
+typedef int64_t quad_t;
+typedef quad_t * qaddr_t;
+typedef char * caddr_t;
+typedef int32_t daddr_t;
+typedef __darwin_dev_t dev_t;
+typedef u_int32_t fixpt_t;
+typedef __darwin_blkcnt_t blkcnt_t;
+typedef __darwin_blksize_t blksize_t;
+typedef __darwin_gid_t gid_t;
+typedef __darwin_ino_t ino_t;
+typedef __darwin_ino64_t ino64_t;
+typedef __int32_t key_t;
+typedef __darwin_mode_t mode_t;
+typedef __uint16_t nlink_t;
+typedef __darwin_id_t id_t;
+typedef __darwin_pid_t pid_t;
+typedef __darwin_off_t off_t;
+typedef int32_t segsz_t;
+typedef int32_t swblk_t;
+typedef __darwin_uid_t uid_t;
+typedef __darwin_clock_t clock_t;
+typedef __darwin_size_t size_t;
+typedef __darwin_ssize_t ssize_t;
+typedef __darwin_time_t time_t;
+typedef __darwin_useconds_t useconds_t;
+typedef __darwin_suseconds_t suseconds_t;
+typedef struct fd_set {
+ __int32_t fds_bits[((((1024) % ((sizeof(__int32_t) * 8))) == 0) ? ((1024) / ((sizeof(__int32_t) * 8))) : (((1024) / ((sizeof(__int32_t) * 8))) + 1))];
+} fd_set;
+static __inline int
+__darwin_fd_isset(int _n, const struct fd_set *_p)
+{
+ return (_p->fds_bits[_n/(sizeof(__int32_t) * 8)] & (1<<(_n % (sizeof(__int32_t) * 8))));
+}
+typedef __int32_t fd_mask;
+typedef __darwin_pthread_attr_t pthread_attr_t;
+typedef __darwin_pthread_cond_t pthread_cond_t;
+typedef __darwin_pthread_condattr_t pthread_condattr_t;
+typedef __darwin_pthread_mutex_t pthread_mutex_t;
+typedef __darwin_pthread_mutexattr_t pthread_mutexattr_t;
+typedef __darwin_pthread_once_t pthread_once_t;
+typedef __darwin_pthread_rwlock_t pthread_rwlock_t;
+typedef __darwin_pthread_rwlockattr_t pthread_rwlockattr_t;
+typedef __darwin_pthread_t pthread_t;
+typedef __darwin_pthread_key_t pthread_key_t;
+typedef __darwin_fsblkcnt_t fsblkcnt_t;
+typedef __darwin_fsfilcnt_t fsfilcnt_t;
+typedef __uint8_t sa_family_t;
+typedef __darwin_socklen_t socklen_t;
+struct iovec {
+ void * iov_base;
+ size_t iov_len;
+};
+struct linger {
+ int l_onoff;
+ int l_linger;
+};
+struct so_np_extensions {
+ u_int32_t npx_flags;
+ u_int32_t npx_mask;
+};
+struct sockaddr {
+ __uint8_t sa_len;
+ sa_family_t sa_family;
+ char sa_data[14];
+};
+struct sockproto {
+ __uint16_t sp_family;
+ __uint16_t sp_protocol;
+};
+struct sockaddr_storage {
+ __uint8_t ss_len;
+ sa_family_t ss_family;
+ char __ss_pad1[((sizeof(__int64_t)) - sizeof(__uint8_t) - sizeof(sa_family_t))];
+ __int64_t __ss_align;
+ char __ss_pad2[(128 - sizeof(__uint8_t) - sizeof(sa_family_t) - ((sizeof(__int64_t)) - sizeof(__uint8_t) - sizeof(sa_family_t)) - (sizeof(__int64_t)))];
+};
+struct msghdr {
+ void *msg_name;
+ socklen_t msg_namelen;
+ struct iovec *msg_iov;
+ int msg_iovlen;
+ void *msg_control;
+ socklen_t msg_controllen;
+ int msg_flags;
+};
+struct cmsghdr {
+ socklen_t cmsg_len;
+ int cmsg_level;
+ int cmsg_type;
+};
+struct sf_hdtr {
+ struct iovec *headers;
+ int hdr_cnt;
+ struct iovec *trailers;
+ int trl_cnt;
+};
+int accept(int, struct sockaddr * , socklen_t * )
+  __asm("_" "accept" );
+int bind(int, const struct sockaddr *, socklen_t) __asm("_" "bind" );
+int connect(int, const struct sockaddr *, socklen_t) __asm("_" "connect" );
+int getpeername(int, struct sockaddr * , socklen_t * )
+  __asm("_" "getpeername" );
+int getsockname(int, struct sockaddr * , socklen_t * )
+  __asm("_" "getsockname" );
+int getsockopt(int, int, int, void * , socklen_t * );
+int listen(int, int) __asm("_" "listen" );
+ssize_t recv(int, void *, size_t, int) __asm("_" "recv" );
+ssize_t recvfrom(int, void *, size_t, int, struct sockaddr * ,
+  socklen_t * ) __asm("_" "recvfrom" );
+ssize_t recvmsg(int, struct msghdr *, int) __asm("_" "recvmsg" );
+ssize_t send(int, const void *, size_t, int) __asm("_" "send" );
+ssize_t sendmsg(int, const struct msghdr *, int) __asm("_" "sendmsg" );
+ssize_t sendto(int, const void *, size_t,
+  int, const struct sockaddr *, socklen_t) __asm("_" "sendto" );
+int setsockopt(int, int, int, const void *, socklen_t);
+int shutdown(int, int);
+int sockatmark(int) __attribute__((visibility("default")));
+int socket(int, int, int);
+int socketpair(int, int, int, int *) __asm("_" "socketpair" );
+int sendfile(int, int, off_t, off_t *, struct sf_hdtr *, int);
+void pfctlinput(int, struct sockaddr *);
+struct in_addr {
+ in_addr_t s_addr;
+};
+struct sockaddr_in {
+ __uint8_t sin_len;
+ sa_family_t sin_family;
+ in_port_t sin_port;
+ struct in_addr sin_addr;
+ char sin_zero[8];
+};
+struct ip_opts {
+ struct in_addr ip_dst;
+ char ip_opts[40];
+};
+struct ip_mreq {
+ struct in_addr imr_multiaddr;
+ struct in_addr imr_interface;
+};
+struct ip_mreqn {
+ struct in_addr imr_multiaddr;
+ struct in_addr imr_address;
+ int imr_ifindex;
+};
+#pragma pack(4)
+struct ip_mreq_source {
+ struct in_addr imr_multiaddr;
+ struct in_addr imr_sourceaddr;
+ struct in_addr imr_interface;
+};
+struct group_req {
+ uint32_t gr_interface;
+ struct sockaddr_storage gr_group;
+};
+struct group_source_req {
+ uint32_t gsr_interface;
+ struct sockaddr_storage gsr_group;
+ struct sockaddr_storage gsr_source;
+};
+struct __msfilterreq {
+ uint32_t msfr_ifindex;
+ uint32_t msfr_fmode;
+ uint32_t msfr_nsrcs;
+ uint32_t __msfr_align;
+ struct sockaddr_storage msfr_group;
+ struct sockaddr_storage *msfr_srcs;
+};
+#pragma pack()
+struct sockaddr;
+int setipv4sourcefilter(int, struct in_addr, struct in_addr, uint32_t,
+     uint32_t, struct in_addr *) __attribute__((visibility("default")));
+int getipv4sourcefilter(int, struct in_addr, struct in_addr, uint32_t *,
+     uint32_t *, struct in_addr *) __attribute__((visibility("default")));
+int setsourcefilter(int, uint32_t, struct sockaddr *, socklen_t,
+     uint32_t, uint32_t, struct sockaddr_storage *) __attribute__((visibility("default")));
+int getsourcefilter(int, uint32_t, struct sockaddr *, socklen_t,
+     uint32_t *, uint32_t *, struct sockaddr_storage *) __attribute__((visibility("default")));
+struct in_pktinfo {
+ unsigned int ipi_ifindex;
+ struct in_addr ipi_spec_dst;
+ struct in_addr ipi_addr;
+};
+struct in6_addr {
+ union {
+  __uint8_t __u6_addr8[16];
+  __uint16_t __u6_addr16[8];
+  __uint32_t __u6_addr32[4];
+ } __u6_addr;
+};
+struct sockaddr_in6 {
+ __uint8_t sin6_len;
+ sa_family_t sin6_family;
+ in_port_t sin6_port;
+ __uint32_t sin6_flowinfo;
+ struct in6_addr sin6_addr;
+ __uint32_t sin6_scope_id;
+};
+extern const struct in6_addr in6addr_any;
+extern const struct in6_addr in6addr_loopback;
+extern const struct in6_addr in6addr_nodelocal_allnodes;
+extern const struct in6_addr in6addr_linklocal_allnodes;
+extern const struct in6_addr in6addr_linklocal_allrouters;
+extern const struct in6_addr in6addr_linklocal_allv2routers;
+struct ipv6_mreq {
+ struct in6_addr ipv6mr_multiaddr;
+ unsigned int ipv6mr_interface;
+};
+struct in6_pktinfo {
+ struct in6_addr ipi6_addr;
+ unsigned int ipi6_ifindex;
+};
+struct ip6_mtuinfo {
+ struct sockaddr_in6 ip6m_addr;
+ uint32_t ip6m_mtu;
+};
+struct cmsghdr;
+extern int inet6_option_space(int);
+extern int inet6_option_init(void *, struct cmsghdr **, int);
+extern int inet6_option_append(struct cmsghdr *, const __uint8_t *,
+ int, int);
+extern __uint8_t *inet6_option_alloc(struct cmsghdr *, int, int, int);
+extern int inet6_option_next(const struct cmsghdr *, __uint8_t **);
+extern int inet6_option_find(const struct cmsghdr *, __uint8_t **, int);
+extern size_t inet6_rthdr_space(int, int);
+extern struct cmsghdr *inet6_rthdr_init(void *, int);
+extern int inet6_rthdr_add(struct cmsghdr *, const struct in6_addr *,
+  unsigned int);
+extern int inet6_rthdr_lasthop(struct cmsghdr *, unsigned int);
+extern int inet6_rthdr_segments(const struct cmsghdr *);
+extern struct in6_addr *inet6_rthdr_getaddr(struct cmsghdr *, int);
+extern int inet6_rthdr_getflags(const struct cmsghdr *, int);
+extern int inet6_opt_init(void *, socklen_t);
+extern int inet6_opt_append(void *, socklen_t, int, __uint8_t,
+     socklen_t, __uint8_t, void **);
+extern int inet6_opt_finish(void *, socklen_t, int);
+extern int inet6_opt_set_val(void *, int, void *, socklen_t);
+extern int inet6_opt_next(void *, socklen_t, int, __uint8_t *,
+          socklen_t *, void **);
+extern int inet6_opt_find(void *, socklen_t, int, __uint8_t,
+     socklen_t *, void **);
+extern int inet6_opt_get_val(void *, int, void *, socklen_t);
+extern socklen_t inet6_rth_space(int, int);
+extern void *inet6_rth_init(void *, socklen_t, int, int);
+extern int inet6_rth_add(void *, const struct in6_addr *);
+extern int inet6_rth_reverse(const void *, void *);
+extern int inet6_rth_segments(const void *);
+extern struct in6_addr *inet6_rth_getaddr(const void *, int);
+extern void addrsel_policy_init(void);
+int bindresvport(int, struct sockaddr_in *);
+struct sockaddr;
+int bindresvport_sa(int, struct sockaddr *);
+static const char _PATH_HEQUIV = "/etc/hosts.equiv";
+static const char _PATH_HOSTS = "/etc/hosts";
+static const char _PATH_NETWORKS = "/etc/networks";
+static const char _PATH_PROTOCOLS = "/etc/protocols";
+static const char _PATH_SERVICES = "/etc/services";
+extern int h_errno;
+struct hostent {
+ char *h_name;
+ char **h_aliases;
+ int h_addrtype;
+ int h_length;
+ char **h_addr_list;
+static const int h_addr = h_addr_list[0];
+};
+struct netent {
+ char *n_name;
+ char **n_aliases;
+ int n_addrtype;
+ uint32_t n_net;
+};
+struct servent {
+ char *s_name;
+ char **s_aliases;
+ int s_port;
+ char *s_proto;
+};
+struct protoent {
+ char *p_name;
+ char **p_aliases;
+ int p_proto;
+};
+struct addrinfo {
+ int ai_flags;
+ int ai_family;
+ int ai_socktype;
+ int ai_protocol;
+ socklen_t ai_addrlen;
+ char *ai_canonname;
+ struct sockaddr *ai_addr;
+ struct addrinfo *ai_next;
+};
+struct rpcent {
+        char *r_name;
+        char **r_aliases;
+        int r_number;
+};
+static const int NETDB_INTERNAL = -1;
+static const int NETDB_SUCCESS = 0;
+static const int HOST_NOT_FOUND = 1;
+static const int TRY_AGAIN = 2;
+static const int NO_RECOVERY = 3;
+static const int NO_DATA = 4;
+static const int NO_ADDRESS = NO_DATA;
+static const int EAI_ADDRFAMILY = 1;
+static const int EAI_AGAIN = 2;
+static const int EAI_BADFLAGS = 3;
+static const int EAI_FAIL = 4;
+static const int EAI_FAMILY = 5;
+static const int EAI_MEMORY = 6;
+static const int EAI_NODATA = 7;
+static const int EAI_NONAME = 8;
+static const int EAI_SERVICE = 9;
+static const int EAI_SOCKTYPE = 10;
+static const int EAI_SYSTEM = 11;
+static const int EAI_BADHINTS = 12;
+static const int EAI_PROTOCOL = 13;
+static const int EAI_OVERFLOW = 14;
+static const int EAI_MAX = 15;
+static const int AI_PASSIVE = 0x00000001;
+static const int AI_CANONNAME = 0x00000002;
+static const int AI_NUMERICHOST = 0x00000004;
+static const int AI_NUMERICSERV = 0x00001000;
+static const int AI_MASK = (AI_PASSIVE | AI_CANONNAME | AI_NUMERICHOST | AI_NUMERICSERV | AI_ADDRCONFIG);
+static const int AI_ALL = 0x00000100;
+static const int AI_V4MAPPED_CFG = 0x00000200;
+static const int AI_ADDRCONFIG = 0x00000400;
+static const int AI_V4MAPPED = 0x00000800;
+static const int AI_DEFAULT = (AI_V4MAPPED_CFG | AI_ADDRCONFIG);
+static const int NI_MAXHOST = 1025;
+static const int NI_MAXSERV = 32;
+static const int NI_NOFQDN = 0x00000001;
+static const int NI_NUMERICHOST = 0x00000002;
+static const int NI_NAMEREQD = 0x00000004;
+static const int NI_NUMERICSERV = 0x00000008;
+static const int NI_DGRAM = 0x00000010;
+static const int NI_WITHSCOPEID = 0x00000020;
+static const int SCOPE_DELIMITER = '%';
+void endhostent(void);
+void endnetent(void);
+void endprotoent(void);
+void endservent(void);
+void freeaddrinfo(struct addrinfo *);
+const char *gai_strerror(int);
+int getaddrinfo(const char * , const char * ,
+       const struct addrinfo * ,
+       struct addrinfo ** );
+struct hostent *gethostbyaddr(const void *, socklen_t, int);
+struct hostent *gethostbyname(const char *);
+struct hostent *gethostent(void);
+int getnameinfo(const struct sockaddr * , socklen_t,
+         char * , socklen_t, char * ,
+         socklen_t, int);
+struct netent *getnetbyaddr(uint32_t, int);
+struct netent *getnetbyname(const char *);
+struct netent *getnetent(void);
+struct protoent *getprotobyname(const char *);
+struct protoent *getprotobynumber(int);
+struct protoent *getprotoent(void);
+struct servent *getservbyname(const char *, const char *);
+struct servent *getservbyport(int, const char *);
+struct servent *getservent(void);
+void sethostent(int);
+void setnetent(int);
+void setprotoent(int);
+void setservent(int);
+void freehostent(struct hostent *);
+struct hostent *gethostbyname2(const char *, int);
+struct hostent *getipnodebyaddr(const void *, size_t, int, int *);
+struct hostent *getipnodebyname(const char *, int, int, int *);
+struct rpcent *getrpcbyname(const char *name);
+struct rpcent *getrpcbynumber(int number);
+struct rpcent *getrpcent(void);
+void setrpcent(int stayopen);
+void endrpcent(void);
+void herror(const char *);
+const char *hstrerror(int);
+int innetgr(const char *, const char *, const char *, const char *);
+int getnetgrent(char **, char **, char **);
+void endnetgrent(void);
+void setnetgrent(const char *);
 
 
 // *** 19. pthread.h ***
@@ -6443,7 +6293,6 @@ struct sched_param { int sched_priority; char __opaque[4]; };
 extern int sched_yield(void);
 extern int sched_get_priority_min(int);
 extern int sched_get_priority_max(int);
-#undef __need_struct_timespec
 struct timespec
 {
  __darwin_time_t tv_sec;
@@ -7057,7 +6906,6 @@ struct __darwin_x86_debug_state64
  __uint64_t __dr6;
  __uint64_t __dr7;
 };
-#undef __need_struct_mcontext
 struct __darwin_mcontext32
 {
  struct __darwin_i386_exception_state __es;
@@ -7082,16 +6930,13 @@ struct __darwin_mcontext_avx64
  struct __darwin_x86_thread_state64 __ss;
  struct __darwin_x86_avx_state64 __fs;
 };
-#undef __need_mcontext_t
 typedef struct __darwin_mcontext64 *mcontext_t;
-#undef __need_struct_sigaltstack
 struct __darwin_sigaltstack
 {
  void *ss_sp;
  __darwin_size_t ss_size;
  int ss_flags;
 };
-#undef __need_struct_ucontext
 struct __darwin_ucontext
 {
  int uc_onstack;
@@ -7101,9 +6946,7 @@ struct __darwin_ucontext
  __darwin_size_t uc_mcsize;
  struct __darwin_mcontext64 *uc_mcontext;
 };
-#undef __need_stack_t
 typedef struct __darwin_sigaltstack stack_t;
-#undef __need_ucontext_t
 typedef struct __darwin_ucontext ucontext_t;
 typedef __darwin_pid_t pid_t;
 typedef __darwin_pthread_attr_t pthread_attr_t;
@@ -7203,413 +7046,7 @@ static const int sigemptyset(set) = (*(set) = 0, 0);
 static const int sigfillset(set) = (*(set) = ~(sigset_t)0, 0);
 
 
-// *** 21. time.h ***
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef short __int16_t;
-typedef unsigned short __uint16_t;
-typedef int __int32_t;
-typedef unsigned int __uint32_t;
-typedef long long __int64_t;
-typedef unsigned long long __uint64_t;
-typedef long __darwin_intptr_t;
-typedef unsigned int __darwin_natural_t;
-typedef int __darwin_ct_rune_t;
-typedef union {
- char __mbstate8[128];
- long long _mbstateL;
-} __mbstate_t;
-typedef __mbstate_t __darwin_mbstate_t;
-typedef long int __darwin_ptrdiff_t;
-typedef long unsigned int __darwin_size_t;
-typedef __builtin_va_list __darwin_va_list;
-typedef int __darwin_wchar_t;
-typedef __darwin_wchar_t __darwin_rune_t;
-typedef int __darwin_wint_t;
-typedef unsigned long __darwin_clock_t;
-typedef __uint32_t __darwin_socklen_t;
-typedef long __darwin_ssize_t;
-typedef long __darwin_time_t;
-struct __darwin_pthread_handler_rec
-{
- void (*__routine)(void *);
- void *__arg;
- struct __darwin_pthread_handler_rec *__next;
-};
-struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_cond_t { long __sig; char __opaque[40]; };
-struct _opaque_pthread_condattr_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_mutex_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_mutexattr_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_once_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
-struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
-struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
-typedef __int64_t __darwin_blkcnt_t;
-typedef __int32_t __darwin_blksize_t;
-typedef __int32_t __darwin_dev_t;
-typedef unsigned int __darwin_fsblkcnt_t;
-typedef unsigned int __darwin_fsfilcnt_t;
-typedef __uint32_t __darwin_gid_t;
-typedef __uint32_t __darwin_id_t;
-typedef __uint64_t __darwin_ino64_t;
-typedef __darwin_ino64_t __darwin_ino_t;
-typedef __darwin_natural_t __darwin_mach_port_name_t;
-typedef __darwin_mach_port_name_t __darwin_mach_port_t;
-typedef __uint16_t __darwin_mode_t;
-typedef __int64_t __darwin_off_t;
-typedef __int32_t __darwin_pid_t;
-typedef struct _opaque_pthread_attr_t
-   __darwin_pthread_attr_t;
-typedef struct _opaque_pthread_cond_t
-   __darwin_pthread_cond_t;
-typedef struct _opaque_pthread_condattr_t
-   __darwin_pthread_condattr_t;
-typedef unsigned long __darwin_pthread_key_t;
-typedef struct _opaque_pthread_mutex_t
-   __darwin_pthread_mutex_t;
-typedef struct _opaque_pthread_mutexattr_t
-   __darwin_pthread_mutexattr_t;
-typedef struct _opaque_pthread_once_t
-   __darwin_pthread_once_t;
-typedef struct _opaque_pthread_rwlock_t
-   __darwin_pthread_rwlock_t;
-typedef struct _opaque_pthread_rwlockattr_t
-   __darwin_pthread_rwlockattr_t;
-typedef struct _opaque_pthread_t
-   *__darwin_pthread_t;
-typedef __uint32_t __darwin_sigset_t;
-typedef __int32_t __darwin_suseconds_t;
-typedef __uint32_t __darwin_uid_t;
-typedef __uint32_t __darwin_useconds_t;
-typedef unsigned char __darwin_uuid_t[16];
-typedef char __darwin_uuid_string_t[37];
-#undef __need_struct_timespec
-struct timespec
-{
- __darwin_time_t tv_sec;
- long tv_nsec;
-};
-#undef __need_struct_timeval
-struct timeval
-{
- __darwin_time_t tv_sec;
- __darwin_suseconds_t tv_usec;
-};
-#undef __need_fd_set
-typedef struct fd_set {
- __int32_t fds_bits[((((1024) % ((sizeof(__int32_t) * 8))) == 0) ? ((1024) / ((sizeof(__int32_t) * 8))) : (((1024) / ((sizeof(__int32_t) * 8))) + 1))];
-} fd_set;
-static __inline int
-__darwin_fd_isset(int _n, const struct fd_set *_p)
-{
- return (_p->fds_bits[_n/(sizeof(__int32_t) * 8)] & (1<<(_n % (sizeof(__int32_t) * 8))));
-}
-typedef __darwin_time_t time_t;
-typedef __darwin_suseconds_t suseconds_t;
-struct itimerval {
- struct timeval it_interval;
- struct timeval it_value;
-};
-struct timezone {
- int tz_minuteswest;
- int tz_dsttime;
-};
-struct clockinfo {
- int hz;
- int tick;
- int tickadj;
- int stathz;
- int profhz;
-};
-typedef int __darwin_nl_item;
-typedef int __darwin_wctrans_t;
-typedef __uint32_t __darwin_wctype_t;
-#undef __need_struct_timespec
-typedef __darwin_clock_t clock_t;
-typedef __darwin_size_t size_t;
-struct tm {
- int tm_sec;
- int tm_min;
- int tm_hour;
- int tm_mday;
- int tm_mon;
- int tm_year;
- int tm_wday;
- int tm_yday;
- int tm_isdst;
- long tm_gmtoff;
- char *tm_zone;
-};
-extern char *tzname[];
-extern int getdate_err;
-extern long timezone __asm("_" "timezone" );
-extern int daylight;
-char *asctime(const struct tm *);
-clock_t clock(void) __asm("_" "clock" );
-char *ctime(const time_t *);
-double difftime(time_t, time_t);
-struct tm *getdate(const char *);
-struct tm *gmtime(const time_t *);
-struct tm *localtime(const time_t *);
-time_t mktime(struct tm *) __asm("_" "mktime" );
-size_t strftime(char * , size_t, const char * , const struct tm * ) __asm("_" "strftime" );
-char *strptime(const char * , const char * , struct tm * ) __asm("_" "strptime" );
-time_t time(time_t *);
-void tzset(void);
-char *asctime_r(const struct tm * , char * );
-char *ctime_r(const time_t *, char *);
-struct tm *gmtime_r(const time_t * , struct tm * );
-struct tm *localtime_r(const time_t * , struct tm * );
-time_t posix2time(time_t);
-void tzsetwall(void);
-time_t time2posix(time_t);
-time_t timelocal(struct tm * const);
-time_t timegm(struct tm * const);
-int nanosleep(const struct timespec *, struct timespec *) __asm("_" "nanosleep" );
-int adjtime(const struct timeval *, struct timeval *);
-int futimes(int, const struct timeval *);
-int lutimes(const char *, const struct timeval *) __attribute__((visibility("default")));
-int settimeofday(const struct timeval *, const struct timezone *);
-int getitimer(int, struct itimerval *);
-int gettimeofday(struct timeval * , void * );
-int select(int, fd_set * , fd_set * ,
-  fd_set * , struct timeval * )
-  __asm("_" "select" "$1050")
-  ;
-int setitimer(int, const struct itimerval * ,
-  struct itimerval * );
-int utimes(const char *, const struct timeval *);
-
-
-// *** 22. stdio.h ***
-typedef signed char __int8_t;
-typedef unsigned char __uint8_t;
-typedef short __int16_t;
-typedef unsigned short __uint16_t;
-typedef int __int32_t;
-typedef unsigned int __uint32_t;
-typedef long long __int64_t;
-typedef unsigned long long __uint64_t;
-typedef long __darwin_intptr_t;
-typedef unsigned int __darwin_natural_t;
-typedef int __darwin_ct_rune_t;
-typedef union {
- char __mbstate8[128];
- long long _mbstateL;
-} __mbstate_t;
-typedef __mbstate_t __darwin_mbstate_t;
-typedef long int __darwin_ptrdiff_t;
-typedef long unsigned int __darwin_size_t;
-typedef __builtin_va_list __darwin_va_list;
-typedef int __darwin_wchar_t;
-typedef __darwin_wchar_t __darwin_rune_t;
-typedef int __darwin_wint_t;
-typedef unsigned long __darwin_clock_t;
-typedef __uint32_t __darwin_socklen_t;
-typedef long __darwin_ssize_t;
-typedef long __darwin_time_t;
-struct __darwin_pthread_handler_rec
-{
- void (*__routine)(void *);
- void *__arg;
- struct __darwin_pthread_handler_rec *__next;
-};
-struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_cond_t { long __sig; char __opaque[40]; };
-struct _opaque_pthread_condattr_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_mutex_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_mutexattr_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_once_t { long __sig; char __opaque[8]; };
-struct _opaque_pthread_rwlock_t { long __sig; char __opaque[192]; };
-struct _opaque_pthread_rwlockattr_t { long __sig; char __opaque[16]; };
-struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
-typedef __int64_t __darwin_blkcnt_t;
-typedef __int32_t __darwin_blksize_t;
-typedef __int32_t __darwin_dev_t;
-typedef unsigned int __darwin_fsblkcnt_t;
-typedef unsigned int __darwin_fsfilcnt_t;
-typedef __uint32_t __darwin_gid_t;
-typedef __uint32_t __darwin_id_t;
-typedef __uint64_t __darwin_ino64_t;
-typedef __darwin_ino64_t __darwin_ino_t;
-typedef __darwin_natural_t __darwin_mach_port_name_t;
-typedef __darwin_mach_port_name_t __darwin_mach_port_t;
-typedef __uint16_t __darwin_mode_t;
-typedef __int64_t __darwin_off_t;
-typedef __int32_t __darwin_pid_t;
-typedef struct _opaque_pthread_attr_t
-   __darwin_pthread_attr_t;
-typedef struct _opaque_pthread_cond_t
-   __darwin_pthread_cond_t;
-typedef struct _opaque_pthread_condattr_t
-   __darwin_pthread_condattr_t;
-typedef unsigned long __darwin_pthread_key_t;
-typedef struct _opaque_pthread_mutex_t
-   __darwin_pthread_mutex_t;
-typedef struct _opaque_pthread_mutexattr_t
-   __darwin_pthread_mutexattr_t;
-typedef struct _opaque_pthread_once_t
-   __darwin_pthread_once_t;
-typedef struct _opaque_pthread_rwlock_t
-   __darwin_pthread_rwlock_t;
-typedef struct _opaque_pthread_rwlockattr_t
-   __darwin_pthread_rwlockattr_t;
-typedef struct _opaque_pthread_t
-   *__darwin_pthread_t;
-typedef __uint32_t __darwin_sigset_t;
-typedef __int32_t __darwin_suseconds_t;
-typedef __uint32_t __darwin_uid_t;
-typedef __uint32_t __darwin_useconds_t;
-typedef unsigned char __darwin_uuid_t[16];
-typedef char __darwin_uuid_string_t[37];
-typedef int __darwin_nl_item;
-typedef int __darwin_wctrans_t;
-typedef __uint32_t __darwin_wctype_t;
-typedef __darwin_va_list va_list;
-typedef __darwin_size_t size_t;
-typedef __darwin_off_t fpos_t;
-struct __sbuf {
- unsigned char *_base;
- int _size;
-};
-struct __sFILEX;
-typedef struct __sFILE {
- unsigned char *_p;
- int _r;
- int _w;
- short _flags;
- short _file;
- struct __sbuf _bf;
- int _lbfsize;
- void *_cookie;
- int (*_close)(void *);
- int (*_read) (void *, char *, int);
- fpos_t (*_seek) (void *, fpos_t, int);
- int (*_write)(void *, const char *, int);
- struct __sbuf _ub;
- struct __sFILEX *_extra;
- int _ur;
- unsigned char _ubuf[3];
- unsigned char _nbuf[1];
- struct __sbuf _lb;
- int _blksize;
- fpos_t _offset;
-} FILE;
-extern FILE *__stdinp;
-extern FILE *__stdoutp;
-extern FILE *__stderrp;
-void clearerr(FILE *);
-int fclose(FILE *);
-int feof(FILE *);
-int ferror(FILE *);
-int fflush(FILE *);
-int fgetc(FILE *);
-int fgetpos(FILE * , fpos_t *);
-char *fgets(char * , int, FILE *);
-FILE *fopen(const char * , const char * ) __asm("_" "fopen" );
-int fprintf(FILE * , const char * , ...) __attribute__((__format__ (__printf__, 2, 3)));
-int fputc(int, FILE *);
-int fputs(const char * , FILE * ) __asm("_" "fputs" );
-size_t fread(void * , size_t, size_t, FILE * );
-FILE *freopen(const char * , const char * ,
-                 FILE * ) __asm("_" "freopen" );
-int fscanf(FILE * , const char * , ...) __attribute__((__format__ (__scanf__, 2, 3)));
-int fseek(FILE *, long, int);
-int fsetpos(FILE *, const fpos_t *);
-long ftell(FILE *);
-size_t fwrite(const void * , size_t, size_t, FILE * ) __asm("_" "fwrite" );
-int getc(FILE *);
-int getchar(void);
-char *gets(char *);
-void perror(const char *);
-int printf(const char * , ...) __attribute__((__format__ (__printf__, 1, 2)));
-int putc(int, FILE *);
-int putchar(int);
-int puts(const char *);
-int remove(const char *);
-int rename (const char *, const char *);
-void rewind(FILE *);
-int scanf(const char * , ...) __attribute__((__format__ (__scanf__, 1, 2)));
-void setbuf(FILE * , char * );
-int setvbuf(FILE * , char * , int, size_t);
-int sprintf(char * , const char * , ...) __attribute__((__format__ (__printf__, 2, 3)));
-int sscanf(const char * , const char * , ...) __attribute__((__format__ (__scanf__, 2, 3)));
-FILE *tmpfile(void);
-char *tmpnam(char *);
-int ungetc(int, FILE *);
-int vfprintf(FILE * , const char * , va_list) __attribute__((__format__ (__printf__, 2, 0)));
-int vprintf(const char * , va_list) __attribute__((__format__ (__printf__, 1, 0)));
-int vsprintf(char * , const char * , va_list) __attribute__((__format__ (__printf__, 2, 0)));
-char *ctermid(char *);
-FILE *fdopen(int, const char *) __asm("_" "fdopen" );
-int fileno(FILE *);
-int pclose(FILE *);
-FILE *popen(const char *, const char *) __asm("_" "popen" );
-int __srget(FILE *);
-int __svfscanf(FILE *, const char *, va_list) __attribute__((__format__ (__scanf__, 2, 0)));
-int __swbuf(int, FILE *);
-static __inline int __sputc(int _c, FILE *_p) {
- if (--_p->_w >= 0 || (_p->_w >= _p->_lbfsize && (char)_c != '\n'))
-  return (*_p->_p++ = _c);
- else
-  return (__swbuf(_c, _p));
-}
-void flockfile(FILE *);
-int ftrylockfile(FILE *);
-void funlockfile(FILE *);
-int getc_unlocked(FILE *);
-int getchar_unlocked(void);
-int putc_unlocked(int, FILE *);
-int putchar_unlocked(int);
-int getw(FILE *);
-int putw(int, FILE *);
-char *tempnam(const char *, const char *) __asm("_" "tempnam" );
-typedef __darwin_off_t off_t;
-int fseeko(FILE *, off_t, int);
-off_t ftello(FILE *);
-int snprintf(char * , size_t, const char * , ...) __attribute__((__format__ (__printf__, 3, 4)));
-int vfscanf(FILE * , const char * , va_list) __attribute__((__format__ (__scanf__, 2, 0)));
-int vscanf(const char * , va_list) __attribute__((__format__ (__scanf__, 1, 0)));
-int vsnprintf(char * , size_t, const char * , va_list) __attribute__((__format__ (__printf__, 3, 0)));
-int vsscanf(const char * , const char * , va_list) __attribute__((__format__ (__scanf__, 2, 0)));
-typedef __darwin_ssize_t ssize_t;
-int dprintf(int, const char * , ...) __attribute__((__format__ (__printf__, 2, 3))) __attribute__((visibility("default")));
-int vdprintf(int, const char * , va_list) __attribute__((__format__ (__printf__, 2, 0))) __attribute__((visibility("default")));
-ssize_t getdelim(char ** , size_t * , int, FILE * ) __attribute__((visibility("default")));
-ssize_t getline(char ** , size_t * , FILE * ) __attribute__((visibility("default")));
-extern const int sys_nerr;
-extern const char *const sys_errlist[];
-int asprintf(char **, const char *, ...) __attribute__((__format__ (__printf__, 2, 3)));
-char *ctermid_r(char *);
-char *fgetln(FILE *, size_t *);
-const char *fmtcheck(const char *, const char *);
-int fpurge(FILE *);
-void setbuffer(FILE *, char *, int);
-int setlinebuf(FILE *);
-int vasprintf(char **, const char *, va_list) __attribute__((__format__ (__printf__, 2, 0)));
-FILE *zopen(const char *, const char *, int);
-FILE *funopen(const void *,
-                 int (*)(void *, char *, int),
-                 int (*)(void *, const char *, int),
-                 fpos_t (*)(void *, fpos_t, int),
-                 int (*)(void *));
-#undef _USE_FORTIFY_LEVEL
-#undef sprintf
-#undef vsprintf
-#undef snprintf
-#undef vsnprintf
-extern int __sprintf_chk (char * , int, size_t,
-     const char * , ...);
-extern int __snprintf_chk (char * , size_t, int, size_t,
-      const char * , ...);
-extern int __vsprintf_chk (char * , int, size_t,
-      const char * , va_list);
-extern int __vsnprintf_chk (char * , size_t, int, size_t,
-       const char * , va_list);
-
-
-// *** 23. string.h ***
+// *** 21. string.h ***
 typedef signed char __int8_t;
 typedef unsigned char __uint8_t;
 typedef short __int16_t;
@@ -7748,16 +7185,6 @@ int strncasecmp(const char *, const char *, size_t);
 int ffsl(long) __attribute__((visibility("default")));
 int fls(int) __attribute__((visibility("default")));
 int flsl(long) __attribute__((visibility("default")));
-#undef _USE_FORTIFY_LEVEL
-#undef memcpy
-#undef memmove
-#undef memset
-#undef strcpy
-#undef stpcpy
-#undef stpncpy
-#undef strncpy
-#undef strcat
-#undef strncat
 static const int memcpy(dest,src,len) = ((__darwin_obsz0 (dest) != (size_t) -1) ? __builtin___memcpy_chk (dest, src, len, __darwin_obsz0 (dest)) : __inline_memcpy_chk (dest, src, len));
 static __inline void *
 __inline_memcpy_chk (void *__dest, const void *__src, size_t __len)

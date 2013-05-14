@@ -642,7 +642,6 @@ struct __darwin_x86_debug_state64
  __uint64_t __dr6;
  __uint64_t __dr7;
 };
-#undef __need_struct_mcontext
 static const int _STRUCT_MCONTEXT32 = struct __darwin_mcontext32;
 struct __darwin_mcontext32
 {
@@ -671,10 +670,8 @@ struct __darwin_mcontext_avx64
  struct __darwin_x86_thread_state64 __ss;
  struct __darwin_x86_avx_state64 __fs;
 };
-#undef __need_mcontext_t
 typedef struct __darwin_mcontext64 *mcontext_t;
 static const int _STRUCT_MCONTEXT = _STRUCT_MCONTEXT64;
-#undef __need_struct_sigaltstack
 static const int _STRUCT_SIGALTSTACK = struct __darwin_sigaltstack;
 struct __darwin_sigaltstack
 {
@@ -682,7 +679,6 @@ struct __darwin_sigaltstack
  __darwin_size_t ss_size;
  int ss_flags;
 };
-#undef __need_struct_ucontext
 static const int _STRUCT_UCONTEXT = struct __darwin_ucontext;
 struct __darwin_ucontext
 {
@@ -693,9 +689,7 @@ struct __darwin_ucontext
  __darwin_size_t uc_mcsize;
  struct __darwin_mcontext64 *uc_mcontext;
 };
-#undef __need_stack_t
 typedef struct __darwin_sigaltstack stack_t;
-#undef __need_ucontext_t
 typedef struct __darwin_ucontext ucontext_t;
 typedef __darwin_pid_t pid_t;
 typedef __darwin_pthread_attr_t pthread_attr_t;

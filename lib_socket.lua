@@ -161,9 +161,11 @@ function getsockopt(socket, level, option_name, option_value, option_len)
 	return s.getsockopt(socket, level, option_name, option_value, option_len)
 end
 function setsockopt(socket, level, option_name, option_value)
-	local arg_c = ffi.new("uint32_t[1]", option_value)
+	--local arg_c = ffi.new("uint32_t[1]", option_value)
+	local arg_c = ffi.new("int[1]", option_value)
 	local option_len = ffi.sizeof(arg_c)
-	return s.setsockopt(socket, level, option_name, ffi.cast("void *", arg_c), option_len)
+	--return s.setsockopt(socket, level, option_name, ffi.cast("void *", arg_c), option_len)
+	return s.setsockopt(socket, level, option_name, arg_c, option_len)
 end
 function getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
 	return s.getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)

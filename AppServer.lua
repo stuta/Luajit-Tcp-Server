@@ -166,7 +166,8 @@ local function answer(sock)
 		end
 		--print(" -- Bytes sent: ", send_result.." / "..totalBytesSent.." total")
 	elseif result == 0 then
-		print(" -- nothing received...")
+		print(" -- nothing received, socked was closed")
+		close(sock)
 	else
 		print(" -- socket.recv failed with error: "..result)
 		close(sock)

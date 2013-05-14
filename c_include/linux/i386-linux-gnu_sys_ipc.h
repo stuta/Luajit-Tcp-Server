@@ -220,33 +220,8 @@ static const int __unix__ = 1;
 static const int unix = 1;
 static const int __ELF__ = 1;
 static const int __DECIMAL_BID_FORMAT__ = 1;
-static const int _SYS_TYPES_H = 1;
+static const int _SYS_IPC_H = 1;
 static const int _FEATURES_H = 1;
-#undef __USE_ISOC99
-#undef __USE_ISOC95
-#undef __USE_POSIX
-#undef __USE_POSIX2
-#undef __USE_POSIX199309
-#undef __USE_POSIX199506
-#undef __USE_XOPEN
-#undef __USE_XOPEN_EXTENDED
-#undef __USE_UNIX98
-#undef __USE_XOPEN2K
-#undef __USE_XOPEN2KXSI
-#undef __USE_XOPEN2K8
-#undef __USE_XOPEN2K8XSI
-#undef __USE_LARGEFILE
-#undef __USE_LARGEFILE64
-#undef __USE_FILE_OFFSET64
-#undef __USE_BSD
-#undef __USE_SVID
-#undef __USE_MISC
-#undef __USE_ATFILE
-#undef __USE_GNU
-#undef __USE_REENTRANT
-#undef __USE_FORTIFY_LEVEL
-#undef __FAVOR_BSD
-#undef __KERNEL_STRICT_NAMES
 static const int __USE_ANSI = 1;
 static const int __GNUC_PREREQ(maj,min) = ((__GNUC__ << 16) + __GNUC_MINOR__ >= ((maj) << 16) + (min));
 static const int _BSD_SOURCE = 1;
@@ -259,12 +234,9 @@ static const int __USE_POSIX2 = 1;
 static const int __USE_POSIX199309 = 1;
 static const int __USE_POSIX199506 = 1;
 static const int __USE_XOPEN2K = 1;
-#undef __USE_ISOC95
 static const int __USE_ISOC95 = 1;
-#undef __USE_ISOC99
 static const int __USE_ISOC99 = 1;
 static const int __USE_XOPEN2K8 = 1;
-#undef _ATFILE_SOURCE
 static const int _ATFILE_SOURCE = 1;
 static const int __USE_MISC = 1;
 static const int __USE_BSD = 1;
@@ -274,15 +246,12 @@ static const int __USE_FORTIFY_LEVEL = 0;
 static const int __STDC_IEC_559__ = 1;
 static const int __STDC_IEC_559_COMPLEX__ = 1;
 static const long __STDC_ISO_10646__ = 200009L;
-#undef __GNU_LIBRARY__
 static const int __GNU_LIBRARY__ = 6;
 static const int __GLIBC__ = 2;
 static const int __GLIBC_MINOR__ = 15;
 static const int __GLIBC_PREREQ(maj,min) = ((__GLIBC__ << 16) + __GLIBC_MINOR__ >= ((maj) << 16) + (min));
 static const int __GLIBC_HAVE_LONG_LONG = 1;
 static const int _SYS_CDEFS_H = 1;
-#undef __P
-#undef __PMT
 static const int __LEAF = , __leaf__;
 static const int __LEAF_ATTR = __attribute__ ((__leaf__));
 static const int __THROW = __attribute__ ((__nothrow__ __LEAF));
@@ -329,6 +298,7 @@ static const int __LDBL_REDIR_NTH(name,proto) = name proto __THROW;
 static const int __REDIRECT_LDBL(name,proto,alias) = __REDIRECT (name, proto, alias);
 static const int __REDIRECT_NTH_LDBL(name,proto,alias) = __REDIRECT_NTH (name, proto, alias);
 static const int __WORDSIZE = 32;
+static const int _BITS_IPCTYPES_H = 1;
 static const int _BITS_TYPES_H = 1;
 static const int __WORDSIZE = 32;
 typedef unsigned char __u_char;
@@ -429,265 +399,30 @@ typedef __quad_t *__qaddr_t;
 typedef char *__caddr_t;
 __extension__ typedef int __intptr_t;
 __extension__ typedef unsigned int __socklen_t;
-#undef __STD_TYPE
-typedef __u_char u_char;
-typedef __u_short u_short;
-typedef __u_int u_int;
-typedef __u_long u_long;
-typedef __quad_t quad_t;
-typedef __u_quad_t u_quad_t;
-typedef __fsid_t fsid_t;
-typedef __loff_t loff_t;
-typedef __ino_t ino_t;
-typedef __dev_t dev_t;
+typedef unsigned short int __ipc_pid_t;
+static const int IPC_CREAT = 01000;
+static const int IPC_EXCL = 02000;
+static const int IPC_NOWAIT = 04000;
+static const int IPC_RMID = 0;
+static const int IPC_SET = 1;
+static const int IPC_STAT = 2;
+static const int IPC_PRIVATE = ((__key_t) 0);
+struct ipc_perm
+  {
+    __key_t __key;
+    __uid_t uid;
+    __gid_t gid;
+    __uid_t cuid;
+    __gid_t cgid;
+    unsigned short int mode;
+    unsigned short int __pad1;
+    unsigned short int __seq;
+    unsigned short int __pad2;
+    unsigned long int __unused1;
+    unsigned long int __unused2;
+  };
+typedef __uid_t uid_t;
 typedef __gid_t gid_t;
 typedef __mode_t mode_t;
-typedef __nlink_t nlink_t;
-typedef __uid_t uid_t;
-typedef __off_t off_t;
-typedef __pid_t pid_t;
-typedef __id_t id_t;
-typedef __ssize_t ssize_t;
-typedef __daddr_t daddr_t;
-typedef __caddr_t caddr_t;
 typedef __key_t key_t;
-static const int __clock_t_defined = 1;
-typedef __clock_t clock_t;
-#undef __need_clock_t
-static const int __time_t_defined = 1;
-typedef __time_t time_t;
-#undef __need_time_t
-static const int __clockid_t_defined = 1;
-typedef __clockid_t clockid_t;
-#undef __clockid_time_t
-static const int __timer_t_defined = 1;
-typedef __timer_t timer_t;
-#undef __need_timer_t
-#undef __need_timespec
-typedef unsigned int size_t;
-#undef __need_size_t
-#undef __need_NULL
-typedef unsigned long int ulong;
-typedef unsigned short int ushort;
-typedef unsigned int uint;
-static const int __intN_t(N,MODE) = typedef int int ##N ##_t __attribute__ ((__mode__ (MODE)));
-static const int __u_intN_t(N,MODE) = typedef unsigned int u_int ##N ##_t __attribute__ ((__mode__ (MODE)));
-typedef int int8_t __attribute__ ((__mode__ (__QI__)));
-typedef int int16_t __attribute__ ((__mode__ (__HI__)));
-typedef int int32_t __attribute__ ((__mode__ (__SI__)));
-typedef int int64_t __attribute__ ((__mode__ (__DI__)));
-typedef unsigned int u_int8_t __attribute__ ((__mode__ (__QI__)));
-typedef unsigned int u_int16_t __attribute__ ((__mode__ (__HI__)));
-typedef unsigned int u_int32_t __attribute__ ((__mode__ (__SI__)));
-typedef unsigned int u_int64_t __attribute__ ((__mode__ (__DI__)));
-typedef int register_t __attribute__ ((__mode__ (__word__)));
-static const int __BIT_TYPES_DEFINED__ = 1;
-static const int _ENDIAN_H = 1;
-static const int __LITTLE_ENDIAN = 1234;
-static const int __BIG_ENDIAN = 4321;
-static const int __PDP_ENDIAN = 3412;
-static const int __BYTE_ORDER = __LITTLE_ENDIAN;
-static const int __FLOAT_WORD_ORDER = __BYTE_ORDER;
-static const int LITTLE_ENDIAN = __LITTLE_ENDIAN;
-static const int BIG_ENDIAN = __BIG_ENDIAN;
-static const int PDP_ENDIAN = __PDP_ENDIAN;
-static const int BYTE_ORDER = __BYTE_ORDER;
-static const int __LONG_LONG_PAIR(HI,LO) = LO, HI;
-static const int _BITS_BYTESWAP_H = 1;
-static const int __bswap_constant_16(x) = ((unsigned short int) ((((x) >> 8) & 0xff) | (((x) & 0xff) << 8)));
-static const int __bswap_16(x) = (__extension__ ({ register unsigned short int __v, __x = (unsigned short int) (x); if (__builtin_constant_p (__x)) __v = __bswap_constant_16 (__x); else __asm__ ("rorw $8, %w0" : "=r" (__v) : "0" (__x) : "cc"); __v; }));
-static const int __bswap_constant_32(x) = ((((x) & 0xff000000) >> 24) | (((x) & 0x00ff0000) >> 8) | (((x) & 0x0000ff00) << 8) | (((x) & 0x000000ff) << 24));
-static const int __bswap_32(x) = (__extension__ ({ register unsigned int __v, __x = (x); if (__builtin_constant_p (__x)) __v = __bswap_constant_32 (__x); else __asm__ ("bswap %0" : "=r" (__v) : "0" (__x)); __v; }));
-static const int __bswap_constant_64(x) = (__extension__ ((((x) & 0xff00000000000000ull) >> 56) | (((x) & 0x00ff000000000000ull) >> 40) | (((x) & 0x0000ff0000000000ull) >> 24) | (((x) & 0x000000ff00000000ull) >> 8) | (((x) & 0x00000000ff000000ull) << 8) | (((x) & 0x0000000000ff0000ull) << 24) | (((x) & 0x000000000000ff00ull) << 40) | (((x) & 0x00000000000000ffull) << 56)));
-static const int __bswap_64(x) = (__extension__ ({ union { __extension__ unsigned long long int __ll; unsigned long int __l[2]; } __w, __r; if (__builtin_constant_p (x)) __r.__ll = __bswap_constant_64 (x); else { __w.__ll = (x); __r.__l[0] = __bswap_32 (__w.__l[1]); __r.__l[1] = __bswap_32 (__w.__l[0]); } __r.__ll; }));
-static const int htobe16(x) = __bswap_16 (x);
-static const int htole16(x) = (x);
-static const int be16toh(x) = __bswap_16 (x);
-static const int le16toh(x) = (x);
-static const int htobe32(x) = __bswap_32 (x);
-static const int htole32(x) = (x);
-static const int be32toh(x) = __bswap_32 (x);
-static const int le32toh(x) = (x);
-static const int htobe64(x) = __bswap_64 (x);
-static const int htole64(x) = (x);
-static const int be64toh(x) = __bswap_64 (x);
-static const int le64toh(x) = (x);
-static const int _SYS_SELECT_H = 1;
-static const int __FD_ZERO(fdsp) = do { int __d0, __d1; __asm__ __volatile__ ("cld; rep; stosl" : "=c" (__d0), "=D" (__d1) : "a" (0), "0" (sizeof (fd_set) / sizeof (__fd_mask)), "1" (&__FDS_BITS (fdsp)[0]) : "memory"); } while (0);
-static const int __FD_SET(d,set) = ((void) (__FDS_BITS (set)[__FD_ELT (d)] |= __FD_MASK (d)));
-static const int __FD_CLR(d,set) = ((void) (__FDS_BITS (set)[__FD_ELT (d)] &= ~__FD_MASK (d)));
-static const int __FD_ISSET(d,set) = ((__FDS_BITS (set)[__FD_ELT (d)] & __FD_MASK (d)) != 0);
-static const int _SIGSET_H_types = 1;
-typedef int __sig_atomic_t;
-static const int _SIGSET_NWORDS = (1024 / (8 * sizeof (unsigned long int)));
-typedef struct
-  {
-    unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
-  } __sigset_t;
-typedef __sigset_t sigset_t;
-#undef __need_clock_t
-#undef __need_time_t
-#undef __clockid_time_t
-#undef __need_timer_t
-static const int __timespec_defined = 1;
-struct timespec
-  {
-    __time_t tv_sec;
-    long int tv_nsec;
-  };
-#undef __need_timespec
-static const int _STRUCT_TIMEVAL = 1;
-struct timeval
-  {
-    __time_t tv_sec;
-    __suseconds_t tv_usec;
-  };
-#undef __need_timeval
-typedef __suseconds_t suseconds_t;
-typedef long int __fd_mask;
-#undef __NFDBITS
-static const int __NFDBITS = (8 * (int) sizeof (__fd_mask));
-static const int __FD_ELT(d) = ((d) / __NFDBITS);
-static const int __FD_MASK(d) = ((__fd_mask) 1 << ((d) % __NFDBITS));
-typedef struct
-  {
-    __fd_mask __fds_bits[1024 / (8 * (int) sizeof (__fd_mask))];
-static const int __FDS_BITS(set) = ((set)->__fds_bits);
-  } fd_set;
-static const int FD_SETSIZE = __FD_SETSIZE;
-typedef __fd_mask fd_mask;
-static const int NFDBITS = __NFDBITS;
-static const int FD_SET(fd,fdsetp) = __FD_SET (fd, fdsetp);
-static const int FD_CLR(fd,fdsetp) = __FD_CLR (fd, fdsetp);
-static const int FD_ISSET(fd,fdsetp) = __FD_ISSET (fd, fdsetp);
-static const int FD_ZERO(fdsetp) = __FD_ZERO (fdsetp);
-extern int select (int __nfds, fd_set *__restrict __readfds,
-     fd_set *__restrict __writefds,
-     fd_set *__restrict __exceptfds,
-     struct timeval *__restrict __timeout);
-extern int pselect (int __nfds, fd_set *__restrict __readfds,
-      fd_set *__restrict __writefds,
-      fd_set *__restrict __exceptfds,
-      const struct timespec *__restrict __timeout,
-      const __sigset_t *__restrict __sigmask);
-static const int _SYS_SYSMACROS_H = 1;
-__extension__
-extern unsigned int gnu_dev_major (unsigned long long int __dev)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-__extension__
-extern unsigned int gnu_dev_minor (unsigned long long int __dev)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-__extension__
-extern unsigned long long int gnu_dev_makedev (unsigned int __major,
-            unsigned int __minor)
-     __attribute__ ((__nothrow__ , __leaf__)) __attribute__ ((__const__));
-static const int major(dev) = gnu_dev_major (dev);
-static const int minor(dev) = gnu_dev_minor (dev);
-static const int makedev(maj,min) = gnu_dev_makedev (maj, min);
-typedef __blksize_t blksize_t;
-typedef __blkcnt_t blkcnt_t;
-typedef __fsblkcnt_t fsblkcnt_t;
-typedef __fsfilcnt_t fsfilcnt_t;
-static const int _BITS_PTHREADTYPES_H = 1;
-static const int __SIZEOF_PTHREAD_ATTR_T = 36;
-static const int __SIZEOF_PTHREAD_MUTEX_T = 24;
-static const int __SIZEOF_PTHREAD_MUTEXATTR_T = 4;
-static const int __SIZEOF_PTHREAD_COND_T = 48;
-static const int __SIZEOF_PTHREAD_COND_COMPAT_T = 12;
-static const int __SIZEOF_PTHREAD_CONDATTR_T = 4;
-static const int __SIZEOF_PTHREAD_RWLOCK_T = 32;
-static const int __SIZEOF_PTHREAD_RWLOCKATTR_T = 8;
-static const int __SIZEOF_PTHREAD_BARRIER_T = 20;
-static const int __SIZEOF_PTHREAD_BARRIERATTR_T = 4;
-typedef unsigned long int pthread_t;
-typedef union
-{
-  char __size[36];
-  long int __align;
-} pthread_attr_t;
-typedef struct __pthread_internal_slist
-{
-  struct __pthread_internal_slist *__next;
-} __pthread_slist_t;
-typedef union
-{
-  struct __pthread_mutex_s
-  {
-    int __lock;
-    unsigned int __count;
-    int __owner;
-    int __kind;
-    unsigned int __nusers;
-    __extension__ union
-    {
-      int __spins;
-      __pthread_slist_t __list;
-    };
-  } __data;
-  char __size[24];
-  long int __align;
-} pthread_mutex_t;
-typedef union
-{
-  char __size[4];
-  long int __align;
-} pthread_mutexattr_t;
-typedef union
-{
-  struct
-  {
-    int __lock;
-    unsigned int __futex;
-    __extension__ unsigned long long int __total_seq;
-    __extension__ unsigned long long int __wakeup_seq;
-    __extension__ unsigned long long int __woken_seq;
-    void *__mutex;
-    unsigned int __nwaiters;
-    unsigned int __broadcast_seq;
-  } __data;
-  char __size[48];
-  __extension__ long long int __align;
-} pthread_cond_t;
-typedef union
-{
-  char __size[4];
-  long int __align;
-} pthread_condattr_t;
-typedef unsigned int pthread_key_t;
-typedef int pthread_once_t;
-typedef union
-{
-  struct
-  {
-    int __lock;
-    unsigned int __nr_readers;
-    unsigned int __readers_wakeup;
-    unsigned int __writer_wakeup;
-    unsigned int __nr_readers_queued;
-    unsigned int __nr_writers_queued;
-    unsigned char __flags;
-    unsigned char __shared;
-    unsigned char __pad1;
-    unsigned char __pad2;
-    int __writer;
-  } __data;
-  char __size[32];
-  long int __align;
-} pthread_rwlock_t;
-typedef union
-{
-  char __size[8];
-  long int __align;
-} pthread_rwlockattr_t;
-typedef volatile int pthread_spinlock_t;
-typedef union
-{
-  char __size[20];
-  long int __align;
-} pthread_barrier_t;
-typedef union
-{
-  char __size[4];
-  int __align;
-} pthread_barrierattr_t;
-static const int __cleanup_fct_attribute = __attribute__ ((__regparm__ (1)));
+extern key_t ftok (__const char *__pathname, int __proj_id) __attribute__ ((__nothrow__ , __leaf__));

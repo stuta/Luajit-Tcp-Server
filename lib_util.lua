@@ -39,6 +39,38 @@ function currentPath()
 	return currentPath
 end
 
+function readFile(file)
+	file = filePathFix(file)
+  io.input(file)
+	local fileData = io.read("*all")
+	io.close()
+	return fileData,file
+end
+
+function writeFile(file, data)
+	file = filePathFix(file)
+  io.output(file)
+	io.write(data)
+	io.close()
+	return file
+end
+
+function fileSize(bytes, decimals)
+		local decimals = decimals or 2
+		local ret = ""
+		if( bytes == 0 ) then
+			ret = "0 Bytes"
+		else
+    	local filesizename = {" Bytes", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB"}
+    	local factor = math.floor((string.len(tostring(bytes)) - 1) / 3)
+    	ret = format_num(bytes / math.pow(1024, factor), decimals, "")
+    	       -- no space or comma between int numbers
+    	       -- wo don't want "1 024" - we want "1024" because int part is never more than 4 numbers
+    	ret = ret .. filesizename[factor + 1]
+    end
+    return ret
+end
+
 -- common win + osx + linux: C-functions
 ffi.cdef([[
 	char * strerror ( int errnum );

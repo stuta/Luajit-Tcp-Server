@@ -2,9 +2,20 @@
 
 print()
 print(" -- ffi_def_create_headers.lua start -- ")
+if jit then
+	print(jit.version)
+else
+	print(_VERSION)
+end
 print()
 
 local arg = {...}
+local forceParse = false
+local noParse = false
+if arg[1] then
+	forceParse = arg[1] == "f"
+	noParse = arg[1] == "n"
+end
 
 local util = require "lib_util"
 local osname
@@ -12,7 +23,7 @@ if true then -- keep ffi valid only inside if to make ZeroBrane debugger work
 	local ffi = require("ffi")
 	osname = string.lower(ffi.os)
 end
---osname = "windows" -- for running in osx
+osname = "windows" -- for running in osx
 
 local timeUsed = util.seconds()
 
@@ -21,14 +32,15 @@ local copy_commad = "cp "
 local preprocessor_commad = "gcc -E -P -dD "  -- -dD  -C = leave comments
 if util.isWin then
 	copy_commad = "copy "
-	preprocessor_commad = "mingw32-gcc.exe -E -P -dD " --  -dD 
+	--preprocessor_commad = "mingw32-gcc.exe -E -P " --  -dD 
+	preprocessor_commad = "CL /EP " --  -dD 
 end
 
 local target_path = "c_include/"..osname.."/"
 local sourcepaths = {
-	["windows"] = "C:/MinGW/include/", 
-	["windows2"] = "C:/Program Files (x86)/Microsoft SDKs/Windows/v7.0A/Include/", 
-	--["windows2"] = "C:/Program Files (x86)/Microsoft Visual Studio 10.0/VC/include/",
+	--["windows"] = "C:/MinGW/include/", 
+	["windows"] = "C:/Program Files (x86)/Microsoft SDKs/Windows/v7.0A/Include/", 
+	["windows2"] = "C:/Program Files (x86)/Microsoft Visual Studio 10.0/VC/include/",
 	["osx"] = "/usr/include/",
 	["linux"] = "/usr/include/",
 	["linux2"] = "/usr/include/i386-linux-gnu/"
@@ -100,100 +112,121 @@ for file in sourcefile:gmatch("[^\r\n]+") do
 			os.execute(cmd)
 		end
 		
+		local parse = false
 		local destpath = target_path..destfile
 		if not util.file_exists(destpath) then
 			local cmd = preprocessor_commad..copypath.." > "..destpath
 			print(cmd)
 			os.execute(cmd)
+			parse = true
+			filecount = filecount + 1
+		end
+		
+		if not util.file_exists(destpath) then
+			print("*** file creation failed: "..destpath)
+		elseif (parse or forceParse) and not noParse then
+			local filecomment = "\n\n// *** "..filecount..". "..file.." ***\n"
+			codeall = codeall..filecomment
 			
-			if not util.file_exists(destpath) then
-				print("*** file creation failed: "..destpath)
-			else
-				filecount = filecount + 1
-				local filecomment = "\n\n// *** "..filecount..". "..file.." ***\n"
-				codeall = codeall..filecomment
+			io.input(destpath)
+			local code = io.read("*all")
+			io.input():close()
+			--code = code:gsub("(\n/%*).-(%*/)", "\n\n") -- leave inline comments, delete blocks
+			--code = code:gsub("\n\n", "")
+			--code = code:gsub("\r\n", "\n") -- does not work?
+			
+			print(destpath)
+			local crlfLen = #code
+			code = code:gsub("\r\n", "\n") 
+			code = code:gsub("\n\n", "\n")
+			local _,linecount = code:gsub("\n", ".")
+			print("  ... empty lines removed: "..util.format_num(crlfLen - #code, 0)..", size: "..util.fileSize(#code, 2))
+			_ = nil -- release memory
+			collectgarbage()
+			print("  ... linecount: "..util.format_num(linecount, 0))
 				
-				io.input(destpath)
-				local code = io.read("*all")
-				io.input():close()
-				--code = code:gsub("(\n/%*).-(%*/)", "\n\n") -- leave inline comments, delete blocks
-				--code = code:gsub("\n\n", "")
-				--code = code:gsub("\r\n", "\n") -- does not work?
-				print("  ... code length: "..#code)
-					
-				local codeout = ""
-				for line in code:gmatch("[^\r\n]+") do
-					local is_define = false
-					if util.string_starts(line, "#define ") then
-						is_define = true
-						line = line:sub(define_pos)
-						local s,e = line:find(" ")
-						local value = line:sub(e + 1)
-						if value == "" then
-							line = ""
+			local codeout = ""
+			local i = 0
+			for line in code:gmatch("[^\r\n]+") do
+				i = i + 1
+				if i%5000 == 0 then
+					print("  ... line: "..util.format_num(i, 0).." / "..util.format_num(linecount, 0))
+				end
+				local is_define = false
+				if util.string_starts(line, "#define ") then
+					is_define = true
+					line = line:sub(define_pos)
+					local s,e = line:find(" ")
+					local value = line:sub(e + 1)
+					if value == "" then
+						line = ""
+					else
+						local name = line:sub(1, s - 1)
+						if value:match('".*%"$') then
+							line = "static const char "..name.." = "..value..";"
+						elseif value:match(".*%dL$") then
+							line = "static const long "..name.." = "..value..";"
+						elseif value:match(".*%dLL$") then
+							line = "static const long long "..name.." = "..value..";"
+						elseif value:match(".*%dF$") then
+							line = "static const double "..name.." = "..value..";" -- float
+						elseif value:match(".*%dDF$") then
+							line = "static const double "..name.." = "..value..";"
+						elseif value:match(".*%dDD$") then
+							line = "static const double "..name.." = "..value..";"
+						elseif value:match(".*%dDL$") then
+							line = "static const long double "..name.." = "..value..";"
+						elseif value:match("%d%.%d") then
+							line = "static const double "..name.." = "..value..";"
 						else
-							local name = line:sub(1, s - 1)
-							if value:match('".*%"$') then
-								line = "static const char "..name.." = "..value..";"
-							elseif value:match(".*%dL$") then
-								line = "static const long "..name.." = "..value..";"
-							elseif value:match(".*%dLL$") then
-								line = "static const long long "..name.." = "..value..";"
-							elseif value:match(".*%dF$") then
-								line = "static const double "..name.." = "..value..";" -- float
-							elseif value:match(".*%dDF$") then
-								line = "static const double "..name.." = "..value..";"
-							elseif value:match(".*%dDD$") then
-								line = "static const double "..name.." = "..value..";"
-							elseif value:match(".*%dDL$") then
-								line = "static const long double "..name.." = "..value..";"
-							elseif value:match("%d%.%d") then
-								line = "static const double "..name.." = "..value..";"
-							else
-								line = "static const int "..name.." = "..value..";"
-							end
-						end
-					end
-					
-					if line ~= "" and line:find("#undef") ~= 1 then
-						codeout = codeout..line.."\n"
-						if is_define then
-							if not code_define[line] then
-								line_all = line_all + 1
-								code_define[line] = line_all
-								codeall = codeall..line.."\n"
-							end
-						else
-							codeall = codeall..line.."\n"
+							line = "static const int "..name.." = "..value..";"
 						end
 					end
 				end
 				
-				
-				local crlfLen = #codeout
-				--codeout = codeout:gsub("\r\n", "\n") -- does not work?
-				print("  ... cr count removed: "..(#codeout - crlfLen)..", length: "..#codeout)
-				print()
-				local out = io.open(destpath, "wb")
-				out:write(codeout)
-				out:close()
+				if line ~= "" and not line:find("^%s+$") and line ~= "\n" and line:find("#undef") ~= 1 then
+					codeout = codeout..line.."\n"
+					if is_define then
+						if not code_define[line] then
+							line_all = line_all + 1
+							code_define[line] = line_all
+							codeall = codeall..line.."\n"
+						end
+					else
+						codeall = codeall..line.."\n"
+					end
+				end
 			end
+			
+			print("  ... final size: "..util.fileSize(#codeout, 2))
+			print()
+			local out = io.open(destpath, "wb")
+			out:write(codeout)
+			out:close()
 		end
 		
 	end
 end
 
---code_define = util.table_invert(code_define)
---codeall = table.concat(code_define, "\n")
-io.output(target_path.."ffi_types.h")
-io.write(codeall)
-io.output():close()
+if codeall ~= "" then
+	--code_define = util.table_invert(code_define)
+	--codeall = table.concat(code_define, "\n")
+	io.output(target_path.."ffi_types.h")
+	io.write(codeall)
+	io.output():close()
+	filecount = filecount + 1
+end
 
 timeUsed = util.seconds(timeUsed)
 print()
-print("created: "..(filecount + 1).." files in "..util.format_num(timeUsed, 3).." seconds")
+print("created: "..(filecount).." files in "..util.format_num(timeUsed, 3).." seconds")
 
 print()
+if jit then
+	print(jit.version)
+else
+	print(_VERSION)
+end
 print(" -- ffi_def_create_headers.lua end -- ")
 print()
 

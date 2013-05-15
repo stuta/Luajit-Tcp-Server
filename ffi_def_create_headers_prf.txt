@@ -1,16 +1,13 @@
+
 sourcefiles = {
 	["windows"] = [[
-#include <windows.h>
-#include <winsock2.h>
-#include <ws2tcpip.h>
 #include <stdlib.h>
 #include <stdio.h>
-
-#include <Ws2tcpip.h>
-#include <ws2def.h>
 #include <sys/types.h>
-
 #include <time.h>
+#include <ws2def.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
 ]],
 
 	["osx"] = [[
@@ -41,20 +38,19 @@ sourcefiles = {
 
 	["linux"] = [[
 // #include <c++/4.7/iostream>
-
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <i386-linux-gnu/sys/types.h>
+#include <sys/types.h>
 // event.h is osx only kevent
-#include <i386-linux-gnu/sys/mman.h>
-#include <i386-linux-gnu/sys/socket.h>
-#include <i386-linux-gnu/sys/ipc.h>
-#include <i386-linux-gnu/sys/shm.h>
-#include <i386-linux-gnu/sys/time.h>
-#include <i386-linux-gnu/sys/poll.h>
+#include <sys/mman.h>
+#include <sys/socket.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <sys/time.h>
+#include <sys/poll.h>
 #include <time.h>
 #include <netinet/in.h>
 #include <netinet/tcp.h>
@@ -66,3 +62,36 @@ sourcefiles = {
 // #include <c++/4.7/string>
 ]],
 }
+
+--[[
+// http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx
+#include <IntSafe.h>
+#include <windef.h>
+#include <basetsd.h>
+#include <Ddeml.h>
+#include <ShellApi.h>
+#include <winuser.h>
+#include <winnt.h>
+#include <winnls.h>
+#include <winsvc.h>
+#include <Winternl.h>
+
+#include <windows.h>
+#include <Mswsock.h>
+
+// win
+#include <specstrings.h>
+#include <pshpack2.h>
+#include <poppack.h>
+#include <winerror.h>
+#include <pshpack4.h>
+#include <wincon.h>
+#include <winbase.h>
+#include <wingdi.h>
+#include <winver.h>
+#include <winnetwk.h>
+#include <winreg.h>
+#include <cderr.h>
+#include <dde.h>
+#include <dlgs.h>
+]]

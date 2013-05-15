@@ -1,20 +1,9 @@
---  ffi_def_win.lua
+-- ffi_def_windows.lua
 module(..., package.seeall)
-
 local ffi = require "ffi"
-require "win_socket"
-local bit = require "bit"
-local bor = bit.bor
-local lshift = bit.lshift
-
---[[
-https://github.com/Wiladams/BanateCoreWin32
-https://github.com/Wiladams/LJIT2Win32/blob/master/WinBase.lua
-https://github.com/Wiladams/LJIT2Win32/blob/master/win_socket.lua
-]]
-
 -- Lua state - creating a new Lua state to a new thread
 ffi.cdef[[
+	// lua.h
 	static const int LUA_GCSTOP		= 0;
 	static const int LUA_GCRESTART		= 1;
 	static const int LUA_GCCOLLECT		= 2;
@@ -24,9 +13,7 @@ ffi.cdef[[
 	static const int LUA_GCSETPAUSE		= 6;
 	static const int LUA_GCSETSTEPMUL	= 7;
 	static const int LUA_GLOBALSINDEX = -10002;
-
 	typedef struct lua_State lua_State;
-
 	int (lua_gc) (lua_State *L, int what, int data);
 	lua_State *luaL_newstate(void);
 	void luaL_openlibs(lua_State *L);
@@ -37,343 +24,405 @@ ffi.cdef[[
 	ptrdiff_t lua_tointeger(lua_State *L, int index);
 	void lua_settop(lua_State *L, int index);
 ]]
-
 ffi.cdef[[
-	// Windows
-	// win basic structures and defines
-	static const DWORD STD_INPUT_HANDLE = -10; 	//#define STD_INPUT_HANDLE    (DWORD)-10
-	static const DWORD STD_OUTPUT_HANDLE = -11;	// #define STD_OUTPUT_HANDLE   (DWORD)-11
-	static const DWORD STD_ERROR_HANDLE = -12;	// #define STD_ERROR_HANDLE    (DWORD)-12
+	// handmade basic types
+	// http://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx
 
-	static const int ENABLE_PROCESSED_INPUT = 0x0001;	// #define ENABLE_ECHO_INPUT       0x0004
-	static const int ENABLE_LINE_INPUT 			= 0x0002;	// #define ENABLE_LINE_INPUT       0x0002
-	static const int ENABLE_ECHO_INPUT 			= 0x0004;	// #define ENABLE_ECHO_INPUT       0x0004
-
-]]
-
--- system functions
-ffi.cdef[[
-	typedef struct _SYSTEM_INFO {
-		union {
-			DWORD  dwOemId;
-			struct {
-				WORD wProcessorArchitecture;
-				WORD wReserved;
-			};
-		};
-		DWORD     dwPageSize;
-		LPVOID    lpMinimumApplicationAddress;
-		LPVOID    lpMaximumApplicationAddress;
-		DWORD_PTR dwActiveProcessorMask;
-		DWORD     dwNumberOfProcessors;
-		DWORD     dwProcessorType;
-		DWORD     dwAllocationGranularity;
-		WORD      wProcessorLevel;
-		WORD      wProcessorRevision;
-	} SYSTEM_INFO, *LPSYSTEM_INFO;
-
-/*
-	typedef struct _SYSTEM_INFO {
-		DWORD dwPageSize;
-	} SYSTEM_INFO, *LPSYSTEM_INFO;
-*/
-	void GetSystemInfo( LPSYSTEM_INFO lpSystemInfo );
-]]
-
-ffi.cdef[[
-	// Windows
-	// win basic functions
-  // void *realloc(void *memblock, size_t size);
-
-	BOOL QueryPerformanceFrequency(int64_t *lpFrequency);
-	BOOL QueryPerformanceCounter(int64_t *lpPerformanceCount);
-
-	int MultiByteToWideChar(UINT CodePage,
-			DWORD    dwFlags,
-			LPCSTR   lpMultiByteStr, int cbMultiByte,
-			LPWSTR  lpWideCharStr, int cchWideChar);
-	int WideCharToMultiByte(UINT CodePage,
-			DWORD    dwFlags,
-			LPCWSTR  lpWideCharStr, int cchWideChar,
-			LPSTR   lpMultiByteStr, int cbMultiByte,
-			LPCSTR   lpDefaultChar,
-			LPBOOL  lpUsedDefaultChar);
-	HANDLE GetStdHandle(
-    DWORD nStdHandle // _In_
-	);
-	BOOL GetConsoleMode(
-    HANDLE hConsoleHandle, // _In_
-    LPDWORD lpMode // _Out_
-	);
-	BOOL SetConsoleMode(
-		HANDLE hConsoleHandle, // _In_
-		DWORD dwMode // _In_
-	);
-	BOOL ReadConsoleA(
-		HANDLE hConsoleInput, // _In_
-		LPVOID lpBuffer, // _Out_
-		DWORD nNumberOfCharsToRead, // _In_
-		LPDWORD lpNumberOfCharsRead, // _Out_
-		LPVOID pInputControl // _In_opt_
-	);
-	void 	Sleep(int ms); // win sleep
-	bool  SwitchToThread(void); // win yield
-	DWORD GetLastError(void);
-]]
-
--- shared_mem.lua
-ffi.cdef[[
-	HANDLE CreateFileA(
-		LPCTSTR lpFileName, //
-		DWORD dwDesiredAccess, //
-		DWORD dwShareMode, //
-		LPSECURITY_ATTRIBUTES lpSecurityAttributes, // _In_opt_
-		DWORD dwCreationDisposition, //
-		DWORD dwFlagsAndAttributes, //
-		HANDLE hTemplateFile // _In_opt_
-	);
-
-	HANDLE CreateFileMappingA(
-	  HANDLE               hFile,
-  	SECURITY_ATTRIBUTES* sa,
-  	DWORD                protect,
-  	DWORD                size_high,
-  	DWORD                size_low,
-  	LPCSTR               name
-	 );
-
-	HANDLE OpenFileMappingA(
-		DWORD dwDesiredAccess, // _In_
-		BOOL bInheritHandle, // _In_
-		LPCTSTR lpName // _In_
-	);
-
- 	/* not in use
-	BOOL DeleteFileA(LPCTSTR lpFileName);
-
-	HANDLE CreateFile(
-		LPCTSTR lpFileName, //
-		DWORD dwDesiredAccess, //
-		DWORD dwShareMode, //
-		LPSECURITY_ATTRIBUTES lpSecurityAttributes, // _In_opt_
-		DWORD dwCreationDisposition, //
-		DWORD dwFlagsAndAttributes, //
-		HANDLE hTemplateFile // _In_opt_
-	);
-	HANDLE CreateFileMapping(
-		HANDLE hFile, // _In_
-		LPSECURITY_ATTRIBUTES lpAttributes, // _In_opt_
-		DWORD flProtect, // _In_
-		DWORD dwMaximumSizeHigh, // _In_
-		DWORD dwMaximumSizeLow, // _In_
-		LPCTSTR lpName // _In_opt_
-	);
-	HANDLE CreateFileW ( // http://source.winehq.org/WineAPI/CreateFileW.html
-		LPCWSTR               filename,
-		DWORD                 access,
-		DWORD                 sharing,
-		LPSECURITY_ATTRIBUTES sa,
-		DWORD                 creation,
-		DWORD                 attributes,
-		HANDLE                template
-	 );
-
-	*/
-
-	LPVOID MapViewOfFile(
-    HANDLE hFileMappingObject, // _In_
-    DWORD dwDesiredAccess, // _In_
-    DWORD dwFileOffsetHigh, // _In_
-    DWORD dwFileOffsetLow, // _In_
-    SIZE_T dwNumberOfBytesToMap // _In_
-	);
-	BOOL UnmapViewOfFile(
-    LPCVOID lpBaseAddress // _In_
-	);
-	BOOL CloseHandle(
-  	HANDLE hObject // _In_
-	);
-	DWORD GetFileSize(
-  	HANDLE hFile, // _In_
-  	LPDWORD lpFileSizeHigh // _Out_opt_
-	);
-]]
-
---  thread.lua
-ffi.cdef[[
-		static const int INFINITE = 0xFFFFFFFF;
-]]
---[[ffi.cdef[ [
-	// Windows
-	// https://github.com/Wiladams/BanateCoreWin32/blob/master/win_kernel32.lua
-	HMODULE GetModuleHandleA(LPCSTR lpModuleName);
-	BOOL CloseHandle(HANDLE hObject);
-	HANDLE CreateEventA(LPSECURITY_ATTRIBUTES lpEventAttributes,
-			BOOL bManualReset, BOOL bInitialState, LPCSTR lpName);
-	HANDLE CreateIoCompletionPort(HANDLE FileHandle,
-		HANDLE ExistingCompletionPort,
-		ULONG_PTR CompletionKey,
-		DWORD NumberOfConcurrentThreads);
-	HANDLE CreateThread(
-		LPSECURITY_ATTRIBUTES lpThreadAttributes,
-		size_t dwStackSize,
-		LPTHREAD_START_ROUTINE lpStartAddress,
-		LPVOID lpParameter,
-		DWORD dwCreationFlags,
-		LPDWORD lpThreadId);
-	DWORD ResumeThread(HANDLE hThread);
-	BOOL SwitchToThread(void);
-	DWORD SuspendThread(HANDLE hThread);
-	void * GetProcAddress(HMODULE hModule, LPCSTR lpProcName);
-	// DWORD QueueUserAPC(PAPCFUNC pfnAPC, HANDLE hThread, ULONG_PTR dwData);
-]]
-
-
--- socket.lua
--- copied from: https://github.com/hnakamur/luajit-examples/blob/master/socket/cdef/socket.lua
-ffi.cdef[[
-	// these are defined in win_socket.lua, but inside structures
-	static const int IPPROTO_IP				= 0;		// dummy for IP
-	static const int IPPROTO_TCP			= 6;		// tcp
-	static const int IPPROTO_UDP			= 17;		// user datagram protocol
-
-	static const int SOCK_STREAM     = 1;    // stream socket
-	static const int SOCK_DGRAM      = 2;    // datagram socket
-
-	static const int AF_UNSPEC 		= 0;          // unspecified
-	static const int AF_UNIX 			= 1;          // local to host (pipes, portals)
-	static const int AF_INET 			= 2;          // internetwork: UDP, TCP, etc.
-
-	static const unsigned long INADDR_ANY             = 0x00000000;
-	static const unsigned long INADDR_BROADCAST       = 0xffffffff;
-	static const int INADDR_LOOPBACK        = 0x7f000001;
-	static const int INADDR_NONE            = 0xffffffff;
-
-	/* options for socket level */
-	static const int SOL_SOCKET 	= 0xffff;
-
-	/* Option flags per-socket. */
-	static const int SO_DEBUG        = 0x0001;          /* turn on debugging info recording */
-	static const int SO_ACCEPTCONN   = 0x0002;          /* socket has had listen() */
-	static const int SO_REUSEADDR    = 0x0004;          /* allow local address reuse */
-	static const int SO_KEEPALIVE    = 0x0008;          /* keep connections alive */
-	static const int SO_DONTROUTE    = 0x0010;          /* just use interface addresses */
-	static const int SO_BROADCAST    = 0x0020;          /* permit sending of broadcast msgs */
-	static const int SO_USELOOPBACK  = 0x0040;          /* bypass hardware when possible */
-	static const int SO_LINGER       = 0x0080;          /* linger on close if data present */
-	static const int SO_OOBINLINE    = 0x0100;          /* leave received OOB data in line */
-	static const int SO_DONTLINGER   			= (int)(~SO_LINGER);
-	static const int SO_EXCLUSIVEADDRUSE 	= ((int)(~SO_REUSEADDR)); /* disallow local address reuse */
-
-	// Additional options.
-	static const int SO_SNDBUF     =  0x1001;         // send buffer size
-	static const int SO_RCVBUF     =  0x1002;         // receive buffer size
-	static const int SO_SNDLOWAT   =  0x1003;         // send low-water mark
-	static const int SO_RCVLOWAT   =  0x1004;         // receive low-water mark
-	static const int SO_SNDTIMEO   =  0x1005;         // send timeout
-	static const int SO_RCVTIMEO   =  0x1006;         // receive timeout
-	static const int SO_ERROR      =  0x1007;         // get error status and clear
-	static const int SO_TYPE       =  0x1008;         // get socket type
-	// defined in win_socket.lua: static const int SO_CONNECT_TIME = 0x700C;				// Connection Time
-
-
-	static const int INET6_ADDRSTRLEN	= 46;
-	static const int INET_ADDRSTRLEN	= 16;
-
-	static const int TCP_NODELAY     = 0x0001;
-	static const int TCP_KEEPALIVE 	= 0x0003;
-	static const int TCP_BSDURGENT   = 0x7000;
-
-	// Event flag definitions for WSAPoll().
-	static const int POLLRDNORM  = 0x0100;
-	static const int POLLRDBAND  = 0x0200;
-	static const int POLLIN      = (POLLRDNORM | POLLRDBAND);
-	static const int POLLPRI     = 0x0400;
-
-	static const int POLLWRNORM  = 0x0010;
-	static const int POLLOUT     = POLLWRNORM;
-	static const int POLLWRBAND  = 0x0020;
-
-	static const int POLLERR     = 0x0001;
-	static const int POLLHUP     = 0x0002;
-	static const int POLLNVAL    = 0x0004;
-
-	// end win_socket.lua redefines
-]]
-
-ffi.cdef[[
-	// Constants for getaddrinfo()
-	static const int AI_PASSIVE                  =0x00000001;
-		// get address to use bind(), Socket address will be used in bind() call
-	static const int AI_CANONNAME                =0x00000002;
-		//fill ai_canonname, Return canonical name in first ai_canonname
-	static const int AI_NUMERICHOST              =0x00000004;
-		// prevent host name resolution, Nodename must be a numeric address string
-	static const int AI_NUMERICSERV              =0x00000008;
-		// prevent service name resolution, Servicename must be a numeric port number
-
-	static const int AI_ALL		= 0x00000100; /* IPv6 and IPv4-mapped (with AI_V4MAPPED) */
-	// static const int AI_V4MAPPED_CFG	= 0x00000200; /* accept IPv4-mapped if kernel supports */
-	static const int AI_ADDRCONFIG	= 0x00000400; /* only if any address is assigned */
-	static const int AI_V4MAPPED	= 0x00000800; /* accept IPv4-mapped IPv6 address */
-		// special recommended flags for getipnodebyname
-	// static const int AI_DEFAULT	= (AI_V4MAPPED_CFG | AI_ADDRCONFIG);
-	// static const int AI_MASK = (AI_PASSIVE | AI_CANONNAME | AI_NUMERICHOST | AI_NUMERICSERV | AI_ADDRCONFIG);
-
-	// Constants for getnameinfo()
-	static const int NI_MAXHOST = 1025;
-	static const int NI_MAXSERV = 32;
-
-	// Flag values for getnameinfo()
-	static const int NI_NOFQDN			= 0x00000001;
-	static const int NI_NUMERICHOST	= 0x00000002;
-	static const int NI_NAMEREQD		= 0x00000004;
-	static const int NI_NUMERICSERV	= 0x00000008;
-	static const int NI_DGRAM				= 0x00000010;
-	static const int NI_WITHSCOPEID	= 0x00000020;
-
-	static const int 		FORMAT_MESSAGE_FROM_SYSTEM = 0x00001000;
-	static const int 		FORMAT_MESSAGE_IGNORE_INSERTS = 0x00000200;
-
-	static const int SD_RECEIVE = 0; // Shutdown receive operations.
-	static const int SD_SEND 		= 1; // Shutdown send operations.
-	static const int SD_BOTH 		= 2; // Shutdown both send and receive operations.
-
-	typedef uint32_t socklen_t;
-	typedef uint16_t in_port_t;
-	typedef unsigned short int sa_family_t;
-	typedef uint32_t in_addr_t;
+	typedef unsigned short WORD;
+	typedef unsigned long DWORD;
+	typedef int INT;
+	typedef long LONG;
+	typedef void *HANDLE;
+	typedef int WINBOOL,*PWINBOOL,*LPWINBOOL;
+	typedef void *PVOID,*LPVOID;
+	typedef WINBOOL BOOL;
 
 	// Basic system type definitions, taken from the BSD file sys/types.h.
 	typedef unsigned char   u_char;
 	typedef unsigned short  u_short;
 	typedef unsigned int    u_int;
 	typedef unsigned long   u_long;
+]]
+ffi.cdef[[
+	// bad on ugly define macros, done by hand
+	// bad order of generated calls
+]]
+-- everything above will stay, below will be generated --
+-- ******************** --
+-- generated code start --
 
-	// methods
-	int getnameinfo(
-		const struct sockaddr  *sa, // _In_ FAR
-		socklen_t salen, // _In_
-		char  *host, // _Out_ FAR
-		DWORD hostlen, // _In_
-		char  *serv, // _Out_ FAR
-		DWORD servlen, // _In_
-		int flags // _In_
-	);
-	int getpeername(
-		SOCKET s, //   _In_
-		struct sockaddr *name, //   _Out_
-		int *namelen //   _Inout_
-	);
+--[[ lib_date_time.lua ]]
+ffi.cdef[[
+	DWORD time;
+]]
 
-	DWORD FormatMessageA(
-		DWORD dwFlags, // _In_
-    LPCVOID lpSource, // _In_opt_
-    DWORD dwMessageId, // _In_
-		DWORD dwLanguageId, // _In_
-		LPTSTR lpBuffer, // _Out_
- 		DWORD nSize, // _In_
-    va_list *Arguments // _In_opt_
-	);
-	int WSACleanup(void);
+--[[ lib_http.lua ]]
+--[[ lib_kqueue.lua ]]
+--[[ lib_poll.lua ]]
+ffi.cdef[[
+	void  free (void*);
+	void*  realloc (void*, size_t);
+]]
+
+--[[ lib_shared_memory.lua ]]
+ffi.cdef[[
+	typedef const CHAR *LPCCH,*PCSTR,*LPCSTR;
+	typedef const void *PCVOID,*LPCVOID;
+	typedef struct _SECURITY_ATTRIBUTES {
+	 DWORD nLength;
+	 LPVOID lpSecurityDescriptor;
+	 BOOL bInheritHandle;
+	} SECURITY_ATTRIBUTES,*PSECURITY_ATTRIBUTES,*LPSECURITY_ATTRIBUTES;
+
+	BOOL  CloseHandle(HANDLE);
+	HANDLE  CreateFileMappingA(HANDLE,LPSECURITY_ATTRIBUTES,DWORD,DWORD,DWORD,LPCSTR);
+	DWORD  GetLastError(void);
+	PVOID  MapViewOfFile(HANDLE,DWORD,DWORD,DWORD,DWORD);
+	HANDLE  OpenFileMappingA(DWORD,BOOL,LPCSTR);
+	size_t  strlen (const char*);
+	BOOL  UnmapViewOfFile(LPCVOID);
+]]
+
+--[[ lib_signal.lua ]]
+--[[ lib_socket.lua ]]
+ffi.cdef[[
+	typedef struct _GUID {
+	 unsigned long Data1;
+	 unsigned short Data2;
+	 unsigned short Data3;
+	 unsigned char Data4[8];
+	} GUID, *REFGUID, *LPGUID;
+
+	typedef struct _WSAPROTOCOLCHAIN {
+	 int ChainLen;
+	 DWORD ChainEntries[7];
+	} WSAPROTOCOLCHAIN, *LPWSAPROTOCOLCHAIN;
+
+	struct in_addr {
+	 union {
+	  struct { u_char s_b1,s_b2,s_b3,s_b4; } S_un_b;
+	  struct { u_short s_w1,s_w2; } S_un_w;
+	  u_long S_addr;
+	 } S_un;
+	static const int s_addr = S_un.S_addr;
+	static const int s_host = S_un.S_un_b.s_b2;
+	static const int s_net = S_un.S_un_b.s_b1;
+	static const int s_imp = S_un.S_un_w.s_w2;
+	static const int s_impno = S_un.S_un_b.s_b4;
+	static const int s_lh = S_un.S_un_b.s_b3;
+	};
+
+	typedef struct _WSAPROTOCOL_INFOA {
+	 DWORD dwServiceFlags1;
+	 DWORD dwServiceFlags2;
+	 DWORD dwServiceFlags3;
+	 DWORD dwServiceFlags4;
+	 DWORD dwProviderFlags;
+	 GUID ProviderId;
+	 DWORD dwCatalogEntryId;
+	 WSAPROTOCOLCHAIN ProtocolChain;
+	 int iVersion;
+	 int iAddressFamily;
+	 int iMaxSockAddr;
+	 int iMinSockAddr;
+	 int iSocketType;
+	 int iProtocol;
+	 int iProtocolMaxOffset;
+	 int iNetworkByteOrder;
+	 int iSecurityScheme;
+	 DWORD dwMessageSize;
+	 DWORD dwProviderReserved;
+	 CHAR szProtocol[255 +1];
+	} WSAPROTOCOL_INFOA, *LPWSAPROTOCOL_INFOA;
+
+	typedef struct WSAData {
+	 WORD wVersion;
+	 WORD wHighVersion;
+	 char szDescription[256 +1];
+	 char szSystemStatus[128 +1];
+	 unsigned short iMaxSockets;
+	 unsigned short iMaxUdpDg;
+	 char * lpVendorInfo;
+	} WSADATA;
+
+	typedef struct sockaddr *LPSOCKADDR;
+	typedef WSADATA *LPWSADATA;
+	typedef u_int SOCKET;
+	struct sockaddr {
+	 u_short sa_family;
+	 char sa_data[14];
+	};
+
+	typedef CHAR *PCHAR,*LPCH,*PCH,*NPSTR,*LPSTR,*PSTR;
+	struct sockaddr_in {
+	 short sin_family;
+	 u_short sin_port;
+	 struct in_addr sin_addr;
+	 char sin_zero[8];
+	};
+
+	typedef DWORD *PDWORD,*LPDWORD;
+	
+	SOCKET  accept(SOCKET,struct sockaddr*,int*);
+	int  bind(SOCKET,const struct sockaddr*,int);
+	int  closesocket(SOCKET);
+	int  connect(SOCKET,const struct sockaddr*,int);
+	int  getpeername(SOCKET,struct sockaddr*,int*);
+	int  getsockopt(SOCKET,int,int,char*,int*);
+	u_short  htons(u_short);
+	int  ioctlsocket(SOCKET,long,u_long *);
+	int  listen(SOCKET,int);
+	u_short  ntohs(u_short);
+	int  recv(SOCKET,char*,int,int);
+	int  send(SOCKET,const char*,int,int);
+	int  setsockopt(SOCKET,int,int,const char*,int);
+	int  shutdown(SOCKET,int);
+	SOCKET  socket(int,int,int);
+	INT  WSAAddressToStringA(LPSOCKADDR, DWORD, LPWSAPROTOCOL_INFOA, LPSTR, LPDWORD);
+	int  WSACleanup(void);
+	int  WSAGetLastError(void);
+	int  WSAStartup(WORD,LPWSADATA);
+]]
+
+--[[ lib_tcp.lua ]]
+ffi.cdef[[
+	static const int AF_INET = 2;
+	static const int AF_INET6 = 23;
+	static const int AI_PASSIVE = 1;
+	static const int INET6_ADDRSTRLEN = 46;
+	static const int INET_ADDRSTRLEN = 16;
+	static const int IPPROTO_TCP = 6;
+	static const int SO_RCVBUF = 0x1002;
+	static const int SO_REUSEADDR = 4;
+	static const int SO_SNDBUF = 0x1001;
+	static const int SO_USELOOPBACK = 64;
+	static const int SOCK_STREAM = 1;
+	static const int SOL_SOCKET = 0xffff;
+	static const int SOMAXCONN = 0x7fffffff;
+	static const int TCP_NODELAY = 0x0001;
+	
+	struct sockaddr_storage {
+	    short ss_family;
+	    char __ss_pad1[((sizeof (long long)) - sizeof (short))];
+	    long long __ss_align;
+	    char __ss_pad2[(128 - (sizeof (short) + ((sizeof (long long)) - sizeof (short)) + (sizeof (long long))))];
+	};
+
+	struct in6_addr {
+	    union {
+	        u_char _S6_u8[16];
+	        u_short _S6_u16[8];
+	        u_long _S6_u32[4];
+	        } _S6_un;
+	};
+
+	struct addrinfo {
+	 int ai_flags;
+	 int ai_family;
+	 int ai_socktype;
+	 int ai_protocol;
+	 size_t ai_addrlen;
+	 char *ai_canonname;
+	 struct sockaddr *ai_addr;
+	 struct addrinfo *ai_next;
+	};
+
+	struct sockaddr_in6 {
+	 short sin6_family;
+	 u_short sin6_port;
+	 u_long sin6_flowinfo;
+	 struct in6_addr sin6_addr;
+	 u_long sin6_scope_id;
+	};
+
+	struct in6_addr sin6_addr;
+	u_short sin6_port;
+]]
+
+--[[ lib_thread.lua ]]
+ffi.cdef[[
+	static const int INFINITE = 0xFFFFFFFF;
+	
+	typedef DWORD ( *LPTHREAD_START_ROUTINE)(LPVOID);
+	typedef struct _CREATE_THREAD_DEBUG_INFO {
+	 HANDLE hThread;
+	 LPVOID lpThreadLocalBase;
+	 LPTHREAD_START_ROUTINE lpStartAddress;
+	} CREATE_THREAD_DEBUG_INFO,*LPCREATE_THREAD_DEBUG_INFO;
+
+	CREATE_THREAD_DEBUG_INFO CreateThread;
+	DWORD  GetCurrentThreadId(void);
+	DWORD  WaitForSingleObject(HANDLE,DWORD);
+]]
+
+--[[ lib_util.lua ]]
+ffi.cdef[[
+	static const int ENABLE_ECHO_INPUT = 4;
+	static const int ENABLE_LINE_INPUT = 2;
+	static const int FORMAT_MESSAGE_FROM_SYSTEM = 4096;
+	static const int FORMAT_MESSAGE_IGNORE_INSERTS = 512;
+	static const int STD_INPUT_HANDLE = (DWORD)(0xfffffff6);
+	
+	typedef union _LARGE_INTEGER {
+	  struct {
+	    DWORD LowPart;
+	    LONG HighPart;
+	  } u;
+	  struct {
+	    DWORD LowPart;
+	    LONG HighPart;
+	  };
+	  LONGLONG QuadPart;
+	} LARGE_INTEGER, *PLARGE_INTEGER;
+
+	typedef struct _SYSTEM_INFO {
+	 union {
+	  DWORD dwOemId;
+	  struct {
+	   WORD wProcessorArchitecture;
+	   WORD wReserved;
+	  } ;
+	 } ;
+	 DWORD dwPageSize;
+	 PVOID lpMinimumApplicationAddress;
+	 PVOID lpMaximumApplicationAddress;
+	 DWORD dwActiveProcessorMask;
+	 DWORD dwNumberOfProcessors;
+	 DWORD dwProcessorType;
+	 DWORD dwAllocationGranularity;
+	 WORD wProcessorLevel;
+	 WORD wProcessorRevision;
+	} SYSTEM_INFO,*LPSYSTEM_INFO;
+
+	struct timeval {
+	 long tv_sec;
+	 long tv_usec;
+	};
+
+	BOOL  GetConsoleMode(HANDLE,PDWORD);
+	HANDLE  GetStdHandle(DWORD);
+	void  GetSystemInfo(LPSYSTEM_INFO);
+	BOOL  QueryPerformanceCounter(PLARGE_INTEGER);
+	BOOL  QueryPerformanceFrequency(PLARGE_INTEGER);
+	BOOL  ReadConsoleA(HANDLE,PVOID,DWORD,PDWORD,PVOID);
+	BOOL  SetConsoleMode(HANDLE,DWORD);
+	void  Sleep(DWORD);
+	char*  strerror (int);
+	BOOL  SwitchToThread(void);
+]]
+
+--[[ TestAddrinfo.lua ]]
+ffi.cdef[[
+	static const int AI_CANONNAME = 2;
+	static const int NI_MAXHOST = 1025;
+	static const int NI_MAXSERV = 32;
+	static const int NI_NAMEREQD = 0x04;
+	static const int NI_NUMERICHOST = 0x02;
+	static const int NI_NUMERICSERV = 0x08;
+]]
+
+--[[ TestAll.lua ]]
+--[[ TestKqueue.lua ]]
+--[[ TestLinux.lua ]]
+--[[ TestSharedMemory.lua ]]
+--[[ TestSignal.lua ]]
+--[[ TestSignal_bad.lua ]]
+--[[ TestSocket.lua ]]
+ffi.cdef[[
+	static const int SD_SEND = 0x01;
+]]
+
+--[[ TestThread.lua ]]
+
+--[[
+not found calls = {
+   [1] = "--- lib_date_time.lua ---";
+   [2] = "difftime";
+   [3] = "--- lib_http.lua ---";
+   [4] = "--- lib_kqueue.lua ---";
+   [5] = "--- lib_poll.lua ---";
+   [6] = "POLLERR";
+   [7] = "POLLHUP";
+   [8] = "POLLIN";
+   [9] = "POLLNVAL";
+   [10] = "POLLOUT";
+   [11] = "--- lib_shared_memory.lua ---";
+   [12] = "close";
+   [13] = "ftruncate";
+   [14] = "MAP_SHARED";
+   [15] = "mmap";
+   [16] = "munmap";
+   [17] = "O_CREAT";
+   [18] = "O_RDONLY";
+   [19] = "O_RDWR";
+   [20] = "PROT_READ";
+   [21] = "PROT_WRITE";
+   [22] = "shm_open";
+   [23] = "shm_unlink";
+   [24] = "--- lib_signal.lua ---";
+   [25] = "getpid";
+   [26] = "kill";
+   [27] = "pthread_sigmask";
+   [28] = "sigaddset";
+   [29] = "sigemptyset";
+   [30] = "sigwait";
+   [31] = "--- lib_socket.lua ---";
+   [32] = "close";
+   [33] = "F_GETFL";
+   [34] = "F_SETFL";
+   [35] = "fcntl";
+   [36] = "gai_strerror";
+   [37] = "getaddrinfo";
+   [38] = "getnameinfo";
+   [39] = "inet_ntop";
+   [40] = "O_NONBLOCK";
+   [41] = "poll";
+   [42] = "WSAPoll";
+   [43] = "--- lib_tcp.lua ---";
+   [44] = "--- lib_thread.lua ---";
+   [45] = "pthread_create";
+   [46] = "pthread_exit";
+   [47] = "pthread_join";
+   [48] = "pthread_self";
+   [49] = "--- lib_util.lua ---";
+   [50] = "_SC_NPROCESSORS_CONF";
+   [51] = "_SC_NPROCESSORS_ONLN";
+   [52] = "gettimeofday";
+   [53] = "nanosleep";
+   [54] = "sched_yield";
+   [55] = "sysconf";
+   [56] = "usleep";
+   [57] = "--- TestAddrinfo.lua ---";
+   [58] = "--- TestAll.lua ---";
+   [59] = "--- TestKqueue.lua ---";
+   [60] = "close";
+   [61] = "EV_ADD";
+   [62] = "EV_ENABLE";
+   [63] = "EV_ONESHOT";
+   [64] = "EVFILT_VNODE";
+   [65] = "kevent";
+   [66] = "kqueue";
+   [67] = "NOTE_ATTRIB";
+   [68] = "NOTE_DELETE";
+   [69] = "NOTE_EXTEND";
+   [70] = "NOTE_WRITE";
+   [71] = "O_RDONLY";
+   [72] = "open";
+   [73] = "--- TestLinux.lua ---";
+   [74] = "mmap";
+   [75] = "munmap";
+   [76] = "O_CREAT";
+   [77] = "O_EXCL";
+   [78] = "shm_open";
+   [79] = "shm_unlink";
+   [80] = "--- TestSharedMemory.lua ---";
+   [81] = "--- TestSignal.lua ---";
+   [82] = "--- TestSignal_bad.lua ---";
+   [83] = "getpid";
+   [84] = "kill";
+   [85] = "pause";
+   [86] = "signal";
+   [87] = "--- TestSocket.lua ---";
+   [88] = "--- TestThread.lua ---";
+};
 ]]

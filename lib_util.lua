@@ -13,11 +13,30 @@ is64bit = ffi.abi("64bit")
 is32bit = ffi.abi("32bit")
 
 if isWin then
-	require "ffi_def_windows"
+	require "ffi_def_windows_old"   -- ffi_def_windows  --  ffi_def_windows_old
 elseif isMac then
-	require "ffi_def_unix" 	-- ffi_def_osx -- ffi_def_unix
+	require "ffi_def_osx" 	-- ffi_def_osx -- ffi_def_unix
 else -- Linux
 	require "ffi_def_linux" -- ffi_def_linux -- ffi_def_unix
+end
+
+function currentPath()
+	local currentPath = ""
+	local pwd_file
+	if isWin then
+		pwd_file = io.popen("cd", "r")
+	else
+		pwd_file = io.popen("pwd", "r")
+	end
+	if pwd_file then
+		currentPath = pwd_file:read("*all")
+		pwd_file:close()
+	end
+	currentPath = currentPath:gsub("\r", "")
+	currentPath = currentPath:gsub("\n", "")
+	currentPath = currentPath:gsub("\\", "/") -- windows
+	currentPath = currentPath.."/"
+	return currentPath
 end
 
 -- common win + osx + linux: C-functions

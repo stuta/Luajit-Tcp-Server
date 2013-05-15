@@ -2,6 +2,11 @@
 
 print()
 print(" -- ffi_def_create.lua start -- ")
+if jit then
+	print(jit.version)
+else
+	print(_VERSION)
+end
 print()
 
 local arg = {...}
@@ -13,6 +18,7 @@ if true then -- keep ffi valid only inside if to make ZeroBrane debugger work
 	osname = string.lower(ffi.os)
 end
 -- osname = "linux" -- if you want to create linux with osx
+osname = "windows" -- if you want to create windows with osx
 
 local timeUsed = util.seconds()
 
@@ -39,13 +45,26 @@ local not_found_basic_types = {}
 
 local replace_pattern = {
 	[" __asm(.-);"] = ";",
-	[" __attribute__(.-);"] = ";",
+	--[" __attribute__%(%(__cdecl__%)%)"] = "",
+	--[" __attribute__%(%(__stdcall__%)%)"] = "",
+	--[" __attribute__ %(%(__dllimport__%)%)"] = "",
+	--[" __attribute__ %(%(__nothrow__%)%)"] = "",
+	--[" __attribute__ %(%(__pure__%)%)"] = "",
+	[" __attribute__%(%((.-)%)%)"] = "",
+	[" __attribute__ %(%((.-)%)%)"] = "",
+	["__attribute__%(%((.-)%)%)"] = "",
+	--[" __attribute__(.-);"] = ";",
 	["%*__restrict "] = "*",
   ["__restrict"] = "",
   ["extern "] = "",
   ["__extension__ "] = "",
   ["__extension__"] = "",
   ["__const"] = "const",
+  ["__MINGW_NOTHROW "] = "",
+  ["_CRTIMP "] = "",
+  ["__cdecl "] = "", 
+  ["PASCAL "] = "", 
+	  
 }
 local replace_pattern_param = {
 }
@@ -63,7 +82,7 @@ local replace_pattern_param = {
 local name_separator = "[^_%w]" 
 local c_call_patterns = {
 	"%WC%.([_%w]*)",
-	--"%Ws%.([_%w]*)",
+	"%Ws%.([_%w]*)",
 	--"%Wwin32%.([_%w]*)",
 }
 local c_type_patterns = {
@@ -163,7 +182,9 @@ if util.file_exists(target_ffi_file) then
 	io.input():close()
 	if generated_start then
 		local posStart,posEnd = code:find(generated_start)
-		code = code:sub(1, posEnd+1).."\n"
+		if posEnd then
+			code = code:sub(1, posEnd+1).."\n"
+		end
 	end
 else
 	code = ""
@@ -179,6 +200,14 @@ local function replaceLine(line)
 			break
 		end
 	end
+	line = line:gsub("\r\n", "\n")
+	line = line:match("^%s*(.-)%s*$") -- remove leading and trailing whitespace
+	if line:find("struct") then
+		line = line:match("^\n*(.-)\n*$") -- remove leading and trailing linefeed
+		if line:find("\n") then
+			line = line.."\n" -- add extra if multiline struct
+		end
+	end
 	return line
 end
 			
@@ -191,6 +220,7 @@ local function validType(def)
 	if first_char == "(" or first_char == "[" or first_char == "{" or first_char == "*" then
 	  return ""
 	end
+	def = def:match( "^%s*(.-)%s*$" ) -- remove leading and trailing whitespace
 	return def
 end			
 
@@ -260,7 +290,7 @@ local function paramsAdd(params_orig, sep)
 				def = def:gsub("%(void %)", "")
 				def = def:gsub("%(void%)", "")
 				def = def:gsub("%(%)", "")
-				def = def:match( "^%s*(.-)%s*$" ) -- remove leading and trailin whitespace
+				def = def:match( "^%s*(.-)%s*$" ) -- remove leading and trailing whitespace
 				def = validType(def)
 				if def ~= "" and not basic_types[def] and not type_defines[def] then
 					if not basic_types[basetype] then -- def is just a name
@@ -289,9 +319,11 @@ for _,sourcefile in pairs(sourcefiles) do
 		end
 		source = io.read("*all")
 		io.input():close() 
-
+		
+		--local crlfLen = #source
+		--source = source:gsub("\r\n", "\n") -- does not work?
 		print()
-		print("*** "..sourcefile.." size: "..#source.." bytes")
+		print("*** "..sourcefile.." size: "..#source.." bytes") -- / "..(crlfLen - #source))
 		-- Lua pattern for matching Lua multi-line comment.
 		source = source:gsub("(%-%-%[(=*)%[.-%]%2%])", "") -- remove block comments
 		
@@ -525,6 +557,7 @@ for _,sourcefile in pairs(sourcefiles) do
 	collectNotFoundCalls()
 	
 	
+	local type_lines_basic = {}
 	local type_lines = {}
 	local struct_lines = {}
 	local type_lines_content = {}
@@ -542,8 +575,13 @@ for _,sourcefile in pairs(sourcefiles) do
 				else
 					print("  '"..type_str.."'")
 					
-					if type_str:find("sa_family_t") then -- for trace
-						type_str = type_str .. ""
+					-- for trace
+					if type_str:find("socklen_t") then
+						if jit then
+							print(jit.version)
+						else
+							print(_VERSION)
+						end
 					end
 			
 					-- find type from target ffi.cdef file
@@ -652,12 +690,17 @@ for _,sourcefile in pairs(sourcefiles) do
 											
 											-- replace not-wanted parts. __asm, __attribute__, ...
 											line_orig = replaceLine(line_orig)
-											--if line_orig:find("typedef ") == 1 then
-												table.insert(type_lines, 1, line_orig) -- add to start
+											if basic_types[def] then
+												table.insert(type_lines_basic, 1, line_orig) -- add to start
+											else
+												table.insert(type_lines, 1, line_orig)
+											end
+											--[[if line_orig:find("typedef ") == 1 then
+												table.insert(type_lines, 1, line_orig)
 											--else
-											--	table.insert(struct_lines, 1, line_orig) -- add to start
+											--	table.insert(struct_lines, 1, line_orig)
 											--end
-											
+											]]
 											local static_const = line:find("static const ")
 											if static_const == 1 then
 												static_const = 1
@@ -691,7 +734,7 @@ for _,sourcefile in pairs(sourcefiles) do
 	-- add new definitions to target ffi.cdef file 
 	local function addNewDefinitionsToTargetCdefFile()
 		code = code.."\n--[[ "..sourcefile.." ]]"
-		if #static_const_lines > 0 or #type_lines > 0 or #struct_lines > 0 or #function_lines > 0 then
+		if #static_const_lines > 0 or #type_lines_basic > 0 or #type_lines > 0 or #struct_lines > 0 or #function_lines > 0 then
 			code = code.."\nffi.cdef[[\n\t"
 			
 			if #static_const_lines > 0 then
@@ -699,6 +742,13 @@ for _,sourcefile in pairs(sourcefiles) do
 				code = code..table.concat(static_const_lines, "\n\t")
 				if #type_lines > 0 or #struct_lines > 0 or #function_lines > 0 then
 					code = code.."\n\t\n\t" -- .."\t// types"
+				end
+			end
+			
+			if #type_lines_basic > 0 then
+				code = code..table.concat(type_lines_basic, "\n\t")
+				if #type_lines > 0 then
+					code = code.."\n\t\n\t" -- .."\t// methods"
 				end
 			end
 			
@@ -722,6 +772,7 @@ for _,sourcefile in pairs(sourcefiles) do
 			code = code.."\n]]\n"
 		end
 		
+		code = code:gsub("\n\n\t\n\t", "\n\n\t")
 		file = io.output(target_ffi_file)
 		io.write(code)
 		io.output():close()
@@ -757,6 +808,11 @@ if openPrf then
 end
 
 print()
+if jit then
+	print(jit.version)
+else
+	print(_VERSION)
+end
 print(" -- ffi_def_create.lua end -- ")
 print()
 

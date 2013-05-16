@@ -28,12 +28,12 @@ local timeUsed = util.seconds()
 -- http://gcc.gnu.org/onlinedocs/gfortran/Preprocessing-Options.html
 local addToWinInclude
 local copy_commad = "cp "
-local preprocessor_commad = "gcc -E -P -dD".." "  -- -dD  -C = leave comments
+local preprocessor_commad = "gcc -E -P".." "  -- -dD  -C = leave comments
 if util.isWin then
 	copy_commad = "copy "
 	preprocessor_commad = "CL /EP".." " --   /showIncludes /FI /D_WIN32_WINNT=0x0601
 	--preprocessor_commad = "mingw32-gcc.exe -E -P -dD".." " --  -dD -dN -dI  -D _WIN32_WINNT=0x0601
-	addToWinInclude = '#define WIN32_LEAN_AND_MEAN\r\n#pragma comment (lib, "Ws2_32.lib")\r\n\r\n'
+	addToWinInclude = '#define WIN32_LEAN_AND_MEAN\r\n#pragma comment (lib, "Ws2_32.lib")\r\n#define _WIN32_WINNT 0x0601\r\n\r\n'
 end
 
 local target_path = "c_include/"..osname.."/"

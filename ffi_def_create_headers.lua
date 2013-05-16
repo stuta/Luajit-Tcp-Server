@@ -10,10 +10,8 @@ end
 print()
 
 local arg = {...}
-local forceParse = false
 local noParse = false
 if arg[1] then
-	forceParse = arg[1] == "f"
 	noParse = arg[1] == "n"
 end
 
@@ -28,12 +26,14 @@ osname = "windows" -- for running in osx
 local timeUsed = util.seconds()
 
 -- http://gcc.gnu.org/onlinedocs/gfortran/Preprocessing-Options.html
+local addToWinInclude
 local copy_commad = "cp "
-local preprocessor_commad = "gcc -E -P -dD "  -- -dD  -C = leave comments
+local preprocessor_commad = "gcc -E -P -dD".." "  -- -dD  -C = leave comments
 if util.isWin then
 	copy_commad = "copy "
-	--preprocessor_commad = "mingw32-gcc.exe -E -P " --  -dD 
-	preprocessor_commad = "CL /EP " --  -dD 
+	preprocessor_commad = "CL /EP".." " --   /showIncludes /FI /D_WIN32_WINNT=0x0601
+	--preprocessor_commad = "mingw32-gcc.exe -E -P -dD".." " --  -dD -dN -dI  -D _WIN32_WINNT=0x0601
+	addToWinInclude = '#define WIN32_LEAN_AND_MEAN\r\n#pragma comment (lib, "Ws2_32.lib")\r\n\r\n'
 end
 
 local target_path = "c_include/"..osname.."/"
@@ -42,6 +42,7 @@ local sourcepaths = {
 	["windows"] = "C:/Program Files (x86)/Microsoft SDKs/Windows/v7.0A/Include/", 
 	["windows2"] = "C:/Program Files (x86)/Microsoft Visual Studio 10.0/VC/include/",
 	["osx"] = "/usr/include/",
+	--["osx2"] = "",
 	["linux"] = "/usr/include/",
 	["linux2"] = "/usr/include/i386-linux-gnu/"
 }
@@ -73,16 +74,51 @@ local sourcefile = sourcefiles[osname]
 sourcefile = sourcefile:gsub("#include <", "")
 sourcefile = sourcefile:gsub(">", "")
 
-local define_pos = #("#define ") + 1
+
+local define_length = #("#define ")
+local define_pos = define_length + 1
+
+local function defineLine(line)
+	local value = line:sub(define_pos)
+	local s,e = value:find(" ")
+	if not e then
+		value = ""
+	else	
+		value = value:sub(e + 1)
+	end
+	if value == "" then
+		line = ""
+	else
+		local name = line:sub(define_pos, define_pos + s - 2)
+		if value:match('".*%"$') then
+			line = "static const char "..name.." = "..value..";"
+		elseif value:match(".*%dL$") then
+			line = "static const long "..name.." = "..value..";"
+		elseif value:match(".*%dLL$") then
+			line = "static const long long "..name.." = "..value..";"
+		elseif value:match(".*%dF$") then
+			line = "static const double "..name.." = "..value..";" -- float
+		elseif value:match(".*%dDF$") then
+			line = "static const double "..name.." = "..value..";"
+		elseif value:match(".*%dDD$") then
+			line = "static const double "..name.." = "..value..";"
+		elseif value:match(".*%dDL$") then
+			line = "static const long double "..name.." = "..value..";"
+		elseif value:match("%d%.%d") then
+			line = "static const double "..name.." = "..value..";"
+		else
+			line = "static const int "..name.." = "..value..";"
+		end
+	end
+	return line
+end
+				
 local filecount = 0
-local line_all = 0
-local code_define = {}
-local codeall = ""
+local parsecount = 0
+local define_found = false
 for file in sourcefile:gmatch("[^\r\n]+") do
 	if file ~= "" and not util.string_starts(file, "//") then -- not empty and not commented lines
-		--local destfile = util.last_part(file, "/")
-		--if destfile == "" then destfile = file end
-		
+	
 		local destfile = file:gsub("/", "_")
 		if util.isWin then
 			file= file:gsub("/", "\\")
@@ -110,31 +146,29 @@ for file in sourcefile:gmatch("[^\r\n]+") do
 			end
 			print(cmd)
 			os.execute(cmd)
+			if addToWinInclude then
+				print("  ... add prefix to file: "..copypath)
+				local code = util.readFile(copypath)
+				code = addToWinInclude..code
+				util.writeFile(copypath, code)
+			end
 		end
 		
-		local parse = false
 		local destpath = target_path..destfile
 		if not util.file_exists(destpath) then
 			local cmd = preprocessor_commad..copypath.." > "..destpath
 			print(cmd)
 			os.execute(cmd)
-			parse = true
 			filecount = filecount + 1
 		end
 		
 		if not util.file_exists(destpath) then
 			print("*** file creation failed: "..destpath)
-		elseif (parse or forceParse) and not noParse then
-			local filecomment = "\n\n// *** "..filecount..". "..file.." ***\n"
-			codeall = codeall..filecomment
+		elseif not noParse then
+			parsecount = parsecount + 1
+			local filecomment = "\n\n// *** "..parsecount..". "..file.." ***"
 			
-			io.input(destpath)
-			local code = io.read("*all")
-			io.input():close()
-			--code = code:gsub("(\n/%*).-(%*/)", "\n\n") -- leave inline comments, delete blocks
-			--code = code:gsub("\n\n", "")
-			--code = code:gsub("\r\n", "\n") -- does not work?
-			
+			local code = util.readFile(destpath)
 			print(destpath)
 			local crlfLen = #code
 			code = code:gsub("\r\n", "\n") 
@@ -153,67 +187,57 @@ for file in sourcefile:gmatch("[^\r\n]+") do
 					print("  ... line: "..util.format_num(i, 0).." / "..util.format_num(linecount, 0))
 				end
 				local is_define = false
-				if util.string_starts(line, "#define ") then
+				--line:sub(1, define_length)
+				if line:find("^#define ") then
 					is_define = true
-					line = line:sub(define_pos)
-					local s,e = line:find(" ")
-					local value = line:sub(e + 1)
-					if value == "" then
-						line = ""
-					else
-						local name = line:sub(1, s - 1)
-						if value:match('".*%"$') then
-							line = "static const char "..name.." = "..value..";"
-						elseif value:match(".*%dL$") then
-							line = "static const long "..name.." = "..value..";"
-						elseif value:match(".*%dLL$") then
-							line = "static const long long "..name.." = "..value..";"
-						elseif value:match(".*%dF$") then
-							line = "static const double "..name.." = "..value..";" -- float
-						elseif value:match(".*%dDF$") then
-							line = "static const double "..name.." = "..value..";"
-						elseif value:match(".*%dDD$") then
-							line = "static const double "..name.." = "..value..";"
-						elseif value:match(".*%dDL$") then
-							line = "static const long double "..name.." = "..value..";"
-						elseif value:match("%d%.%d") then
-							line = "static const double "..name.." = "..value..";"
-						else
-							line = "static const int "..name.." = "..value..";"
-						end
-					end
+					define_found = true
+					line = defineLine(line)
 				end
-				
 				if line ~= "" and not line:find("^%s+$") and line ~= "\n" and line:find("#undef") ~= 1 then
 					codeout = codeout..line.."\n"
-					if is_define then
-						if not code_define[line] then
-							line_all = line_all + 1
-							code_define[line] = line_all
-							codeall = codeall..line.."\n"
-						end
-					else
-						codeall = codeall..line.."\n"
-					end
 				end
 			end
 			
-			print("  ... final size: "..util.fileSize(#codeout, 2))
+			local definecount = 0
+			if not define_found then
+				-- read #define's from original header
+				print("  ... creating defines...")
+				local definecode = util.readFile(destpath)
+				if not definecode:find(" --- defines\n\n") then
+					definecode = util.readFile(copypath)
+					local defineout = filecomment.." --- defines\n\n"
+					local i = 0
+					for line in definecode:gmatch("[^\r\n]+") do
+						i = i + 1
+						if i%5000 == 0 then
+							print("  ... line: "..util.format_num(i, 0).." / "..util.format_num(linecount, 0))
+						end
+						if line:find("^#define ") then
+							line = defineLine(line)
+							if line ~= "" then
+								definecount = definecount +1
+								defineout = defineout..line.."\n"
+							end
+						end
+					end
+					codeout = codeout..defineout
+				end
+			end
+			define_found = false
+			
+			if definecount > 0 then
+				util.appendFile(target_path.."ffi_types.h", filecomment.."\n"..codeout)
+			end
+			print("  ... final size: "..util.fileSize(#codeout, 2)..", defines: "..definecount)
 			print()
-			local out = io.open(destpath, "wb")
-			out:write(codeout)
-			out:close()
+			util.writeFile(destpath, codeout)
 		end
 		
 	end
 end
 
-if codeall ~= "" then
-	--code_define = util.table_invert(code_define)
-	--codeall = table.concat(code_define, "\n")
-	io.output(target_path.."ffi_types.h")
-	io.write(codeall)
-	io.output():close()
+if codeout ~= "" then
+	-- add "ffi_types.h" to written filecount
 	filecount = filecount + 1
 end
 

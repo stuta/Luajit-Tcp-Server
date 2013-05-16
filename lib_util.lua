@@ -13,7 +13,7 @@ is64bit = ffi.abi("64bit")
 is32bit = ffi.abi("32bit")
 
 if isWin then
-	require "ffi_def_windows_old"   -- ffi_def_windows  --  ffi_def_windows_old
+	require "ffi_def_windows"   -- ffi_def_windows  --  ffi_def_windows_old
 elseif isMac then
 	require "ffi_def_osx" 	-- ffi_def_osx -- ffi_def_unix
 else -- Linux
@@ -39,19 +39,54 @@ function currentPath()
 	return currentPath
 end
 
+local function homeDirectoy()
+	local homeDir
+	if isWin then
+		pwd_file = nil -- todo
+	else
+		pwd_file = io.popen("echo ~", "r")
+	end
+	if pwd_file then
+		homeDir = pwd_file:read("*all")
+		pwd_file:close()
+	end
+	homeDir = homeDir:gsub("\r", "")
+	homeDir = homeDir:gsub("\n", "")
+	return homeDir
+end
+
+function filePathFix(file)
+	if file:find("~") then
+		if isWin then
+			return file:gsub("~", "C:")
+		else
+			return file:gsub("~", homeDirectoy())
+		end
+	end
+	return file
+end
+
 function readFile(file)
 	file = filePathFix(file)
-  io.input(file)
-	local fileData = io.read("*all")
-	io.close()
+	local f = io.open(file, "r")
+	local fileData = f:read("*all")
+	f:close()
 	return fileData,file
 end
 
 function writeFile(file, data)
 	file = filePathFix(file)
-  io.output(file)
-	io.write(data)
-	io.close()
+	local f = io.open(file, "wb")
+	f:write(data)
+	f:close()
+	return file
+end
+
+function appendFile(file, data)
+	file = filePathFix(file)
+	local f = io.open(file, "a+b")
+	f:write(data)
+	f:close()
 	return file
 end
 

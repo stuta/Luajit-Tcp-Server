@@ -53,6 +53,7 @@ local replace_pattern = {
 	[" __attribute__%(%((.-)%)%)"] = "",
 	[" __attribute__ %(%((.-)%)%)"] = "",
 	["__attribute__%(%((.-)%)%)"] = "",
+	["static __inline "] = "",
 	--[" __attribute__(.-);"] = ";",
 	["%*__restrict "] = "*",
   ["__restrict"] = "",
@@ -64,6 +65,12 @@ local replace_pattern = {
   ["_CRTIMP "] = "",
   ["__cdecl "] = "", 
   ["PASCAL "] = "", 
+  ["deprecated%((.-)%)"] = "", -- must be before "__declspec%((.-)%)"
+  ["__declspec%((.-)%)"] = "", 
+  ["__stdcall"] = "", 
+  ["#pragma once"] = "delete", 
+  ["#pragma warning"] = "delete", 
+  ["#pragma pack(push"] = "delete", 
 	  
 }
 local replace_pattern_param = {
@@ -82,8 +89,9 @@ local replace_pattern_param = {
 local name_separator = "[^_%w]" 
 local c_call_patterns = {
 	"%WC%.([_%w]*)",
-	"%Ws%.([_%w]*)",
+	"%Wkernel32%.([_%w]*)",
 	--"%Wwin32%.([_%w]*)",
+	"%Ws%.([_%w]*)",
 }
 local c_type_patterns = {
 	"ffi.new%(%'(.-)%'", 
@@ -197,7 +205,7 @@ local function replaceLine(line)
 			line = line:gsub(pat, repl)
 		elseif line:find(pat) then
 			line = ""
-			break
+			return line
 		end
 	end
 	line = line:gsub("\r\n", "\n")
@@ -690,10 +698,12 @@ for _,sourcefile in pairs(sourcefiles) do
 											
 											-- replace not-wanted parts. __asm, __attribute__, ...
 											line_orig = replaceLine(line_orig)
-											if basic_types[def] then
-												table.insert(type_lines_basic, 1, line_orig) -- add to start
-											else
-												table.insert(type_lines, 1, line_orig)
+											if line_orig ~= "" then
+												if basic_types[def] then
+													table.insert(type_lines_basic, 1, line_orig) -- add to start
+												else
+													table.insert(type_lines, 1, line_orig)
+												end
 											end
 											--[[if line_orig:find("typedef ") == 1 then
 												table.insert(type_lines, 1, line_orig)

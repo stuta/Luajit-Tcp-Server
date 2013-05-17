@@ -1,5 +1,4 @@
-.svn*
-
-other/lsocket.c
-
-other/lsocket.h
+.svn
+.gitignore
+other/*
+.DS_Store

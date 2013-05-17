@@ -51,15 +51,6 @@ ffi.cdef[[
 	};
 
 	// bad order of generated calls
-	typedef struct
-	  {
-	    unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
-	  } __sigset_t;
-	typedef __sigset_t sigset_t;
-	
-	
-	typedef unsigned int __socklen_t;
-	typedef __socklen_t socklen_t;
 	
 	// missing generation - code these
 	static const int PF_INET = 2;
@@ -354,6 +345,12 @@ ffi.cdef[[
 
 --[[ lib_signal.lua ]]
 ffi.cdef[[
+	typedef struct
+	  {
+	    unsigned long int __val[(1024 / (8 * sizeof (unsigned long int)))];
+	  } __sigset_t;
+	
+	typedef __sigset_t sigset_t;
 	 typedef int __pid_t;
 	
 	__pid_t getpid (void);
@@ -373,23 +370,26 @@ ffi.cdef[[
 	static const int F_SETFL = 4;
 	static const int O_NONBLOCK = 04000;
 	
-	typedef unsigned long int nfds_t;
 	typedef uint32_t in_addr_t;
 	typedef unsigned short int sa_family_t;
+	typedef unsigned long int nfds_t;
+	typedef uint16_t in_port_t;
+	
+	 typedef int __ssize_t;
 	struct sockaddr
 	  {
 	    sa_family_t sa_family;
 	    char sa_data[14];
 	  };
 	
-	 typedef int __ssize_t;
 	typedef __ssize_t ssize_t;
 	struct in_addr
 	  {
 	    in_addr_t s_addr;
 	  };
 	
-	typedef uint16_t in_port_t;
+	 typedef unsigned int __socklen_t;
+	typedef __socklen_t socklen_t;
 	struct sockaddr_in
 	  {
 	    sa_family_t sin_family;
@@ -538,9 +538,7 @@ ffi.cdef[[
 	  char __size[36];
 	  long int __align;
 	} pthread_attr_t;
-	typedef unsigned long int pthread_t;
-	
-	int pthread_create (pthread_t *__newthread,
+	typedef unsigned long int pthread_t;int pthread_create (pthread_t *__newthread,
       const pthread_attr_t *__attr,
       void *(*__start_routine) (void *),
       void *__arg);
@@ -551,20 +549,14 @@ ffi.cdef[[
 
 --[[ lib_util.lua ]]
 ffi.cdef[[
-	 typedef unsigned int __useconds_t;
-	 typedef long int __suseconds_t;
 	struct timezone
 	  {
 	    int tz_minuteswest;
 	    int tz_dsttime;
 	  };
 	
-	struct timeval
-	  {
-	    __time_t tv_sec;
-	    __suseconds_t tv_usec;
-	  };
-	
+	 typedef long int __suseconds_t;
+	 typedef unsigned int __useconds_t;
 	struct timespec
 	  {
 	    __time_t tv_sec;
@@ -572,6 +564,12 @@ ffi.cdef[[
 	  };
 	
 	typedef struct timezone *__timezone_ptr_t;
+	struct timeval
+	  {
+	    __time_t tv_sec;
+	    __suseconds_t tv_usec;
+	  };
+	
 	
 	int gettimeofday (struct timeval *__tv,
     __timezone_ptr_t __tz);

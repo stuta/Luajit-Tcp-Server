@@ -1,4 +1,4 @@
 { "sourcefiles": ["lib_date_time.lua","lib_http.lua","lib_kqueue.lua","lib_poll.lua","lib_shared_memory.lua","lib_signal.lua","lib_socket.lua","lib_tcp.lua","lib_thread.lua","lib_util.lua","TestAddrinfo.lua","TestAll.lua","TestKqueue.lua","TestLinux.lua","TestSharedMemory.lua","TestSignal.lua","TestSignal_bad.lua","TestSocket.lua","TestThread.lua"],
-  "c_call_patterns": ["%WC%.([_%w]*)", "%Wkernel32%.([_%w]*)", "%Ws%.([_%w]*)"],
+  "c_call_patterns": ["%WC%.([_%w]*)", "%Ws%.([_%w]*)"],
   "generated_start": "-- generated code start --"
 }

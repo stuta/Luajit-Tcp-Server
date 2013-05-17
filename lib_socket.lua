@@ -172,9 +172,7 @@ function getnameinfo(sa, salen, host, hostlen, serv, servlen, flags)
 end
 
 function getaddrinfo(hostname, servname, hints, res)
-
   return s.getaddrinfo(hostname, servname, hints, res)
-
 end
 function getpeername(socket, name, namelen)
 	return s.getpeername(socket, name, namelen)

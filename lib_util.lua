@@ -13,11 +13,105 @@ is64bit = ffi.abi("64bit")
 is32bit = ffi.abi("32bit")
 
 if isWin then
-	require "ffi_def_windows"
+	require "ffi_def_windows_old"   -- ffi_def_windows  --  ffi_def_windows_old
 elseif isMac then
-	require "ffi_def_unix" 	-- ffi_def_osx -- ffi_def_unix
+	require "ffi_def_osx" 	-- ffi_def_osx -- ffi_def_unix
 else -- Linux
 	require "ffi_def_linux" -- ffi_def_linux -- ffi_def_unix
+end
+
+function editFile(file)
+	if isWin then
+		os.execute("start "..file)
+	else
+		os.execute("open "..file)
+	end
+end
+
+function currentPath()
+	local currentPath = ""
+	local pwd_file
+	if isWin then
+		pwd_file = io.popen("cd", "r")
+	else
+		pwd_file = io.popen("pwd", "r")
+	end
+	if pwd_file then
+		currentPath = pwd_file:read("*all")
+		pwd_file:close()
+	end
+	currentPath = currentPath:gsub("\r", "")
+	currentPath = currentPath:gsub("\n", "")
+	currentPath = currentPath:gsub("\\", "/") -- windows
+	currentPath = currentPath.."/"
+	return currentPath
+end
+
+local function homeDirectoy()
+	local homeDir
+	if isWin then
+		pwd_file = nil -- todo
+	else
+		pwd_file = io.popen("echo ~", "r")
+	end
+	if pwd_file then
+		homeDir = pwd_file:read("*all")
+		pwd_file:close()
+	end
+	homeDir = homeDir:gsub("\r", "")
+	homeDir = homeDir:gsub("\n", "")
+	return homeDir
+end
+
+function filePathFix(file)
+	if file:find("~") then
+		if isWin then
+			return file:gsub("~", "C:")
+		else
+			return file:gsub("~", homeDirectoy())
+		end
+	end
+	return file
+end
+
+function readFile(file)
+	file = filePathFix(file)
+	local f = io.open(file, "r")
+	local fileData = f:read("*all")
+	f:close()
+	return fileData,file
+end
+
+function writeFile(file, data)
+	file = filePathFix(file)
+	local f = io.open(file, "wb")
+	f:write(data)
+	f:close()
+	return file
+end
+
+function appendFile(file, data)
+	file = filePathFix(file)
+	local f = io.open(file, "a+b")
+	f:write(data)
+	f:close()
+	return file
+end
+
+function fileSize(bytes, decimals)
+		local decimals = decimals or 2
+		local ret = ""
+		if( bytes == 0 ) then
+			ret = "0 Bytes"
+		else
+    	local filesizename = {" Bytes", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB"}
+    	local factor = math.floor((string.len(tostring(bytes)) - 1) / 3)
+    	ret = format_num(bytes / math.pow(1024, factor), decimals, "")
+    	       -- no space or comma between int numbers
+    	       -- wo don't want "1 024" - we want "1024" because int part is never more than 4 numbers
+    	ret = ret .. filesizename[factor + 1]
+    end
+    return ret
 end
 
 -- common win + osx + linux: C-functions

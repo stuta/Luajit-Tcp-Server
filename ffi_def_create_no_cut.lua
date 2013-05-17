@@ -18,19 +18,17 @@ if true then -- keep ffi valid only inside if to make ZeroBrane debugger work
 	osname = string.lower(ffi.os)
 end
 -- osname = "linux" -- if you want to create linux with osx
--- osname = "windows" -- if you want to create windows with osx
+osname = "windows" -- if you want to create windows with osx
 
 local timeUsed = util.seconds()
 
-local openResult, openPrf, saveModifiedHeader, openModifiedHeader
+local openResult, openPrf, saveModifiedHeader
 if arg[1] then
   openResult = string.lower(arg[1]) == "o"
   openPrf = string.lower(arg[1]) == "p"
 end
 if arg[2] then
-	local arg2 = string.lower(arg[2])
-  saveModifiedHeader = arg2:find("s")
-  openModifiedHeader = arg2:find("o")
+  saveModifiedHeader = string.lower(arg[2]) == "s"
 end
 local prfFileName = "ffi_def_create_prf.json"
 local basic_types = {
@@ -48,89 +46,64 @@ local basic_types = {
 }
 local not_found_basic_types = {}
 
-if false then
-	local test = "row1\n /*comment*/ \n /***\nasd\ndsa\n */\n // asd\nrow2\n"
-	local test =[[
-	
-	//   _Pre_\_Post_ Layer:
-//
-// e.g. int strlen( _Pre_z_ const char* sz );
-	//   _Pre_\_Post_ Layer:
-//
-
-]]
-	print("-------test:\n"..test)
-	local test2 = test:gsub("\n(%s*)/%*(.-)%*/" ,"") -- remove line starting "/* */" -comments
-	print("-------test2:\n"..test2)
-	local test2 = test:gsub("\n(%s*)//(.-)(%s*)\n" ,"\n") -- remove line starting "//" -comments
-	local test2 = test2:gsub("\n(%s*)//(.-)(%s*)\n" ,"\n") -- remove line starting "//" -comments
-	print("-------test2:\n"..test2)
-	os.exit()
-end
+local replace_row_pattern = {
+  "#pragma once",
+  "#pragma warning",
+  "#pragma pack(push",
+  "^__stdcall$", -- must be before "__stdcall"
+}
 
 local replace_pattern = {
-	-- "xxx(.-)\n" == delete all to end of line including xxx
-  "# (%d+) \"(.-)\"\n", -- delete gcc header links
-  "#pragma once(.-)\n", 
-  "#pragma warning(.-)\n",
-  "#pragma comment(.-)\n",
-  "__drv_reportError(.-)\n",
-  "__drv_when(.-)\n",
+	"__asm%(%((.-)%)%)",
+	"__attribute__%(%((.-)%)%)",
+	"static __inline ",
+	"%*__restrict "] = "*",
+  "__restrict",
+  "extern ",
+  "__extension__ ",
+  "__extension__",
+  "__const"] = "const",
+  "__MINGW_NOTHROW ",
+  "_CRTIMP ",
+  "__cdecl ", 
+  "PASCAL ",
+  "__checkReturn", 
+  "DECLSPEC_IMPORT", 
+  "FARPROC", 
+  "WINAPI", 
+  "deprecated%((.-)%)", -- must be before "__declspec%((.-)%)"
+  "__declspec%((.-)%)", 
+  "__success%((.-)%)", 
+  "__field_bcount%((.-)%)", 
+  "__out_bcount_part_opt%((.*)%)",
+  "__out_data_source%((.-)%)",
+  "__drv_preferredFunction%((.-)%)",
+  "_ecount_part_opt%((.-)%)",
+  "_ecount_opt%((.-)%)",
+  "_bcount_part%((.-)%)",
+  "_bcount_opt%((.-)%)",
+  "_bcount%((.-)%)",
 	
-	"__const( *)",
-	"__asm%((.-)%)( *)",
-	"__attribute__%(%((.-)%)%)( *)",
-	"__inline( *)",
-  "__restrict( *)",
-  "extern( *)",
-  "__extension__( *)",
-  "__MINGW_NOTHROW( *)",
-  "_CRTIMP( *)",
-  "__cdecl( *)", 
-  "PASCAL( *)",
-  "__checkReturn( *)", 
-  "DECLSPEC_IMPORT( *)", 
-  "DECLSPEC_NORETURN( *)", 
-  "FARPROC( *)", 
-  "WINAPI( *)", 
-  "deprecated%((.-)%)( *)", -- must be before "__declspec%((.-)%)"
-  "__declspec%((.-)%)( *)", 
-  "__success%((.-)%)( *)", 
-  "__field_bcount%((.-)%)( *)", 
-  "__out_bcount_part_opt%((.-)%)( *)",
-  "__out_data_source%((.-)%)( *)",
-  "__drv_preferredFunction%((.-)%)( *)",
-  "__out_ecount_part%((.-)%)( *)",
-  "__bcount_opt%((.-)%)( *)",
-  "__deref_opt_out_bcount_full%((.-)%)( *)",
-  "__drv_freesMem%((.-)%)( *)",
-  "__in_ecount%((.-)%)( *)",
-  "_ecount_part_opt%((.-)%)( *)",
-  "_ecount_opt%((.-)%)( *)",
-  "_bcount_part%((.-)%)( *)",
-  "_bcount_opt%((.-)%)( *)",
-  "_bcount%((.-)%)( *)",
+  "__deref_out ", 
+  "__deref_opt_out_opt ", 
+  "__inout_opt ", 
+  "__in_opt ", 
+  "__out_opt ", 
+  "__inout ", 
+  "__in ", 
+  "__out ", 
+  "_opt ", 
+  "__reserved ", 
 	
-  "__post( *)", 
-  "__notvalid( *)", 
-	
-  "__deref_opt_out_opt( *)", 
-  "__deref_opt_out( *)", 
-  "__deref_out( *)", 
-  "__deref_inout( *)", 
-  "__deref( *)", 
-  "__inout_opt( *)", 
-  "__in_opt( *)", 
-  "__out_opt( *)", 
-  "__inout( *)", 
-  "__in( *)", 
-  "__out( *)", 
-  "_opt( *)", 
-  "__reserved( *)", 
-  "__stdcall( *)", 
-  "__nullnullterminated( *)", 
-  "__callback( *)", 
-  "__drv_aliasesMem( *)", 
+	--[[
+  "__inout_opt", 
+  "__in_opt", 
+  "__out_opt", 
+  "__in", 
+  "__out", 
+	]]
+	 
+  "__stdcall", 
 }
 local replace_pattern_param = {
   ["%)"] = "",
@@ -232,24 +205,10 @@ local function replaceText(txt)
 			txt = txt:gsub(pat, "")
 		--until not txt:find(pat)
 	end
-	
-	txt = txt:gsub("\n(%s-)/%*(.-)%*/" ,"") -- remove line starting "/* */" -comments
-	repeat
-		txt = txt:gsub("\n(%s-)//(.-)\n" ,"\n") -- remove line starting "//" -comments
-	until not txt:find("\n(%s-)//(.-)\n")
-	
-	repeat
-		txt = txt:gsub("\n\n", "\n")
-	until not txt:find("\n\n")
-	txt = txt:gsub("\n \n", "\n")
-	
-	txt = txt:gsub("\n(%s-);\n", ";\n") -- lonely ";" back to previous line end
-	txt = txt:gsub("%)(%s-);\n", ");\n") -- lonely ") ;" --> ");"
-	
-	return txt
 end
 
 local function replaceLine(line)
+	-- replace not-wanted parts. __asm, __attribute__, ...
 	line = replaceText(line)
 	line = line:gsub("\r\n", "\n")
 	line = line:match("^%s*(.-)%s*$") -- remove leading and trailing whitespace
@@ -263,6 +222,7 @@ local function replaceLine(line)
 	return line
 end
 
+local header = ""
 local function readHeaderFile()
 	local file,err = io.input(headerfile)
 	if err then
@@ -271,28 +231,37 @@ local function readHeaderFile()
 	end
 	local header = io.read("*all")
 	io.input():close()
-	print(headerfile.." size: "..util.fileSize(#header, 2))
+	print(headerfile.." size: "..#header.." bytes")
 	if #header==0 then
 		print(headerfile.." is empty")
 		os.exit()
 	end
 	
-	io.write("  replacing header: "..headerfile.."...")
-	io.flush()
-	header = replaceText(header)
-	local _,count = header:gsub("\n","\n")
-	print(", "..util.format_num(count, 0).." lines")
 	if saveModifiedHeader then
-		local filename = headerfile:gsub("%.h", "_replaced.h")
-		print("  replaced header : "..filename)
-		util.writeFile(filename, header)
-		if openModifiedHeader then
-			util.editFile(filename)
+		--[[
+		local header2 = ""
+		local i = 0
+		for line in header:gmatch("[^\r\n]+") do
+			i = i + 1
+			if i%5000 == 0 then
+				print("  ... line: "..util.format_num(i, 0))--.." / "..util.format_num(linecount, 0))
+			end
+			line = replaceLine(line)
+			if line ~= "" then
+				header2 = header2..line.."\n"
+			end
 		end
+		header = header2
+		]]
+		
+		header = replaceText(header)
+		local filename = headerfile:gsub("%.h", "_replaced.h")
+		print("  replaced header: "..filename)
+		util.writeFile(filename, header)
+		util.editFile(filename)
 	end
-	return header
 end
-local header = readHeaderFile()
+readHeaderFile()
 
 -- read target ffi.cdef file
 local code
@@ -361,7 +330,10 @@ local function paramsAdd(params_orig, sep)
 			
 			if not def:find("static const ") then
 				def = def:gsub("\n", "")
-				def = replaceText(def)
+				-- replase not-wanted parts. __asm, __attribute__, ...
+				for pat,repl in pairs(replace_pattern_param) do
+					def = def:gsub(pat, repl)
+				end
 				def = def:gsub("const", "")
 				def = def:gsub(" %*", " ")
 				def = def:gsub("%* ", " ")
@@ -415,7 +387,7 @@ for _,sourcefile in pairs(sourcefiles) do
 		--local crlfLen = #source
 		--source = source:gsub("\r\n", "\n") -- does not work?
 		print()
-		print("*** "..sourcefile.." size: "..util.fileSize(#source, 2)) -- / "..(crlfLen - #source))
+		print("*** "..sourcefile.." size: "..#source.." bytes") -- / "..(crlfLen - #source))
 		-- Lua pattern for matching Lua multi-line comment.
 		source = source:gsub("(%-%-%[(=*)%[.-%]%2%])", "") -- remove block comments
 		-- Lua pattern for matching Lua single line comment.
@@ -464,8 +436,8 @@ for _,sourcefile in pairs(sourcefiles) do
 		for i=1,#calls do
 			local call = calls[i]
 			local pattern = name_separator..call..name_separator
-			if call == "free" then -- for trace
-				call = call..""
+			if call == "sa_family" then -- for trace
+				call = "sa_family"
 			end
 			local posStart,posEnd = code:find(pattern)
 			
@@ -492,7 +464,7 @@ for _,sourcefile in pairs(sourcefiles) do
 		for i=1,#new_calls do
 			local findpos = 1
 			local findcall = new_calls[i]
-			if findcall:find("free") then -- for trace
+			if findcall:find("sa_family") then -- for trace
 				findcall = findcall .. ""
 			end
 			local pattern = name_separator..findcall..name_separator --"%f[%a]"..findcall.."%f[%A]"
@@ -504,7 +476,7 @@ for _,sourcefile in pairs(sourcefiles) do
 					local line = header:sub(line_start + 1, line_end)
 					
 					-- skip comment lines
-					--[[repeat
+					repeat
 						local s,e = line:find("\n//")
 						if e then
 							local s2,e2 = line:find("\n", e + 1)
@@ -513,7 +485,7 @@ for _,sourcefile in pairs(sourcefiles) do
 								line = header:sub(line_start + 1, line_end)
 							end
 						end
-					until not e]]
+					until not e
 					
 					-- skip wrong finds
 					local s,e = line:find(pattern) -- re-find after removing comments
@@ -584,7 +556,7 @@ for _,sourcefile in pairs(sourcefiles) do
 							
 						if pragma_pack then
 							line = pragma_pack.."\n"..line
-							line = line:gsub("\n", "\n")
+							line = line:gsub("\n", "\n\t")
 							line = line:gsub("#pragma pack", "// #pragma pack")
 						end
 						print("  "..line)
@@ -723,7 +695,7 @@ for _,sourcefile in pairs(sourcefiles) do
 								
 									findpos = line_end + 1  -- set next find pos
 									local line_orig = line
-									line_orig = line_orig:gsub("\n", "\n")
+									line_orig = line_orig:gsub("\n", "\n\t")
 									
 									line = replaceLine(line) 
 									line = line:gsub("\n", "")
@@ -763,7 +735,7 @@ for _,sourcefile in pairs(sourcefiles) do
 											if def:find("pragma pack(.-)struct") then
 												def = ""
 												if not line_orig:find("pragma pack%(%)") then
-													line_orig = line_orig.."\n#pragma pack()"
+													line_orig = line_orig.."\n\t#pragma pack()"
 													line_orig = line_orig:gsub("#pragma pack", "// #pragma pack")
 												end
 											end
@@ -828,43 +800,44 @@ for _,sourcefile in pairs(sourcefiles) do
 	local function addNewDefinitionsToTargetCdefFile()
 		code = code.."\n--[[ "..sourcefile.." ]]"
 		if #static_const_lines > 0 or #type_lines_basic > 0 or #type_lines > 0 or #struct_lines > 0 or #function_lines > 0 then
-			code = code.."\nffi.cdef[[\n"
+			code = code.."\nffi.cdef[[\n\t"
 			
 			if #static_const_lines > 0 then
-				code = code..table.concat(static_const_lines, "\n")
+				-- code = code.."\t// defines"
+				code = code..table.concat(static_const_lines, "\n\t")
 				if #type_lines > 0 or #struct_lines > 0 or #function_lines > 0 then
-					code = code.."\n\n"
+					code = code.."\n\t\n\t" -- .."\t// types"
 				end
 			end
 			
 			if #type_lines_basic > 0 then
-				code = code..table.concat(type_lines_basic, "\n")
+				code = code..table.concat(type_lines_basic, "\n\t")
 				if #type_lines > 0 then
-					code = code.."\n\n"
+					code = code.."\n\t\n\t" -- .."\t// methods"
 				end
 			end
 			
 			if #type_lines > 0 then
-				code = code..table.concat(type_lines, "\n")
+				code = code..table.concat(type_lines, "\n\t")
 				if #struct_lines > 0 or #function_lines > 0 then
-					code = code.."\n\n"
+					code = code.."\n\t\n\t" -- .."\t// methods"
 				end
 			end
 			
 			if #struct_lines > 0 then
-				code = code..table.concat(struct_lines, "\n")
+				code = code..table.concat(struct_lines, "\n\t")
 				if #function_lines > 0 then
-					code = code.."\n\n"
+					code = code.."\n\t\n\t" -- .."\t// methods"
 				end
 			end
 			
 			if #function_lines > 0 then
-				code = code..table.concat(function_lines, "\n")
+				code = code..table.concat(function_lines, "\n\t")
 			end
 			code = code.."\n]]\n"
 		end
 		
-		--code = code:gsub("\n\n\n", "\n\n")
+		code = code:gsub("\n\n\t\n\t", "\n\n\t")
 		file = io.output(target_ffi_file)
 		io.write(code)
 		io.output():close()

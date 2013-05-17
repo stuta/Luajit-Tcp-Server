@@ -20,6 +20,14 @@ else -- Linux
 	require "ffi_def_linux" -- ffi_def_linux -- ffi_def_unix
 end
 
+function editFile(file)
+	if isWin then
+		os.execute("start "..file)
+	else
+		os.execute("open "..file)
+	end
+end
+
 function currentPath()
 	local currentPath = ""
 	local pwd_file

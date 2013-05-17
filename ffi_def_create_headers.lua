@@ -26,19 +26,15 @@ osname = "windows" -- for running in osx
 local timeUsed = util.seconds()
 
 -- http://gcc.gnu.org/onlinedocs/gfortran/Preprocessing-Options.html
-local addToWinInclude
-local copy_commad = "cp "
-local preprocessor_commad = "gcc -E -P".." "  -- -dD  -C = leave comments
-if util.isWin then
-	copy_commad = "copy "
-	preprocessor_commad = "CL /EP".." " --   /showIncludes /FI /D_WIN32_WINNT=0x0601
-	--preprocessor_commad = "mingw32-gcc.exe -E -P -dD".." " --  -dD -dN -dI  -D _WIN32_WINNT=0x0601
-	addToWinInclude = '#define WIN32_LEAN_AND_MEAN\r\n#pragma comment (lib, "Ws2_32.lib")\r\n#define _WIN32_WINNT 0x0601\r\n\r\n'
-end
+local addToWindowsInclude = '#define _WIN32_WINNT 0x0602 // inserted header for Lua, Windows 8 == 0x0602\n#define WINVER _WIN32_WINNT\n'
+addToWindowsInclude = addToWindowsInclude..'#define WIN32_LEAN_AND_MEAN\n#pragma comment (lib, "Ws2_32.lib")\n'
+-- use ONLY '\n', not '\r' in addToWindowsInclude
+
 
 local target_path = "c_include/"..osname.."/"
+local useCccIncludeDir = true -- comment sourcepaths to match this
 local sourcepaths = {
-	--["windows"] = "C:/MinGW/include/", 
+	--["windows"] = "C:/mingw64/mingw/include/",
 	["windows"] = "C:/Program Files (x86)/Microsoft SDKs/Windows/v7.0A/Include/", 
 	["windows2"] = "C:/Program Files (x86)/Microsoft Visual Studio 10.0/VC/include/",
 	["osx"] = "/usr/include/",
@@ -63,9 +59,9 @@ sourcefiles = {
 ]],
 }
 
-local prfFileName = "ffi_def_create_headers_prf.txt"
+local prfFileName = "ffi_def_create_headers_prf.lua"
 if util.file_exists(prfFileName) then
-	dofile "ffi_def_create_headers_prf.txt"
+	dofile(prfFileName)
 end
 
 local sourcepath = sourcepaths[osname]
@@ -74,11 +70,40 @@ local sourcefile = sourcefiles[osname]
 sourcefile = sourcefile:gsub("#include <", "")
 sourcefile = sourcefile:gsub(">", "")
 
+local copy_commad = "cp "
+local preprocessor_commad = "gcc -E -P -D".." "  -- -dD  -C = leave comments
+if util.isWin then
+	copy_commad = "copy "
+	--preprocessor_commad = "CL /EP" --   /showIncludes /FI /D_WIN32_WINNT=0x0601
+	preprocessor_commad = "gcc.exe -E -dD -C"
+	if useCccIncludeDir then
+		preprocessor_commad = preprocessor_commad.." -I "..'"'..sourcepath..'"'
+		if sourcepath2 then
+			preprocessor_commad = preprocessor_commad.." -I "..'"'..sourcepath2..'"'
+		end
+	end
+	preprocessor_commad = preprocessor_commad.." " 
+	--  -dD -dN -dI -D _WIN32_WINNT=0x0602
+end
+
+
 
 local define_length = #("#define ")
 local define_pos = define_length + 1
 
 local function defineLine(line)
+	
+	local comment
+	local s,e =  line:find("%/%/")
+	if not s then
+		s,e =  line:find("%/%*")
+	end
+	if s then
+		comment = line:sub(s)
+		comment = "  "..comment:match("^%s*(.-)%s*$") -- remove whitespaces
+		line = line:sub(1, s - 1)
+	end
+	
 	local value = line:sub(define_pos)
 	local s,e = value:find(" ")
 	if not e then
@@ -90,6 +115,8 @@ local function defineLine(line)
 		line = ""
 	else
 		local name = line:sub(define_pos, define_pos + s - 2)
+		name = name:match("^%s*(.-)%s*$") -- remove leading and trailing whitespace
+		value = value:match("^%s*(.-)%s*$") -- remove leading and trailing whitespace
 		if value:match('".*%"$') then
 			line = "static const char "..name.." = "..value..";"
 		elseif value:match(".*%dL$") then
@@ -109,6 +136,9 @@ local function defineLine(line)
 		else
 			line = "static const int "..name.." = "..value..";"
 		end
+    if comment then
+      line = line..comment
+    end
 	end
 	return line
 end
@@ -146,10 +176,10 @@ for file in sourcefile:gmatch("[^\r\n]+") do
 			end
 			print(cmd)
 			os.execute(cmd)
-			if addToWinInclude then
+			if addToWindowsInclude then
 				print("  ... add prefix to file: "..copypath)
 				local code = util.readFile(copypath)
-				code = addToWinInclude..code
+				code = addToWindowsInclude..code
 				util.writeFile(copypath, code)
 			end
 		end
@@ -201,7 +231,7 @@ for file in sourcefile:gmatch("[^\r\n]+") do
 			local definecount = 0
 			if not define_found then
 				-- read #define's from original header
-				print("  ... creating defines...")
+				print("  ... creating defines from original header...")
 				local definecode = util.readFile(destpath)
 				if not definecode:find(" --- defines\n\n") then
 					definecode = util.readFile(copypath)
@@ -225,9 +255,7 @@ for file in sourcefile:gmatch("[^\r\n]+") do
 			end
 			define_found = false
 			
-			if definecount > 0 then
-				util.appendFile(target_path.."ffi_types.h", filecomment.."\n"..codeout)
-			end
+			util.appendFile(target_path.."ffi_types.h", filecomment.."\n"..codeout)
 			print("  ... final size: "..util.fileSize(#codeout, 2)..", defines: "..definecount)
 			print()
 			util.writeFile(destpath, codeout)

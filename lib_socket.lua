@@ -6,6 +6,13 @@ local C = ffi.C
 local util = require("lib_util")
 local bit = require("bit")
 
+local lshift = bit.lshift
+local rshift = bit.rshift
+local band = bit.band
+local bor = bit.bor
+local bnot = bit.bnot
+local bswap = bit.bswap
+
 local s
 if util.isWin then
 	--require "win_socket"
@@ -29,17 +36,29 @@ else
 end
 SOCKET_ERROR	= -1	-- 0xffffffff
 
+local function MAKEWORD(low,high)
+	return bor(low , lshift(high , 8))
+end
+
+local function LOWBYTE(word)
+	return band(word, 0xff)
+end
+
+local function HIGHBYTE(word)
+	return band(rshift(word,8), 0xff)
+end
+
 if util.isWin then
 	function errortext(err)
 		return util.win_errortext(err)
 	end
 	function initialize()
 		local wsadata
-		if is64bit then
-			wsadata = ffi.new("WSADATA64[1]")
-		else
-			wsadata = ffi.new("WSADATA[1]")
-		end
+		--if is64bit then
+		--	wsadata = ffi.new("WSADATA64[1]")
+		--else
+		wsadata = ffi.new("WSADATA[1]")
+		--end
 		local wVersionRequested = ffi.cast("WORD", MAKEWORD(2, 2))
     local err = s.WSAStartup(wVersionRequested, wsadata)
     if err ~= 0 then

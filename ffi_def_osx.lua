@@ -160,12 +160,10 @@ struct sockaddr {
  sa_family_t sa_family;
  char sa_data[14];
 };
-
 typedef __darwin_ssize_t ssize_t;
 struct in_addr {
  in_addr_t s_addr;
 };
-
 typedef __darwin_socklen_t socklen_t;
 struct sockaddr_in {
  __uint8_t sin_len;
@@ -174,7 +172,6 @@ struct sockaddr_in {
  struct in_addr sin_addr;
  char sin_zero[8];
 };
-
 struct addrinfo {
  int ai_flags;
  int ai_family;
@@ -191,11 +188,9 @@ int bind(int, const struct sockaddr *, socklen_t);
 int connect(int, const struct sockaddr *, socklen_t);
 int fcntl(int, int, ...);
 const char *gai_strerror(int);
-
 int getaddrinfo(const char * , const char * ,
        const struct addrinfo * ,
        struct addrinfo ** );
-
 int getnameinfo(const struct sockaddr * , socklen_t,
          char * , socklen_t, char * ,
          socklen_t, int);
@@ -235,7 +230,6 @@ struct sockaddr_storage {
  t64_t __ss_align;
  char __ss_pad2[(128 - sizeof(__uint8_t) - sizeof(sa_family_t) - ((sizeof(t64_t)) - sizeof(__uint8_t) - sizeof(sa_family_t)) - (sizeof(t64_t)))];
 };
-
 struct in6_addr {
  union {
   __uint8_t __u6_addr8[16];
@@ -243,7 +237,6 @@ struct in6_addr {
   __uint32_t __u6_addr32[4];
  } __u6_addr;
 };
-
 struct sockaddr_in6 {
  __uint8_t sin6_len;
  sa_family_t sin6_family;
@@ -267,10 +260,8 @@ struct __darwin_pthread_handler_rec
 };
 struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
 struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
-
 typedef struct _opaque_pthread_t
    *__darwin_pthread_t;
-
 typedef struct _opaque_pthread_attr_t
    __darwin_pthread_attr_t;
 typedef __darwin_pthread_attr_t pthread_attr_t;
@@ -298,7 +289,6 @@ struct timespec
  long tv_nsec;
 };
 typedef t32_t __darwin_suseconds_t;
-
 struct timeval
 {
  __darwin_time_t tv_sec;

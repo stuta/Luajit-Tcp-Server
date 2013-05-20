@@ -15,7 +15,7 @@ is32bit = ffi.abi("32bit")
 if isWin then
 	require "ffi_def_windows_old"   -- ffi_def_windows  --  ffi_def_windows_old
 elseif isMac then
-	require "ffi_def_osx" 	-- ffi_def_osx -- ffi_def_unix
+	require "ffi_def_unix" 	-- ffi_def_osx -- ffi_def_unix
 else -- Linux
 	require "ffi_def_linux" -- ffi_def_linux -- ffi_def_unix
 end

@@ -4,6 +4,7 @@ print()
 print(" -- ffi_def_create.lua start -- ")
 if jit then
 	print(jit.version)
+	require("jit.v").start("ffi_def_create_jit.txt")
 else
 	print(_VERSION)
 end
@@ -18,7 +19,7 @@ if true then -- keep ffi valid only inside if to make ZeroBrane debugger work
 	osname = string.lower(ffi.os)
 end
 -- osname = "linux" -- if you want to create linux with osx
-osname = "windows" -- if you want to create windows with osx
+-- osname = "windows" -- if you want to create windows with osx
 
 local timeUsed = util.seconds()
 
@@ -416,6 +417,7 @@ end
 														
 
 local function paramsAdd(params_orig, sep)
+	if not params_orig then return end
 	local findpos = 1
 	local params = params_orig
 	if params:find("typedef enum") then
@@ -503,7 +505,7 @@ for _,sourcefile in pairs(sourcefiles) do
 		for _,patt in pairs(c_type_patterns) do
 			for params in source:gmatch(patt) do
 				params = removeAllLineComments(params)
-				s = params:find("%[")
+				local s = params:find("%[")
 				if s then
 					params = params:sub(1, s - 1)
 				end

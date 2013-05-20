@@ -71,7 +71,7 @@ time_t time(time_t *);
 --[[ lib_http.lua ]]
 --[[ lib_kqueue.lua ]]
 ffi.cdef[[
-// #pragma pack(4)
+
 struct kevent {
  uintptr_t ident;
  int16_t filter;
@@ -80,7 +80,6 @@ struct kevent {
  intptr_t data;
  void *udata;
 };
-// #pragma pack()
 ]]
 
 --[[ lib_poll.lua ]]
@@ -90,6 +89,7 @@ static const int POLLHUP = 0x0010;
 static const int POLLIN = 0x0001;
 static const int POLLNVAL = 0x0020;
 static const int POLLOUT = 0x0004;
+
 
 struct pollfd
 {
@@ -111,9 +111,8 @@ static const int O_RDWR = 0x0002;
 static const int PROT_READ = 0x01;
 static const int PROT_WRITE = 0x02;
 
-typedef long long t64_t;
+typedef __int64_t __darwin_off_t;
 
-typedef t64_t __darwin_off_t;
 typedef __darwin_off_t off_t;
 
 int close(int);
@@ -128,9 +127,8 @@ size_t strlen(const char *);
 --[[ lib_signal.lua ]]
 ffi.cdef[[
 typedef __uint32_t __darwin_sigset_t;
-typedef int t32_t;
+typedef __int32_t __darwin_pid_t;
 
-typedef t32_t __darwin_pid_t;
 typedef __darwin_sigset_t sigset_t;
 typedef __darwin_pid_t pid_t;
 
@@ -148,23 +146,22 @@ static const int F_GETFL = 3;
 static const int F_SETFL = 4;
 static const int O_NONBLOCK = 0x0004;
 
-typedef __uint32_t in_addr_t;
 typedef long __darwin_ssize_t;
 typedef __uint8_t sa_family_t;
 typedef unsigned int nfds_t;
 typedef __uint32_t __darwin_socklen_t;
 typedef __uint16_t in_port_t;
 
+typedef __darwin_ssize_t ssize_t;
+
 struct sockaddr {
  __uint8_t sa_len;
  sa_family_t sa_family;
  char sa_data[14];
 };
-typedef __darwin_ssize_t ssize_t;
-struct in_addr {
- in_addr_t s_addr;
-};
+struct in_addr sin_addr;
 typedef __darwin_socklen_t socklen_t;
+
 struct sockaddr_in {
  __uint8_t sin_len;
  sa_family_t sin_family;
@@ -172,6 +169,7 @@ struct sockaddr_in {
  struct in_addr sin_addr;
  char sin_zero[8];
 };
+
 struct addrinfo {
  int ai_flags;
  int ai_family;
@@ -188,9 +186,11 @@ int bind(int, const struct sockaddr *, socklen_t);
 int connect(int, const struct sockaddr *, socklen_t);
 int fcntl(int, int, ...);
 const char *gai_strerror(int);
+
 int getaddrinfo(const char * , const char * ,
        const struct addrinfo * ,
        struct addrinfo ** );
+
 int getnameinfo(const struct sockaddr * , socklen_t,
          char * , socklen_t, char * ,
          socklen_t, int);
@@ -223,20 +223,22 @@ static const int SOL_SOCKET = 0xffff;
 static const int SOMAXCONN = 128;
 static const int TCP_NODELAY = 0x01;
 
-struct sockaddr_storage {
- __uint8_t ss_len;
- sa_family_t ss_family;
- char __ss_pad1[((sizeof(t64_t)) - sizeof(__uint8_t) - sizeof(sa_family_t))];
- t64_t __ss_align;
- char __ss_pad2[(128 - sizeof(__uint8_t) - sizeof(sa_family_t) - ((sizeof(t64_t)) - sizeof(__uint8_t) - sizeof(sa_family_t)) - (sizeof(t64_t)))];
-};
+
 struct in6_addr {
  union {
   __uint8_t __u6_addr8[16];
   __uint16_t __u6_addr16[8];
   __uint32_t __u6_addr32[4];
  } __u6_addr;
+
+struct sockaddr_storage {
+ __uint8_t ss_len;
+ sa_family_t ss_family;
+ char __ss_pad1[((sizeof(__int64_t)) - sizeof(__uint8_t) - sizeof(sa_family_t))];
+ __int64_t __ss_align;
+ char __ss_pad2[(128 - sizeof(__uint8_t) - sizeof(sa_family_t) - ((sizeof(__int64_t)) - sizeof(__uint8_t) - sizeof(sa_family_t)) - (sizeof(__int64_t)))];
 };
+
 struct sockaddr_in6 {
  __uint8_t sin6_len;
  sa_family_t sin6_family;
@@ -252,20 +254,15 @@ in_port_t sin6_port;
 
 --[[ lib_thread.lua ]]
 ffi.cdef[[
-struct __darwin_pthread_handler_rec
-{
- void (*__routine)(void *);
- void *__arg;
- struct __darwin_pthread_handler_rec *__next;
-};
-struct _opaque_pthread_attr_t { long __sig; char __opaque[56]; };
-struct _opaque_pthread_t { long __sig; struct __darwin_pthread_handler_rec *__cleanup_stack; char __opaque[1168]; };
+
 typedef struct _opaque_pthread_t
    *__darwin_pthread_t;
+
 typedef struct _opaque_pthread_attr_t
    __darwin_pthread_attr_t;
 typedef __darwin_pthread_attr_t pthread_attr_t;
 typedef __darwin_pthread_t pthread_t;
+
 
 int pthread_create(pthread_t * ,
                          const pthread_attr_t * ,
@@ -281,18 +278,20 @@ ffi.cdef[[
 static const int _SC_NPROCESSORS_CONF = 57;
 static const int _SC_NPROCESSORS_ONLN = 58;
 
+typedef __int32_t __darwin_suseconds_t;
 typedef __uint32_t __darwin_useconds_t;
+
+
+struct timeval
+{
+ __darwin_time_t tv_sec;
+ __darwin_suseconds_t tv_usec;
+};
 
 struct timespec
 {
  __darwin_time_t tv_sec;
  long tv_nsec;
-};
-typedef t32_t __darwin_suseconds_t;
-struct timeval
-{
- __darwin_time_t tv_sec;
- __darwin_suseconds_t tv_usec;
 };
 typedef __darwin_useconds_t useconds_t;
 
@@ -326,9 +325,7 @@ static const int NOTE_DELETE = 0x00000001;
 static const int NOTE_EXTEND = 0x00000004;
 static const int NOTE_WRITE = 0x00000002;
 
-int kevent(int kq, const struct kevent *changelist, int nchanges,
-      struct kevent *eventlist, int nevents,
-      const struct timespec *timeout);
+struct kevent ;
 int kqueue(void);
 int open(const char *, int, ...);
 ]]
@@ -413,9 +410,8 @@ not found basic types = {
    [1] = "WSADATA";
    [2] = "WORD";
    [3] = "SOCKET";
-   [4] = "WSADATA64";
+   [4] = "DWORD";
    [5] = "thread_func";
-   [6] = "DWORD";
-   [7] = "SYSTEM_INFO";
+   [6] = "SYSTEM_INFO";
 };
 ]]

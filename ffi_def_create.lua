@@ -4,7 +4,7 @@ print()
 print(" -- ffi_def_create.lua start -- ")
 if jit then
 	print(jit.version)
-	require("jit.v").start("ffi_def_create_jit.txt")
+	--require("jit.v").start("ffi_def_create_jit.txt")
 else
 	print(_VERSION)
 end

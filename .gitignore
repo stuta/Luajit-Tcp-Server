@@ -1,4 +1,5 @@
 .svn
 .gitignore
 other/*
+c_include/*
 .DS_Store

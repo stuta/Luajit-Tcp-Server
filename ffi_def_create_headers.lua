@@ -209,7 +209,7 @@ for file in sourcefile:gmatch("[^\r\n]+") do
 			collectgarbage()
 			print("  ... linecount: "..util.format_num(linecount, 0))
 				
-			local codeout = ""
+			local codeout = {}
 			local i = 0
 			for line in code:gmatch("[^\r\n]+") do
 				i = i + 1
@@ -224,7 +224,7 @@ for file in sourcefile:gmatch("[^\r\n]+") do
 					line = defineLine(line)
 				end
 				if line ~= "" and not line:find("^%s+$") and line ~= "\n" and line:find("#undef") ~= 1 then
-					codeout = codeout..line.."\n"
+					codeout[#codeout+1] = line.."\n"
 				end
 			end
 			
@@ -235,7 +235,7 @@ for file in sourcefile:gmatch("[^\r\n]+") do
 				local definecode = util.readFile(destpath)
 				if not definecode:find(" --- defines\n\n") then
 					definecode = util.readFile(copypath)
-					local defineout = filecomment.." --- defines\n\n"
+					local defineout = {}
 					local i = 0
 					for line in definecode:gmatch("[^\r\n]+") do
 						i = i + 1
@@ -246,15 +246,16 @@ for file in sourcefile:gmatch("[^\r\n]+") do
 							line = defineLine(line)
 							if line ~= "" then
 								definecount = definecount +1
-								defineout = defineout..line.."\n"
+								defineout[#defineout+1] = line.."\n"
 							end
 						end
 					end
-					codeout = codeout..defineout
+					codeout[#codeout+1] = filecomment.." --- defines\n\n"..table.concat(defineout)
 				end
 			end
 			define_found = false
 			
+			codeout = table.concat(codeout)
 			util.appendFile(target_path.."ffi_types.h", filecomment.."\n"..codeout)
 			print("  ... final size: "..util.fileSize(#codeout, 2)..", defines: "..definecount)
 			print()

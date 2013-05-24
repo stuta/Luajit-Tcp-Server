@@ -439,7 +439,7 @@ static const int SOL_SOCKET = 0xffff;
 static const int SOMAXCONN = 0x7fffffff;
 static const int TCP_NODELAY = 0x0001;
 
-// DWORD fDsrHold : 1;
+DWORD fDsrHold : 1;
 
 typedef struct {
     union {
@@ -457,9 +457,8 @@ typedef struct in6_addr {
         USHORT Word[8];
     } u;
 } IN6_ADDR, *PIN6_ADDR, *LPIN6_ADDR;
-// typedef enum _RTL_UMS_THREAD_INFO_CLASS UMS_THREAD_INFO_CLASS, *PUMS_THREAD_INFO_CLASS;
+typedef enum _RTL_UMS_THREAD_INFO_CLASS UMS_THREAD_INFO_CLASS, *PUMS_THREAD_INFO_CLASS;
 
-/*
 typedef struct sockaddr_in6 {
     ADDRESS_FAMILY sin6_family; // AF_INET6.
     USHORT sin6_port; // Transport level port number.
@@ -469,17 +468,6 @@ typedef struct sockaddr_in6 {
         ULONG sin6_scope_id; // Set of interfaces for a scope.
         SCOPE_ID sin6_scope_struct;
     };
-*/
-typedef struct sockaddr_in6 {
-    ADDRESS_FAMILY sin6_family; // AF_INET6.
-    USHORT sin6_port; // Transport level port number.
-    ULONG sin6_flowinfo; // IPv6 flow information.
-    IN6_ADDR sin6_addr; // IPv6 address.
-    union {
-        ULONG sin6_scope_id; // Set of interfaces for a scope.
-        SCOPE_ID sin6_scope_struct;
-    };
-} SOCKADDR_IN6_LH, *PSOCKADDR_IN6_LH, *LPSOCKADDR_IN6_LH;
 
 typedef struct sockaddr_storage {
     ADDRESS_FAMILY ss_family; // address family
@@ -525,19 +513,14 @@ typedef enum {
     IPPROTO_RESERVED_IPSECOFFLOAD = 259,
     IPPROTO_RESERVED_MAX = 260
 } IPPROTO, *PIPROTO;
-// IN6_ADDR sin6_addr;
-// USHORT sin6_port;
+IN6_ADDR sin6_addr;
+USHORT sin6_port;
 ]]
 
 --[[ lib_thread.lua ]]
 ffi.cdef[[
 static const int INFINITE = 0xFFFFFFFF;
 
-// new: PTHREAD_START_ROUTINE
-typedef DWORD (*PTHREAD_START_ROUTINE)(
-    LPVOID lpThreadParameter
-    );
-    
 typedef PTHREAD_START_ROUTINE LPTHREAD_START_ROUTINE;
 
 typedef struct _CREATE_THREAD_DEBUG_INFO {
@@ -546,7 +529,7 @@ typedef struct _CREATE_THREAD_DEBUG_INFO {
     LPTHREAD_START_ROUTINE lpStartAddress;
 } CREATE_THREAD_DEBUG_INFO, *LPCREATE_THREAD_DEBUG_INFO;
 
-// CREATE_THREAD_DEBUG_INFO CreateThread;
+CREATE_THREAD_DEBUG_INFO CreateThread;
 
 DWORD
 GetCurrentThreadId(
@@ -568,8 +551,6 @@ static const int FORMAT_MESSAGE_FROM_SYSTEM = 0x00001000;
 static const int FORMAT_MESSAGE_IGNORE_INSERTS = 0x00000200;
 static const int STD_INPUT_HANDLE = ((DWORD)-10);
 
-//new: typedef ULONG_PTR DWORD_PTR, *PDWORD_PTR;
-typedef ULONG_PTR DWORD_PTR, *PDWORD_PTR;
 
 typedef struct _SYSTEM_INFO {
     union {
@@ -691,3 +672,106 @@ static const int NI_NUMERICSERV = 0x08;
 
 --[[ TestAll.lua ]]
 --[[ TestKqueue.lua ]]
+--[[ TestLinux.lua ]]
+--[[ TestSharedMemory.lua ]]
+--[[ TestSignal.lua ]]
+--[[ TestSignal_bad.lua ]]
+--[[ TestSocket.lua ]]
+ffi.cdef[[
+static const int SD_SEND = 0x01;
+]]
+
+--[[ TestThread.lua ]]
+
+--[[
+not found calls = {
+   [1] = "--- lib_date_time.lua ---";
+   [2] = "--- lib_http.lua ---";
+   [3] = "--- lib_kqueue.lua ---";
+   [4] = "--- lib_poll.lua ---";
+   [5] = "--- lib_shared_memory.lua ---";
+   [6] = "close";
+   [7] = "ftruncate";
+   [8] = "MAP_SHARED";
+   [9] = "mmap";
+   [10] = "munmap";
+   [11] = "O_CREAT";
+   [12] = "O_RDONLY";
+   [13] = "O_RDWR";
+   [14] = "PROT_READ";
+   [15] = "PROT_WRITE";
+   [16] = "shm_open";
+   [17] = "shm_unlink";
+   [18] = "--- lib_signal.lua ---";
+   [19] = "getpid";
+   [20] = "kill";
+   [21] = "pthread_sigmask";
+   [22] = "sigaddset";
+   [23] = "sigemptyset";
+   [24] = "sigwait";
+   [25] = "--- lib_socket.lua ---";
+   [26] = "close";
+   [27] = "F_GETFL";
+   [28] = "F_SETFL";
+   [29] = "fcntl";
+   [30] = "gai_strerror";
+   [31] = "O_NONBLOCK";
+   [32] = "poll";
+   [33] = "--- lib_tcp.lua ---";
+   [34] = "--- lib_thread.lua ---";
+   [35] = "pthread_create";
+   [36] = "pthread_exit";
+   [37] = "pthread_join";
+   [38] = "pthread_self";
+   [39] = "--- lib_util.lua ---";
+   [40] = "_SC_NPROCESSORS_CONF";
+   [41] = "_SC_NPROCESSORS_ONLN";
+   [42] = "gettimeofday";
+   [43] = "nanosleep";
+   [44] = "sched_yield";
+   [45] = "sysconf";
+   [46] = "usleep";
+   [47] = "--- TestAddrinfo.lua ---";
+   [48] = "--- TestAll.lua ---";
+   [49] = "--- TestKqueue.lua ---";
+   [50] = "close";
+   [51] = "EV_ADD";
+   [52] = "EV_ENABLE";
+   [53] = "EV_ONESHOT";
+   [54] = "EVFILT_VNODE";
+   [55] = "kevent";
+   [56] = "kqueue";
+   [57] = "NOTE_ATTRIB";
+   [58] = "NOTE_DELETE";
+   [59] = "NOTE_EXTEND";
+   [60] = "NOTE_WRITE";
+   [61] = "O_RDONLY";
+   [62] = "open";
+   [63] = "--- TestLinux.lua ---";
+   [64] = "mmap";
+   [65] = "munmap";
+   [66] = "O_CREAT";
+   [67] = "O_EXCL";
+   [68] = "shm_open";
+   [69] = "shm_unlink";
+   [70] = "--- TestSharedMemory.lua ---";
+   [71] = "--- TestSignal.lua ---";
+   [72] = "--- TestSignal_bad.lua ---";
+   [73] = "getpid";
+   [74] = "kill";
+   [75] = "pause";
+   [76] = "signal";
+   [77] = "--- TestSocket.lua ---";
+   [78] = "--- TestThread.lua ---";
+};
+]]
+
+--[[
+not found basic types = {
+   [1] = "kevent";
+   [2] = "sigset_t";
+   [3] = "pthread_t";
+   [4] = "thread_func";
+   [5] = "timespec";
+};
+]]

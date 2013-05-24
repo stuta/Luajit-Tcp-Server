@@ -19,7 +19,7 @@ if true then -- keep ffi valid only inside if to make ZeroBrane debugger work
 	osname = string.lower(ffi.os)
 end
 -- osname = "linux" -- if you want to create linux with osx
--- osname = "windows" -- if you want to create windows with osx
+osname = "windows" -- if you want to create windows with osx
 
 local timeUsed = util.seconds()
 
@@ -244,17 +244,18 @@ end
 
 local function removeAllLineComments(txt)
 	txt = txt:gsub("/%*(.-)%*/" ,"") -- remove "/* */" -comments
-	local txtall = ""
+	local txtall = {}
 	for line in txt:gmatch("[^\n]+") do
 		local s = line:find("//")
 		if s then
 			line = line:sub(1, s - 1) -- remove "//" -comments
 		end
-		txtall = txtall..line.."\n"
+		txtall[#txtall+1] = line
 	end
-	if #txtall > 0 then
+	--[[if #txtall > 0 then
 		txtall = txtall:sub(1, #txtall - 1) -- remove last "\n"
-	end
+	end]]
+	txtall = table.concat(txtall, "\n")
 	return txtall
 end
 

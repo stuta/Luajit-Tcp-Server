@@ -20,7 +20,7 @@ else -- Linux
 	require "ffi_def_linux" -- ffi_def_linux -- ffi_def_unix
 end
 
-function editFile(file)
+function openFile(file)
 	if isWin then
 		os.execute("start "..file)
 	else

@@ -33,12 +33,12 @@ end
 local prfFileName = "ffi_def_create_prf.json"
 local basic_types = {
 	"void", "...", "double", "char",
-	"short", "int", "long", "long int", "long long", 
-	"unsigned", --"unsigned short int", "unsigned int", "unsigned long", "unsigned long int", "unsigned long long", 
+	"short", "int", "long", "long int", "long long",
+	"unsigned", --"unsigned short int", "unsigned int", "unsigned long", "unsigned long int", "unsigned long long",
 	"__int8", "__int16", "__int32", "__int64",
-	"int8_t", "int16_t", "int32_t", "int64_t", 
+	"int8_t", "int16_t", "int32_t", "int64_t",
 	"uint8_t", "uint16_t", "uint32_t", "uint64_t",
-	"__int8_t", "__int16_t", "__int32_t", "__int64_t", 
+	"__int8_t", "__int16_t", "__int32_t", "__int64_t",
 	"__uint8_t", "__uint16_t", "__uint32_t", "__uint64_t",
 	"intptr_t", "uintptr_t",
 	"ptrdiff_t", "size_t", "wchar_t",
@@ -65,16 +65,16 @@ local replace_pattern = {
   "__const"] = "const",
   "__MINGW_NOTHROW ",
   "_CRTIMP ",
-  "__cdecl ", 
+  "__cdecl ",
   "PASCAL ",
-  "__checkReturn", 
-  "DECLSPEC_IMPORT", 
-  "FARPROC", 
-  "WINAPI", 
+  "__checkReturn",
+  "DECLSPEC_IMPORT",
+  "FARPROC",
+  "WINAPI",
   "deprecated%((.-)%)", -- must be before "__declspec%((.-)%)"
-  "__declspec%((.-)%)", 
-  "__success%((.-)%)", 
-  "__field_bcount%((.-)%)", 
+  "__declspec%((.-)%)",
+  "__success%((.-)%)",
+  "__field_bcount%((.-)%)",
   "__out_bcount_part_opt%((.*)%)",
   "__out_data_source%((.-)%)",
   "__drv_preferredFunction%((.-)%)",
@@ -83,34 +83,34 @@ local replace_pattern = {
   "_bcount_part%((.-)%)",
   "_bcount_opt%((.-)%)",
   "_bcount%((.-)%)",
-	
-  "__deref_out ", 
-  "__deref_opt_out_opt ", 
-  "__inout_opt ", 
-  "__in_opt ", 
-  "__out_opt ", 
-  "__inout ", 
-  "__in ", 
-  "__out ", 
-  "_opt ", 
-  "__reserved ", 
-	
+
+  "__deref_out ",
+  "__deref_opt_out_opt ",
+  "__inout_opt ",
+  "__in_opt ",
+  "__out_opt ",
+  "__inout ",
+  "__in ",
+  "__out ",
+  "_opt ",
+  "__reserved ",
+
 	--[[
-  "__inout_opt", 
-  "__in_opt", 
-  "__out_opt", 
-  "__in", 
-  "__out", 
+  "__inout_opt",
+  "__in_opt",
+  "__out_opt",
+  "__in",
+  "__out",
 	]]
-	 
-  "__stdcall", 
+
+  "__stdcall",
 }
 local replace_pattern_param = {
   ["%)"] = "",
 }
 
 -- name_separator, separating chars before and after function or definition name
-local name_separator = "[^_%w]" 
+local name_separator = "[^_%w]"
 local c_call_patterns = {
 	"%WC%.([_%w]*)",
 	"%Wkernel32%.([_%w]*)",
@@ -118,8 +118,8 @@ local c_call_patterns = {
 	"%Ws%.([_%w]*)",
 }
 local c_type_patterns = {
-	"ffi.new%(%'(.-)%'", 
-	"ffi.new%(%\"(.-)%\"", 
+	"ffi.new%(%'(.-)%'",
+	"ffi.new%(%\"(.-)%\"",
 	"ffi.cast%(%'(.-)'",
 	"ffi.cast%(%\"(.-)\"",
 }
@@ -141,7 +141,7 @@ local source = source..'\n  local err_c = ffi.cast("int", err)")'
 local generated_start = "-- generated code start --"
 local sourcefiles = {
 	"lib_date_time.lua", "lib_http.lua", "lib_kqueue.lua", "lib_poll.lua",
-	"lib_shared_memory.lua", "lib_signal.lua", 	"lib_socket.lua", 
+	"lib_shared_memory.lua", "lib_signal.lua", 	"lib_socket.lua",
 	"lib_tcp.lua", "lib_thread.lua", "lib_util.lua",
 
 	"TestAddrinfo.lua", "TestAll.lua", "TestKqueue.lua",
@@ -236,7 +236,7 @@ local function readHeaderFile()
 		print(headerfile.." is empty")
 		os.exit()
 	end
-	
+
 	if saveModifiedHeader then
 		--[[
 		local header2 = ""
@@ -253,12 +253,12 @@ local function readHeaderFile()
 		end
 		header = header2
 		]]
-		
+
 		header = replaceText(header)
 		local filename = headerfile:gsub("%.h", "_replaced.h")
 		print("  replaced header: "..filename)
 		util.writeFile(filename, header)
-		util.editFile(filename)
+		util.openFile(filename)
 	end
 end
 readHeaderFile()
@@ -291,7 +291,7 @@ local function validType(def)
 	def = def:match( "^%s*(.-)%s*$" ) -- remove leading and trailing whitespace
 	def = def:gsub( "%)", "" ) -- remove ")"
 	return def
-end			
+end
 
 local function stringBetweenPosition(str, startpos, endpos, startstr, endstr)
 	-- loop startpos backwards to startstr
@@ -306,7 +306,7 @@ local function stringBetweenPosition(str, startpos, endpos, startstr, endstr)
 	end
 	-- find endstr in forward direction, set endpos
 	local s,e = str:find(endstr, endpos)
-	if e then 
+	if e then
 		endpos = e
 	end
 	return startpos, endpos
@@ -327,7 +327,7 @@ local function paramsAdd(params_orig, sep)
 		end
 		local basetype = ""
 		if def then
-			
+
 			if not def:find("static const ") then
 				def = def:gsub("\n", "")
 				-- replase not-wanted parts. __asm, __attribute__, ...
@@ -363,7 +363,7 @@ local function paramsAdd(params_orig, sep)
 					end
 				end
 			end
-			
+
 		end
 	end
 end
@@ -372,7 +372,7 @@ end
 local not_found_calls = {}
 -- main loop, go through all files
 for _,sourcefile in pairs(sourcefiles) do
-	
+
 	local source
 	-- create source text
 	local function createSourceText()
@@ -382,8 +382,8 @@ for _,sourcefile in pairs(sourcefiles) do
 			os.exit()
 		end
 		source = io.read("*all")
-		io.input():close() 
-		
+		io.input():close()
+
 		--local crlfLen = #source
 		--source = source:gsub("\r\n", "\n") -- does not work?
 		print()
@@ -404,11 +404,11 @@ for _,sourcefile in pairs(sourcefiles) do
 					params = params:sub(1, s - 1)
 				end
 				paramsAdd(params, ",")
-			end				
+			end
 		end
 	end
 	addCTypeParameters()
-	
+
 	local calls = {}
 	local function addCalls()
 		local count = 0
@@ -423,7 +423,7 @@ for _,sourcefile in pairs(sourcefiles) do
 
 		calls = util.table_invert(calls)
 		table.sort(calls, function(a,b) -- case-insensitive sort
-				return a:lower() < b:lower() 
+				return a:lower() < b:lower()
 			end
 		)
 		print(util.table_show(calls, "calls"))
@@ -440,15 +440,15 @@ for _,sourcefile in pairs(sourcefiles) do
 				call = "sa_family"
 			end
 			local posStart,posEnd = code:find(pattern)
-			
+
 			-- check if function was already defined as struct
 			if posStart then
 				local code_call = code:sub(posStart - 7, posEnd) -- 7 = #("struct ")
 				if code_call:find("struct "..call) then
 					posStart = nil -- add function
 				end
-			end 
-			
+			end
+
 			if not posStart then
 				table.insert(new_calls, call) --code:sub(posStart, posEnd))
 			end
@@ -456,7 +456,7 @@ for _,sourcefile in pairs(sourcefiles) do
 		print("new calls found: "..#new_calls)
 	end
 	createNotFoundNewDefinitions()
-	
+
 	local function_lines = {}
 	local static_const_lines = {}
 	-- create missing definitions from header file
@@ -474,7 +474,7 @@ for _,sourcefile in pairs(sourcefiles) do
 				local pragma_pack
 				if line_start then
 					local line = header:sub(line_start + 1, line_end)
-					
+
 					-- skip comment lines
 					repeat
 						local s,e = line:find("\n//")
@@ -486,14 +486,14 @@ for _,sourcefile in pairs(sourcefiles) do
 							end
 						end
 					until not e
-					
+
 					-- skip wrong finds
 					local s,e = line:find(pattern) -- re-find after removing comments
 					if not s then
 						line_start = nil -- wrong -> find next
 						findpos = endpos + 1  -- set next find pos
 					end
-					
+
 					if line_start then
 						-- function name is same struct name (osx kevent and struct kevent)
 						local pos_struct = line:find("%Wstruct "..findcall.."%W")
@@ -505,7 +505,7 @@ for _,sourcefile in pairs(sourcefiles) do
 							end
 						end
 					end
-					
+
 					 -- function on the right side of "=" fix (osx pthread_self)
 					if line_start then
 						local s,e = line:find("= "..findcall)
@@ -514,7 +514,7 @@ for _,sourcefile in pairs(sourcefiles) do
 							findpos = endpos + 1  -- set next find pos
 						end
 					end
-						
+
 					if line_start then
 						 -- pragma pack fix
 						local s,e = line:find("pragma pack")
@@ -528,19 +528,19 @@ for _,sourcefile in pairs(sourcefiles) do
 						end
 					end
 				end
-						
+
 				if line_start then
 					line_start = line_start + 1 -- remove next "\n"
 					local line = header:sub(line_start + 1, line_end)
 					findpos = line_end + 1  -- set next find pos
 					-- remove front linefeeds
-					while line:sub(1, 1) == "\n" do 
+					while line:sub(1, 1) == "\n" do
 						line = line:sub(2)
 					end
-						
+
 					-- replace not-wanted parts. __asm, __attribute__, ...
 					line = replaceLine(line)
-					
+
 					new_calls[i] = "" -- mark as used
 					if line ~= "" then
 						local def = header:sub(line_start + 1, startpos - 1)
@@ -553,7 +553,7 @@ for _,sourcefile in pairs(sourcefiles) do
 								def = def:sub(posStart)
 							end
 						until posStart == nil or posStart == 1
-							
+
 						if pragma_pack then
 							line = pragma_pack.."\n"..line
 							line = line:gsub("\n", "\n\t")
@@ -565,13 +565,13 @@ for _,sourcefile in pairs(sourcefiles) do
 							table.insert(static_const_lines, line)
 						else
 							table.insert(function_lines, line)
-						
+
 							def = def:gsub("const ", "")
 							def = def:gsub("^%s+", "")
 							def = def:gsub("\n", "")
 							def = validType(def)
-							
-							if def ~= "" and not basic_types[def] and not type_done[def] then			
+
+							if def ~= "" and not basic_types[def] and not type_done[def] then
 								if line:find("enum") == 1 then
 									def = def..""  -- for trace
 								else
@@ -579,7 +579,7 @@ for _,sourcefile in pairs(sourcefiles) do
 									type_defines[def] = 0
 								end
 							end
-							
+
 							local param_delim
 							local param_start, param_end = line:find("%{.-%}") -- struct params
 							if param_start then
@@ -598,16 +598,16 @@ for _,sourcefile in pairs(sourcefiles) do
 							end
 						end
 					end -- if line ~= "" then
-					
+
 					break -- break out of inner loop
 				end
 				startpos,endpos = header:find(pattern, findpos)
 			end
 		end
-	end 
+	end
 	createMissingDefinitionsFromHeader()
-	
-	
+
+
 	-- collect not found calls
 	local function collectNotFoundCalls()
 		table.insert(not_found_calls, "--- "..sourcefile.." ---")
@@ -618,8 +618,8 @@ for _,sourcefile in pairs(sourcefiles) do
 		end
 	end
 	collectNotFoundCalls()
-	
-	
+
+
 	local type_lines_basic = {}
 	local type_lines = {}
 	local struct_lines = {}
@@ -630,14 +630,14 @@ for _,sourcefile in pairs(sourcefiles) do
 		local loopCount = 0
 		while next(type_defines) do
 			print()
-			loopCount = loopCount + 1 
+			loopCount = loopCount + 1
 			print(loopCount..". convert types to basic types:")
 			for type_str,_ in pairs(type_defines) do
 				if type_done[type_str] then
-					type_defines[type_str] = nil 
+					type_defines[type_str] = nil
 				else
 					print("  '"..type_str.."'")
-					
+
 					-- for trace
 					if type_str:find("PINIT_ONCE_FN)") then
 						if jit then
@@ -646,7 +646,7 @@ for _,sourcefile in pairs(sourcefiles) do
 							print(_VERSION)
 						end
 					end
-			
+
 					-- find type from target ffi.cdef file
 					local pattern = name_separator..type_str..name_separator
 					local posStart, posEnd = code:find(pattern)
@@ -654,14 +654,14 @@ for _,sourcefile in pairs(sourcefiles) do
 						print("  previous type found: "..pattern, code:sub(posStart-20, posEnd+20))
 						type_defines[type_str] = nil  -- was already in target ffi.cdef file
 					else
-						if type_not_found[type_str] then			
+						if type_not_found[type_str] then
 							print("    type_not_found: '"..type_str.."'")
 							type_defines[type_str] = nil
 							basic_types[type_str] = 0 -- add to basic types
 							table.insert(not_found_basic_types, type_str)
 							break
 						else
-							
+
 							type_not_found[type_str] = 0
 							local findpos = 1
 							local startpos,endpos = header:find(pattern, findpos)
@@ -670,7 +670,7 @@ for _,sourcefile in pairs(sourcefiles) do
 								if line_start then
 									line_start = line_start + 1 -- remove next "\n"
 									local line = header:sub(line_start + 1, line_end)
-									
+
 									local line_pos = line:find(type_str)
 									local curly_end = line:find("}")
 									if curly_end and curly_end < line_pos then
@@ -692,17 +692,17 @@ for _,sourcefile in pairs(sourcefiles) do
 											line = header:sub(line_start + 1, line_end)
 										end
 									end
-								
+
 									findpos = line_end + 1  -- set next find pos
 									local line_orig = line
 									line_orig = line_orig:gsub("\n", "\n\t")
-									
-									line = replaceLine(line) 
+
+									line = replaceLine(line)
 									line = line:gsub("\n", "")
 									while line:find("  ") do -- remove double spaces
 										line = line:gsub("  ", " ")
 									end
-									
+
 									local posStart,posEnd
 									if line:find("static const(.-)"..type_str..";") then
 										posStart = nil -- part of some other static const
@@ -710,13 +710,13 @@ for _,sourcefile in pairs(sourcefiles) do
 									else
 										posStart,posEnd = line:find(pattern)
 									end
-									
+
 									-- part of another definition on the right side of statement
 									if line:find("%("..type_str) then -- Linux __sighandler_t
 										posStart = nil -- part of some other static const
 										-- continue and find next
 									end
-										
+
 									if posStart then
 										local def = line:sub(1, posStart - 1)
 										repeat
@@ -728,7 +728,7 @@ for _,sourcefile in pairs(sourcefiles) do
 												def = def:sub(posStart + 1)
 											end
 										until posStart == nil or posStart == 1
-											
+
 										def = def:match( "^%s*(.-)%s*$" ) -- remove leading and trailing whitespace
 										if not type_lines_content[line] then
 											type_lines_content[line] = 1
@@ -739,18 +739,18 @@ for _,sourcefile in pairs(sourcefiles) do
 													line_orig = line_orig:gsub("#pragma pack", "// #pragma pack")
 												end
 											end
-											
+
 											def = validType(def)
 											if def == "" then
 												type_done[type_str] = 0
-											elseif not basic_types[def] and not type_done[def] then	
+											elseif not basic_types[def] and not type_done[def] then
 												print("    new type found: '"..def.."'") --, line)
 												type_defines[def] = 0
 											else
 												type_done[type_str] = 0
 											end
-											
-											
+
+
 											-- replace not-wanted parts. __asm, __attribute__, ...
 											line_orig = replaceLine(line_orig)
 											if line_orig ~= "" then
@@ -777,7 +777,7 @@ for _,sourcefile in pairs(sourcefiles) do
 												end
 											end
 										end
-																				
+
 										type_defines[type_str] = nil --table.remove(type_defines, i)
 										type_not_found[type_str] = nil
 										startpos = nil -- break out of inner loop
@@ -786,22 +786,22 @@ for _,sourcefile in pairs(sourcefiles) do
 									end
 								end
 							end -- while
-							
+
 						end
 					end
 				end
-				
+
 			end -- for
 		end -- while next(type_defines) do
 	end
 	convertTypesToBasicTypes()
-	
-	-- add new definitions to target ffi.cdef file 
+
+	-- add new definitions to target ffi.cdef file
 	local function addNewDefinitionsToTargetCdefFile()
 		code = code.."\n--[[ "..sourcefile.." ]]"
 		if #static_const_lines > 0 or #type_lines_basic > 0 or #type_lines > 0 or #struct_lines > 0 or #function_lines > 0 then
 			code = code.."\nffi.cdef[[\n\t"
-			
+
 			if #static_const_lines > 0 then
 				-- code = code.."\t// defines"
 				code = code..table.concat(static_const_lines, "\n\t")
@@ -809,43 +809,43 @@ for _,sourcefile in pairs(sourcefiles) do
 					code = code.."\n\t\n\t" -- .."\t// types"
 				end
 			end
-			
+
 			if #type_lines_basic > 0 then
 				code = code..table.concat(type_lines_basic, "\n\t")
 				if #type_lines > 0 then
 					code = code.."\n\t\n\t" -- .."\t// methods"
 				end
 			end
-			
+
 			if #type_lines > 0 then
 				code = code..table.concat(type_lines, "\n\t")
 				if #struct_lines > 0 or #function_lines > 0 then
 					code = code.."\n\t\n\t" -- .."\t// methods"
 				end
 			end
-			
+
 			if #struct_lines > 0 then
 				code = code..table.concat(struct_lines, "\n\t")
 				if #function_lines > 0 then
 					code = code.."\n\t\n\t" -- .."\t// methods"
 				end
 			end
-			
+
 			if #function_lines > 0 then
 				code = code..table.concat(function_lines, "\n\t")
 			end
 			code = code.."\n]]\n"
 		end
-		
+
 		code = code:gsub("\n\n\t\n\t", "\n\n\t")
 		file = io.output(target_ffi_file)
 		io.write(code)
 		io.output():close()
 	end
 	addNewDefinitionsToTargetCdefFile()
-		
+
 end
-	
+
 
 if #not_found_calls - #sourcefiles > 0 then
 		-- print not found calls
@@ -856,20 +856,20 @@ if #not_found_calls - #sourcefiles > 0 then
 		io.output():close()
 		print("\n\n"..util.table_show(not_found_calls, "not found calls"))
 end
-				
+
 print()
 print(util.table_show(not_found_basic_types, "not found basic types"))
-	
+
 timeUsed = util.seconds(timeUsed)
 print()
 print("created: '"..target_ffi_file.."' from "..#sourcefiles.." files in "..util.format_num(timeUsed, 3).." seconds")
 print()
 
 if openResult then
-	util.editFile(target_ffi_file)
+	util.openFile(target_ffi_file)
 end
 if openPrf then
-	util.editFile(prfFileName)
+	util.openFile(prfFileName)
 end
 
 print()

@@ -4,6 +4,8 @@ local arg = {...}
 local ffi = require("ffi")
 
 local util = require "lib_util"
+local numStringLength = util.numStringLength
+
 local shm = require "lib_shared_memory"
 
 local ProFi = require 'ProFi'
@@ -46,6 +48,8 @@ if isServer then
 else
 	print(" -- this is shared mem Client -- ")
 end
+print(" -- jit.version: " .. jit.version)
+
 
 local arg2 = tonumber(arg[2]) or 0
 print("parameter 2 (use changing send data = 1): "..arg2)
@@ -59,7 +63,7 @@ if arg2 < 0 then
 	loopCount = loopCount / 200
 	--ProFi:start()
 end
-if not ffi.version then -- plain Lua
+if not jit.version then -- plain Lua
 	loopCount = loopCount / 100
 end
 

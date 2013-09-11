@@ -538,7 +538,8 @@ ffi.cdef[[
 	  char __size[36];
 	  long int __align;
 	} pthread_attr_t;
-	typedef unsigned long int pthread_t;int pthread_create (pthread_t *__newthread,
+	typedef unsigned long int pthread_t;
+	int pthread_create (pthread_t *__newthread,
       const pthread_attr_t *__attr,
       void *(*__start_routine) (void *),
       void *__arg);

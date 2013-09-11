@@ -17,7 +17,6 @@ local floor = math.floor
 
 local ProFi = require 'ProFi'
 --ProFi:setGetTimeMethod( microSeconds )
-local useProfilier=false
 
 local port = tonumber(arg[1]) or 5001
 local debug_level = tonumber(arg[2]) or 0
@@ -25,13 +24,14 @@ local timeout = tonumber(arg[3]) or 2
 local closeConnection = tonumber(arg[4]) or 0
 local debug_levelPrintChars = tonumber(arg[5]) or 40
 local prevPollEmpty = false
+local useProfilier = debug_level < 0
 
 print("default usage: lj AppServer.lua 5001 0 2 0 40")
 print("port="..port.." debug_level="..debug_level.." timeout="..timeout.." closeConnection="..closeConnection.." debug_levelPrintChars="..debug_levelPrintChars)
 print("debug_level=-1 means that program will be profilied until 10 000 polls has happened")
+print("useProfilier: "..tostring(useProfilier))
 timeout = timeout * 1000  -- milliseconds to seconds
 
-useProfilier = debug_level < 0
 
 --[[	If timeout is greater than zero, it specifies a maximum interval (in milliseconds) to wait for any file
      	descriptor to become ready.  If timeout is zero, then poll() will return without blocking. If the value
@@ -240,14 +240,13 @@ local function print_poll()
 	end
 end
 
---local pollMaxEventCount = 0
 if useProfilier then ProFi:start() end
 repeat
 	local ret = poll.poll()
 	if ret == 0 then
 		print_poll()
 	end
-until useProfilier and loopCount > 10000
+until useProfilier and pollInCount > 50000
 if useProfilier then ProFi:stop() end
 
 close(listen_socket)
@@ -260,7 +259,6 @@ print("poll.fd_count:        "..poll.fd_count())
 if poll.fd_count() > 0 then
 	poll.remove_all(tcp.close)
 end
---print("poll.max_event_count: "..pollMaxEventCount)
 print("pollCount:            "..poll.poll_count())
 print("pollInCount:          "..pollInCount)
 print("pollOutCount:         "..pollOutCount)

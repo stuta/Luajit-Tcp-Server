@@ -129,7 +129,7 @@ end
 
 function remove_all(close_func)
 	for i=0,nfds-1 do
-		print("poll.remove_all: ", fds[i].fd)
+		--print("poll.remove_all: ", fds[i].fd)
 		close_func(fds[i].fd)
 	end
 	clear_all()

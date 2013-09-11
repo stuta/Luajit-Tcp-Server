@@ -4,9 +4,9 @@ print(" -- TestLinux.lua start -- ")
 print()
 
 local arg = {...}
-local ffi = require("ffi")
+local ffi = require "ffi" 
 local C = ffi.C
-local bit = require("bit")
+local bit = require "bit"
 
 --local pthread = ffi.load("/lib/i386-linux-gnu/libpthread-2.15.so")
 ffi.cdef[[

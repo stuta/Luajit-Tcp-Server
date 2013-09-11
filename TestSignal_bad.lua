@@ -10,9 +10,10 @@ print()
 print(" -- TestSignal_bad.lua start -- ")
 print()
 
-dofile "lib_signal.lua"
 local arg = {...}
-local ffi = require("ffi")
+local util = require "lib_util"
+local sig = require "lib_signal"
+local ffi = require "ffi"
 local C = ffi.C
 
 local signalCatchCount = 0
@@ -41,13 +42,13 @@ end
 
 if prsToSignal == 0 then
 	print("signal repeat start")
-	signalHandlerSet(SIGUSR1, signalHandler)
+	sig.signalHandlerSet(SIGUSR1, signalHandler)
 	local i = 0
 	repeat
 		i = i + 1
 		print("signalHandlerSet() start: "..i)
 		--print("signalPause()")
-		signalPause()
+		sig.signalPause()
 	until false
 	print("signal repeat after")
 	C.kill(pid, SIGUSR1) -- will cause signalCatch() to run
@@ -55,8 +56,8 @@ if prsToSignal == 0 then
 else
 	for i=1,signalSendCount do
 		print("signalSend(prsToSignal, SIGUSR1) start: "..i)
-		signalSend(prsToSignal, SIGUSR1)
-		yield() --nanosleep(0, 1) --	sleep(0)
+		sig.signalSend(prsToSignal, SIGUSR1)
+		util.yield() --nanosleep(0, 1) --	sleep(0)
 	end
 	--C.kill(prsToSignal, SIGINT)
 end

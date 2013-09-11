@@ -3,28 +3,31 @@ print()
 print(" -- TestSocket.lua start -- ")
 print()
 
-dofile "lib_tcp.lua"
+
 local arg = {...}
+local util = require "lib_util"
+local tcp = require "lib_tcp"
+local socket = require "lib_socket"
 local ffi = require("ffi")
 local C = ffi.C
 
 local port = 5001
 local buflen = 16384
 local recvbuflen = buflen
-local recvbuf,recvbuf_ptr = createBuffer(buflen)
+local recvbuf,recvbuf_ptr = util.createBuffer(buflen)
 print("..Lua tcp server waiting on: 127.0.0.1:"..port)
 print()
 
 -- http://beej.us/guide/bgnet/output/html/multipage/syscalls.html#bind
-local ListenSocket = tcp_listen(port)
+local ListenSocket = tcp.listen(port)
 
 -- Accept a client socketlocal
 print("Waiting for client to connect to server socket number: " .. ListenSocket)
 print("Point your brorser to 127.0.0.1:"..port.." and do refresh 3 times (or more).")
 
-local ClientSocket,client_addr_ptr = tcp_accept(ListenSocket)
+local ClientSocket,client_addr_ptr = tcp.accept(ListenSocket)
 
-print("client ip:port = "..tcp_address(ClientSocket)) -- servInfo is post number
+print("client ip:port = "..tcp.address(ClientSocket)) -- servInfo is post number
 print()
 
 -- Receive until the peer shuts down the connection
@@ -34,7 +37,7 @@ local receiveFlags = 0
 local sendFlags = 0
 
 repeat
-	result = socket_recv(ClientSocket, recvbuf_ptr, recvbuflen, receiveFlags)
+	result = socket.recv(ClientSocket, recvbuf_ptr, recvbuflen, receiveFlags)
 	if result > 0 then
 		totalBytesReceived = totalBytesReceived + result
 		print(" *** Bytes received: ", result.." / "..totalBytesReceived.." total")
@@ -42,31 +45,31 @@ repeat
 		print()
 		print()
 		-- Echo the buffer back to the sender
-		local send_result = socket_send(ClientSocket, recvbuf_ptr, result, sendFlags)
+		local send_result = socket.send(ClientSocket, recvbuf_ptr, result, sendFlags)
 		if send_result < 0 then
-			socket_cleanup(ClientSocket, send_result, "socket_send failed with error: ")
+			socket.cleanup(ClientSocket, send_result, "socket.send failed with error: ")
 		end
 		totalBytesSent = totalBytesSent + tonumber(send_result)
 		print(" *** Bytes sent: ", send_result.." / "..totalBytesSent.." total")
 	elseif result == 0 then
 		print(" *** Connection closing...")
 	else
-		socket_cleanup(ClientSocket, result, "socket_recv failed with error: ")
+		socket.cleanup(ClientSocket, result, "socket.recv failed with error: ")
 	end
 until result <= 0
 
-tcp_close(ClientSocket)
-tcp_close(ListenSocket)
+tcp.close(ClientSocket)
+tcp.close(ListenSocket)
 
 -- shutdown the connection since we're done
-result = socket_shutdown(ClientSocket, C.SD_SEND)
+result = socket.shutdown(ClientSocket, C.SD_SEND)
 if result < 0 and result ~= -1 then
-		socket_cleanup(ClientSocket, result, "shutdown failed with error: ")
+		socket.cleanup(ClientSocket, result, "shutdown failed with error: ")
 end
 
 -- cleanup
-socket_close(ClientSocket)
-socket_cleanup()
+socket.close(ClientSocket)
+socket.cleanup()
 
 
 print()

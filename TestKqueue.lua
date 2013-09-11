@@ -3,9 +3,9 @@ print()
 print(" -- TestKqueue.lua start -- ")
 print()
 
-local kqueue = require("lib_kqueue")
-local util = require("lib_util")
 local arg = {...}
+local util = require "lib_util" 
+local kqueue = require "lib_kqueue" 
 local ffi = require("ffi")
 local C = ffi.C
 local bit = require("bit")

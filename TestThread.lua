@@ -3,12 +3,13 @@ print()
 print(" -- TestThread.lua start -- ")
 print()
 
-dofile "lib_thread.lua"
+
 local arg = {...}
+local util = require "lib_util"
+local thread = require "lib_thread"
+
 local ffi = require("ffi")
 local C = ffi.C
---dofile "ffi_def_signal.lua"
-
 
 --[[
 NOTES
@@ -30,7 +31,7 @@ NOTES
        kernel thread ID returned by a call to gettid(2).
 ]]
 
-local thread_id = threadSelf()
+local thread_id = thread.threadSelf()
 print("Main thread_id: "..thread_id..", os: "..ffi.os)
 
 -- http://www.freelists.org/post/luajit/How-to-create-another-lua-State-in-pthread,1
@@ -38,99 +39,79 @@ print("Main thread_id: "..thread_id..", os: "..ffi.os)
 
 -- define thread runner code, it MUST contain "thread_entry_address" -global variable
 luaCode = [[
-	dofile "lib_thread.lua"
-	local ffi = require("ffi")
+	local util = require "lib_util" 
+	local thread = require "lib_thread" 
+	local ffi = require "ffi" 
 
 	local function thread_entry(arg_ptr)
 		-- local arg = tonumber(ffi.cast('intptr_t', ffi.cast('void *', arg_ptr))) -- if arg is number
 		local arg = ffi.string(arg_ptr) -- if arg is cstr
-		local thread_id = threadSelf()
+		local thread_id = thread.threadSelf()
 		print(" ... Hello from another Lua state, arg: "..arg..", thread_id: "..thread_id)
-		repeat
-			--sleep(100) --yield() --nanosleep(0, 20)
-		until true
-		print(" ... Quit Lua state, arg: "..arg..", thread_id: "..thread_id)
+
+		local ms
+		math.randomseed( util.microSeconds() )
 		if arg == "Argument for threadA" then
-			threadExit(51)
-			-- ??not supported in linux will cause
-			-- 'PANIC: unprotected error in call to Lua API (?)'
+			ms = math.random(1, 400)
 		else
-			threadExit(12)
+			ms = math.random(0, 150)
+		end
+		print(" ... sleep milliseconds: "..ms..", arg: "..arg)
+		util.sleep(math.random(1, ms)) --sleep(100) --yield() --nanosleep(0, 20)
+		
+		print(" ... Quit Lua state, arg: "..arg..", thread_id: "..thread_id)
+		if not util.isLinux then
+			-- ??thread.threadExit() not supported in linux will cause
+			-- 'PANIC: unprotected error in call to Lua API (?)'
+			if arg == "Argument for threadA" then
+				thread.threadExit(51)
+			else
+				thread.threadExit(12)
+			end
 		end
 		-- it is better to let Lua state do it's dying in it's own phase
 		-- if you need return value then use some other method (shared mem/variable?)
 	end
 
-	thread_entry_address = threadFuncToAddress(thread_entry)
+	thread_entry_address = thread.threadFuncToAddress(thread_entry)
 	-- threadFuncToAddress() returns thread_entry-function address as Lua number
 	-- thread_entry func can be named as you please, but "thread_entry_address" global
-	-- variable must exist (or change also luaStateCreate() -function)
+	-- variable must exist (or set as parameter 2 to luaStateCreate() -function)
 
 ]]
 
 -- create a separate Lua state first
 -- define a callback function in *that* created state
-local luaStateA,func_ptr = luaStateCreate(luaCode)
+local luaStateA,func_ptrA = thread.luaStateCreate(luaCode, nil)
 -- then use pthread_create() from the original state, passing the callback address of the other state
-local threadA = luaThreadCreate(func_ptr, cstr("Argument for threadA"))
-local threadAId = threadToId(threadA)
+local threadA = thread.luaThreadCreate(func_ptrA, util.cstr("Argument for threadA"))
+local threadAId = thread.threadToIdString(threadA)
 print("threadA: "..threadAId..", funcPtr: "..tostring(func_ptr))
 
-sleep(1)
+util.sleep(1)
 print()
-local luaStateB,func_ptr = luaStateCreate(luaCode)
-local threadB = luaThreadCreate(func_ptr, cstr("Argument for threadB"))
-local threadBId = threadToId(threadB)
+local luaStateB,func_ptrB = thread.luaStateCreate(luaCode, nil)
+local threadB = thread.luaThreadCreate(func_ptrB, util.cstr("Argument for threadB"))
+local threadBId = thread.threadToIdString(threadB)
 print("threadB: "..threadBId.." funcPtr: "..tostring(func_ptr))
 
-local function signalSend(prsToSignal, signal)
-
-end
-
-local function signalWait(signal)
-
-end
-
 if false then
-	if prsToSignal == 0 then
-		print("signal wait repeat start")
-		signalHandlerSet(SIGUSR1, signalHandler)
-		local i = 0
-		repeat
-			i = i + 1
-			print("signalHandlerSet() start: "..i)
-			--print("signalPause()")
-			signalPause()
-		until false
-		print("signal repeat after")
-		print("signal end")
-	else
-		print("signal send repeat start")
-		for i=1,signalSendCount do
-			print("signalSend(prsToSignal, SIGUSR1) start: "..i)
-			signalSend(prsToSignal, SIGUSR1)
-			yield() --nanosleep(0, 1) --	sleep(0)
-		end
-		--C.kill(prsToSignal, SIGINT)
-	end
+	local ret = thread.threadJoin(threadB) -- and IN thread thread.threadExit(12)
+	print("threadJoin(threadB): "..ret)
+
+	ret = thread.threadJoin(threadA) -- and IN thread thread.threadExit(51)
+	print("threadJoin(threadA): "..ret)
 end
 
-
---local ret = threadJoin(threadB) -- and IN thread threadExit(12)
---print("threadJoin(threadB): "..ret)
-
---local ret = threadJoin(threadA) -- and IN thread threadExit(51)
---print("threadJoin(threadA): "..ret)
-
-print("luaStateDelete() - start")
-sleep(200)
+util.sleep(400)
+print("thread.luaStateDelete() - start")
 -- we MUST call either threadJoin() or do something (sleep) before lua_close
 -- or we get Segmentation fault: 11
 -- in osx sleep(1) is smallest enough in this case because thread_entry func is fast, win needs longer time
 
-luaStateDelete(luaStateA) -- Destroys all objects in the given Lua state
-luaStateDelete(luaStateB) -- if Lua state is running you WILL get crash
-print("luaStateDelete() - end")
+thread.luaStateDelete(luaStateA) -- Destroys all objects in the given Lua state
+thread.luaStateDelete(luaStateB) -- if Lua state is running you WILL get crash
+print("thread.luaStateDelete() - end")
 
 
 print()

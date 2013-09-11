@@ -47,15 +47,19 @@ In one terminal window run "lj AppServer.lua". In another teminal run httperf as
 
 Single-threaded simple version using traditional poll and WSAPoll (WSAPoll does not work in Windows XP).
 
-  - httperf --port=5001 --verbose --rate=1000 --num-conns=4 --num-calls=2000
-  - Request rate, max: **24 227.8** req/s
-  - typically **23 500**
-  - in longer (20 million calls) test maximum was **26 746**, typically **26 000**
-  - with 4 core i5, 3.6GHz: **105 000** req/s (httperf --num-conns=8)
+  - with 2,4 GHz Intel Core 2 Duo Macboo Pro 13"
+  	- wrk -t3 -d5 -c60 http://127.0.0.1:5001/
+  		- Request rate typically: **33 500** req/s
+  	- httperf --port=5001 --verbose --rate=1000 --num-conns=4 --num-calls=2000
+  		- Request rate, max: **24 227.8** req/s
+  		- typically **23 500**
+  		- in longer test (20 million calls) maximum was **26 746**, typically **26 000**
+  - with 4 core i5, 3.6GHz, wrk or httperf about the same result
+  	- Request rate max: **105 000** req/s, typically **103 800** req/s
+  	- httperf --port=5001 --verbose --rate=1000 --num-conns=8 --num-calls=20000
+  	- wrk -t3 -d5 -c60 http://127.0.0.1:5001/
 
 This version just serves static content, does not even change the date of reply headers so it is unfair to others, but the point was to get baseline where to compare after more realistic features. This is the first working version, alternative speed tests have not been done (see "Design principles").
-  
-Test with "httperf --verbose --rate=1000 --num-conns=4 --num-calls=200000 --port=5001".
 
 
 ### AppSharedMemory.lua

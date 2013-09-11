@@ -40,7 +40,7 @@ for line in code:gmatch("[^\r\n]+") do
 	end
 end
 timeUsed = os.time() - timeUsed
-print("created: "..linecount.." lines in "..timeUsed.." seconds")
+print("created: "..linecount.." lines in "..timeUsed.." seconds, length: "..#codeout.." bytes")
 
 
 if jit then

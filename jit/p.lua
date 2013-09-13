@@ -21,7 +21,7 @@
 --
 -- The following dump features are available:
 --
---   f  Stack dump: function name, Otherwise module:line. Default mode
+--   f  Stack dump: function name, otherwise module:line. Default mode.
 --   F  Stack dump: ditto, but always prepend module.
 --   l  Stack dump: module:line.
 --   <number> stack dump depth (callee < caller). Default: 1.
@@ -31,8 +31,10 @@
 --   v  Show VM states. Can be combined with stack dumps, e.g. vf or fv.
 --   z  Show zones. Can be combined with stack dumps, e.g. zf or fz.
 --   r  Show raw sample counts. Default: show percentages.
---   G  Produce output suitable for graphical tools (e.g. flame graphs).
---   n<number> Show top N samples. Default: 10.
+--   a  Annotate excerpts from source code files.
+--   A  Annotate complete source code files.
+--   G  Produce raw output suitable for graphical tools (e.g. flame graphs).
+--   m<number> Minimum sample percentage to be shown. Default: 3.
 --   i<number> Sampling interval in milliseconds. Default: 10.
 --
 ----------------------------------------------------------------------------
@@ -42,7 +44,8 @@ local jit = require("jit")
 assert(jit.version_num == 20100, "LuaJIT core/library version mismatch")
 local profile = require("jit.profile")
 local vmdef = require("jit.vmdef")
-local pairs, tonumber, floor, min = pairs, tonumber, math.floor, math.min
+local math = math
+local pairs, ipairs, tonumber, floor = pairs, ipairs, tonumber, math.floor
 local sort, format = table.sort, string.format
 local stdout = io.stdout
 local zone -- Load jit.zone module on demand.
@@ -53,8 +56,8 @@ local out
 ------------------------------------------------------------------------------
 
 local prof_ud
-local prof_states, prof_split, prof_maxn, prof_raw, prof_fmt, prof_depth
-local prof_count1, prof_count2, prof_samples
+local prof_states, prof_split, prof_min, prof_raw, prof_fmt, prof_depth
+local prof_ann, prof_count1, prof_count2, prof_samples
 
 local map_vmmode = {
   N = "Compiled",
@@ -84,6 +87,8 @@ local function prof_cb(th, samples, vmmode)
     if prof_split == 2 then
       local k1, k2 = key_stack:match("(.-) [<>] (.*)")
       if k2 then key_stack, key_stack2 = k1, k2 end
+    elseif prof_split == 3 then
+      key_stack2 = profile.dumpstack(th, "l", 1)
     end
   end
   -- Order keys.
@@ -119,15 +124,15 @@ local function prof_top(count1, count2, samples, indent)
     n = n + 1
     t[n] = k
   end
-  if not t[1] then return end
   sort(t, function(a, b) return count1[a] > count1[b] end)
-  local raw = prof_raw
-  for i=1,min(n, prof_maxn) do
+  for i=1,n do
     local k = t[i]
     local v = count1[k]
-    if not raw then
-      out:write(format("%s%2d%%  %s\n", indent, floor(v*100/samples + 0.5), k))
-    elseif raw == "r" then
+    local pct = floor(v*100/samples + 0.5)
+    if pct < prof_min then break end
+    if not prof_raw then
+      out:write(format("%s%2d%%  %s\n", indent, pct, k))
+    elseif prof_raw == "r" then
       out:write(format("%s%5d  %s\n", indent, v, k))
     else
       out:write(format("%s %d\n", k, v))
@@ -135,9 +140,81 @@ local function prof_top(count1, count2, samples, indent)
     if count2 then
       local r = count2[k]
       if r then
-	prof_top(r, nil, v, prof_depth < 0 and "  -> " or "  <- ")
+	prof_top(r, nil, v, (prof_split == 3 or prof_split == 1) and "  -- " or
+			    (prof_depth < 0 and "  -> " or "  <- "))
       end
     end
+  end
+end
+
+-- Annotate source code
+local function prof_annotate(count1, samples)
+  local files = {}
+  local ms = 0
+  for k, v in pairs(count1) do
+    local pct = floor(v*100/samples + 0.5)
+    ms = math.max(ms, v)
+    if pct >= prof_min then
+      local file, line = k:match("^(.*):(%d+)$")
+      local fl = files[file]
+      if not fl then fl = {}; files[file] = fl; files[#files+1] = file end
+      line = tonumber(line)
+      fl[line] = prof_raw and v or pct
+    end
+  end
+  sort(files)
+  local fmtv, fmtn = " %3d%% | %s\n", "      | %s\n"
+  if prof_raw then
+    local n = math.max(5, math.ceil(math.log10(ms)))
+    fmtv = "%"..n.."d | %s\n"
+    fmtn = (" "):rep(n).." | %s\n"
+  end
+  local ann = prof_ann
+  for _, file in ipairs(files) do
+    local f0 = file:byte()
+    if f0 == 40 or f0 == 91 then
+      out:write(format("\n====== %s ======\n[Cannot annotate non-file]\n", file))
+      break
+    end
+    local fp, err = io.open(file)
+    if not fp then
+      out:write(format("====== ERROR: %s: %s\n", file, err))
+      break
+    end
+    out:write(format("\n====== %s ======\n", file))
+    local fl = files[file]
+    local n, show = 1, false
+    if ann ~= 0 then
+      for i=1,ann do
+	if fl[i] then show = true; out:write("@@ 1 @@\n"); break end
+      end
+    end
+    for line in fp:lines() do
+      if line:byte() == 27 then
+	out:write("[Cannot annotate bytecode file]\n")
+	break
+      end
+      local v = fl[n]
+      if ann ~= 0 then
+	local v2 = fl[n+ann]
+	if show then
+	  if v2 then show = n+ann elseif v then show = n
+	  elseif show+ann < n then show = false end
+	elseif v2 then
+	  show = n+ann
+	  out:write(format("@@ %d @@\n", n))
+	end
+	if not show then goto next end
+      end
+      if v then
+	out:write(format(fmtv, v, line))
+      else
+	out:write(format(fmtn, line))
+      end
+    ::next::
+      n = n + 1
+    end
+    fp:close()
   end
 end
 
@@ -148,8 +225,15 @@ local function prof_finish()
   if prof_ud then
     profile.stop()
     local samples = prof_samples
-    if samples == 0 then return end
-    prof_top(prof_count1, prof_count2, samples, "")
+    if samples == 0 then
+      if prof_raw ~= true then out:write("[No samples collected]\n") end
+      return
+    end
+    if prof_ann then
+      prof_annotate(prof_count1, samples)
+    else
+      prof_top(prof_count1, prof_count2, samples, "")
+    end
     prof_count1 = nil
     prof_count2 = nil
     prof_ud = nil
@@ -160,8 +244,8 @@ end
 local function prof_start(mode)
   local interval = ""
   mode = mode:gsub("i%d*", function(s) interval = s; return "" end)
-  prof_maxn = 10
-  mode = mode:gsub("n(%d+)", function(s) prof_maxn = tonumber(s); return "" end)
+  prof_min = 3
+  mode = mode:gsub("m(%d+)", function(s) prof_min = tonumber(s); return "" end)
   prof_depth = 1
   mode = mode:gsub("%-?%d+", function(s) prof_depth = tonumber(s); return "" end)
   local m = {}
@@ -175,18 +259,28 @@ local function prof_start(mode)
     prof_split = 2
     if prof_depth == -1 or m["-"] then prof_depth = -2
     elseif prof_depth == 1 then prof_depth = 2 end
+  elseif mode:find("[fF].*l") then
+    scope = "l"
+    prof_split = 3
   else
     prof_split = (scope == "" or mode:find("[zv].*[lfF]")) and 1 or 0
   end
-  if m.G and scope ~= "" then
+  prof_ann = m.A and 0 or (m.a and 3)
+  if prof_ann then
+    scope = "l"
+    prof_fmt = "pl"
+    prof_split = 0
+    prof_depth = 1
+  elseif m.G and scope ~= "" then
     prof_fmt = flags..scope.."Z;"
     prof_depth = -100
     prof_raw = true
-    prof_maxn = 2147483647
+    prof_min = 0
   elseif scope == "" then
     prof_fmt = false
   else
-    prof_fmt = flags..scope..(prof_depth >= 0 and "Z < " or "Z > ")
+    local sc = prof_split == 3 and m.f or m.F or scope
+    prof_fmt = flags..sc..(prof_depth >= 0 and "Z < " or "Z > ")
   end
   prof_count1 = {}
   prof_count2 = {}

@@ -1,58 +1,6 @@
-###############################################################################################################
-#####  ProFi, a lua profiler. This profile was generated on: Sun Sep  1 18:08:48 2013
-#####  ProFi is created by Luke Perkin 2012 under the MIT Licence, www.locofilm.co.uk
-#####  Version 1.3. Get the most recent version at this gist: https://gist.github.com/2838755
-###############################################################################################################
-
-| TOTAL TIME = 5.300993
-| FILE                                              : FUNCTION                                : LINE                : TIME        : RELATIVE    : CALLED      |
-| ./lib_poll.lua                                    : poll                                    :  289                : 5.297       : 99.92%      :     861     |
-| ./lib_poll.lua                                    : poll_event                              :  173                : 4.382       : 82.67%      :   50042     |
-| AppServer.lua                                     : in_callback                             :  203                : 3.434       : 64.78%      :   50041     |
-| AppServer.lua                                     : answer                                  :  135                : 3.089       : 58.28%      :   50040     |
-| AppServer.lua                                     : skip                                    :  130                : 0.319       : 6.01%       :   50040     |
-| ./lib_poll.lua                                    : add_fd                                  :   78                : 0.014       : 0.26%       :      61     |
-| ./lib_poll.lua                                    : fd_arr_index                            :   56                : 0.013       : 0.24%       :      62     |
-| ./lib_tcp.lua                                     : accept                                  :  122                : 0.003       : 0.06%       :      62     |
-| AppServer.lua                                     : close_callback                          :  184                : 0.000       : 0.01%       :       1     |
-| AppServer.lua                                     : close                                   :  116                : 0.000       : 0.01%       :       1     |
-| ./lib_poll.lua                                    : remove_fd                               :   98                : 0.000       : 0.01%       :       1     |
-| AppServer.lua                                     : print_poll                              :  230                : 0.000       : 0.00%       :       1     |
-| AppServer.lua                                     : print_to_same_line                      :  125                : 0.000       : 0.00%       :       2     |
-| ./lib_tcp.lua                                     : close                                   :  198                : 0.000       : 0.00%       :       1     |
-| ./lib_poll.lua                                    : fd_count                                :  142                : 0.000       : 0.00%       :       1     |
-| ./lib_poll.lua                                    : poll_count                              :  138                : 0.000       : 0.00%       :       1     |
-| ./ProFi.lua                                       : shouldReturn                            :  202                : 0.000       : 0.00%       :       1     |
-| ./ProFi.lua                                       : stop                                    :   88                : 0.000       : 0.00%       :       1     |
-| ./lib_socket.lua                                  : close                                   :  125                : 0.000       : 0.00%       :       1     |
-| [C]                                               : close                                   :   -1                : 0.000       : 0.00%       :       1     |
-| [C]                                               : flush                                   :   -1                : 0.000       : 0.00%       :       2     |
-| [C]                                               : floor                                   :   -1                : 0.000       : 0.00%       :   50040     |
-| ./lib_socket.lua                                  : recv                                    :  173                : 0.000       : 0.00%       :   50040     |
-| [C]                                               : tonumber                                :   -1                : 0.000       : 0.00%       :   50040     |
-| [C]                                               : write                                   :   -1                : 0.000       : 0.00%       :       2     |
-| [C]                                               : send                                    :   -1                : 0.000       : 0.00%       :  100080     |
-| [C]                                               : recv                                    :   -1                : 0.000       : 0.00%       :  100080     |
-| ./lib_socket.lua                                  : send                                    :  176                : 0.000       : 0.00%       :   50040     |
-| ./ProFi.lua                                       : startHooks                              :  237                : 0.000       : 0.00%       :       0     |
-| [C]                                               : anonymous                               :   -1                : 0.000       : 0.00%       :      12     |
-| [C]                                               : __eq                                    :   -1                : 0.000       : 0.00%       :       6     |
-| [C]                                               : poll                                    :   -1                : 0.000       : 0.00%       :     861     |
-| [C]                                               : print                                   :   -1                : 0.000       : 0.00%       :       8     |
-| [C]                                               : band                                    :   -1                : 0.000       : 0.00%       :  100083     |
-| [C]                                               : new                                     :   -1                : 0.000       : 0.00%       :     124     |
-| [C]                                               : __index                                 :   -1                : 0.000       : 0.00%       :  410017     |
-| ./ProFi.lua                                       : start                                   :   70                : 0.000       : 0.00%       :       0     |
-| ./lib_socket.lua                                  : poll                                    :  122                : 0.000       : 0.00%       :     861     |
-| [C]                                               : getTime                                 :   -1                : 0.000       : 0.00%       :       2     |
-| [C]                                               : expand_fds                              :   -1                : 0.000       : 0.00%       :       6     |
-| [C]                                               : cast                                    :   -1                : 0.000       : 0.00%       :      68     |
-| [C]                                               : __newindex                              :   -1                : 0.000       : 0.00%       :     186     |
-| [C]                                               : gc                                      :   -1                : 0.000       : 0.00%       :       6     |
-| [C]                                               : realloc                                 :   -1                : 0.000       : 0.00%       :       6     |
-| [C]                                               : sizeof                                  :   -1                : 0.000       : 0.00%       :      68     |
-| ./ProFi.lua                                       : stopHooks                               :  241                : 0.000       : 0.00%       :       1     |
-| [C]                                               : accept                                  :   -1                : 0.000       : 0.00%       :      62     |
-| ./lib_poll.lua                                    : expand_fds                              :   41                : 0.000       : 0.00%       :       6     |
-| ./lib_socket.lua                                  : accept                                  :  170                : 0.000       : 0.00%       :      62     |
-| [C]                                               : sethook                                 :   -1                : 0.000       : 0.00%       :       1     |
+81%  recv
+12%  send
+ 6%  poll
+ 0%  accept
+ 0%  expand_fds
+ 0%  close

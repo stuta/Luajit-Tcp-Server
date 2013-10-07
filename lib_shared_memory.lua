@@ -286,9 +286,10 @@ else
 		shmName[filename] = util.cstr(filename)
 		-- shared_memory_clear(filename, true) -- not a very good idea?
 
-		local shm_options, mmap_options, shm_mode, ret
+		local shm_options, mmap_options, mmap_flags, shm_mode, ret
+		mmap_flags = C.MAP_SHARED --bit.bor(C.MAP_ANON, C.MAP_SHARED) 
 		if create then
-			shm_options = bit.bor(C.O_RDWR, C.O_CREAT) -- , C.O_EXCL
+			shm_options = bit.bor(C.O_RDWR, C.O_CREAT, C.O_EXCL) -- , C.O_EXCL
 		 	mmap_options = bit.bor(C.PROT_WRITE)
 		 	shm_mode = 755 -- 0600, 777?
 		else
@@ -309,7 +310,9 @@ else
 					ret = 0
 				end
 				if ret == 0 then
-					sharedMemory[filename] = C.mmap(nil, shmemSize, mmap_options, C.MAP_SHARED, shFD[filename], 0)
+					--print("mmap_flags", mmap_flags)
+					sharedMemory[filename] = C.mmap(nil, shmemSize, mmap_options, mmap_flags, shFD[filename], 0)
+					--sharedMemory[filename] = C.mmap(nil, shmemSize, mmap_options, mmap_flags, -1, 0)
 					if sharedMemory[filename] ~= MAP_FAILED then
 
 						--[[if create then -- Linux options so that we don't need to run as root
@@ -327,12 +330,12 @@ else
 							ffi.fill(sharedMemory[filename], shmemSize , 0) -- set area to full of zeroes
 						end
 					else
-						print("sharedMemory == MAP_FAILED: FAILED")
+						print("sharedMemory: mmap failed")
 						shared_memory_clear(filename, false)
 						return sharedMemory[filename]
 					end
 				else
-					print("ftruncate(shFD[filename], shmemSize) ~= 0: FAILED")
+					print("sharedMemory: ftruncate(shFD[filename], shmemSize) == "..ret.." : FAILED")
 					shared_memory_clear(filename, false)
 					return sharedMemory[filename]
 				end

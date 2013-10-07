@@ -103,19 +103,19 @@ end
 print()
 
 
-i = shm.mmapOutCreate(fileNameTest, bufferSize)
-if i > bufferSize then bufferSize = i end -- test windows buffersize, in win7 is 65536, not 4096
+--i = shm.mmapOutCreate(fileNameTest, bufferSize)
+--if i > bufferSize then bufferSize = i end -- test windows buffersize, in win7 is 65536, not 4096
 --readBufferSize = shm.mmapInConnect(fileNameTest, bufferSize)
 --readBufferSize = shm.mmapInDisonnect(fileNameTest)
-i = shm.mmapOutDestroy(fileNameTest)
+--i = shm.mmapOutDestroy(fileNameTest)
 
 
 -- both client and server will crate send file
 if( isServer ) then
 	-- delete client send buffer
-	i = shm.mmapOutCreate(fileNameC , bufferSize)
+	--i = shm.mmapOutCreate(fileNameC , bufferSize)
 	--print(" ..shm.mmapOutCreate result is: " .. i)
-	i = shm.mmapOutDestroy(fileNameC)
+	--i = shm.mmapOutDestroy(fileNameC)
 	--print(" ..shm.mmapOutCreate result is: " .. i)
 
 	sendBufferSize = shm.mmapOutCreate(fileNameS , bufferSize)

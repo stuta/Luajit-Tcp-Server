@@ -105,6 +105,7 @@ void *realloc(void *, size_t);
 --[[ lib_shared_memory.lua ]]
 ffi.cdef[[
 static const int MAP_SHARED = 0x0001;
+static const int MAP_ANON	= 0x1000;	/* allocated from memory, swap space */
 static const int O_CREAT = 0x0200;
 static const int O_RDONLY = 0x0000;
 static const int O_RDWR = 0x0002;

@@ -171,6 +171,7 @@ ffi.cdef[[
 	// Sharing types; choose one.
 	static const int MAP_SHARED		= 0x0001;		// [MF|SHM] share changes
 	static const int MAP_PRIVATE	= 0x0002;		// [MF|SHM] changes are private
+	static const int MAP_ANON	= 0x1000;	/* allocated from memory, swap space */
 
 	static const int IPC_SET	=	1;		/* Set `ipc_perm' options.  */
 	int shmctl(int shmid, int cmd, struct shmid_ds *buf);

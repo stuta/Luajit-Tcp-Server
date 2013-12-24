@@ -8,6 +8,15 @@ local arg = {...}
 local ffi = require("ffi")
 local C = ffi.C
 
+print()
+print("-- AppServer start --")
+if jit then
+	print(jit.version)
+else
+	print(_VERSION)
+end
+print()
+
 local util = require "lib_util"
 local socket = require "lib_socket"
 local tcp = require "lib_tcp"
@@ -21,7 +30,7 @@ local port = tonumber(arg[1]) or 5001
 local debug_level = tonumber(arg[2]) or 0
 local timeout = tonumber(arg[3]) or 2
 local closeConnection = tonumber(arg[4]) or 0
-local debug_levelPrintChars = tonumber(arg[5]) or 40
+local debug_levelPrintChars = tonumber(arg[5]) or 200
 local prevPollEmpty = false
 local useProfilier = debug_level < 0
 if useProfilier then

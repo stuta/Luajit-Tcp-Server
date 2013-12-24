@@ -5,6 +5,8 @@ local ffi = require("ffi")
 local C = ffi.C
 local util = require("lib_util")
 local bit = require("bit")
+
+local microsleep = util.microsleep
 --[[
 windows:
 http://mollyrocket.com/forums/viewtopic.php?p=2529
@@ -287,7 +289,7 @@ else
 		-- shared_memory_clear(filename, true) -- not a very good idea?
 
 		local shm_options, mmap_options, mmap_flags, shm_mode, ret
-		mmap_flags = C.MAP_SHARED --bit.bor(C.MAP_ANON, C.MAP_SHARED) 
+		mmap_flags = C.MAP_SHARED --bit.bor(C.MAP_ANON, C.MAP_SHARED)
 		if create then
 			shm_options = bit.bor(C.O_RDWR, C.O_CREAT, C.O_EXCL) -- , C.O_EXCL
 		 	mmap_options = bit.bor(C.PROT_WRITE)
@@ -354,19 +356,19 @@ else
 end
 
 function sharedMemoryCreate(filename, size)
-	print("sharedMemoryCreate(): ",filename, size)
+	print("\tsharedMemoryCreate(): ",filename, size)
 	return sharedMemoryOpen(filename, size, true)
 end
 
 function sharedMemoryConnect(filename, size)
-	print("sharedMemoryConnect(): ",filename, size)
+	print("\tsharedMemoryConnect(): ",filename, size)
 	return sharedMemoryOpen(filename, size, false)
 end
 
 
 -- helper funcs
 
-local yieldTime = util.yield
+local yield = util.yield
 
 local append = -1 -- mf.append
 local inPos = 0
@@ -411,28 +413,30 @@ function mmapOutDestroy(filename)
 	return sharedMemoryDelete(filename)
 end
 
-function mmapAddressSet()
+function mmapAddressSet(doPrint)
 
-	print()
-	print("statusLen   : ", statusLen)
-
-	print("outBuffer   : ", outSize)
-	print("outAddress_c: ", outAddress_c)
 	outPtrStatus = util.getOffsetPointer(outAddress_c, 0)
-	print("outPtrStatus: ", outPtrStatus)
 	outPtrData = util.getOffsetPointer(outAddress_c, statusLen)
-	print("outPtrData  : ", outPtrData)
-	print("outPtrStatus[0] : ", outPtrStatus[0])
-
-	print("inBuffer    : ", inSize)
-	print("inAddress_c : ", inAddress_c)
 	inPtrStatus = util.getOffsetPointer(inAddress_c, 0)
-	print("inPtrStatus : ", inPtrStatus)
 	inPtrData = util.getOffsetPointer(inAddress_c, statusLen)
-	print("inPtrData   : ", inPtrData)
-	print("inPtrStatus[0]  : ", inPtrStatus[0])
+	if doPrint then
+		print()
+		print("statusLen   : ", statusLen)
 
-	print()
+		print("outBuffer   : ", outSize)
+		print("outAddress_c: ", outAddress_c)
+		print("outPtrStatus: ", outPtrStatus)
+		print("outPtrData  : ", outPtrData)
+		print("outPtrStatus[0] : ", outPtrStatus[0])
+
+		print("inBuffer    : ", inSize)
+		print("inAddress_c : ", inAddress_c)
+		print("inPtrStatus : ", inPtrStatus)
+		print("inPtrData   : ", inPtrData)
+		print("inPtrStatus[0]  : ", inPtrStatus[0])
+
+		print()
+	end
 end
 
 function mmapInConnect(filename, bufferSize)
@@ -453,29 +457,52 @@ function mmapOutCreate(filename, bufferSize)
 	outAddress_c = sharedMemoryCreate(outFilename, outSize)
 	if not outAddress_c or outAddress_c == INVALID_HANDLE_VALUE then
 		print_error("mmapOutCreate", " -- outAddress_c = sharedMemoryCreate() == nil, FAILED")
-		os.exit()
+		--os.exit()
+		bufferSize = 0
 	end
 
 	return bufferSize -- fix to real buffer size
 end
 
-
-function mmapStatusInWait(waitForStatus)
-	--[[if waitForStatus < 0 then
-		waitForStatus = abs(waitForStatus)
-		while inPtrStatus[0] == waitForStatus do
-			waitCount = waitCount + 1
-			yieldTime()
-		end
-	else]]
-		--print("mmapStatusInWait(): ", inPtrStatus[0], waitForStatus)
-		while inPtrStatus[0] ~= waitForStatus do
-			waitCount = waitCount + 1
-			yieldTime()
-		end
-	--end
+local coroutine_yield = coroutine.yield
+function mmapStatusInWaitCoro(waitForStatus)
+	local us = microsec or 0
+	-- pleaso DO NOT TOUCH this function unless you can prove you can do better, this has been tested many times
+	while inPtrStatus[0] ~= waitForStatus do
+		waitCount = waitCount + 1
+		yield()
+		coroutine_yield()
+	end
 end
 
+function mmapStatusInWait(waitForStatus)
+	local us = microsec or 0
+	-- pleaso DO NOT TOUCH this function unless you can prove you can do better, this has been tested many times
+	while inPtrStatus[0] ~= waitForStatus do
+		waitCount = waitCount + 1
+		yield()
+	end
+end
+
+
+function mmapStatusInWaitNotCoro(waitForStatus)
+	local us = microsec or 0
+	-- pleaso DO NOT TOUCH this function unless you can prove you can do better, this has been tested many times
+	while inPtrStatus[0] == waitForStatus do
+		waitCount = waitCount + 1
+		yield()
+		coroutine_yield()
+	end
+end
+
+function mmapStatusInWaitNot(waitForStatus)
+	local us = microsec or 0
+	-- pleaso DO NOT TOUCH this function unless you can prove you can do better, this has been tested many times
+	while inPtrStatus[0] == waitForStatus do
+		waitCount = waitCount + 1
+		yield()
+	end
+end
 
 function mmapStatusOutSet(stat)
 	--ma.ReadWriteMemoryBarrier()

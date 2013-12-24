@@ -12,12 +12,14 @@ isLinux = (ffi.os == "Linux")
 is64bit = ffi.abi("64bit")
 is32bit = ffi.abi("32bit")
 
+local floor = math.floor
+
 if isWin then
-	require "ffi_def_windows_old"   -- ffi_def_windows  --  ffi_def_windows_old
+	require "ffi_def_windows_old"   -- ffi_def_windows --ffi_def_windows_by_hand --  ffi_def_windows_old
 elseif isMac then
 	require "ffi_def_unix" 	-- ffi_def_osx -- ffi_def_unix
 else -- Linux
-	require "ffi_def_unix" -- ffi_def_linux -- ffi_def_unix
+	require "ffi_def_linux" -- ffi_def_linux -- ffi_def_unix
 end
 
 function openFile(file)
@@ -105,7 +107,7 @@ function fileSize(bytes, decimals)
 			ret = "0 Bytes"
 		else
     	local filesizename = {" Bytes", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB"}
-    	local factor = math.floor((string.len(tostring(bytes)) - 1) / 3)
+    	local factor = floor((string.len(tostring(bytes)) - 1) / 3)
     	ret = format_num(bytes / math.pow(1024, factor), decimals, "")
     	       -- no space or comma between int numbers
     	       -- wo don't want "1 024" - we want "1024" because int part is never more than 4 numbers
@@ -295,16 +297,21 @@ if isWin then
 	end
 
   function yield()
-    C.SwitchToThread()
+    C.SwitchToThrea()
   end
 
   function sleep(millisec)
     C.Sleep(millisec)
   end
 
+  function microsleep(microseconds)
+		millisec = floor(microseconds/1000)
+  	C.usleep (millisec)
+  end
+
 	function nanosleep(sec, nanosec)
 		local millisec = sec * 1000
-		millisec = math.floor(millisec + (nanosec/1000000))
+		millisec = floor(millisec + (nanosec/1000000))
 		--if millisec < 1 then
 		--	millisec = 0 -- Sleep(0), best we can do
 		--end
@@ -338,6 +345,10 @@ else -- OSX, Posix, Linux?
   	C.usleep (microseconds)
   end
 
+  function microsleep(microseconds)
+  	C.usleep (microseconds)
+  end
+
 	function nanosleep(sec, nanosec)
 		if nanosec > 999999999 then
 			print(" *** ERR: max nanosec to sleep is 999999999")
@@ -352,8 +363,8 @@ end
 
 function get_seconds( multiplier, prevMs )
 	local returnValue64_c -- = ffi.new("int64_t")
-	local returnValueMsb = 0
-	local returnValueLsb = 0
+	-- local returnValueMsb = 0
+	-- local returnValueLsb = 0
 	local returnValue = 0 -- lua double
 
 	if isWin then
@@ -385,9 +396,11 @@ function get_seconds( multiplier, prevMs )
 	 converting to Lua double with 'tonumber(returnValue64_c)'
    returnValue64_c = bit.band(returnValue64_c, 0x00ffffff) -- get rid of highest bits
 	 bit.band() does not work before Luajit 2.1 with 64 bit integers
-	]]
-	-- best way to get rid of highest bits, better to have unsigned int in timer:
+
+	-- old way to get rid of highest bits, better to have unsigned int in timer:
 	returnValue = tonumber(ffi.cast("uint32_t", returnValue64_c))
+	]]
+	returnValue = tonumber(ffi.cast("double", returnValue64_c))
 
 	if isWin then
 		if multiplier == 1 then
@@ -476,9 +489,9 @@ end
 
 function round(val, decimal)
   if decimal then
-    return math.floor( (val * 10^decimal) + 0.5) / (10^decimal)
+    return floor( (val * 10^decimal) + 0.5) / (10^decimal)
   else
-    return math.floor(val+0.5)
+    return floor(val+0.5)
   end
 end
 
@@ -490,7 +503,7 @@ function format_num(amount, decimal, comma, prefix, neg_prefix)
   comma = comma or ' '
   neg_prefix = neg_prefix or "-" -- default negative sign
   famount = math.abs(round(amount,decimal))
-  famount = math.floor(famount)
+  famount = floor(famount)
   remain = round(math.abs(amount) - famount, decimal)
         -- comma to separate the thousands
   if( comma~='' ) then

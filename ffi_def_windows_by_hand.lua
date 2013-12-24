@@ -1,4 +1,4 @@
--- ffi_def_windows.lua
+-- ffi_def_windows_by_hand.lua
 module(..., package.seeall)
 local ffi = require "ffi"
 -- Lua state - creating a new Lua state to a new thread

@@ -7,9 +7,12 @@ local util = require "lib_util"
 local numStringLength = util.numStringLength
 
 local shm = require "lib_shared_memory"
+local mmapStatusInWait = shm.mmapStatusInWait
+local mmapInRead = shm.mmapInRead
+local mmapOutWrite = shm.mmapOutWrite
 
 local ProFi = require 'ProFi'
-ProFi:setGetTimeMethod( microSeconds )
+ProFi:setGetTimeMethod( util.microSeconds )
 local useProfilier=false
 
 -- local pos = 0
@@ -24,7 +27,7 @@ local sendData_c = util.cstr(sendData)
 print()
 print(" -- AppSharedMemory.lua START -- ")
 
-if isLinux then
+if util.isLinux then
 	print()
 	print(" *** AppSharedMemory.lua needs to be run with 'sudo' in Linux *** ")
 	print()
@@ -189,10 +192,10 @@ local function send_data(loop)
 		status_to_wait_char = base64char[statusIdx]
 	end
 
-	shm.mmapStatusInWait(base64ascii[statusIdx])
+	mmapStatusInWait(base64ascii[statusIdx])
 	statusIdxAdd()
 
-	local status = shm.mmapOutWrite(base64ascii[statusIdx], 0, sendData_c, sendDataLen )
+	local status = mmapOutWrite(base64ascii[statusIdx], 0, sendData_c, sendDataLen )
 	sentCount = sentCount + 1
 	if doPrint then
 		print(loop..". sent_data, shm.mmapInStatus, shm.mmapOutStatus, wait: "..ffi.string(sendData_c, sendDataLen).."  "
@@ -218,9 +221,9 @@ local function read_data(loop)
 	end
 
 	statusIdxAdd()
-	shm.mmapStatusInWait(base64ascii[statusIdx])
+	mmapStatusInWait(base64ascii[statusIdx])
 
-	local status = shm.mmapInRead(base64ascii[statusIdx], 0, readData_c, readDataLen)
+	local status = mmapInRead(base64ascii[statusIdx], 0, readData_c, readDataLen)
 	readCount = readCount + 1
 	if doPrint then
 	  local readDataIn = ffi.string(readData_c, readDataLen)
@@ -240,8 +243,8 @@ end
 shm.mmapAddressSet()
 send_data_set(0)
 shm.mmapStatusOutSet(base64ascii[0]-1) -- ascii(65-1) = "@"
-print("shm.mmapStatusInWait()")
-shm.mmapStatusInWait(base64ascii[0]-1) -- wait for other partner to set same value
+print("mmapStatusInWait()")
+mmapStatusInWait(base64ascii[0]-1) -- wait for other partner to set same value
 util.sleep(connectSleepMs+200) -- must be bigger than connectSleepMs so that another process can catch us
   -- give another time to wait base64ascii[0]-1 and set base64ascii[0]
 shm.mmapStatusOutSet(base64ascii[0]) -- ascii(65) = "A"- we are ready for loop
@@ -314,7 +317,7 @@ if( isServer ) then
 else
 	filename = fileNameS
 end
-local i = shm.mmapInDisconnect(filename)
+i = shm.mmapInDisconnect(filename)
 print(" ..shm.mmapInDisconnect("..filename..") result is: " .. i)
 
 util.sleep(500) -- wait for another to disconnect before shm.mmapOutDestroy()

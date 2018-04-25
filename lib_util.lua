@@ -297,7 +297,7 @@ if isWin then
 	end
 
   function yield()
-    C.SwitchToThrea()
+    C.SwitchToThread()
   end
 
   function sleep(millisec)
